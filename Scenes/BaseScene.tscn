@@ -8,3 +8,9 @@ current = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.688116, 0)
+size = Vector3(100, 0.1, 100)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.38941, 0)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="CSGBox3D2"]
