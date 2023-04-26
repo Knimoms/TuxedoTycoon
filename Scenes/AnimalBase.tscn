@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd8y2yk7jwdwq"]
+
+[ext_resource type="Script" path="res://Scripts/AnimalBase.cs" id="1_v6g5v"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mqeha"]
+
+[node name="AnimalBase" type="Node3D"]
+script = ExtResource("1_v6g5v")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("SphereShape3D_mqeha")
+
+[connection signal="input_event" from="CharacterBody3D" to="." method="_on_character_body_3d_input_event"]
