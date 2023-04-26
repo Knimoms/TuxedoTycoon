@@ -1,11 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://cd8y2yk7jwdwq"]
+[gd_scene load_steps=3 format=3 uid="uid://bl3o70ba3n08"]
 
-[ext_resource type="Script" path="res://Scripts/AnimalBase.cs" id="1_v6g5v"]
+[ext_resource type="Script" path="res://Scripts/MovingCharacter.cs" id="1_v6g5v"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mqeha"]
 
 [node name="AnimalBase" type="Node3D"]
 script = ExtResource("1_v6g5v")
+speed = null
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 
