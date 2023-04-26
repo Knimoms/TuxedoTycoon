@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d08o6hruaujlk"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.773586, 0.633691, 0, -0.633691, 0.773586, 0, 8.04476, 6.07038)
+current = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.688116, 0)

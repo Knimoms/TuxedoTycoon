@@ -11,12 +11,20 @@ config_version=5
 [application]
 
 config/name="TuxedoTycoon"
+run/main_scene="res://BaseScene.tscn"
 config/features=PackedStringArray("4.0", "Mobile")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="TuxedoTycoon"
+
+[input]
+
+place={
+"deadzone": 0.5,
+"events": []
+}
 
 [rendering]
 
