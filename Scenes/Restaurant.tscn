@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxy5bhusa3ql8"]
+[gd_scene load_steps=5 format=3 uid="uid://dxy5bhusa3ql8"]
 
 [ext_resource type="Script" path="res://Scripts/Restaurant.cs" id="1_bbiq6"]
+[ext_resource type="Script" path="res://Scenes/SubViewport.cs" id="2_r3lji"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_upncr"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_h7b55"]
+viewport_path = NodePath("Sprite3D/SubViewport")
 
 [node name="Restaurant" type="Node3D"]
 script = ExtResource("1_bbiq6")
@@ -12,11 +16,20 @@ wait_time = 7.0
 autostart = true
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_upncr")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Area3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04418, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_h7b55")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+transparent_bg = true
+size = Vector2i(100, 100)
+script = ExtResource("2_r3lji")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

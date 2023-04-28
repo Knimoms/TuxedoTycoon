@@ -12,7 +12,7 @@ script = ExtResource("1_qa78j")
 RestaurantScene = ExtResource("2_muxq7")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8.89189, 6.90103)
+transform = Transform3D(1, 0, 0, 0, 0.891007, 0.45399, 0, -0.45399, 0.891007, 1.25877, 6.7968, 8.25187)
 current = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
