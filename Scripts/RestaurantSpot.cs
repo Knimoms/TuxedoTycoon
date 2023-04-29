@@ -34,7 +34,7 @@ public partial class RestaurantSpot : Node3D
 	{
 		if(_myRestaurant != null) return;
 		GD.Print(this.Position);
-		RestaurantOptions.Text = $"1: 1400$\n2: 1400$\n3: 1400$\n4: 1400$\n5: 1400$\n6: 1400$\n7: 1400$\n8: 1400$\n9: 1400$\n";
+		RestaurantOptions.Text = $"1: 1400$\n2: {130*14}$\n3: {160*14}$\n4: {190*14}$\n5: {220*14}$\n6: {250*14}$\n7: {280*14}$\n8: {310*14}$\n9: {340*14}$\n";
 		_menu_Open = true;
 	}
 

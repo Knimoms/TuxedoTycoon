@@ -5,6 +5,8 @@ public partial class RestaurantBase : Node3D
 {
 	public int MoneyPerSecond;
 	private static BaseScript _parent = null;
+
+	public int Lvl = 1;
 	private Timer _timer;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

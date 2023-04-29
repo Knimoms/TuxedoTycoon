@@ -18,7 +18,7 @@ public partial class CustomerBase : CharacterBody3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Direction = (TargetRestaurant.Position - this.Position).Normalized();
+		
 	}
 
 		// if((TargetRestaurant.Position - this.Position).Length() > 2) this.Velocity = Direction*(float)delta*Speed;
@@ -27,6 +27,8 @@ public partial class CustomerBase : CharacterBody3D
 
 	public override void _Process(double delta)
 	{
+
+		Direction = (TargetRestaurant.Position - this.Position).Normalized();
 		Vector3 velocity = Velocity;
 
 		// Add the gravity.
