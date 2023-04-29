@@ -6,7 +6,7 @@ public partial class RestaurantSpot : Node3D
 
 	public BaseScript Parent;
 
-	private Restaurant _myRestaurant;
+	private RestaurantBase _myRestaurant;
 	private bool _menu_Open;
 	public Label RestaurantOptions;
 	// Called when the node enters the scene tree for the first time.
@@ -101,7 +101,7 @@ public partial class RestaurantSpot : Node3D
 	private void _createRestaurant(int MoneyPerSecond, int Cost)
 	{
 		Parent.TransferMoney(-Cost);
-		Restaurant rest = Parent.RestaurantScene.Instantiate<Restaurant>();
+		RestaurantBase rest = Parent.RestaurantScene.Instantiate<RestaurantBase>();
 		Parent.Restaurants.Add(rest);
 		GD.Print(this.Name);
 		rest.Position = this.Position;

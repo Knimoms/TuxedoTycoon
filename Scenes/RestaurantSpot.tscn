@@ -14,7 +14,7 @@ data = PackedVector3Array(0, 1, 0.5, 0.049, 1, 0.4976, 0, 0.6, 0.5, 0.049, 1, 0.
 script = ExtResource("1_pd7cs")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(2, 0, 0, 0, 0.01, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("CylinderMesh_8v8ys")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_72sqy")

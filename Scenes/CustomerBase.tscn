@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://x4vslxm84nv0"]
+
+[ext_resource type="Script" path="res://Scripts/CustomerBase.cs" id="1_qwucy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q4und"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lqn3h"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_qwucy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_q4und")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_lqn3h")
+skeleton = NodePath("../..")

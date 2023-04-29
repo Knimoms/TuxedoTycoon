@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Restaurant : Node3D
+public partial class RestaurantBase : Node3D
 {
 	public int MoneyPerSecond;
 	private static BaseScript _parent = null;

@@ -11,16 +11,16 @@ public partial class BaseScript : Node
 	[Export]
 	public PackedScene RestaurantScene;
 
-	private Restaurant _rest;
+	private RestaurantBase _rest;
 	
 
-	public List<Restaurant> Restaurants;
+	public List<RestaurantBase> Restaurants;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Money = 0;
 		MoneyLabel = (Label)GetNode("MoneyLabel");
-		Restaurants = new List<Restaurant>();
+		Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
 		TransferMoney(1500);
 	}
 

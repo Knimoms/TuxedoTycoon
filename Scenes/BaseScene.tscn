@@ -1,22 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://b5f08f7cdly4r"]
+[gd_scene load_steps=7 format=3 uid="uid://bhb2t3j4um3nk"]
 
 [ext_resource type="Script" path="res://Scripts/BaseScript.cs" id="1_qa78j"]
-[ext_resource type="PackedScene" uid="uid://dxy5bhusa3ql8" path="res://Scenes/Restaurant.tscn" id="2_muxq7"]
+[ext_resource type="PackedScene" uid="uid://disscfurrtlqc" path="res://Scenes/RestaurantBase.tscn" id="2_f0tfq"]
 [ext_resource type="PackedScene" uid="uid://b7ufojyyqg4n6" path="res://Scenes/RestaurantSpot.tscn" id="3_2ygd1"]
+[ext_resource type="Script" path="res://Scripts/Camera.cs" id="3_i1l3r"]
+[ext_resource type="PackedScene" uid="uid://ds4son0js0xq2" path="res://Scenes/CustomerSpawner.tscn" id="4_ih5og"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jaba8"]
 albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_qa78j")
-RestaurantScene = ExtResource("2_muxq7")
+RestaurantScene = ExtResource("2_f0tfq")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.891007, 0.45399, 0, -0.45399, 0.891007, 1.25877, 6.7968, 8.25187)
+transform = Transform3D(1, 0, 0, 0, 0.733778, 0.67939, 0, -0.67939, 0.733778, 1.25877, 11.541, 9.763)
 current = true
+script = ExtResource("3_i1l3r")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.346936, 0.188589, -0.918733, 0, 0.979575, 0.201078, 0.937889, -0.0697611, 0.33985, -5.02266, 3.44581, 3.49871)
+transform = Transform3D(0.346936, 0.188589, -0.918733, 0, 0.979575, 0.201078, 0.937889, -0.0697613, 0.33985, -5.02266, 3.44581, 3.49871)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
@@ -34,36 +37,39 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="RestaurantSpot" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.728323, 0.75, 2.01161)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75321, 0.75, -1.23533)
 
 [node name="RestaurantSpot2" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.10041, 0.749998, 2.0903)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.975211, 0.749998, 3.5009)
 
 [node name="RestaurantSpot3" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3957, 0.750001, 2.17998)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.41888, 0.750001, -3.13956)
 
 [node name="RestaurantSpot4" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.9532, 0.75, -1.72703)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.1546, 0.75, -1.72703)
 
 [node name="RestaurantSpot5" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.85483, 0.750002, -4.59212)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.85483, 0.750002, -8.45886)
 
 [node name="RestaurantSpot6" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.11274, 0.75, -2.4811)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.11274, 0.75, -9.07778)
 
 [node name="RestaurantSpot7" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.868, 0.750002, -6.29441)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8997, 0.750002, -9.42833)
 
 [node name="RestaurantSpot8" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.601603, 0.750002, -7.9287)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71376, 0.750002, -16.1304)
 
 [node name="RestaurantSpot9" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.27952, 0.75, -1.65901)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4028, 0.75, -6.72096)
 
 [node name="RestaurantSpot10" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.15987, 0.750002, -8.948)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.15987, 0.750002, -15.0606)
 
 [node name="RestaurantSpot11" parent="." instance=ExtResource("3_2ygd1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.38144, 0.750002, -1.97227)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.38144, 0.750002, -2.64612)
+
+[node name="CustomerSpawner" parent="." instance=ExtResource("4_ih5og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.61698, 0.75, -0.446685)
 
 [connection signal="input_event" from="Floor" to="." method="_on_floor_input_event"]

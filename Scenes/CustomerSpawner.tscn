@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds4son0js0xq2"]
+
+[ext_resource type="Script" path="res://Scripts/CustomerSpawner.cs" id="1_vnelc"]
+[ext_resource type="PackedScene" uid="uid://x4vslxm84nv0" path="res://Scenes/CustomerBase.tscn" id="2_a13rf"]
+
+[node name="CustomerSpawner" type="Node3D"]
+script = ExtResource("1_vnelc")
+CustomerScene = ExtResource("2_a13rf")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 7.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
