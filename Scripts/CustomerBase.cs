@@ -4,6 +4,7 @@ using System;
 public partial class CustomerBase : CharacterBody3D
 {
 	public RestaurantBase TargetRestaurant;
+	private BaseScript _parent;
 	public Vector3 Direction;
 
 	[Export]
@@ -14,11 +15,11 @@ public partial class CustomerBase : CharacterBody3D
 	public const float JumpVelocity = 4.5f;
 
 
-	private bool _arrived = false;
+	private bool _entered = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
+		this._parent = (BaseScript)this.GetParent();
 	}
 
 		// if((TargetRestaurant.Position - this.Position).Length() > 2) this.Velocity = Direction*(float)delta*Speed;
@@ -36,12 +37,11 @@ public partial class CustomerBase : CharacterBody3D
 			velocity.Y -= Gravity * (float)delta;
 
 		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-			velocity.Y = JumpVelocity;
+			
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		if(_arrived)
+		if(_entered)
 		{
 			return;
 		}
@@ -52,12 +52,24 @@ public partial class CustomerBase : CharacterBody3D
 		}
 		else
 		{
-			_arrived = true;
+			_entered = true;
+			EnterRestaurant();
 			velocity.X = 0;
 			velocity.Z = 0;
 		}
 		
 		Velocity = velocity;
-		if(MoveAndSlide())GD.Print(this.GetLastSlideCollision().GetCollider());
+		MoveAndSlide();
+	}
+
+	public void EnterRestaurant()
+	{
+		this.TargetRestaurant.Order(this);
+		this._parent.RemoveChild(this);
+	}
+
+	public void LeaveRestaurant()
+	{
+		this._parent.AddChild(this);
 	}
 }
