@@ -65,11 +65,11 @@ public partial class CustomerBase : CharacterBody3D
 	public void EnterRestaurant()
 	{
 		this.TargetRestaurant.Order(this);
-		this._parent.RemoveChild(this);
+		
 	}
 
 	public void LeaveRestaurant()
 	{
-		this._parent.AddChild(this);
+		
 	}
 }
