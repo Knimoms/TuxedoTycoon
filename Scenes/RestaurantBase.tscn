@@ -18,6 +18,7 @@ shape = SubResource("BoxShape3D_upncr")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 7.0
-autostart = true
+one_shot = true
 
+[connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

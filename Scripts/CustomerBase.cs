@@ -70,6 +70,6 @@ public partial class CustomerBase : CharacterBody3D
 
 	public void LeaveRestaurant()
 	{
-		
+		this.QueueFree();
 	}
 }

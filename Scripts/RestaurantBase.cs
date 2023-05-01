@@ -3,10 +3,11 @@ using System;
 
 public partial class RestaurantBase : Node3D
 {
-	public int MoneyPerSecond;
+	public double MealPrice, WaitTime, Cost;
 	[Export]
 	public int CustomerCapacity = 3;
-	public CustomerBase[] Queue;
+	public CustomerBase CurrentCustomer;
+
 	private static BaseScript _parent = null;
 
 	public int Lvl = 1;
@@ -14,9 +15,9 @@ public partial class RestaurantBase : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{		
-		Queue = new CustomerBase[CustomerCapacity];
 		if(_parent == null) _parent = GetParent<BaseScript>();
 		_timer = GetNode<Timer>("Timer");
+		_timer.WaitTime = this.WaitTime;
 		_parent.Restaurants.Add(this);
 	}
 
@@ -28,13 +29,30 @@ public partial class RestaurantBase : Node3D
 
 	private void _on_timer_timeout()
 	{
-		GD.Print(_timer.WaitTime);
-		_parent.TransferMoney(MoneyPerSecond*(int)_timer.WaitTime);
+		
+		_parent.TransferMoney(MealPrice);
+		this.CurrentCustomer.LeaveRestaurant();
 
+	}
+
+	private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
+	{
+		if(Input.IsActionJustPressed("place")) 
+			LevelUp();
 	}
 
 	public void Order(CustomerBase customer)
 	{
-		
+		this.CurrentCustomer = customer;
+		this._timer.Start();
+	}
+
+	public void LevelUp()
+	{
+		Lvl++;
+		double cost  = Math.Pow(this.Cost, Lvl*0.66);
+        if(_parent.Money < cost) return;
+		_parent.TransferMoney(-cost);
+		this.MealPrice = Math.Pow(this.MealPrice*0.5, Lvl);
 	}
 }

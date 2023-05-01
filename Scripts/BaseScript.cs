@@ -44,9 +44,9 @@ public partial class BaseScript : Node
 		//if(event1 is InputEventMouseButton) GetNode<AnimalBase>("AnimalBase").target = postition;
 	}
 
-	public void TransferMoney(int Money)
+	public void TransferMoney(double Money)
 	{
-		this.Money += Money;
+		this.Money += (int)Money;
 		MoneyLabel.Text = $"Money: {this.Money}$";
 	}
 }
