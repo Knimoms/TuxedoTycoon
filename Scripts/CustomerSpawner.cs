@@ -8,13 +8,7 @@ public partial class CustomerSpawner : Node3D
 	public PackedScene CustomerScene;
 	private Random _rnd;
 	private Timer _timer;
-	
-	
-
-	
 	public List<RestaurantBase> Rests;
-	//private int count = 0;
-	// List<CustomerBase> Customer
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -48,8 +42,6 @@ public partial class CustomerSpawner : Node3D
 	}
 	private void _on_timer_timeout()
 	{
-
-		GD.Print(GetParent<BaseScript>().Restaurants);
 		//_rests = GetParent<BaseScript>().Restaurants;
 		if(Rests.Count == 0) return;
 		CustomerBase customer = this.CustomerScene.Instantiate<CustomerBase>();

@@ -7,10 +7,6 @@ public partial class BaseScript : Node
 
 	public int Money;
 	public Label MoneyLabel;
-
-	[Export]
-	public PackedScene RestaurantScene;
-
 	private RestaurantBase _rest;
 	
 

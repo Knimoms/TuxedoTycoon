@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bhb2t3j4um3nk"]
+[gd_scene load_steps=7 format=3 uid="uid://bhb2t3j4um3nk"]
 
 [ext_resource type="Script" path="res://Scripts/BaseScript.cs" id="1_qa78j"]
-[ext_resource type="PackedScene" uid="uid://disscfurrtlqc" path="res://Scenes/RestaurantBase.tscn" id="2_f0tfq"]
 [ext_resource type="PackedScene" uid="uid://b7ufojyyqg4n6" path="res://Scenes/RestaurantSpot.tscn" id="3_2ygd1"]
 [ext_resource type="Script" path="res://Scripts/Camera.cs" id="3_i1l3r"]
 [ext_resource type="PackedScene" uid="uid://ds4son0js0xq2" path="res://Scenes/CustomerSpawner.tscn" id="4_ih5og"]
@@ -13,7 +12,6 @@ albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_qa78j")
-RestaurantScene = ExtResource("2_f0tfq")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.733778, 0.67939, 0, -0.67939, 0.733778, 0.25877, 5.66988, 4.63622)
