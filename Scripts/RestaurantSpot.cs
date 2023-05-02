@@ -9,11 +9,13 @@ public partial class RestaurantSpot : Node3D
 	public PackedScene RestaurantScene;
 	[Export]
 	public double MealPrice, Cost, WaitTime;
+
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
 		if(Parent == null)
-		    Parent = (BaseScript)this.GetParent();	
+			Parent = (BaseScript)this.GetParent();	
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,6 +42,8 @@ public partial class RestaurantSpot : Node3D
 	{
 
 	}
+
+	
 
 	// public void closeRestaurantOptions()
 	// {
@@ -106,7 +110,6 @@ public partial class RestaurantSpot : Node3D
 		if(Parent.Money < Cost) return;
 		Parent.TransferMoney(-Cost);
 		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
-		Parent.Restaurants.Add(rest);
 		rest.Position = this.Position;
 		rest.MealPrice = this.MealPrice;
 		rest.WaitTime = this.WaitTime;
@@ -114,7 +117,10 @@ public partial class RestaurantSpot : Node3D
 		this.QueueFree();
 		Parent.AddChild(rest);
 		GD.Print("created");
+		Parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
 	}
+
+	
 
 
 }

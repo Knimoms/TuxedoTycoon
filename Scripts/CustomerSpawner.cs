@@ -8,17 +8,27 @@ public partial class CustomerSpawner : Node3D
 	public PackedScene CustomerScene;
 	private Random _rnd;
 	private Timer _timer;
+	
+	
+
+	
 	public List<RestaurantBase> Rests;
+	//private int count = 0;
 	// List<CustomerBase> Customer
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		this.GetParent()._Ready();
+		 
 		_timer = (Timer)GetNode("Timer");
+		
+		
 		_rnd = new ();
 		Rests = new ();
 	}
+
+	
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -27,6 +37,15 @@ public partial class CustomerSpawner : Node3D
 
 	}
 
+
+	public void Change_wait_time() {
+		double avgTimeClutter = 0;
+		foreach(RestaurantBase r in Rests){
+			avgTimeClutter += r.TimerProp.WaitTime;
+		}
+
+		_timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count;
+	}
 	private void _on_timer_timeout()
 	{
 
@@ -38,4 +57,6 @@ public partial class CustomerSpawner : Node3D
 		customer.Position = this.Position;
 		this.AddSibling(customer);
 	}
+
+
 }

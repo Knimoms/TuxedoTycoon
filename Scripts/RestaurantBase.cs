@@ -53,9 +53,14 @@ public partial class RestaurantBase : Node3D
 		
 		double cost  = Math.Pow(this.Cost, 1+Lvl*0.1);
 		GD.Print(cost);
-        if(_parent.Money < cost) return;
+		if(_parent.Money < cost) return;
 		_parent.TransferMoney(-cost);
 		this.MealPrice = Math.Pow(this.OriginalMealPrice, 1+Lvl*0.1);
 		Lvl++;
+	}
+
+	public Timer TimerProp
+	{
+		get { return _timer; }
 	}
 }
