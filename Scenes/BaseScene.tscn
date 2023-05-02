@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bhb2t3j4um3nk"]
+[gd_scene load_steps=8 format=3 uid="uid://bhb2t3j4um3nk"]
 
 [ext_resource type="Script" path="res://Scripts/BaseScript.cs" id="1_qa78j"]
 [ext_resource type="PackedScene" uid="uid://disscfurrtlqc" path="res://Scenes/RestaurantBase.tscn" id="2_f0tfq"]
@@ -8,6 +8,8 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jaba8"]
 albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oh4rw"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_qa78j")
@@ -20,17 +22,6 @@ script = ExtResource("3_i1l3r")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.346936, 0.188589, -0.918733, 0, 0.979575, 0.201078, 0.937889, -0.0697613, 0.33985, -5.02266, 3.44581, 3.49871)
-
-[node name="Floor" type="StaticBody3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Floor"]
-size = Vector3(100, 0.1, 100)
-material = SubResource("StandardMaterial3D_jaba8")
-
-[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.304054, 0)
-polygon = PackedVector2Array(-52.0399, 50.2821, -50.5354, -50.5912, 49.6963, -49.4008, 50.0208, 50.5309)
 
 [node name="MoneyLabel" type="Label" parent="."]
 offset_right = 40.0
@@ -57,4 +48,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.82734, 0.75, -4.75556)
 [node name="RestaurantSpot6" parent="." instance=ExtResource("3_2ygd1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96813, 0.75, -4.75556)
 
-[connection signal="input_event" from="Floor" to="." method="_on_floor_input_event"]
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -0.75, 0)
+material = SubResource("StandardMaterial3D_jaba8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_oh4rw")
+
+[connection signal="input_event" from="Floor/StaticBody3D" to="." method="_on_floor_input_event"]

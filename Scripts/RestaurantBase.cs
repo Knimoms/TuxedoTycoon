@@ -3,7 +3,7 @@ using System;
 
 public partial class RestaurantBase : Node3D
 {
-	public double MealPrice, WaitTime, Cost;
+	public double MealPrice, WaitTime, Cost, OriginalMealPrice;
 	[Export]
 	public int CustomerCapacity = 3;
 	public CustomerBase CurrentCustomer;
@@ -16,6 +16,7 @@ public partial class RestaurantBase : Node3D
 	public override void _Ready()
 	{		
 		if(_parent == null) _parent = GetParent<BaseScript>();
+		this.OriginalMealPrice = this.MealPrice;
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = this.WaitTime;
 		_parent.Restaurants.Add(this);
@@ -49,10 +50,12 @@ public partial class RestaurantBase : Node3D
 
 	public void LevelUp()
 	{
-		Lvl++;
-		double cost  = Math.Pow(this.Cost, Lvl*0.66);
+		
+		double cost  = Math.Pow(this.Cost, 1+Lvl*0.1);
+		GD.Print(cost);
         if(_parent.Money < cost) return;
 		_parent.TransferMoney(-cost);
-		this.MealPrice = Math.Pow(this.MealPrice*0.5, Lvl);
+		this.MealPrice = Math.Pow(this.OriginalMealPrice, 1+Lvl*0.1);
+		Lvl++;
 	}
 }
