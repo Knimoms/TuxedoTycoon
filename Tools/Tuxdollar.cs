@@ -38,7 +38,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         }
 
         this.Value = Value;
-        
+
         if(Magnitude == null)
         {
             this._magnitude = "";
@@ -240,7 +240,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         return x;
     }
 
-    private void _integer_to_magnitude(int i)
+    private void _integer_to_magnitude(int i) // changes the Tuxdollar's magnitude to the value of the in the parameter given integer
     {
         string magnitude = "";
 
@@ -269,7 +269,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         this.Magnitude = magnitude;
     }
 
-    public static string IntegerToMagnitudeString(int i)
+    public static string IntegerToMagnitudeString(int i) // returns the in the parameter given integer as a magnitude-string
     {
         string magnitude = "";
 
@@ -297,7 +297,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         return magnitude;
     }
 
-    public double ActualValue()
+    public double ActualValue() // returns the actual value of the Tuxdollar as a double
     {
         return this.Value * Math.Pow(1000, this.MagnitudeToInteger());
     }
