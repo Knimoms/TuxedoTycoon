@@ -109,6 +109,14 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         return left*-1;
     }
 
+    public static Tuxdollar operator *(Tuxdollar left, Tuxdollar right)
+    {
+        Tuxdollar result = new Tuxdollar(left.Value * right.Value, IntegerToMagnitudeString(left.MagnitudeToInteger()+right.MagnitudeToInteger()));
+        while (result._check_for_magnitude_change()) ;
+
+        return result;
+    }
+
     public static Tuxdollar operator *(Tuxdollar left, float right)
     {
         Tuxdollar result = new Tuxdollar(left.Value * right, left.Magnitude);
@@ -157,6 +165,14 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
     public static bool operator >(Tuxdollar left, Tuxdollar right)
     {
         return (left.MagnitudeToInteger() > right.MagnitudeToInteger() || left.Magnitude == right.Magnitude && left.Value > right.Value);
+    }
+    public static bool operator >=(Tuxdollar left, Tuxdollar right)
+    {
+        return (left > right || left == right);
+    }
+    public static bool operator <=(Tuxdollar left, Tuxdollar right)
+    {
+        return (left < right || left == right);
     }
 
     public static bool operator ==(Tuxdollar left, Tuxdollar right) //Allows tolerance of up to 0.02f

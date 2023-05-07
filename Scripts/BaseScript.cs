@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public partial class BaseScript : Node
 {
+	[Export]
+	public float StartMoneyValue;
+	[Export]
+	public string StartMoneyMagnitude;
 
 	public Tuxdollar Money;
 	public Label MoneyLabel;
@@ -17,7 +21,7 @@ public partial class BaseScript : Node
 		Money = new Tuxdollar(0);
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
-		TransferMoney(new Tuxdollar(1500));
+		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

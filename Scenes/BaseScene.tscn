@@ -12,6 +12,8 @@ albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_qa78j")
+StartMoneyValue = 150.0
+StartMoneyMagnitude = "zz"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.733778, 0.67939, 0, -0.67939, 0.733778, 0.25877, 5.66988, 4.63622)
