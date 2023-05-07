@@ -13,8 +13,8 @@ albedo_color = Color(0.717647, 0.717647, 0.717647, 1)
 [node name="RestaurantSpot" type="Node3D"]
 script = ExtResource("1_pd7cs")
 RestaurantScene = ExtResource("2_mmf73")
-MealPrice = 700.0
-Cost = 1400.0
+MealPriceValue = 700.0
+CostValue = 1400.0
 WaitTime = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

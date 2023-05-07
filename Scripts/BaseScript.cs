@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class BaseScript : Node
 {
 
-	public int Money;
+	public Tuxdollar Money;
 	public Label MoneyLabel;
 	private RestaurantBase _rest;
 	
@@ -14,10 +14,10 @@ public partial class BaseScript : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Money = 0;
+		Money = new Tuxdollar(0);
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
-		TransferMoney(1500);
+		TransferMoney(new Tuxdollar(1500));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,9 +40,9 @@ public partial class BaseScript : Node
 		//if(event1 is InputEventMouseButton) GetNode<AnimalBase>("AnimalBase").target = postition;
 	}
 
-	public void TransferMoney(double Money)
+	public void TransferMoney(Tuxdollar Money)
 	{
-		this.Money += (int)Money;
-		MoneyLabel.Text = $"Money: {this.Money}$";
+		this.Money += Money;
+		MoneyLabel.Text = $"Money: {this.Money}";
 	}
 }

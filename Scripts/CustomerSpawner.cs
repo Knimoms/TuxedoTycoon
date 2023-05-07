@@ -39,6 +39,8 @@ public partial class CustomerSpawner : Node3D
 		}
 
 		_timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count;
+
+	
 	}
 	private void _on_timer_timeout()
 	{

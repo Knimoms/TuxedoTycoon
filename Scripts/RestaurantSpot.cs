@@ -4,18 +4,25 @@ using System;
 public partial class RestaurantSpot : Node3D
 {
 
-	public static BaseScript Parent;
+	private static BaseScript _parent;
 	[Export]
 	public PackedScene RestaurantScene;
 	[Export]
-	public double MealPrice, Cost, WaitTime;
+	public float MealPriceValue, CostValue;
+	[Export]
+	public string MealPriceMagnitude, CostMagnitude;
+	public Tuxdollar MealPrice, Cost;
+	[Export]
+	public double  WaitTime;
 
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		if(Parent == null)
-			Parent = (BaseScript)this.GetParent();	
+		_parent ??= (BaseScript)this.GetParent();	
+		
+		MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
+		Cost = new Tuxdollar(CostValue, CostMagnitude);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -107,17 +114,17 @@ public partial class RestaurantSpot : Node3D
 
 	private void _createRestaurant()
 	{
-		if(Parent.Money < Cost) return;
-		Parent.TransferMoney(-Cost);
+		if(_parent.Money < Cost) return;
+		_parent.TransferMoney(-Cost);
 		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
 		rest.Position = this.Position;
 		rest.MealPrice = this.MealPrice;
 		rest.WaitTime = this.WaitTime;
 		rest.Cost = this.Cost;
 		this.QueueFree();
-		Parent.AddChild(rest);
+		_parent.AddChild(rest);
 		GD.Print("created");
-		Parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
+		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
 	}
 
 	
