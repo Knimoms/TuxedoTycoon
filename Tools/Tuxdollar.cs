@@ -55,6 +55,8 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         }
 
         this._magnitude = Magnitude;
+
+        while(this._check_for_magnitude_change());
     }
 
     public Tuxdollar(float Value)
@@ -70,6 +72,8 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         }
         this.Value = Value;
         this._magnitude = "";
+
+        while(this._check_for_magnitude_change());
     }
 
     public static Tuxdollar operator +(Tuxdollar left, Tuxdollar right)
@@ -83,6 +87,32 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
             right._convert_to_larger_magnitude(left.Magnitude);
 
         Tuxdollar result = new Tuxdollar(left.Value + right.Value, left.Magnitude);
+        while (result._check_for_magnitude_change()) ;
+
+        return result;
+    }
+
+    public static Tuxdollar operator +(Tuxdollar left, float right)
+    {
+        int lM = left.MagnitudeToInteger();
+        Tuxdollar rT = new Tuxdollar(right);
+        rT._convert_to_larger_magnitude(left.Magnitude);
+
+    
+        Tuxdollar result = new Tuxdollar(left.Value + rT.Value, left.Magnitude);
+        while (result._check_for_magnitude_change()) ;
+
+        return result;
+    }
+
+    public static Tuxdollar operator +(float left, Tuxdollar right)
+    {
+        int rM = right.MagnitudeToInteger();
+        Tuxdollar lT = new Tuxdollar(left);
+        lT._convert_to_larger_magnitude(right.Magnitude);
+
+    
+        Tuxdollar result = new Tuxdollar(right.Value + lT.Value, right.Magnitude);
         while (result._check_for_magnitude_change()) ;
 
         return result;
@@ -208,7 +238,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         this = new Tuxdollar(this.Value / (float)Math.Pow(1000, magnitudeDifference), magnitude);
     }
 
-    private bool _check_for_magnitude_change()  //checks if the Tuxedo has grown or shrank to a Value where a magnitude change is viable. If yes, it also carries out the task.
+    private bool _check_for_magnitude_change() // checks if the Tuxedo has grown or shrank to a Value where a magnitude change is viable. If yes, it also carries out the task.
     {
         float absValue = Math.Abs(this.Value);
 
