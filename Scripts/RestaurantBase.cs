@@ -65,9 +65,4 @@ public partial class RestaurantBase : Node3D
 		this.Cost *= 4;
 		Lvl++;
 	}
-
-	public Timer TimerProp
-	{
-		get { return _timer; }
-	}
 }
