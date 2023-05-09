@@ -29,6 +29,8 @@ public partial class RestaurantSpot : Node3D
 
 		// Get references to child nodes
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
+		
+		_popupMenu.PopupCentered();
 		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 

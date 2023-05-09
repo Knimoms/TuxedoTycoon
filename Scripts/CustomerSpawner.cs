@@ -12,11 +12,8 @@ public partial class CustomerSpawner : Node3D
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{
-		this.GetParent()._Ready();
-		 
+	{	 
 		_timer = (Timer)GetNode("Timer");
-		
 		
 		_rnd = new ();
 		Rests = new ();

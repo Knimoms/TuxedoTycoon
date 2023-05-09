@@ -22,26 +22,17 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
     }
 
     private string _magnitude;
-
-    private static char[] _magnitude_letters = new char[26];
-    private static string MagnitudeLetters = "";
+    private static string MagnitudeLetters = "abcdefghijklmnopqrstuvwxyz";
 
     public Tuxdollar(float Value, string Magnitude)
     {
-        if (_magnitude_letters[0] == '\0')
-        {
-            for (int i = 0; i < _magnitude_letters.Length; i++)
-            {
-                _magnitude_letters[i] = (char)('a' + i);
-            }
-            MagnitudeLetters = new string(_magnitude_letters);
-        }
 
         this.Value = Value;
 
         if(Magnitude == null)
         {
             this._magnitude = "";
+            while(this._check_for_magnitude_change());
             return;
         }
 
@@ -61,19 +52,16 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
 
     public Tuxdollar(float Value)
     {
-
-        if (_magnitude_letters[0] == '\0')
-        {
-            for (int i = 0; i < _magnitude_letters.Length; i++)
-            {
-                _magnitude_letters[i] = (char)('a' + i);
-            }
-            MagnitudeLetters = new string(_magnitude_letters);
-        }
         this.Value = Value;
         this._magnitude = "";
 
         while(this._check_for_magnitude_change());
+    }
+
+    public Tuxdollar()
+    {
+        this.Value = 0;
+        this._magnitude = "";
     }
 
     public static Tuxdollar operator +(Tuxdollar left, Tuxdollar right)
@@ -234,18 +222,18 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
             return;
 
         int magnitudeDifference = MagnitudeToInteger(magnitude) - this.MagnitudeToInteger();
-
-        this = new Tuxdollar(this.Value / (float)Math.Pow(1000, magnitudeDifference), magnitude);
+        this.Value =  this.Value / (float)Math.Pow(1000, magnitudeDifference);
+        this.Magnitude = magnitude;
     }
 
     private bool _check_for_magnitude_change() // checks if the Tuxedo has grown or shrank to a Value where a magnitude change is viable. If yes, it also carries out the task.
     {
         float absValue = Math.Abs(this.Value);
 
-        if (absValue < 1000.0f && absValue >= 1.0f || this.Magnitude == "" && absValue < 1.0f)
+        if ((absValue < 1000.0f && absValue >= 1.0f) || (this.Magnitude == "" && absValue < 1.0f))
             return false;
 
-        if (absValue > 1000)
+        if (absValue >= 1000)
         {
             this.Value *= 0.001f;
             this._integer_to_magnitude(this.MagnitudeToInteger() + 1);

@@ -18,9 +18,9 @@ public partial class BaseScript : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Money = new Tuxdollar(0);
-		MoneyLabel = (Label)GetNode("MoneyLabel");
-		Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
+		this.Money = new Tuxdollar();
+		this.MoneyLabel = (Label)GetNode("MoneyLabel");
+		this.Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 	}
 
