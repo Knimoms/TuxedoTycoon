@@ -15,6 +15,9 @@ public partial class RestaurantSpot : Node3D
 	[Export]
 	public double  WaitTime;
 
+	private PopupMenu _popupMenu;
+	private Label _costLabel;
+
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -23,6 +26,18 @@ public partial class RestaurantSpot : Node3D
 		
 		MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
+
+		// Get references to child nodes
+		_popupMenu = GetNode<PopupMenu>("PopupMenu");
+		_popupMenu.Hide();
+		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
+
+		// Set the label text for the Cost label
+		_costLabel.Text = $"Cost: {Cost}";
+		
+		// Connect signals for ConfirmationButton and CancelButton
+		//_popupMenu.GetNode<Button>("ConfirmationButton").Connect("pressed", Callable.From(this._on_confirmation_button_pressed));
+		//_popupMenu.GetNode<Button>("CancelButton").Connect("pressed", Callable.From(this._on_cancel_button_pressed));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,8 +49,35 @@ public partial class RestaurantSpot : Node3D
 	private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
 		if(Input.IsActionJustPressed("place")) 
-			_createRestaurant();
+			_popupMenu.Popup();
 	}
+
+	private void _on_confirmation_button_pressed()
+	{
+		if(_parent.Money < Cost) return;
+		_parent.TransferMoney(-Cost);
+		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
+		rest.Position = this.Position;
+		rest.MealPrice = this.MealPrice;
+		rest.WaitTime = this.WaitTime;
+		rest.Cost = this.Cost;
+		this.QueueFree();
+		_parent.AddChild(rest);
+		GD.Print("created");
+		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
+
+		// Hide the PopupMenu
+		_popupMenu.Hide();
+	}
+
+	private void _on_cancel_button_pressed()
+	{
+		// Hide the PopupMenu
+		_popupMenu.Hide();
+	}
+
+	
+}
 
 	// public void openRestaurantOptions()
 	// {
@@ -45,12 +87,6 @@ public partial class RestaurantSpot : Node3D
 	// 	_menu_Open = true;
 	// }
 
-	public void openRestaurant()
-	{
-
-	}
-
-	
 
 	// public void closeRestaurantOptions()
 	// {
@@ -111,23 +147,3 @@ public partial class RestaurantSpot : Node3D
 
 
 	// }
-
-	private void _createRestaurant()
-	{
-		if(_parent.Money < Cost) return;
-		_parent.TransferMoney(-Cost);
-		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
-		rest.Position = this.Position;
-		rest.MealPrice = this.MealPrice;
-		rest.WaitTime = this.WaitTime;
-		rest.Cost = this.Cost;
-		this.QueueFree();
-		_parent.AddChild(rest);
-		GD.Print("created");
-		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
-	}
-
-	
-
-
-}

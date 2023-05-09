@@ -28,4 +28,42 @@ surface_material_override/0 = SubResource("StandardMaterial3D_72sqy")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_jj7wh")
 
+[node name="PopupMenu" type="PopupMenu" parent="."]
+size = Vector2i(175, 75)
+visible = true
+
+[node name="CostLabel" type="Label" parent="PopupMenu"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -41.5
+offset_right = 41.5
+offset_bottom = 26.0
+grow_horizontal = 2
+text = "$$$$$$$$$"
+
+[node name="ConfirmationButton" type="Button" parent="PopupMenu"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 71.0
+grow_vertical = 0
+size_flags_horizontal = 0
+text = "Confirm"
+
+[node name="CancelButton" type="Button" parent="PopupMenu"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Cancel"
+
 [connection signal="input_event" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_input_event"]
+[connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_confirmation_button_pressed"]
+[connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_cancel_button_pressed"]
