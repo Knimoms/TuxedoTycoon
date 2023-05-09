@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpr66gyk6epct"]
+
+[ext_resource type="PackedScene" uid="uid://b7ufojyyqg4n6" path="res://Scenes/RestaurantSpot.tscn" id="1_002t4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uv3fg"]
+albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgldg"]
+
+[node name="CourtArea3" type="Node3D"]
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -0.75, 0)
+size = Vector3(0.4, 1, 0.55)
+material = SubResource("StandardMaterial3D_uv3fg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_vgldg")
+
+[node name="RestaurantSpot9" parent="." instance=ExtResource("1_002t4")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -3.54336, 1.612, -19.8264)
+
+[node name="RestaurantSpot10" parent="." instance=ExtResource("1_002t4")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -3.57966, 1.61193, -12.31)
+
+[node name="RestaurantSpot11" parent="." instance=ExtResource("1_002t4")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 12.0211, 1.61193, -4.54174)
+
+[node name="RestaurantSpot12" parent="." instance=ExtResource("1_002t4")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 4.03013, 1.61193, -4.71611)

@@ -49,4 +49,23 @@ public partial class BaseScript : Node
 		this.Money += Money;
 		MoneyLabel.Text = $"Money: {this.Money}";
 	}
+	
+	/*
+	public class UnlockCourt(){
+	//assign each stall a money value, crosscheck player currency with stall value
+	
+	public double playerCurrency; //player amount value
+	public bool isEnough() = false; //check if player has enough money defaul they dont sadly\
+	public double restaurantSpotValue;
+	
+	//assigned player taps restaurant spot, open up restaurant spot value
+	if( restaurantSpotValue <= playerCurrency ){
+	isEnough == true;
+	
+	//display stall or whatever
+	}
+	
+	}
+	
+	*/
 }
