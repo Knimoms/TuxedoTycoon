@@ -11,6 +11,11 @@ public partial class RestaurantBase : Node3D
 
 	private static BaseScript _parent = null;
 
+	public Timer TimerProp
+	{
+		get { return _timer; }
+	}
+
 	public int Lvl = 1;
 	private Timer _timer;
 	// Called when the node enters the scene tree for the first time.

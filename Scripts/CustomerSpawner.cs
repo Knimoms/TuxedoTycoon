@@ -32,7 +32,7 @@ public partial class CustomerSpawner : Node3D
 	public void Change_wait_time() {
 		double avgTimeClutter = 0;
 		foreach(RestaurantBase r in Rests){
-			avgTimeClutter += r.TimerProp.WaitTime;
+			avgTimeClutter += r.TimerProp.WaitTime + 2;
 		}
 
 		_timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count;
