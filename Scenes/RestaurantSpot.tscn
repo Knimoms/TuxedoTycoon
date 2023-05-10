@@ -29,6 +29,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_72sqy")
 shape = SubResource("BoxShape3D_jj7wh")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
+initial_position = 1
 size = Vector2i(175, 75)
 visible = true
 
