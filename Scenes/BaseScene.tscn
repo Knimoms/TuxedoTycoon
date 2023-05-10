@@ -15,7 +15,7 @@ script = ExtResource("1_qa78j")
 StartMoneyValue = 1500.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.82905, 0.758866, 5.56037)
+transform = Transform3D(1, 0, 0, 0, 0.821149, 0.570714, 0, -0.570714, 0.821149, -5.82905, 6.80891, 5.56037)
 current = true
 script = ExtResource("3_i1l3r")
 
@@ -30,7 +30,7 @@ offset_bottom = 23.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11153, 0.75, 15.1866)
 
 [node name="Floor" type="CSGBox3D" parent="."]
-transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -0.75, 0)
+transform = Transform3D(30, 0, 0, 0, 0.01, 0, 0, 0, 30, -7.73961, -0.75, 1)
 material = SubResource("StandardMaterial3D_jaba8")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
@@ -41,6 +41,6 @@ shape = SubResource("BoxShape3D_oh4rw")
 [node name="Node3D" type="Node3D" parent="."]
 
 [node name="CourtArea1" parent="." instance=ExtResource("4_uyv0w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.68104, -0.25, 0.770205)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.47665, -0.745001, 1.61776)
 
 [connection signal="input_event" from="Floor/StaticBody3D" to="." method="_on_floor_input_event"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://egt63r8nwgsg"]
+[gd_scene load_steps=7 format=3 uid="uid://egt63r8nwgsg"]
 
 [ext_resource type="PackedScene" uid="uid://b7ufojyyqg4n6" path="res://Scenes/RestaurantSpot.tscn" id="1_dad43"]
 [ext_resource type="Script" path="res://Scripts/CourtArea.cs" id="1_vj6vp"]
@@ -8,6 +8,8 @@
 albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_418sy"]
+
+[sub_resource type="Curve3D" id="Curve3D_6tdt1"]
 
 [node name="CourtArea1" type="Node3D"]
 script = ExtResource("1_vj6vp")
@@ -35,4 +37,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -12.706)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, -12.7065)
 
 [node name="CustomerSpawner" parent="." instance=ExtResource("2_5sk84")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0158131, 1.00963, 26.2774)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01, 11.822)
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.822)
+curve = SubResource("Curve3D_6tdt1")
