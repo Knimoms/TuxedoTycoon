@@ -24,12 +24,11 @@ shape = SubResource("BoxShape3D_upncr")
 wait_time = 7.0
 one_shot = true
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
+[node name="UpgradePopupMenu" type="PopupMenu" parent="."]
 initial_position = 1
 size = Vector2i(175, 110)
-visible = true
 
-[node name="NameLabel" type="Label" parent="PopupMenu"]
+[node name="NameLabel" type="Label" parent="UpgradePopupMenu"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -39,7 +38,7 @@ offset_bottom = 26.0
 grow_horizontal = 2
 text = "Spot name"
 
-[node name="CostLabel" type="Label" parent="PopupMenu"]
+[node name="CostLabel" type="Label" parent="UpgradePopupMenu"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -53,7 +52,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Price and upgrade info"
 
-[node name="UpgradeButton" type="Button" parent="PopupMenu"]
+[node name="UpgradeButton" type="Button" parent="UpgradePopupMenu"]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -62,7 +61,7 @@ offset_right = 71.0
 grow_vertical = 0
 text = "Upgrade"
 
-[node name="CancelButton" type="Button" parent="PopupMenu"]
+[node name="CancelButton" type="Button" parent="UpgradePopupMenu"]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -76,5 +75,5 @@ text = "Cancel"
 
 [connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="pressed" from="PopupMenu/UpgradeButton" to="." method="_on_confirmation_button_pressed"]
-[connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="UpgradePopupMenu/UpgradeButton" to="." method="_on_confirmation_button_pressed"]
+[connection signal="pressed" from="UpgradePopupMenu/CancelButton" to="." method="_on_cancel_button_pressed"]

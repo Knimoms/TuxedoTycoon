@@ -17,6 +17,7 @@ public partial class RestaurantSpot : Node3D
 
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
+	private Button _confirmationButton;
 
 	
 	// Called when the node enters the scene tree for the first time.
@@ -33,6 +34,7 @@ public partial class RestaurantSpot : Node3D
 		_popupMenu.PopupCentered();
 		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
+		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
 		// Set the label text for the Cost label
 		_costLabel.Text = $"Cost: {Cost}";
@@ -40,6 +42,8 @@ public partial class RestaurantSpot : Node3D
 		// Connect signals for ConfirmationButton and CancelButton
 		//_popupMenu.GetNode<Button>("ConfirmationButton").Connect("pressed", Callable.From(this._on_confirmation_button_pressed));
 		//_popupMenu.GetNode<Button>("CancelButton").Connect("pressed", Callable.From(this._on_cancel_button_pressed));
+		_confirmationButton.Connect("pressed", Callable.From(this._on_confirmation_button_pressed));
+		_popupMenu.GetNode<Button>("CancelButton").Connect("pressed", Callable.From(this._on_cancel_button_pressed));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -79,5 +83,19 @@ public partial class RestaurantSpot : Node3D
 		_popupMenu.Hide();
 	}
 
+	 public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseMotion motionEvent)
+		{
+			if (_parent.Parent.Money < Cost)
+			{
+				_confirmationButton.Disabled = true;
+			}
+			else
+			{
+				_confirmationButton.Disabled = false;
+			}
+		}
+	}
 	
 }
