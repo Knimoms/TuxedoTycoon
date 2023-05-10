@@ -60,7 +60,6 @@ public partial class RestaurantBase : Node3D
 
 	public void LevelUp()
 	{
-		
 		Tuxdollar cost  =  this.Cost*4;
 		GD.Print(cost);
 		if(_base_script.Money < cost) return;
@@ -70,3 +69,15 @@ public partial class RestaurantBase : Node3D
 		Lvl++;
 	}
 }
+
+
+//private void _on_confirmation_button_pressed()
+//{
+//	// Replace with function body.
+//}
+//
+//
+//private void _on_cancel_button_pressed()
+//{
+//	_popupMenu.Hide();
+//}
