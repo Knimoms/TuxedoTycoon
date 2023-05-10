@@ -11,16 +11,13 @@ public partial class BaseScript : Node
 
 	public Tuxdollar Money;
 	public Label MoneyLabel;
-	private RestaurantBase _rest;
+	//private RestaurantBase _rest;
 	
-
-	public List<RestaurantBase> Restaurants;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		this.Money = new Tuxdollar();
 		this.MoneyLabel = (Label)GetNode("MoneyLabel");
-		this.Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 	}
 

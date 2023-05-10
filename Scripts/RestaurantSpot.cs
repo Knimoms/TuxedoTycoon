@@ -4,7 +4,7 @@ using System;
 public partial class RestaurantSpot : Node3D
 {
 
-	private static BaseScript _parent;
+	private CourtArea _parent;
 	[Export]
 	public PackedScene RestaurantScene;
 	[Export]
@@ -22,7 +22,7 @@ public partial class RestaurantSpot : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		_parent ??= (BaseScript)this.GetParent();	
+		_parent = (CourtArea)this.GetParent();	
 		
 		MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
@@ -56,15 +56,16 @@ public partial class RestaurantSpot : Node3D
 
 	private void _on_confirmation_button_pressed()
 	{
-		if(_parent.Money < Cost) return;
-		_parent.TransferMoney(-Cost);
+		if(_parent.Parent.Money < Cost) return;
+		_parent.Parent.TransferMoney(-Cost);
 		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
-		rest.Position = this.Position;
+		rest.Position = this.Position + Vector3.Up;
 		rest.MealPrice = this.MealPrice;
 		rest.WaitTime = this.WaitTime;
 		rest.Cost = this.Cost;
 		this.QueueFree();
 		_parent.AddChild(rest);
+		//GD.Print(_parent.Restaurants[0]);
 		GD.Print("created");
 		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
 

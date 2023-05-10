@@ -9,7 +9,9 @@ public partial class RestaurantBase : Node3D
 	public int CustomerCapacity = 3;
 	public CustomerBase CurrentCustomer;
 
-	private static BaseScript _parent = null;
+	private CourtArea _parent = null;
+
+	private static BaseScript _base_script;
 
 	public Timer TimerProp
 	{
@@ -20,8 +22,10 @@ public partial class RestaurantBase : Node3D
 	private Timer _timer;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{		
-		_parent ??= GetParent<BaseScript>();
+	{	
+		_parent = (CourtArea)GetParent();
+		_base_script ??= _parent.Parent;
+		_parent = GetParent<CourtArea>();
 		this.OriginalMealPrice = this.MealPrice;
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = this.WaitTime;
@@ -37,7 +41,7 @@ public partial class RestaurantBase : Node3D
 	private void _on_timer_timeout()
 	{
 		
-		_parent.TransferMoney(MealPrice);
+		_base_script.TransferMoney(MealPrice);
 		this.CurrentCustomer.LeaveRestaurant();
 
 	}
@@ -59,8 +63,8 @@ public partial class RestaurantBase : Node3D
 		
 		Tuxdollar cost  =  this.Cost*4;
 		GD.Print(cost);
-		if(_parent.Money < cost) return;
-		_parent.TransferMoney(-cost);
+		if(_base_script.Money < cost) return;
+		_base_script.TransferMoney(-cost);
 		this.MealPrice *= 4;
 		this.Cost *= 4;
 		Lvl++;

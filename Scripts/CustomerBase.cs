@@ -4,7 +4,7 @@ using System;
 public partial class CustomerBase : CharacterBody3D
 {
 	public RestaurantBase TargetRestaurant;
-	private BaseScript _parent;
+	private CourtArea _parent;
 	public Vector3 Direction;
 
 	[Export]
@@ -19,7 +19,7 @@ public partial class CustomerBase : CharacterBody3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		this._parent = (BaseScript)this.GetParent();
+		this._parent = (CourtArea)this.GetParent();
 	}
 
 		// if((TargetRestaurant.Position - this.Position).Length() > 2) this.Velocity = Direction*(float)delta*Speed;
