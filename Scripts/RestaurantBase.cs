@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class RestaurantBase : Node3D
 {
@@ -8,6 +9,9 @@ public partial class RestaurantBase : Node3D
 	[Export]
 	public int CustomerCapacity = 3;
 	public CustomerBase CurrentCustomer;
+
+	public List<CustomerBase> IncomingCustomers;
+	//public List<CustomerBase> Queue;
 
 	private CourtArea _parent = null;
 
@@ -23,6 +27,7 @@ public partial class RestaurantBase : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		IncomingCustomers = new();
 		_parent = (CourtArea)GetParent();
 		_base_script ??= _parent.Parent;
 		_parent = GetParent<CourtArea>();
@@ -42,7 +47,25 @@ public partial class RestaurantBase : Node3D
 	{
 		
 		_base_script.TransferMoney(MealPrice);
-		this.CurrentCustomer.LeaveRestaurant();
+		this.IncomingCustomers[0].FinishOrder();
+		this.IncomingCustomers[0] = null;
+		
+		for(int i = 0; i < this.IncomingCustomers.Count; i++)
+		{
+			if(i == this.IncomingCustomers.Count - 1) 
+			{
+				IncomingCustomers.RemoveAt(i);
+				break;
+			}
+			IncomingCustomers[i] = IncomingCustomers[i+1];
+			IncomingCustomers[i].Waiting = false;
+			IncomingCustomers[i].LineNumber--;
+		}
+
+		if(IncomingCustomers.Count > 0) 
+		{
+			IncomingCustomers[0].FirstInQueue();
+		}
 
 	}
 
@@ -52,9 +75,8 @@ public partial class RestaurantBase : Node3D
 			LevelUp();
 	}
 
-	public void Order(CustomerBase customer)
+	public void Order()
 	{
-		this.CurrentCustomer = customer;
 		this._timer.Start();
 	}
 

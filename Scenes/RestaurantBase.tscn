@@ -24,5 +24,10 @@ shape = SubResource("BoxShape3D_upncr")
 wait_time = 7.0
 one_shot = true
 
+[node name="OrderWindows" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.856474, 1.08754)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="OrderWindows"]
+
 [connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
