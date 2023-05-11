@@ -64,6 +64,7 @@ public partial class RestaurantSpot : Node3D
 		_parent.Parent.TransferMoney(-Cost);
 		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
 		rest.Position = this.Position + Vector3.Up;
+		rest.Rotation = this.Rotation;
 		rest.MealPrice = this.MealPrice;
 		rest.WaitTime = this.WaitTime;
 		rest.Cost = this.Cost;

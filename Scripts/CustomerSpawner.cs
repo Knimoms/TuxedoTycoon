@@ -9,6 +9,8 @@ public partial class CustomerSpawner : Node3D
 	private Random _rnd;
 	private Timer _timer;
 	public List<RestaurantBase> Rests;
+
+	private PathFollow3D _path_follow_child;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -30,16 +32,12 @@ public partial class CustomerSpawner : Node3D
 
 
 	public void Change_wait_time() {
-		GD.Print(Rests);
 		double avgTimeClutter = 0;
 		foreach(RestaurantBase r in Rests){
 			avgTimeClutter += r.TimerProp.WaitTime + 2;
 		}
 
 		_timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count;
-		GD.Print(_timer.WaitTime);
-
-	
 	}
 	private void _on_timer_timeout()
 	{
@@ -48,7 +46,6 @@ public partial class CustomerSpawner : Node3D
 		customer.TargetRestaurant = Rests[_rnd.Next(0,Rests.Count)];
 		customer.Position = this.Position;
 		this.AddSibling(customer);
-		GD.Print("pos" + customer.Position);
 	}
 
 

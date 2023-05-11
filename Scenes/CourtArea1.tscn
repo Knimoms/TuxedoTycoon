@@ -7,38 +7,65 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tqn3p"]
 albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_418sy"]
+[sub_resource type="NavigationMesh" id="NavigationMesh_82s2i"]
+vertices = PackedVector3Array(5.625, 0.7005, 0.248001, 5.625, 0.7005, 7.498, 6.375, 0.7005, 7.498, 6.375, 0.7005, -0.501999, 5.125, 0.7005, -8.752, 4.125, 0.7005, -8.752, 5.625, 0.7005, -7.002, 6.375, 0.7005, -8.502, 5.625, 0.7005, -7.002, 5.625, 0.7005, 0.248001, 6.375, 0.7005, -0.501999, 6.375, 0.7005, -8.502, -5.125, 0.7005, -17.502, -5.125, 0.7005, -7.252, -3.875, 0.7005, -8.502, -4.125, 0.7005, -17.502, 5.125, 0.7005, -8.752, 5.125, 0.7005, -17.502, 4.125, 0.7005, -17.502, 4.125, 0.7005, -8.752, 2.875, 0.7005, -8.752, 2.875, 0.7005, -17.502, 2.125, 0.7005, -17.502, 2.125, 0.7005, -8.752, -3.875, 0.7005, -8.502, -5.125, 0.7005, -7.252, -1.875, 0.7005, -8.502, -2.875, 0.7005, -8.752, 2.875, 0.7005, -8.752, 2.125, 0.7005, -8.752, -1.875, 0.7005, -8.502, 4.125, 0.7005, -8.752, 2.875, 0.7005, -8.752, -1.875, 0.7005, -8.502, -5.125, 0.7005, -7.252, 5.625, 0.7005, -7.002, -2.125, 0.7005, -17.502, -2.875, 0.7005, -17.502, -2.875, 0.7005, -8.752, -1.875, 0.7005, -8.502)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(4, 7, 5), PackedInt32Array(5, 7, 6), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 11), PackedInt32Array(15, 14, 12), PackedInt32Array(12, 14, 13), PackedInt32Array(19, 18, 16), PackedInt32Array(16, 18, 17), PackedInt32Array(23, 22, 20), PackedInt32Array(20, 22, 21), PackedInt32Array(27, 26, 24), PackedInt32Array(24, 26, 25), PackedInt32Array(30, 29, 28), PackedInt32Array(31, 35, 32), PackedInt32Array(32, 35, 33), PackedInt32Array(33, 35, 34), PackedInt32Array(37, 36, 38), PackedInt32Array(38, 36, 39)]
 
-[sub_resource type="Curve3D" id="Curve3D_6tdt1"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b0vef"]
+albedo_color = Color(0, 1, 0, 1)
 
 [node name="CourtArea1" type="Node3D"]
 script = ExtResource("1_vj6vp")
 
 [node name="Floor" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.589851, 0)
-size = Vector3(14, 1, 28)
+size = Vector3(14, 0.001, 28)
 material = SubResource("StandardMaterial3D_tqn3p")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
-shape = SubResource("BoxShape3D_418sy")
-
 [node name="RestaurantSpot" parent="." instance=ExtResource("1_dad43")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -12.7065)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7, 0, -12.99)
 
 [node name="RestaurantSpot2" parent="." instance=ExtResource("1_dad43")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -12.706)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -12.99)
 
 [node name="RestaurantSpot3" parent="." instance=ExtResource("1_dad43")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -12.706)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -12.99)
 
 [node name="RestaurantSpot5" parent="." instance=ExtResource("1_dad43")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, -12.7065)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7, 0, -12.99)
 
 [node name="CustomerSpawner" parent="." instance=ExtResource("2_5sk84")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01, 11.822)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 13.6)
 
-[node name="Path3D" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.822)
-curve = SubResource("Curve3D_6tdt1")
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 6)
+navigation_mesh = SubResource("NavigationMesh_82s2i")
+
+[node name="Floor" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.201, -0.5)
+size = Vector3(1.75, 0.001, 17)
+material = SubResource("StandardMaterial3D_b0vef")
+
+[node name="Floor2" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.201345, -8)
+size = Vector3(11.25, 0.001, 2)
+material = SubResource("StandardMaterial3D_b0vef")
+
+[node name="Floor3" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7, 0.201, -13.002)
+size = Vector3(1.75, 0.001, 10)
+material = SubResource("StandardMaterial3D_b0vef")
+
+[node name="Floor4" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.201, -13.002)
+size = Vector3(1.75, 0.001, 10)
+material = SubResource("StandardMaterial3D_b0vef")
+
+[node name="Floor5" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.201, -13.002)
+size = Vector3(1.75, 0.001, 10)
+material = SubResource("StandardMaterial3D_b0vef")
+
+[node name="Floor6" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7, 0.201, -13.002)
+size = Vector3(1.75, 0.001, 10)
+material = SubResource("StandardMaterial3D_b0vef")
