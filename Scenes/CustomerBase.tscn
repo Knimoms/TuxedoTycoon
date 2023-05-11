@@ -8,6 +8,7 @@
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_layer = 2
 script = ExtResource("1_qwucy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -18,5 +19,10 @@ mesh = SubResource("CapsuleMesh_lqn3h")
 skeleton = NodePath("../..")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 0.4
+avoidance_enabled = true
+radius = 0.1
+neighbor_distance = 4.0
 
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]

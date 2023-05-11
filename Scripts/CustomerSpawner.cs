@@ -45,7 +45,9 @@ public partial class CustomerSpawner : Node3D
 		CustomerBase customer = this.CustomerScene.Instantiate<CustomerBase>();
 		customer.TargetRestaurant = Rests[_rnd.Next(0,Rests.Count)];
 		customer.Position = this.Position;
-		this.AddSibling(customer);
+		AddSibling(customer);
+		customer.SpawnPoint = GlobalPosition;
+
 	}
 
 
