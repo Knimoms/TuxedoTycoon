@@ -21,11 +21,14 @@ public partial class CustomerBase : CharacterBody3D
 	private NavigationAgent3D _nav_agent;
 
 	private Vector3 _target_window;
+
+	private Timer _timer;
 	public bool Waiting = false;
 	public bool OrderFinished = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		_timer = (Timer)GetNode("Timer");
 		_nav_agent = (NavigationAgent3D)GetNode("NavigationAgent3D");
 		this._parent = (CourtArea)this.GetParent();
 
@@ -47,33 +50,18 @@ public partial class CustomerBase : CharacterBody3D
 
 	public override void _Process(double delta)
 	{
-
-		// Vector3 velocity = Velocity;
-		// if(Waiting) 
-		// 	return;
-
-		// if(LineNumber != 0)
-		// 	this.UpdateTargetLocation(this.TargetRestaurant.IncomingCustomers[LineNumber-1].GlobalPosition);
-		// Vector3 currentLocation = this.GlobalTransform.Origin;
-		// Vector3 nextLocation = _nav_agent.GetNextPathPosition();
-
-		// velocity = (nextLocation - currentLocation).Normalized() * Speed;
-		// if (!IsOnFloor())
-		// 	velocity.Y -= Gravity;
-		// this._nav_agent.SetVelocity(velocity);
-		// if((_nav_agent.TargetPosition -this.GlobalPosition).Length() <= 0.55f) 
-		// 	_on_navigation_agent_3d_target_reached();
-
 	}
 
 	public override void _PhysicsProcess(double delta) 
 	{
-		Vector3 velocity = Velocity;
 		if(Waiting) 
 			return;
 
+		Vector3 velocity = Velocity;
+
 		if(LineNumber != 0)
 			UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber-1].GlobalPosition);
+
 		Vector3 currentLocation = GlobalTransform.Origin;
 		Vector3 nextLocation = _nav_agent.GetNextPathPosition();
 
@@ -115,8 +103,23 @@ public partial class CustomerBase : CharacterBody3D
 		OrderFinished = true;
 	}
 
+	public void StartTimer()
+	{
+		_timer.Start();
+	}
+
+	public void _on_timer_timeout()
+	{
+		Waiting = false;
+		if(TargetRestaurant.IncomingCustomers.Count-1 > LineNumber )
+			TargetRestaurant.IncomingCustomers[LineNumber+1].StartTimer();
+	}
+
 	private void _on_navigation_agent_3d_target_reached()
 	{		
+		if(Waiting)
+			return;
+
 		if(OrderFinished)
 		{
 			QueueFree();
