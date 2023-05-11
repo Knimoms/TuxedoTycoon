@@ -58,13 +58,13 @@ public partial class RestaurantBase : Node3D
 				break;
 			}
 			IncomingCustomers[i] = IncomingCustomers[i+1];
-			IncomingCustomers[i].Waiting = false;
 			IncomingCustomers[i].LineNumber--;
 		}
 
 		if(IncomingCustomers.Count > 0) 
 		{
 			IncomingCustomers[0].FirstInQueue();
+			IncomingCustomers[0].StartTimer();
 		}
 
 	}

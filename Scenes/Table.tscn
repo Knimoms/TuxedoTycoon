@@ -1,18 +1,53 @@
-[gd_scene load_steps=3 format=3 uid="uid://bnxpd862sg5gk"]
+[gd_scene load_steps=4 format=3 uid="uid://bnxpd862sg5gk"]
+
+[ext_resource type="Script" path="res://Scripts/Table.cs" id="1_r75ph"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imegb"]
 albedo_color = Color(0.466667, 0.207843, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_goej5"]
-size = Vector3(2, 1, 1)
+size = Vector3(3.5, 1, 1)
 
 [node name="Table" type="Node3D"]
+script = ExtResource("1_r75ph")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-size = Vector3(2, 1, 1)
+size = Vector3(3.5, 1, 1)
 material = SubResource("StandardMaterial3D_imegb")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="CSGBox3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_goej5")
+
+[node name="Chair" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0.85)
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Chair2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.85)
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Chair3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.85)
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Chair4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0.85)
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Chair5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -0.85)
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Chair6" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.85)
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Chair7" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.85)
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Chair8" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -0.85)
+size = Vector3(0.5, 0.5, 0.5)
