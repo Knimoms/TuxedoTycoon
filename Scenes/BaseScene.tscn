@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/BaseScript.cs" id="1_qa78j"]
 [ext_resource type="Script" path="res://Scripts/Camera.cs" id="3_i1l3r"]
 [ext_resource type="PackedScene" uid="uid://egt63r8nwgsg" path="res://Scenes/CourtArea1.tscn" id="4_uyv0w"]
-[ext_resource type="PackedScene" uid="uid://im5c0neq0f0b" path="res://Scenes/CourtArea2.tscn" id="5_rlmnq"]
+[ext_resource type="PackedScene" uid="uid://bx1lgjbu1skkc" path="res://Scenes/CourtArea2.tscn" id="5_rlmnq"]
 [ext_resource type="PackedScene" uid="uid://bpr66gyk6epct" path="res://Scenes/CourtArea3.tscn" id="6_couqy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jaba8"]

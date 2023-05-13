@@ -1,11 +1,14 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Table : Node3D
 {
-	// Called when the node enters the scene tree for the first time.
+	public List<Chair> Chairs = new();
 	public override void _Ready()
 	{
+		GetParent<CourtArea>().Tables.Add(this);
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
