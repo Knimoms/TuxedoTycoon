@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://disscfurrtlqc"]
+[gd_scene load_steps=5 format=3 uid="uid://disscfurrtlqc"]
 
 [ext_resource type="Script" path="res://Scripts/RestaurantBase.cs" id="1_bbiq6"]
 
@@ -6,6 +6,8 @@
 albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_upncr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sx0ul"]
 
 [node name="Restaurant" type="Node3D"]
 script = ExtResource("1_bbiq6")
@@ -24,19 +26,13 @@ shape = SubResource("BoxShape3D_upncr")
 wait_time = 7.0
 one_shot = true
 
-[node name="UpgradePopupMenu" type="PopupMenu" parent="."]
-initial_position = 1
-size = Vector2i(175, 110)
+[node name="OrderWindows" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.419135, 0.975156)
+visible = false
 
-[node name="NameLabel" type="Label" parent="UpgradePopupMenu"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -41.5
-offset_right = 41.5
-offset_bottom = 26.0
-grow_horizontal = 2
-text = "Spot name"
+[node name="CSGBox3D" type="CSGBox3D" parent="OrderWindows"]
+visible = false
+material = SubResource("StandardMaterial3D_sx0ul")
 
 [node name="CostLabel" type="Label" parent="UpgradePopupMenu"]
 anchors_preset = 8

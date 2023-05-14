@@ -5,12 +5,16 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q4und"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_lqn3h"]
+radius = 0.25
+height = 1.0
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_layer = 2
 script = ExtResource("1_qwucy")
+EatingTime = 15.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_q4und")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -18,5 +22,14 @@ mesh = SubResource("CapsuleMesh_lqn3h")
 skeleton = NodePath("../..")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 0.4
+radius = 0.1
+neighbor_distance = 4.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
 
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
+[connection signal="velocity_computed" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_velocity_computed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

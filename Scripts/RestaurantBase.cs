@@ -6,8 +6,6 @@ public partial class RestaurantBase : Node3D
 {
 	public Tuxdollar MealPrice, OriginalMealPrice, Cost;
 	public double WaitTime;
-	[Export]
-	public int CustomerCapacity = 3;
 	public CustomerBase CurrentCustomer;
 
 	public List<CustomerBase> IncomingCustomers;
@@ -58,13 +56,13 @@ public partial class RestaurantBase : Node3D
 				break;
 			}
 			IncomingCustomers[i] = IncomingCustomers[i+1];
-			IncomingCustomers[i].Waiting = false;
 			IncomingCustomers[i].LineNumber--;
 		}
 
 		if(IncomingCustomers.Count > 0) 
 		{
 			IncomingCustomers[0].FirstInQueue();
+			IncomingCustomers[0].StartTimer();
 		}
 
 	}
@@ -89,6 +87,11 @@ public partial class RestaurantBase : Node3D
 		this.MealPrice *= 4;
 		this.Cost *= 4;
 		Lvl++;
+	}
+
+	public void Refund()
+	{
+		_base_script.TransferMoney(-MealPrice);
 	}
 }
 

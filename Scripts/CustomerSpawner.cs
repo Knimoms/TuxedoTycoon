@@ -38,6 +38,7 @@ public partial class CustomerSpawner : Node3D
 		}
 
 		_timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count;
+		if(Rests.Count == 1) _timer.Start();
 	}
 	private void _on_timer_timeout()
 	{
@@ -45,7 +46,9 @@ public partial class CustomerSpawner : Node3D
 		CustomerBase customer = this.CustomerScene.Instantiate<CustomerBase>();
 		customer.TargetRestaurant = Rests[_rnd.Next(0,Rests.Count)];
 		customer.Position = this.Position;
-		this.AddSibling(customer);
+		AddSibling(customer);
+		customer.SpawnPoint = GlobalPosition;
+
 	}
 
 
