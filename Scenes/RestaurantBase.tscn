@@ -35,7 +35,6 @@ visible = false
 material = SubResource("StandardMaterial3D_sx0ul")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-initial_position = 1
 size = Vector2i(175, 115)
 
 [node name="CostLabel" type="Label" parent="PopupMenu"]

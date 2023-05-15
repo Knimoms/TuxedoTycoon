@@ -117,7 +117,7 @@ public partial class RestaurantBase : Node3D
 		_nameLabel.Text = "Restaurant Name";
 		_costLabel.Text = $"Cost: {Cost * 4}";
 		
-		_popupMenu.Popup();
+		_popupMenu.PopupCentered();
 		_popupMenuOpen = true;
 	}
 
@@ -134,7 +134,6 @@ public partial class RestaurantBase : Node3D
 			ShowPopupMenu();
 		}
 	}
-
 
 	private void _on_cancel_button_pressed()
 	{
