@@ -50,6 +50,4 @@ public partial class CustomerSpawner : Node3D
 		customer.SpawnPoint = GlobalPosition;
 
 	}
-
-
 }

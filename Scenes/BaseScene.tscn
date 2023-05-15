@@ -18,7 +18,7 @@ StartMoneyValue = 1500.0
 StartMoneyMagnitude = "b"
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.821149, 0.570714, 0, -0.570714, 0.821149, -5.82905, 6.80891, 5.56037)
+transform = Transform3D(0.707107, 0.579228, -0.40558, 0, 0.573576, 0.819152, 0.707107, -0.579228, 0.40558, -19.8213, 19.1461, 15.2947)
 current = true
 script = ExtResource("3_i1l3r")
 

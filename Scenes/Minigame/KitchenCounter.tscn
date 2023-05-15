@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://di28cuvuh4c7n"]
+
+[ext_resource type="PackedScene" uid="uid://hyi1b7rjytx7" path="res://Scenes/Minigame/Ingredient.tscn" id="1_gj7w4"]
+[ext_resource type="Script" path="res://Scripts/KitchenCounter.cs" id="1_ttbin"]
+[ext_resource type="PackedScene" uid="uid://bftgfbxtcwm0l" path="res://Scenes/Minigame/FoodSpawner.tscn" id="3_o0pjc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2672r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b0bhg"]
+albedo_color = Color(0.717647, 0.717647, 0.717647, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ijcrx"]
+
+[node name="KitchenCounter" type="Node3D"]
+script = ExtResource("1_ttbin")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.68269, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_2672r")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_b0bhg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_ijcrx")
+
+[node name="Ingredient1" parent="." instance=ExtResource("1_gj7w4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.25, 0)
+IngName = "Ing1"
+
+[node name="Ingredient2" parent="." instance=ExtResource("1_gj7w4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.25, 0)
+IngName = "Ing2"
+
+[node name="Ingredient3" parent="." instance=ExtResource("1_gj7w4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, 0)
+IngName = "Ing3"
+
+[node name="Ingredient4" parent="." instance=ExtResource("1_gj7w4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.25, 0)
+IngName = "Ing4"
+
+[node name="Ingredient5" parent="." instance=ExtResource("1_gj7w4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.25, 0)
+IngName = "Ing5"
+
+[node name="Ingredient6" parent="." instance=ExtResource("1_gj7w4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.25, 0)
+IngName = "Ing6"
+
+[node name="FoodSpawner" parent="." instance=ExtResource("3_o0pjc")]
+transform = Transform3D(2.01275, 0, 0, 0, 0.0926445, 0, 0, 0, 1, 0, 0.25, 0)
