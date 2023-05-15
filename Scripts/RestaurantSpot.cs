@@ -17,6 +17,7 @@ public partial class RestaurantSpot : Node3D
 
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
+	private Button _confirmationButton;
 
 	
 	// Called when the node enters the scene tree for the first time.
@@ -33,6 +34,7 @@ public partial class RestaurantSpot : Node3D
 		_popupMenu.PopupCentered();
 		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
+		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
 		// Set the label text for the Cost label
 		_costLabel.Text = $"Cost: {Cost}";
@@ -40,6 +42,8 @@ public partial class RestaurantSpot : Node3D
 		// Connect signals for ConfirmationButton and CancelButton
 		//_popupMenu.GetNode<Button>("ConfirmationButton").Connect("pressed", Callable.From(this._on_confirmation_button_pressed));
 		//_popupMenu.GetNode<Button>("CancelButton").Connect("pressed", Callable.From(this._on_cancel_button_pressed));
+		_confirmationButton.Connect("pressed", Callable.From(this._on_confirmation_button_pressed));
+		_popupMenu.GetNode<Button>("CancelButton").Connect("pressed", Callable.From(this._on_cancel_button_pressed));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -80,74 +84,19 @@ public partial class RestaurantSpot : Node3D
 		_popupMenu.Hide();
 	}
 
+	 public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseMotion motionEvent)
+		{
+			if (_parent.Parent.Money < Cost)
+			{
+				_confirmationButton.Disabled = true;
+			}
+			else
+			{
+				_confirmationButton.Disabled = false;
+			}
+		}
+	}
 	
 }
-
-	// public void openRestaurantOptions()
-	// {
-	// 	if(_myRestaurant != null) return;
-	// 	GD.Print(this.Position);
-	// 	RestaurantOptions.Text = $"1: 1400$\n2: {130*14}$\n3: {160*14}$\n4: {190*14}$\n5: {220*14}$\n6: {250*14}$\n7: {280*14}$\n8: {310*14}$\n9: {340*14}$\n";
-	// 	_menu_Open = true;
-	// }
-
-
-	// public void closeRestaurantOptions()
-	// {
-	// 	RestaurantOptions.Text = $"";
-	// 	_menu_Open = false;
-	// }
-
-	// public override void _UnhandledInput(InputEvent @event)
-	// {
-	// 	string[] number = {"1","2","3","4","5","6","7","8","9"};
-	// 	if(!Array.Exists(number, element => element == @event.AsText()) || !_menu_Open) return;
-	// 	closeRestaurantOptions();
-
-	// 	int Value = -1;
-	// 	switch(@event.AsText())
-	// 	{
-	// 		case "1": 
-	// 			Value = 100;
-	// 			break;
-
-	// 		case "2": 
-	// 			Value = 130;
-	// 			break;
-			
-	// 		case "3": 
-	// 			Value = 160;			
-	// 			break;
-			
-	// 		case "4": 
-	// 			Value = 190;			
-	// 			break;
-
-	// 		case "5": 
-	// 			Value = 220;
-	// 			break;
-
-	// 		case "6": 
-	// 			Value = 250;
-	// 			break;
-				
-	// 		case "7": 
-	// 			Value = 280;
-	// 			break;
-
-	// 		case "8": 
-	// 			Value = 310;
-	// 			break;
-
-	// 		case "9": 
-	// 			Value = 340;
-	// 			break;
-
-	// 	}
-
-	// 	if(Parent.Money<Value*14 || Value < 0 ) return;
-	// 	GD.Print(this.Name);
-	// 	_createRestaurant(Value, Value*14);
-
-
-	// }
