@@ -21,7 +21,17 @@ public partial class RestaurantBase : Node3D
 	}
 
 	public int Lvl = 1;
+	
 	private Timer _timer;
+	
+	private PopupMenu _popupMenu;
+	private Button _upgradeButton;
+	private Button _cancelButton;
+	private Label _costLabel;
+	private Label _nameLabel;
+	
+	private bool _popupMenuOpen = false;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
@@ -33,12 +43,22 @@ public partial class RestaurantBase : Node3D
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = this.WaitTime;
 		_parent.Restaurants.Add(this);
+		
+		_popupMenu = GetNode<PopupMenu>("PopupMenu");
+		_upgradeButton = _popupMenu.GetNode<Button>("UpgradeButton");
+		_cancelButton = _popupMenu.GetNode<Button>("CancelButton");
+		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
+		_nameLabel = _popupMenu.GetNode<Label>("NameLabel");
+
+		_upgradeButton.Disabled = true;
+		//_upgradeButton.Connect("pressed", this, "_on_upgrade_button_pressed");
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
+		 _upgradeButton.Disabled = _base_script.Money < Cost * 4;
 	}
 
 	private void _on_timer_timeout()
@@ -70,7 +90,8 @@ public partial class RestaurantBase : Node3D
 	private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
 		if(Input.IsActionJustPressed("place")) 
-			LevelUp();
+			ShowPopupMenu();
+			//LevelUp();
 	}
 
 	public void Order()
@@ -87,22 +108,40 @@ public partial class RestaurantBase : Node3D
 		this.MealPrice *= 4;
 		this.Cost *= 4;
 		Lvl++;
+		_costLabel.Text = $"Cost: {Cost * 4}";
+	}
+	
+	public void ShowPopupMenu()
+	{
+		// Set the name and cost in the PopupMenu
+		_nameLabel.Text = "Restaurant Name";
+		_costLabel.Text = $"Cost: {Cost * 4}";
+		
+		_popupMenu.Popup();
+		_popupMenuOpen = true;
 	}
 
 	public void Refund()
 	{
 		_base_script.TransferMoney(-MealPrice);
 	}
+
+	private void _on_upgrade_button_pressed()
+	{
+		if (_popupMenuOpen)
+		{
+			LevelUp();
+			ShowPopupMenu();
+		}
+	}
+
+
+	private void _on_cancel_button_pressed()
+	{
+		if (_popupMenu.Visible)
+		{
+			_popupMenu.Hide();
+			_popupMenuOpen = false;
+		}
+	}
 }
-
-
-//private void _on_confirmation_button_pressed()
-//{
-//	// Replace with function body.
-//}
-//
-//
-//private void _on_cancel_button_pressed()
-//{
-//	_popupMenu.Hide();
-//}

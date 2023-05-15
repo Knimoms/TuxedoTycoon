@@ -11,7 +11,6 @@ height = 1.0
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_qwucy")
-EatingTime = 15.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
