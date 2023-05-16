@@ -28,6 +28,7 @@ public partial class CustomerBase : CharacterBody3D
 	public bool OrderFinished = false;
 	public bool Eating = false;
 	private Chair _my_chair;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -99,11 +100,9 @@ public partial class CustomerBase : CharacterBody3D
 		_my_chair = _parent.GetRandomFreeChair();
 		if(_my_chair == null)
 		{
-			GD.Print("grrrrr");
 			TargetRestaurant.Refund();
 			UpdateTargetLocation(SpawnPoint);
 			return;
-
 		}
 		_my_chair.Occupied = true;
 		UpdateTargetLocation(_my_chair.GlobalPosition);

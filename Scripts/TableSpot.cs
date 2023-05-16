@@ -1,20 +1,16 @@
 using Godot;
 using System;
 
-public partial class RestaurantSpot : Node3D
+public partial class TableSpot : Node3D
 {
-
 	private CourtArea _parent;
 	[Export]
-	public PackedScene RestaurantScene;
+	public PackedScene TableScene;
 	[Export]
-	public float MealPriceValue, CostValue;
+	public float CostValue;
 	[Export]
-	public string MealPriceMagnitude, CostMagnitude;
-	public static Tuxdollar MealPrice = new Tuxdollar(), Cost = new Tuxdollar();
-	[Export]
-	public double  WaitTime;
-
+	public string CostMagnitude;
+	public Tuxdollar Cost;
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
@@ -25,12 +21,7 @@ public partial class RestaurantSpot : Node3D
 	{	
 		_parent = (CourtArea)this.GetParent();	
 		
-		if(MealPrice == new Tuxdollar())
-		{
-			GD.Print("gemacht");
-			MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
-			Cost = new Tuxdollar(CostValue, CostMagnitude);
-		}
+		Cost = new Tuxdollar(CostValue, CostMagnitude);
 
 		// Get references to child nodes
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
@@ -40,8 +31,14 @@ public partial class RestaurantSpot : Node3D
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		// Set the label text for the Cost label
+		Table tempTable = TableScene.Instantiate<Table>();
+		CsgBox3D tempTableBox = (CsgBox3D)tempTable.GetNode("CSGBox3D");
+	
+		Scale = new Vector3(tempTableBox.Scale.X, 1f, tempTableBox.Scale.Z);
+		tempTable.QueueFree();
 
+		// Set the label text for the Cost label
+		_costLabel.Text = $"Cost: {Cost}";		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,33 +49,21 @@ public partial class RestaurantSpot : Node3D
 
 	private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
-		if(Input.IsActionJustPressed("place")) 
-		{
-            _popupMenu.Popup();	
-			_costLabel.Text = $"Cost: {Cost}";
-		}
+		if(Input.IsActionJustPressed("place") && !_popupMenu.Visible) 
+			_popupMenu.Popup();
 	}
 
 	private void _on_confirmation_button_pressed()
 	{
 		if(_parent.Parent.Money < Cost) return;
 		_parent.Parent.TransferMoney(-Cost);
-		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
-		rest.Position = this.Position + Vector3.Up;
-		rest.Rotation = this.Rotation;
-		rest.MealPrice = MealPrice;
-		rest.WaitTime = WaitTime;
-		rest.Cost = Cost;
+		Table table = TableScene.Instantiate<Table>();
+		table.Position = this.Position;
+		table.Rotation = this.Rotation;
 		this.QueueFree();
-		_parent.AddChild(rest);
-		//GD.Print(_parent.Restaurants[0]);
-		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
+		_parent.AddChild(table);
 
-		// Hide the PopupMenu
 		_popupMenu.Hide();
-
-		Cost *= 8;
-		MealPrice = Cost/2;
 	}
 
 	private void _on_cancel_button_pressed()
@@ -101,5 +86,4 @@ public partial class RestaurantSpot : Node3D
 			}
 		}
 	}
-	
 }

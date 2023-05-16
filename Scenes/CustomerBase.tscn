@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://x4vslxm84nv0"]
+[gd_scene load_steps=4 format=3 uid="uid://dbvu4fxtfuar5"]
 
 [ext_resource type="Script" path="res://Scripts/CustomerBase.cs" id="1_qwucy"]
 
@@ -11,6 +11,7 @@ height = 1.0
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_qwucy")
+EatingTime = 9.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)

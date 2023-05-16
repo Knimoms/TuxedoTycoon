@@ -4,10 +4,10 @@ using System;
 public partial class Chair : Node3D
 {
 	public bool Occupied = false;
+	static int i = 0;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print(GetParent().GetParent<CourtArea>()+ "hallo");
 		GetParent().GetParent<CourtArea>().Chairs.Add(this);
 	}
 

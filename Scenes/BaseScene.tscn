@@ -15,7 +15,7 @@ size = Vector3(42, 0.001, 28)
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_qa78j")
 StartMoneyValue = 1500.0
-StartMoneyMagnitude = "b"
+StartMoneyMagnitude = "c"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.707107, 0.579228, -0.40558, 0, 0.573576, 0.819152, 0.707107, -0.579228, 0.40558, -19.8213, 19.1461, 15.2947)

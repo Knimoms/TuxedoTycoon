@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://j61ap0yiqc0s"]
+[gd_scene load_steps=5 format=3 uid="uid://bw7b55xxc33jf"]
 
 [ext_resource type="PackedScene" uid="uid://4mbprmknn88q" path="res://Scenes/Chair.tscn" id="1_8burc"]
 [ext_resource type="Script" path="res://Scripts/Table.cs" id="1_pxhfq"]
@@ -24,48 +24,64 @@ shape = SubResource("BoxShape3D_jo20k")
 
 [node name="Chair" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 2.1)
+visible = false
 
 [node name="Chair2" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 2.1)
+visible = false
 
 [node name="Chair3" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 2.1)
+visible = false
 
 [node name="Chair4" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 2.1)
+visible = false
 
 [node name="Chair5" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -2.1)
+visible = false
 
 [node name="Chair6" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -2.1)
+visible = false
 
 [node name="Chair7" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -2.1)
+visible = false
 
 [node name="Chair8" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -2.1)
+visible = false
 
 [node name="Chair9" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, -1.5)
+visible = false
 
 [node name="Chair10" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, -0.5)
+visible = false
 
 [node name="Chair11" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, 0.5)
+visible = false
 
 [node name="Chair12" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, 1.5)
+visible = false
 
 [node name="Chair13" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, -1.5)
+visible = false
 
 [node name="Chair14" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, -0.5)
+visible = false
 
 [node name="Chair15" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, 0.5)
+visible = false
 
 [node name="Chair16" parent="." instance=ExtResource("1_8burc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, 1.5)
+visible = false

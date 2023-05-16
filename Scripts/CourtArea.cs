@@ -6,7 +6,6 @@ public partial class CourtArea : Node
 {
 	public BaseScript Parent;
 	public List<RestaurantBase> Restaurants;
-	public List<Table> Tables = new();
 	public List<Chair> Chairs = new();
 
 	Random rnd;

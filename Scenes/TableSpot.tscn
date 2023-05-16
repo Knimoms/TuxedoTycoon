@@ -1,32 +1,28 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4wr8utngspv5"]
+[gd_scene load_steps=5 format=3 uid="uid://crdgas7odksd"]
 
-[ext_resource type="Script" path="res://Scripts/RestaurantSpot.cs" id="1_pd7cs"]
-[ext_resource type="PackedScene" uid="uid://b7lbgu2o1yxrf" path="res://Scenes/RestaurantBase.tscn" id="2_mmf73"]
+[ext_resource type="Script" path="res://Scripts/TableSpot.cs" id="1_iaqeq"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_vbj3r"]
+[sub_resource type="BoxMesh" id="BoxMesh_aexd0"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72sqy"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1q7hf"]
 albedo_color = Color(0.717647, 0.717647, 0.717647, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jj7wh"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_ouw6b"]
 
-[node name="RestaurantSpot" type="Node3D"]
-script = ExtResource("1_pd7cs")
-RestaurantScene = ExtResource("2_mmf73")
-MealPriceValue = 700.0
-CostValue = 1400.0
-WaitTime = 0.5
+[node name="TableSpot" type="Node3D"]
+script = ExtResource("1_iaqeq")
+CostValue = 1500.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 0.01, 0, 0, 0, 2, 0, 0, 0)
-mesh = SubResource("BoxMesh_vbj3r")
+transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_aexd0")
 skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_72sqy")
+surface_material_override/0 = SubResource("StandardMaterial3D_1q7hf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_jj7wh")
+shape = SubResource("BoxShape3D_ouw6b")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 initial_position = 1
@@ -51,7 +47,6 @@ offset_top = -31.0
 offset_right = 71.0
 grow_vertical = 0
 size_flags_horizontal = 0
-action_mode = 0
 text = "Confirm"
 
 [node name="CancelButton" type="Button" parent="PopupMenu"]

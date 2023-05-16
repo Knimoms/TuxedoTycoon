@@ -32,6 +32,7 @@ public partial class RestaurantBase : Node3D
 	
 	private bool _popupMenuOpen = false;
 	
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
@@ -58,7 +59,7 @@ public partial class RestaurantBase : Node3D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		 _upgradeButton.Disabled = _base_script.Money < Cost * 4;
+		 
 	}
 
 	private void _on_timer_timeout()
@@ -113,11 +114,14 @@ public partial class RestaurantBase : Node3D
 	
 	public void ShowPopupMenu()
 	{
+		_upgradeButton.Disabled = _base_script.Money < Cost * 4;
+
 		// Set the name and cost in the PopupMenu
 		_nameLabel.Text = "Restaurant Name";
 		_costLabel.Text = $"Cost: {Cost * 4}";
 		
 		_popupMenu.PopupCentered();
+
 		_popupMenuOpen = true;
 	}
 
