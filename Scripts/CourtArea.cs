@@ -8,7 +8,7 @@ public partial class CourtArea : Node3D
 	public List<RestaurantBase> Restaurants;
 	public List<Chair> Chairs = new();
 
-	Random rnd;
+	Random rnd = new();
 	// Called when the node enters the scene tree for the first time.
 
 	public override void _Ready()

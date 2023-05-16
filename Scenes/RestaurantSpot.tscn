@@ -15,7 +15,7 @@ script = ExtResource("1_pd7cs")
 RestaurantScene = ExtResource("2_mmf73")
 MealPriceValue = 700.0
 CostValue = 1400.0
-WaitTime = 8.0
+WaitTime = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 0.01, 0, 0, 0, 2, 0, 0, 0)
