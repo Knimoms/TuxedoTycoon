@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bftgfbxtcwm0l"]
+[gd_scene load_steps=5 format=3 uid="uid://bftgfbxtcwm0l"]
 
 [ext_resource type="Script" path="res://Scripts/FoodSpawner.cs" id="1_5pnpv"]
+[ext_resource type="PackedScene" uid="uid://cvfwcsl6cph4y" path="res://Scenes/Minigame/FoodBase.tscn" id="2_nsotb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_prhml"]
 albedo_color = Color(0.741176, 0.360784, 0.101961, 1)
@@ -10,6 +11,7 @@ albedo_color = Color(0.741176, 0.360784, 0.101961, 1)
 [node name="FoodSpawner" type="Node3D"]
 transform = Transform3D(2.01275, 0, 0, 0, 0.0926445, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_5pnpv")
+FoodBaseScene = ExtResource("2_nsotb")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)

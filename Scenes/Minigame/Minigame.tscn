@@ -15,7 +15,7 @@ script = ExtResource("1_je4sk")
 transform = Transform3D(-1, -2.45367e-08, 8.39088e-08, 0, 0.959805, 0.280667, -8.74228e-08, 0.280667, -0.959805, 0, 2.383, -3.715)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.785587, -0.322864, 0.527837, -4.56171e-08, 0.853068, 0.521799, -0.618751, 0.409918, -0.67016, 3.64697, 4.18169, -5.03763)
+transform = Transform3D(0.374898, -0.483742, 0.790851, -2.71769e-08, 0.853068, 0.521799, -0.927066, -0.195621, 0.319813, 5.95594, 4.02331, 3.5285)
 
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -0.75, 0)
