@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Scripts/Camera.cs" id="3_i1l3r"]
 [ext_resource type="PackedScene" uid="uid://egt63r8nwgsg" path="res://Scenes/CourtArea1.tscn" id="4_uyv0w"]
 [ext_resource type="PackedScene" uid="uid://bx1lgjbu1skkc" path="res://Scenes/CourtArea2.tscn" id="5_rlmnq"]
-[ext_resource type="PackedScene" path="res://Scenes/CourtAreaSpot.tscn" id="6_27c18"]
+[ext_resource type="PackedScene" uid="uid://dhpqyitla264o" path="res://Scenes/CourtAreaSpot.tscn" id="6_27c18"]
 [ext_resource type="PackedScene" uid="uid://bpr66gyk6epct" path="res://Scenes/CourtArea3.tscn" id="6_couqy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_06vv6"]
@@ -56,10 +56,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
 CourtAreaScene = ExtResource("6_couqy")
 
 [node name="Button" type="Button" parent="."]
-offset_left = 1006.0
-offset_top = 554.0
-offset_right = 1152.0
-offset_bottom = 648.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -146.0
+offset_top = -94.0
+grow_horizontal = 0
+grow_vertical = 0
 toggle_mode = true
 text = "Build"
 

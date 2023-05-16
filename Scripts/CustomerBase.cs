@@ -61,7 +61,7 @@ public partial class CustomerBase : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		this.Rotate(Vector3.Up, (float)(5*delta));
-		
+
 		if (Waiting || Eating)
 			return;
 

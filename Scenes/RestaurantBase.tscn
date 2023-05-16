@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://disscfurrtlqc"]
+[gd_scene load_steps=5 format=3 uid="uid://b7lbgu2o1yxrf"]
 
 [ext_resource type="Script" path="res://Scripts/RestaurantBase.cs" id="1_bbiq6"]
 
@@ -83,11 +83,6 @@ grow_vertical = 0
 toggle_mode = true
 action_mode = 0
 text = "Upgrade"
-
-[node name="Button" type="Button" parent="PopupMenu"]
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Minigame"
 
 [connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
