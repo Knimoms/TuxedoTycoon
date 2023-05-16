@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public partial class TableSpot : Node3D
+public partial class CourtAreaSpot : Node3D
 {
-	private CourtArea _parent;
+	private BaseScript _parent;
 	[Export]
-	public PackedScene TableScene;
+	public PackedScene CourtAreaScene;
 	[Export]
 	public float CostValue;
 	[Export]
@@ -19,7 +19,7 @@ public partial class TableSpot : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		_parent = (CourtArea)this.GetParent();	
+		_parent = (BaseScript)this.GetParent();	
 		
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
 
@@ -31,16 +31,8 @@ public partial class TableSpot : Node3D
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		Table tempTable = TableScene.Instantiate<Table>();
-		CsgBox3D tempTableBox = (CsgBox3D)tempTable.GetNode("CSGBox3D");
-	
-		Scale = new Vector3(tempTableBox.Scale.X, 1f, tempTableBox.Scale.Z);
-		tempTable.QueueFree();
-
-		_parent.GetParent<BaseScript>().Spots.Add(this);
-
-
 		// Set the label text for the Cost label
+		_parent.Spots.Add(this);
 		_costLabel.Text = $"Cost: {Cost}";		
 	}
 
@@ -58,14 +50,13 @@ public partial class TableSpot : Node3D
 
 	private void _on_confirmation_button_pressed()
 	{
-		if(_parent.Parent.Money < Cost) return;
-		_parent.Parent.TransferMoney(-Cost);
-		Table table = TableScene.Instantiate<Table>();
-		table.Position = this.Position;
-		table.Rotation = this.Rotation;
-		_parent.Parent.Spots.Remove(this);
+		if(_parent.Money < Cost) return;
+		_parent.TransferMoney(-Cost);
+		CourtArea courtArea = CourtAreaScene.Instantiate<CourtArea>();
+		courtArea.Position = this.Position;
+		AddSibling(courtArea);
+		_parent.Spots.Remove(this);
 		this.QueueFree();
-		_parent.AddChild(table);
 
 		_popupMenu.Hide();
 	}
@@ -80,7 +71,7 @@ public partial class TableSpot : Node3D
 	{
 		if (@event is InputEventMouseMotion motionEvent)
 		{
-			if (_parent.Parent.Money < Cost)
+			if (_parent.Money < Cost)
 			{
 				_confirmationButton.Disabled = true;
 			}

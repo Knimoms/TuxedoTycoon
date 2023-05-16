@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class CourtArea : Node
+public partial class CourtArea : Node3D
 {
 	public BaseScript Parent;
 	public List<RestaurantBase> Restaurants;
@@ -13,7 +13,6 @@ public partial class CourtArea : Node
 
 	public override void _Ready()
 	{
-		rnd = new();
 		Parent = (BaseScript)this.GetParent();
 		Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
 	}

@@ -11,11 +11,16 @@ public partial class BaseScript : Node
 
 	public Tuxdollar Money;
 	public Label MoneyLabel;
+
+	public List<Node3D> Spots = new();
 	//private RestaurantBase _rest;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		foreach(Node3D n3d in Spots)
+			n3d.Visible = false;
+		
 		this.Money = new Tuxdollar();
 		this.MoneyLabel = (Label)GetNode("MoneyLabel");
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
@@ -45,6 +50,13 @@ public partial class BaseScript : Node
 	{
 		this.Money += Money;
 		MoneyLabel.Text = $"Money: {this.Money}";
+	}
+
+	public void _on_button_toggled(bool button_pressed)
+	{
+		GD.Print("muuh");
+		foreach(Node3D n3d in Spots)
+			n3d.Visible = button_pressed;
 	}
 	
 	/*

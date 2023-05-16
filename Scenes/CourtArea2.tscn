@@ -26,10 +26,10 @@ script = ExtResource("1_xs83v")
 size = Vector3(14, 0.001, 28)
 material = SubResource("StandardMaterial3D_bm6w8")
 
-[node name="RestaurantSpot4" parent="." instance=ExtResource("2_wbhg8")]
+[node name="RestaurantSpot" parent="." instance=ExtResource("2_wbhg8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12.99)
 
-[node name="RestaurantSpot6" parent="." instance=ExtResource("2_wbhg8")]
+[node name="RestaurantSpot2" parent="." instance=ExtResource("2_wbhg8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -12.99)
 
 [node name="RestaurantSpot7" parent="." instance=ExtResource("2_wbhg8")]

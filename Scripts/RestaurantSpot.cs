@@ -27,7 +27,6 @@ public partial class RestaurantSpot : Node3D
 		
 		if(MealPrice == new Tuxdollar())
 		{
-			GD.Print("gemacht");
 			MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
 			Cost = new Tuxdollar(CostValue, CostMagnitude);
 		}
@@ -40,8 +39,10 @@ public partial class RestaurantSpot : Node3D
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		// Set the label text for the Cost label
+		_parent.Parent ??=  _parent.GetParent<BaseScript>();
+		_parent.Parent.Spots.Add(this);
 
+		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -54,31 +55,41 @@ public partial class RestaurantSpot : Node3D
 	{
 		if(Input.IsActionJustPressed("place")) 
 		{
-            _popupMenu.Popup();	
+            _popupMenu.PopupCentered();	
 			_costLabel.Text = $"Cost: {Cost}";
 		}
 	}
 
-	private void _on_confirmation_button_pressed()
+	private void _instantiate_restaurant()
 	{
-		if(_parent.Parent.Money < Cost) return;
-		_parent.Parent.TransferMoney(-Cost);
 		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
 		rest.Position = this.Position + Vector3.Up;
 		rest.Rotation = this.Rotation;
 		rest.MealPrice = MealPrice;
 		rest.WaitTime = WaitTime;
 		rest.Cost = Cost;
+		_parent.Parent.Spots.Remove(this);
 		this.QueueFree();
 		_parent.AddChild(rest);
 		//GD.Print(_parent.Restaurants[0]);
 		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
 
+	}
+
+	private void _on_confirmation_button_pressed()
+	{
+		if(_parent.Parent.Money < Cost) return;
+		_parent.Parent.TransferMoney(-Cost);
+		_instantiate_restaurant();
 		// Hide the PopupMenu
 		_popupMenu.Hide();
 
-		Cost *= 8;
-		MealPrice = Cost/2;
+		if(Name != "RestaurantSpot")
+		{
+			Cost *= 8;
+			MealPrice = Cost/2;
+		}
+		
 	}
 
 	private void _on_cancel_button_pressed()

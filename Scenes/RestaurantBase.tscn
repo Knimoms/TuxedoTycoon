@@ -84,6 +84,11 @@ toggle_mode = true
 action_mode = 0
 text = "Upgrade"
 
+[node name="Button" type="Button" parent="PopupMenu"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Minigame"
+
 [connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_cancel_button_pressed"]

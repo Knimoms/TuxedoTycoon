@@ -1,28 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://crdgas7odksd"]
+[gd_scene load_steps=5 format=3 uid="uid://dhpqyitla264o"]
 
-[ext_resource type="Script" path="res://Scripts/TableSpot.cs" id="1_iaqeq"]
+[ext_resource type="Script" path="res://Scripts/CourtAreaSpot.cs" id="1_snwgn"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_aexd0"]
+[sub_resource type="BoxMesh" id="BoxMesh_3urhy"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1q7hf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf26l"]
 albedo_color = Color(0.717647, 0.717647, 0.717647, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ouw6b"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_u81qv"]
 
-[node name="TableSpot" type="Node3D"]
-script = ExtResource("1_iaqeq")
-CostValue = 1500.0
+[node name="CourtAreaSpot" type="Node3D"]
+script = ExtResource("1_snwgn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("BoxMesh_aexd0")
+transform = Transform3D(13.75, 0, 0, 0, 0.01, 0, 0, 0, 27.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_3urhy")
 skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_1q7hf")
+surface_material_override/0 = SubResource("StandardMaterial3D_nf26l")
 
 [node name="Area3D" type="Area3D" parent="MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
-shape = SubResource("BoxShape3D_ouw6b")
+shape = SubResource("BoxShape3D_u81qv")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 initial_position = 1
@@ -60,6 +59,7 @@ offset_left = -60.0
 offset_top = -31.0
 grow_horizontal = 0
 grow_vertical = 0
+action_mode = 0
 text = "Cancel"
 
 [connection signal="input_event" from="MeshInstance3D/Area3D" to="." method="_on_area_3d_input_event"]

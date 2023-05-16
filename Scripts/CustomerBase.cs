@@ -28,6 +28,8 @@ public partial class CustomerBase : CharacterBody3D
 	public bool OrderFinished = false;
 	public bool Eating = false;
 	private Chair _my_chair;
+
+	
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -58,6 +60,8 @@ public partial class CustomerBase : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		this.Rotate(Vector3.Up, (float)(5*delta));
+		
 		if (Waiting || Eating)
 			return;
 
@@ -100,10 +104,12 @@ public partial class CustomerBase : CharacterBody3D
 		_my_chair = _parent.GetRandomFreeChair();
 		if(_my_chair == null)
 		{
+			GetNode<Sprite3D>("Sprite3D").Texture = (Texture2D)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.Refund();
 			UpdateTargetLocation(SpawnPoint);
 			return;
 		}
+		GetNode<Sprite3D>("Sprite3D").Texture = (Texture2D)GD.Load("res://Assets/HappyEnd.png");
 		_my_chair.Occupied = true;
 		UpdateTargetLocation(_my_chair.GlobalPosition);
 	}
@@ -127,6 +133,7 @@ public partial class CustomerBase : CharacterBody3D
 
 	public void StartEating()
 	{
+		GetNode<Sprite3D>("Sprite3D").Scale *= 0.5f;
 		GlobalPosition = _my_chair.GlobalPosition + Vector3.Up*0.5f;
 		Eating = true;
 		_timer.WaitTime = EatingTime;

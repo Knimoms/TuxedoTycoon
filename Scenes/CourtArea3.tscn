@@ -41,6 +41,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 13.6)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 6)
+visible = false
 navigation_mesh = SubResource("NavigationMesh_a7ttr")
 
 [node name="Floor" type="CSGBox3D" parent="NavigationRegion3D"]
