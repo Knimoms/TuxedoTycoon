@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bx1lgjbu1skkc"]
+[gd_scene load_steps=9 format=3 uid="uid://bx1lgjbu1skkc"]
 
 [ext_resource type="Script" path="res://Scripts/CourtArea.cs" id="1_xs83v"]
-[ext_resource type="PackedScene" uid="uid://b7ufojyyqg4n6" path="res://Scenes/RestaurantSpot.tscn" id="2_wbhg8"]
+[ext_resource type="PackedScene" uid="uid://c4wr8utngspv5" path="res://Scenes/RestaurantSpot.tscn" id="2_wbhg8"]
 [ext_resource type="PackedScene" uid="uid://ds4son0js0xq2" path="res://Scenes/CustomerSpawner.tscn" id="3_xalem"]
-[ext_resource type="PackedScene" uid="uid://bnxpd862sg5gk" path="res://Scenes/TableLongM.tscn" id="4_q5fkh"]
+[ext_resource type="PackedScene" uid="uid://crdgas7odksd" path="res://Scenes/TableSpot.tscn" id="4_k8wtx"]
+[ext_resource type="PackedScene" uid="uid://do0x5r8caj8je" path="res://Scenes/TableLongM.tscn" id="4_q5fkh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bm6w8"]
 albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
@@ -25,10 +26,10 @@ script = ExtResource("1_xs83v")
 size = Vector3(14, 0.001, 28)
 material = SubResource("StandardMaterial3D_bm6w8")
 
-[node name="RestaurantSpot4" parent="." instance=ExtResource("2_wbhg8")]
+[node name="RestaurantSpot" parent="." instance=ExtResource("2_wbhg8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12.99)
 
-[node name="RestaurantSpot6" parent="." instance=ExtResource("2_wbhg8")]
+[node name="RestaurantSpot2" parent="." instance=ExtResource("2_wbhg8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -12.99)
 
 [node name="RestaurantSpot7" parent="." instance=ExtResource("2_wbhg8")]
@@ -120,20 +121,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -0.3, 5)
 size = Vector3(5, 0.001, 3)
 material = SubResource("StandardMaterial3D_i3251")
 
-[node name="Table" parent="." instance=ExtResource("4_q5fkh")]
+[node name="TableSpot" parent="." instance=ExtResource("4_k8wtx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 3)
+TableScene = ExtResource("4_q5fkh")
 
-[node name="Table2" parent="." instance=ExtResource("4_q5fkh")]
+[node name="TableSpot2" parent="." instance=ExtResource("4_k8wtx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 7)
+TableScene = ExtResource("4_q5fkh")
 
-[node name="Table3" parent="." instance=ExtResource("4_q5fkh")]
+[node name="TableSpot3" parent="." instance=ExtResource("4_k8wtx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 11)
+TableScene = ExtResource("4_q5fkh")
 
-[node name="Table4" parent="." instance=ExtResource("4_q5fkh")]
+[node name="TableSpot4" parent="." instance=ExtResource("4_k8wtx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
+TableScene = ExtResource("4_q5fkh")
 
-[node name="Table5" parent="." instance=ExtResource("4_q5fkh")]
+[node name="TableSpot5" parent="." instance=ExtResource("4_k8wtx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 7)
+TableScene = ExtResource("4_q5fkh")
 
-[node name="Table6" parent="." instance=ExtResource("4_q5fkh")]
+[node name="TableSpot6" parent="." instance=ExtResource("4_k8wtx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 11)
+TableScene = ExtResource("4_q5fkh")

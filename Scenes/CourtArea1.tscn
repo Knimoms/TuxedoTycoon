@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://egt63r8nwgsg"]
+[gd_scene load_steps=9 format=3 uid="uid://egt63r8nwgsg"]
 
-[ext_resource type="PackedScene" uid="uid://b7ufojyyqg4n6" path="res://Scenes/RestaurantSpot.tscn" id="1_dad43"]
+[ext_resource type="PackedScene" uid="uid://c4wr8utngspv5" path="res://Scenes/RestaurantSpot.tscn" id="1_dad43"]
 [ext_resource type="Script" path="res://Scripts/CourtArea.cs" id="1_vj6vp"]
 [ext_resource type="PackedScene" uid="uid://ds4son0js0xq2" path="res://Scenes/CustomerSpawner.tscn" id="2_5sk84"]
-[ext_resource type="PackedScene" uid="uid://j61ap0yiqc0s" path="res://Scenes/TableSquareL.tscn" id="4_32a84"]
+[ext_resource type="PackedScene" uid="uid://bw7b55xxc33jf" path="res://Scenes/TableSquareL.tscn" id="4_32a84"]
+[ext_resource type="PackedScene" uid="uid://crdgas7odksd" path="res://Scenes/TableSpot.tscn" id="4_b1ce7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tqn3p"]
 albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
@@ -77,14 +78,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.418688, 0.201, 0.873631)
 size = Vector3(13, 0.001, 12)
 material = SubResource("StandardMaterial3D_b0vef")
 
-[node name="Table" parent="." instance=ExtResource("4_32a84")]
+[node name="TableSpot" parent="." instance=ExtResource("4_b1ce7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 0, 4)
+TableScene = ExtResource("4_32a84")
+CostValue = 1500.0
 
-[node name="Table2" parent="." instance=ExtResource("4_32a84")]
+[node name="TableSpot2" parent="." instance=ExtResource("4_b1ce7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 0, 10)
+TableScene = ExtResource("4_32a84")
+CostValue = 1500.0
 
-[node name="Table3" parent="." instance=ExtResource("4_32a84")]
+[node name="TableSpot3" parent="." instance=ExtResource("4_b1ce7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+TableScene = ExtResource("4_32a84")
+CostValue = 1500.0
 
-[node name="Table4" parent="." instance=ExtResource("4_32a84")]
+[node name="TableSpot4" parent="." instance=ExtResource("4_b1ce7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 10)
+TableScene = ExtResource("4_32a84")
+CostValue = 1500.0

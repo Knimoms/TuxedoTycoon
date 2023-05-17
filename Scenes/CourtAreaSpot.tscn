@@ -1,32 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4wr8utngspv5"]
+[gd_scene load_steps=5 format=3 uid="uid://dhpqyitla264o"]
 
-[ext_resource type="Script" path="res://Scripts/RestaurantSpot.cs" id="1_pd7cs"]
-[ext_resource type="PackedScene" uid="uid://b7lbgu2o1yxrf" path="res://Scenes/RestaurantBase.tscn" id="2_mmf73"]
+[ext_resource type="Script" path="res://Scripts/CourtAreaSpot.cs" id="1_snwgn"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_vbj3r"]
+[sub_resource type="BoxMesh" id="BoxMesh_3urhy"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_72sqy"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nf26l"]
 albedo_color = Color(0.717647, 0.717647, 0.717647, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jj7wh"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_u81qv"]
 
-[node name="RestaurantSpot" type="Node3D"]
-script = ExtResource("1_pd7cs")
-RestaurantScene = ExtResource("2_mmf73")
-MealPriceValue = 700.0
-CostValue = 1400.0
-WaitTime = 2.0
+[node name="CourtAreaSpot" type="Node3D"]
+script = ExtResource("1_snwgn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 0.01, 0, 0, 0, 2, 0, 0, 0)
-mesh = SubResource("BoxMesh_vbj3r")
+transform = Transform3D(13.75, 0, 0, 0, 0.01, 0, 0, 0, 27.5, 0, 0, 0)
+mesh = SubResource("BoxMesh_3urhy")
 skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_72sqy")
+surface_material_override/0 = SubResource("StandardMaterial3D_nf26l")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_jj7wh")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_u81qv")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 initial_position = 1
@@ -64,8 +59,9 @@ offset_left = -60.0
 offset_top = -31.0
 grow_horizontal = 0
 grow_vertical = 0
+action_mode = 0
 text = "Cancel"
 
-[connection signal="input_event" from="MeshInstance3D/StaticBody3D" to="." method="_on_static_body_3d_input_event"]
+[connection signal="input_event" from="MeshInstance3D/Area3D" to="." method="_on_area_3d_input_event"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_confirmation_button_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_cancel_button_pressed"]

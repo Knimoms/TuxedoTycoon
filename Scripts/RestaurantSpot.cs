@@ -11,7 +11,7 @@ public partial class RestaurantSpot : Node3D
 	public float MealPriceValue, CostValue;
 	[Export]
 	public string MealPriceMagnitude, CostMagnitude;
-	public Tuxdollar MealPrice, Cost;
+	public static Tuxdollar MealPrice = new Tuxdollar(), Cost = new Tuxdollar();
 	[Export]
 	public double  WaitTime;
 
@@ -25,8 +25,11 @@ public partial class RestaurantSpot : Node3D
 	{	
 		_parent = (CourtArea)this.GetParent();	
 		
-		MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
-		Cost = new Tuxdollar(CostValue, CostMagnitude);
+		if(MealPrice == new Tuxdollar())
+		{
+			MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
+			Cost = new Tuxdollar(CostValue, CostMagnitude);
+		}
 
 		// Get references to child nodes
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
@@ -36,14 +39,10 @@ public partial class RestaurantSpot : Node3D
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		// Set the label text for the Cost label
-		_costLabel.Text = $"Cost: {Cost}";
-		
-		// Connect signals for ConfirmationButton and CancelButton
-		//_popupMenu.GetNode<Button>("ConfirmationButton").Connect("pressed", Callable.From(this._on_confirmation_button_pressed));
-		//_popupMenu.GetNode<Button>("CancelButton").Connect("pressed", Callable.From(this._on_cancel_button_pressed));
-		_confirmationButton.Connect("pressed", Callable.From(this._on_confirmation_button_pressed));
-		_popupMenu.GetNode<Button>("CancelButton").Connect("pressed", Callable.From(this._on_cancel_button_pressed));
+		_parent.Parent ??=  _parent.GetParent<BaseScript>();
+		_parent.Parent.Spots.Add(this);
+
+		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,27 +54,42 @@ public partial class RestaurantSpot : Node3D
 	private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
 		if(Input.IsActionJustPressed("place")) 
-			_popupMenu.Popup();
+		{
+            _popupMenu.PopupCentered();	
+			_costLabel.Text = $"Cost: {Cost}";
+		}
+	}
+
+	private void _instantiate_restaurant()
+	{
+		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
+		rest.Position = this.Position + Vector3.Up;
+		rest.Rotation = this.Rotation;
+		rest.MealPrice = MealPrice;
+		rest.WaitTime = WaitTime;
+		rest.Cost = Cost;
+		_parent.Parent.Spots.Remove(this);
+		this.QueueFree();
+		_parent.AddChild(rest);
+		//GD.Print(_parent.Restaurants[0]);
+		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
+
 	}
 
 	private void _on_confirmation_button_pressed()
 	{
 		if(_parent.Parent.Money < Cost) return;
 		_parent.Parent.TransferMoney(-Cost);
-		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
-		rest.Position = this.Position + Vector3.Up;
-		rest.Rotation = this.Rotation;
-		rest.MealPrice = this.MealPrice;
-		rest.WaitTime = this.WaitTime;
-		rest.Cost = this.Cost;
-		this.QueueFree();
-		_parent.AddChild(rest);
-		//GD.Print(_parent.Restaurants[0]);
-		GD.Print("created");
-		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
-
+		_instantiate_restaurant();
 		// Hide the PopupMenu
 		_popupMenu.Hide();
+
+		if(Name != "RestaurantSpot")
+		{
+			Cost *= 8;
+			MealPrice = Cost/2;
+		}
+		
 	}
 
 	private void _on_cancel_button_pressed()

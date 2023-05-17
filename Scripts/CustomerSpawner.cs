@@ -34,11 +34,15 @@ public partial class CustomerSpawner : Node3D
 	public void Change_wait_time() {
 		double avgTimeClutter = 0;
 		foreach(RestaurantBase r in Rests){
-			avgTimeClutter += r.TimerProp.WaitTime + 2;
+			avgTimeClutter += r.TimerProp.WaitTime;
 		}
 
 		_timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count;
-		if(Rests.Count == 1) _timer.Start();
+		if(Rests.Count == 1)
+		{
+			_timer.Start();
+			_on_timer_timeout();
+		}
 	}
 	private void _on_timer_timeout()
 	{
@@ -50,6 +54,4 @@ public partial class CustomerSpawner : Node3D
 		customer.SpawnPoint = GlobalPosition;
 
 	}
-
-
 }

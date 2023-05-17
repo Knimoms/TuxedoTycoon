@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ds4son0js0xq2"]
 
 [ext_resource type="Script" path="res://Scripts/CustomerSpawner.cs" id="1_vnelc"]
-[ext_resource type="PackedScene" uid="uid://x4vslxm84nv0" path="res://Scenes/CustomerBase.tscn" id="2_a13rf"]
+[ext_resource type="PackedScene" uid="uid://dbvu4fxtfuar5" path="res://Scenes/CustomerBase.tscn" id="2_a13rf"]
 
 [node name="CustomerSpawner" type="Node3D"]
 script = ExtResource("1_vnelc")

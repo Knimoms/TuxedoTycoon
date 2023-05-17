@@ -2,19 +2,17 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class CourtArea : Node
+public partial class CourtArea : Node3D
 {
 	public BaseScript Parent;
 	public List<RestaurantBase> Restaurants;
-	public List<Table> Tables = new();
 	public List<Chair> Chairs = new();
 
-	Random rnd;
+	Random rnd = new();
 	// Called when the node enters the scene tree for the first time.
 
 	public override void _Ready()
 	{
-		rnd = new();
 		Parent = (BaseScript)this.GetParent();
 		Restaurants = GetNode<CustomerSpawner>("CustomerSpawner").Rests;
 	}

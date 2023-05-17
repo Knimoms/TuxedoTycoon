@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://ool0fe5vy3kg"]
+
+[ext_resource type="PackedScene" uid="uid://di28cuvuh4c7n" path="res://Scenes/Minigame/KitchenCounter.tscn" id="1_amuin"]
+[ext_resource type="Script" path="res://Scripts/Minigame.cs" id="1_je4sk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d05gg"]
+albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ptne"]
+
+[node name="Minigame" type="Node3D"]
+script = ExtResource("1_je4sk")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, -2.45367e-08, 8.39088e-08, 0, 0.959805, 0.280667, -8.74228e-08, 0.280667, -0.959805, 0, 2.383, -3.715)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.374898, -0.483742, 0.790851, -2.71769e-08, 0.853068, 0.521799, -0.927066, -0.195621, 0.319813, 5.95594, 4.02331, 3.5285)
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -0.75, 0)
+material = SubResource("StandardMaterial3D_d05gg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_8ptne")
+
+[node name="KitchenCounter" parent="." instance=ExtResource("1_amuin")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
