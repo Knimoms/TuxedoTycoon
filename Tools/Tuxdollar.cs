@@ -13,7 +13,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         {
             foreach (char c in value)
             {
-                if (!MagnitudeLetters.Contains(c))
+                if (!MagnitudeLetters.Contains(""+c))
                     return;
             }
 
@@ -38,7 +38,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
 
         foreach (char c in Magnitude)
         {
-            if (!MagnitudeLetters.Contains(c))
+            if (!MagnitudeLetters.Contains(""+c))
             {
                 Magnitude = "";
                 break;
@@ -58,11 +58,11 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         while(this._check_for_magnitude_change());
     }
 
-    public Tuxdollar()
-    {
-        this.Value = 0;
-        this._magnitude = "";
-    }
+    // public Tuxdollar()
+    // {
+    //     this.Value = 0;
+    //     this._magnitude = "";
+    // }
 
     public static Tuxdollar operator +(Tuxdollar left, Tuxdollar right)
     {
@@ -264,7 +264,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
 
         foreach (char c in magnitude)
         {
-            if (!MagnitudeLetters.Contains(c)) return -1;
+            if (!MagnitudeLetters.Contains(""+c)) return -1;
         }
         for (int i = 0; i < magnitude.Length; i++)
         {

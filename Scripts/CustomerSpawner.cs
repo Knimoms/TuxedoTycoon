@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class CustomerSpawner : Node3D
+public partial class CustomerSpawner : Spatial
 {
 	[Export]
 	public PackedScene CustomerScene;
@@ -10,21 +10,21 @@ public partial class CustomerSpawner : Node3D
 	private Timer _timer;
 	public List<RestaurantBase> Rests;
 
-	private PathFollow3D _path_follow_child;
+	//private PathFollow3D _path_follow_child;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	 
 		_timer = (Timer)GetNode("Timer");
 		
-		_rnd = new ();
-		Rests = new ();
+		_rnd = new Random();
+		Rests = new List<RestaurantBase>();
 	}
 
 	
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _Process(float delta)
 	{
 		
 
@@ -32,7 +32,7 @@ public partial class CustomerSpawner : Node3D
 
 
 	public void Change_wait_time() {
-		double avgTimeClutter = 0;
+		float avgTimeClutter = 0;
 		foreach(RestaurantBase r in Rests){
 			avgTimeClutter += r.TimerProp.WaitTime;
 		}
@@ -41,17 +41,17 @@ public partial class CustomerSpawner : Node3D
 		if(Rests.Count == 1)
 		{
 			_timer.Start();
-			_on_timer_timeout();
+			_on_Timer_timeout();
 		}
 	}
-	private void _on_timer_timeout()
+	private void _on_Timer_timeout()
 	{
 		if(Rests.Count == 0) return;
-		CustomerBase customer = this.CustomerScene.Instantiate<CustomerBase>();
+		CustomerBase customer = this.CustomerScene.Instance<CustomerBase>();
 		customer.TargetRestaurant = Rests[_rnd.Next(0,Rests.Count)];
-		customer.Position = this.Position;
-		AddSibling(customer);
-		customer.SpawnPoint = GlobalPosition;
+		customer.Transform = this.Transform;
+		GetParent().AddChild(customer);
+		customer.SpawnPoint = GlobalTransform.origin;
 
 	}
 }

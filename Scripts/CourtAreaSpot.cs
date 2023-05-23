@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CourtAreaSpot : Node3D
+public partial class CourtAreaSpot : Spatial
 {
 	private BaseScript _parent;
 	[Export]
@@ -37,31 +37,31 @@ public partial class CourtAreaSpot : Node3D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _Process(float delta)
 	{
 
 	}
 
-	private void _on_area_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
+	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
 		if(Input.IsActionJustPressed("place")) 
 			_popupMenu.PopupCentered();
 	}
 
-	private void _on_confirmation_button_pressed()
+	private void _on_ConfirmationButton_pressed()
 	{
 		if(_parent.Money < Cost) return;
 		_parent.TransferMoney(-Cost);
-		CourtArea courtArea = CourtAreaScene.Instantiate<CourtArea>();
-		courtArea.Position = this.Position;
-		AddSibling(courtArea);
+		CourtArea courtArea = CourtAreaScene.Instance<CourtArea>();
+		courtArea.Transform = this.Transform;
+		GetParent().AddChild(courtArea);
 		_parent.Spots.Remove(this);
 		this.QueueFree();
 
 		_popupMenu.Hide();
 	}
 
-	private void _on_cancel_button_pressed()
+	private void _on_CancelButton_pressed()
 	{
 		// Hide the PopupMenu
 		_popupMenu.Hide();

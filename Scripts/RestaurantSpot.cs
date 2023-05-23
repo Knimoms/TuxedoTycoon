@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class RestaurantSpot : Node3D
+public partial class RestaurantSpot : Spatial
 {
 
 	private CourtArea _parent;
@@ -13,7 +13,7 @@ public partial class RestaurantSpot : Node3D
 	public string MealPriceMagnitude, CostMagnitude;
 	public static Tuxdollar MealPrice = new Tuxdollar(), Cost = new Tuxdollar();
 	[Export]
-	public double  WaitTime;
+	public float  WaitTime;
 
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
@@ -39,19 +39,19 @@ public partial class RestaurantSpot : Node3D
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		_parent.Parent ??=  _parent.GetParent<BaseScript>();
+		if(_parent.Parent == null) _parent.Parent =  _parent.GetParent<BaseScript>();
 		_parent.Parent.Spots.Add(this);
 
 		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _Process(float delta)
 	{
 
 	}
 
-	private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
+	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
 		if(Input.IsActionJustPressed("place")) 
 		{
@@ -62,8 +62,8 @@ public partial class RestaurantSpot : Node3D
 
 	private void _instantiate_restaurant()
 	{
-		RestaurantBase rest = RestaurantScene.Instantiate<RestaurantBase>();
-		rest.Position = this.Position + Vector3.Up;
+		RestaurantBase rest = RestaurantScene.Instance<RestaurantBase>();
+		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
 		rest.MealPrice = MealPrice;
 		rest.WaitTime = WaitTime;
@@ -72,11 +72,11 @@ public partial class RestaurantSpot : Node3D
 		this.QueueFree();
 		_parent.AddChild(rest);
 		//GD.Print(_parent.Restaurants[0]);
-		_parent.GetNode<CustomerSpawner>("CustomerSpawner").Change_wait_time();
+		_parent.GetNode<CustomerSpawner>("Spawner").Change_wait_time();
 
 	}
 
-	private void _on_confirmation_button_pressed()
+	private void _on_ConfirmationButton_pressed()
 	{
 		if(_parent.Parent.Money < Cost) return;
 		_parent.Parent.TransferMoney(-Cost);
@@ -92,7 +92,7 @@ public partial class RestaurantSpot : Node3D
 		
 	}
 
-	private void _on_cancel_button_pressed()
+	private void _on_CancelButton_pressed()
 	{
 		// Hide the PopupMenu
 		_popupMenu.Hide();

@@ -1,87 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://bw7b55xxc33jf"]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource type="PackedScene" uid="uid://4mbprmknn88q" path="res://Scenes/Chair.tscn" id="1_8burc"]
-[ext_resource type="Script" path="res://Scripts/Table.cs" id="1_pxhfq"]
+[ext_resource path="res://Scripts/Table.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Chair.tscn" type="PackedScene" id=2]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xvl3i"]
-albedo_color = Color(0.466667, 0.207843, 0, 1)
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.466667, 0.207843, 0, 1 )
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jo20k"]
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.57, 0.5, 0.57 )
 
-[node name="Table" type="Node3D"]
-script = ExtResource("1_pxhfq")
+[node name="Table" type="Spatial"]
+script = ExtResource( 1 )
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(3.5, 0, 0, 0, 1, 0, 0, 0, 3.5, 0, 0, 0)
-material = SubResource("StandardMaterial3D_xvl3i")
+[node name="CSGBox" type="CSGBox" parent="."]
+transform = Transform( 3.5, 0, 0, 0, 1, 0, 0, 0, 3.5, 0, 0, 0 )
+width = 1.0
+height = 1.0
+depth = 1.0
+material = SubResource( 2 )
 
-[node name="StaticBody3D" type="StaticBody3D" parent="CSGBox3D"]
+[node name="StaticBody" type="StaticBody" parent="CSGBox"]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_jo20k")
+[node name="CollisionShape" type="CollisionShape" parent="CSGBox/StaticBody"]
+shape = SubResource( 3 )
 
-[node name="Chair" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 2.1)
-visible = false
-
-[node name="Chair2" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 2.1)
-visible = false
-
-[node name="Chair3" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 2.1)
-visible = false
-
-[node name="Chair4" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 2.1)
-visible = false
-
-[node name="Chair5" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -2.1)
-visible = false
-
-[node name="Chair6" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -2.1)
-visible = false
-
-[node name="Chair7" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -2.1)
-visible = false
-
-[node name="Chair8" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -2.1)
-visible = false
-
-[node name="Chair9" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, -1.5)
-visible = false
-
-[node name="Chair10" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, -0.5)
-visible = false
-
-[node name="Chair11" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, 0.5)
-visible = false
-
-[node name="Chair12" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, 1.5)
-visible = false
-
-[node name="Chair13" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, -1.5)
-visible = false
-
-[node name="Chair14" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, -0.5)
-visible = false
-
-[node name="Chair15" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, 0.5)
-visible = false
-
-[node name="Chair16" parent="." instance=ExtResource("1_8burc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, 1.5)
-visible = false
+[node name="Chair" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.1 )

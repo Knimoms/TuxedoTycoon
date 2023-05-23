@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public partial class TableSpot : Node3D
+public partial class TableSpot : Spatial
 {
-	private CourtArea _parent;
+	private CourtArea _courtArea;
 	[Export]
 	public PackedScene TableScene;
 	[Export]
@@ -19,7 +19,7 @@ public partial class TableSpot : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		_parent = (CourtArea)this.GetParent();	
+		_courtArea = (CourtArea)this.GetParent().GetParent();	
 		
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
 
@@ -31,13 +31,13 @@ public partial class TableSpot : Node3D
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		Table tempTable = TableScene.Instantiate<Table>();
-		CsgBox3D tempTableBox = (CsgBox3D)tempTable.GetNode("CSGBox3D");
+		Table tempTable = TableScene.Instance<Table>();
+		CSGBox tempTableBox = (CSGBox)tempTable.GetNode("CSGBox");
 	
-		Scale = new Vector3(tempTableBox.Scale.X, 1f, tempTableBox.Scale.Z);
+		Scale = new Vector3(tempTableBox.Scale.x, 1f, tempTableBox.Scale.z);
 		tempTable.QueueFree();
 
-		_parent.GetParent<BaseScript>().Spots.Add(this);
+		_courtArea.GetParent<BaseScript>().Spots.Add(this);
 
 
 		// Set the label text for the Cost label
@@ -45,32 +45,32 @@ public partial class TableSpot : Node3D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _Process(float delta)
 	{
 
 	}
 
-	private void _on_area_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
+	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
 		if(Input.IsActionJustPressed("place")) 
 			_popupMenu.PopupCentered();
 	}
 
-	private void _on_confirmation_button_pressed()
+	private void _on_ConfirmationButton_pressed()
 	{
-		if(_parent.Parent.Money < Cost) return;
-		_parent.Parent.TransferMoney(-Cost);
-		Table table = TableScene.Instantiate<Table>();
-		table.Position = this.Position;
-		table.Rotation = this.Rotation;
-		_parent.Parent.Spots.Remove(this);
+		if(_courtArea.Parent.Money < Cost) return;
+		_courtArea.Parent.TransferMoney(-Cost);
+		Table table = TableScene.Instance<Table>();
+		table.Transform = this.Transform;
+		table.Scale = new Vector3(1,1,1);
+		_courtArea.Parent.Spots.Remove(this);
 		this.QueueFree();
-		_parent.AddChild(table);
+		GetParent().AddChild(table);
 
 		_popupMenu.Hide();
 	}
 
-	private void _on_cancel_button_pressed()
+	private void _on_CancelButton_pressed()
 	{
 		// Hide the PopupMenu
 		_popupMenu.Hide();
@@ -80,7 +80,7 @@ public partial class TableSpot : Node3D
 	{
 		if (@event is InputEventMouseMotion motionEvent)
 		{
-			if (_parent.Parent.Money < Cost)
+			if (_courtArea.Parent.Money < Cost)
 			{
 				_confirmationButton.Disabled = true;
 			}

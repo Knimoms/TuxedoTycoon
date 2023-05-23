@@ -1,72 +1,53 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhb2t3j4um3nk"]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource type="Script" path="res://Scripts/BaseScript.cs" id="1_qa78j"]
-[ext_resource type="Script" path="res://Scripts/Camera.cs" id="3_i1l3r"]
-[ext_resource type="PackedScene" uid="uid://egt63r8nwgsg" path="res://Scenes/CourtArea1.tscn" id="4_uyv0w"]
-[ext_resource type="PackedScene" uid="uid://bx1lgjbu1skkc" path="res://Scenes/CourtArea2.tscn" id="5_rlmnq"]
-[ext_resource type="PackedScene" uid="uid://dhpqyitla264o" path="res://Scenes/CourtAreaSpot.tscn" id="6_27c18"]
-[ext_resource type="PackedScene" uid="uid://bpr66gyk6epct" path="res://Scenes/CourtArea3.tscn" id="6_couqy"]
+[ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/CourtArea1.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/CourtArea2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/CourtArea3.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/CourtAreaSpot.tscn" type="PackedScene" id=5]
 
-[sub_resource type="LabelSettings" id="LabelSettings_06vv6"]
-font_size = 21
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 42, 0.001, 28 )
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jaba8"]
-albedo_color = Color(0.776471, 0.92549, 0.937255, 1)
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 1 )
+StartMoneyValue = 3000.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_oh4rw"]
-size = Vector3(42, 0.001, 28)
-
-[node name="Node3D" type="Node3D"]
-script = ExtResource("1_qa78j")
-StartMoneyValue = 1500.0
-StartMoneyMagnitude = "c"
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, 0.579228, -0.40558, 0, 0.573576, 0.819152, 0.707107, -0.579228, 0.40558, -19.8213, 19.1461, 15.2947)
-current = true
-script = ExtResource("3_i1l3r")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.346936, 0.188589, -0.918733, 0, 0.979575, 0.201078, 0.937889, -0.0697613, 0.33985, -5.02266, 3.44581, 3.49871)
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.707107, 0.579228, -0.40558, 0, 0.573576, 0.819152, 0.707107, -0.579228, 0.40558, -19.821, 19.146, 15.295 )
 
 [node name="MoneyLabel" type="Label" parent="."]
-offset_right = 110.0
-offset_bottom = 56.0
-label_settings = SubResource("LabelSettings_06vv6")
+margin_right = 217.0
+margin_bottom = 91.0
 
-[node name="Floor" type="CSGBox3D" parent="."]
-size = Vector3(42, 0.001, 28)
-material = SubResource("StandardMaterial3D_jaba8")
+[node name="Floor" type="CSGBox" parent="."]
+width = 42.0
+height = 0.001
+depth = 28.0
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+[node name="StaticBody" type="StaticBody" parent="Floor"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
-shape = SubResource("BoxShape3D_oh4rw")
-
-[node name="Node3D" type="Node3D" parent="."]
-
-[node name="CourtArea2" parent="." instance=ExtResource("5_rlmnq")]
-
-[node name="CourtAreaSpot" parent="." instance=ExtResource("6_27c18")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
-CourtAreaScene = ExtResource("4_uyv0w")
-
-[node name="CourtAreaSpot3" parent="." instance=ExtResource("6_27c18")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
-CourtAreaScene = ExtResource("6_couqy")
+[node name="CollisionShape" type="CollisionShape" parent="Floor/StaticBody"]
+shape = SubResource( 1 )
 
 [node name="Button" type="Button" parent="."]
-anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -146.0
-offset_top = -94.0
-grow_horizontal = 0
-grow_vertical = 0
+margin_left = -192.0
+margin_top = -96.0
 toggle_mode = true
 text = "Build"
 
-[connection signal="input_event" from="Floor/StaticBody3D" to="." method="_on_floor_input_event"]
-[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]
+[node name="CourtArea2" parent="." instance=ExtResource( 3 )]
+
+[node name="CourtAreaSpot" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0 )
+CourtAreaScene = ExtResource( 2 )
+
+[node name="CourtAreaSpot2" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0 )
+CourtAreaScene = ExtResource( 4 )
+
+[connection signal="toggled" from="Button" to="." method="_on_Button_toggled"]

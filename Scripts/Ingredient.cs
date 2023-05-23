@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 
-public partial class Ingredient : Node3D
+public partial class Ingredient : Spatial
 {
     
     [Export]
@@ -18,7 +18,7 @@ public partial class Ingredient : Node3D
 	}
 
     
-    private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
+    private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
 		if(Input.IsActionJustPressed("place"))
         {
