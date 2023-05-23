@@ -25,39 +25,43 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 shape = SubResource( 2 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-margin_right = 258.0
-margin_bottom = 113.0
+anchor_left = 0.423828
+anchor_top = 0.43
+anchor_right = 0.647461
+anchor_bottom = 0.63
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -45.5
-margin_top = -12.0
-margin_right = 45.5
-margin_bottom = 12.0
-text = "Upgrade price"
+anchor_left = 0.30131
+anchor_top = 0.4
+anchor_right = 0.69869
+anchor_bottom = 0.6
+text = "Cost"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="ConfirmationButton" type="Button" parent="PopupMenu"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = -27.0
-margin_right = 97.0
-margin_bottom = -7.0
+anchor_left = 0.0349345
+anchor_top = 0.641667
+anchor_right = 0.423581
+anchor_bottom = 0.941667
 text = "Confirm"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -97.0
-margin_top = -27.0
-margin_right = -8.0
-margin_bottom = -7.0
+anchor_left = 0.576419
+anchor_top = 0.65
+anchor_right = 0.965065
+anchor_bottom = 0.941667
 text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [connection signal="input_event" from="MeshInstance/Area" to="." method="_on_Area_input_event"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]

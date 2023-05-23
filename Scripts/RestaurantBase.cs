@@ -87,7 +87,7 @@ public partial class RestaurantBase : Spatial
 
 	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
-		if(Input.IsActionJustPressed("place")) 
+		if(event1 is InputEventMouseButton && event1.IsPressed()) 
 			ShowPopupMenu();
 			//LevelUp();
 	}

@@ -31,8 +31,14 @@ visible = false
 [node name="CSGBox" type="CSGBox" parent="OrderWindow"]
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-margin_right = 258.0
-margin_bottom = 113.0
+anchor_left = 0.374023
+anchor_top = 0.405833
+anchor_right = 0.625977
+anchor_bottom = 0.594167
+margin_bottom = -3.05176e-05
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CostLabel" type="Label" parent="PopupMenu"]
 anchor_left = 0.5
@@ -46,24 +52,24 @@ margin_bottom = 12.0
 text = "Upgrade price"
 
 [node name="UpgradeButton" type="Button" parent="PopupMenu"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = -27.0
-margin_right = 97.0
-margin_bottom = -7.0
+anchor_left = 0.0310078
+anchor_top = 0.654867
+anchor_right = 0.375969
+anchor_bottom = 0.946903
 text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -97.0
-margin_top = -27.0
-margin_right = -8.0
-margin_bottom = -7.0
+anchor_left = 0.624031
+anchor_top = 0.681416
+anchor_right = 0.968992
+anchor_bottom = 0.946903
 text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="NameLabel" type="Label" parent="PopupMenu"]
 anchor_left = 0.5

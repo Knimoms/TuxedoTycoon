@@ -20,7 +20,7 @@ public class IsoCam : Spatial
 		if (!(@event is InputEventMouseMotion motionEvent))
             return;
 		
-        if(Input.IsActionPressed("place") && !_parent.UIopened)
+        if(Input.IsMouseButtonPressed(1) && !_parent.UIopened)
         {
             this.Translate(new Vector3(motionEvent.Relative.x * -0.05f, 0, motionEvent.Relative.y * -0.05f));
 

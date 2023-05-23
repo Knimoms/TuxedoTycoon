@@ -52,7 +52,7 @@ public partial class TableSpot : Spatial
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
-		if(Input.IsActionJustPressed("place")) 
+		if(event1 is InputEventMouseButton && event1.IsPressed()) 
 			_popupMenu.PopupCentered();
 	}
 

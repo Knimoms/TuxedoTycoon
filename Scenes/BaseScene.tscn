@@ -16,19 +16,6 @@ extents = Vector3( 42, 0.001, 28 )
 script = ExtResource( 1 )
 StartMoneyValue = 3000.0
 
-[node name="MoneyLabel" type="Label" parent="."]
-margin_right = 217.0
-margin_bottom = 91.0
-
-[node name="Button" type="Button" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -192.0
-margin_top = -96.0
-text = "Build"
-
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 shape = SubResource( 2 )
 action = "left"
@@ -67,5 +54,25 @@ CourtAreaScene = ExtResource( 2 )
 [node name="CourtAreaSpot2" parent="." instance=ExtResource( 5 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 9.8995, 0.05, -9.8995 )
 CourtAreaScene = ExtResource( 4 )
+
+[node name="MoneyLabel" type="Label" parent="."]
+anchor_right = 0.191406
+anchor_bottom = 0.181667
+text = "ghfghfgh"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 0.80957
+anchor_top = 0.833333
+anchor_right = 0.99707
+anchor_bottom = 0.993333
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Build"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
