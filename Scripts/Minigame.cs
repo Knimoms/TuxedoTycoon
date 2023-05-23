@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public partial class Minigame : Node3D
+public partial class Minigame : Node
 {
     private string _compare1;
     private string _compare2;

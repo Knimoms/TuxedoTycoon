@@ -1,7 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://4mbprmknn88q"]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource type="Script" path="res://Scripts/Chair.cs" id="1_e21ws"]
+[ext_resource path="res://Scripts/Chair.cs" type="Script" id=1]
 
-[node name="Chair" type="CSGBox3D"]
-size = Vector3(0.5, 0.5, 0.5)
-script = ExtResource("1_e21ws")
+[node name="Chair" type="Spatial"]
+script = ExtResource( 1 )

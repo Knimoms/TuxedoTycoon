@@ -2,13 +2,13 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class RestaurantBase : Node3D
+public partial class RestaurantBase : Spatial
 {
 	public Tuxdollar MealPrice, OriginalMealPrice, Cost;
-	public double WaitTime;
+	public float WaitTime;
 	public CustomerBase CurrentCustomer;
 
-	public List<CustomerBase> IncomingCustomers;
+	public List<CustomerBase> IncomingCustomers = new List<CustomerBase>();
 	//public List<CustomerBase> Queue;
 
 	private CourtArea _parent = null;
@@ -36,10 +36,8 @@ public partial class RestaurantBase : Node3D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		IncomingCustomers = new();
-		_parent = (CourtArea)GetParent();
-		_base_script ??= _parent.Parent;
 		_parent = GetParent<CourtArea>();
+		if(_base_script == null)_base_script = _parent.Parent;
 		this.OriginalMealPrice = this.MealPrice;
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = this.WaitTime;
@@ -57,14 +55,13 @@ public partial class RestaurantBase : Node3D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _Process(float delta)
 	{
 		 
 	}
 
-	private void _on_timer_timeout()
+	private void _on_Timer_timeout()
 	{
-		
 		_base_script.TransferMoney(MealPrice);
 		this.IncomingCustomers[0].FinishOrder();
 		this.IncomingCustomers[0] = null;
@@ -88,7 +85,7 @@ public partial class RestaurantBase : Node3D
 
 	}
 
-	private void _on_static_body_3d_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
+	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
 		if(Input.IsActionJustPressed("place")) 
 			ShowPopupMenu();
@@ -103,7 +100,6 @@ public partial class RestaurantBase : Node3D
 	public void LevelUp()
 	{
 		Tuxdollar cost  =  this.Cost*4;
-		GD.Print(cost);
 		if(_base_script.Money < cost) return;
 		_base_script.TransferMoney(-cost);
 		this.MealPrice *= 4;
@@ -130,7 +126,7 @@ public partial class RestaurantBase : Node3D
 		_base_script.TransferMoney(-MealPrice);
 	}
 
-	private void _on_upgrade_button_pressed()
+	private void _on_UpgradeButton_pressed()
 	{
 		if (_popupMenuOpen)
 		{
@@ -139,7 +135,7 @@ public partial class RestaurantBase : Node3D
 		}
 	}
 
-	private void _on_cancel_button_pressed()
+	private void _on_CancelButton_pressed()
 	{
 		if (_popupMenu.Visible)
 		{

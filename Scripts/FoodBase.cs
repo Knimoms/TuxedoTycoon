@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class FoodBase : Node3D
+public partial class FoodBase : Spatial
 {
     FoodSpawner foodSpawner;
 

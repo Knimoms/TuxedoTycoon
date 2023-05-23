@@ -1,26 +1,26 @@
 using Godot;
 using System;
 
-public partial class CustomerBase : CharacterBody3D
+public partial class CustomerBase : KinematicBody
 {
 	public RestaurantBase TargetRestaurant;
 	private CourtArea _parent;
 	public Vector3 Direction;
-
 	public Vector3 SpawnPoint;
 
+	public Vector3 Velocity = new Vector3();
 	public int LineNumber;
 	[Export]
-	public double EatingTime = 7.0;
+	public float EatingTime = 7.0f;
 
 	[Export]
-	public const float Speed = 5.0f;
+	public float Speed = 5.0f;
 	[Export]
-	public float Gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+	public float Gravity = 9.8f;
 
-	public const float JumpVelocity = 4.5f;
+	public float JumpVelocity = 4.5f;
 
-	private NavigationAgent3D _nav_agent;
+	private NavigationAgent _nav_agent;
 
 	private Vector3 _target_window;
 	private Timer _timer;
@@ -35,15 +35,15 @@ public partial class CustomerBase : CharacterBody3D
 	public override void _Ready()
 	{
 		_timer = (Timer)GetNode("Timer");
-		_nav_agent = (NavigationAgent3D)GetNode("NavigationAgent3D");
+		_nav_agent = (NavigationAgent)GetNode("NavigationAgent");
 		this._parent = (CourtArea)this.GetParent();
 
 		//_nav_agent.TargetDesiredDistance = ;
-		_target_window = TargetRestaurant.GetNode<Node3D>("OrderWindows").GlobalPosition;
+		_target_window = TargetRestaurant.GetNode<Spatial>("OrderWindow").GlobalTransform.origin;
 		TargetRestaurant.IncomingCustomers.Add(this);
 		LineNumber = TargetRestaurant.IncomingCustomers.Count - 1;
 		if (TargetRestaurant.IncomingCustomers.Count > 1)
-			this.UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalPosition);
+			this.UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalTransform.origin);
 		else
 			this.UpdateTargetLocation(_target_window);
 
@@ -54,11 +54,11 @@ public partial class CustomerBase : CharacterBody3D
 	// this.MoveAndSlide();
 	// GD.Print(this.GetRealVelocity());
 
-	public override void _Process(double delta)
-	{
-	}
+	// public override void _Process(float delta)
+	// {
+	// }
 
-	public override void _PhysicsProcess(double delta)
+	public override void _PhysicsProcess(float delta)
 	{
 		this.Rotate(Vector3.Up, (float)(5*delta));
 
@@ -68,24 +68,25 @@ public partial class CustomerBase : CharacterBody3D
 		Vector3 velocity = Velocity;
 
 		if (LineNumber != 0)
-			UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalPosition);
+			UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalTransform.origin);
 
-		Vector3 currentLocation = GlobalTransform.Origin;
-		Vector3 nextLocation = _nav_agent.GetNextPathPosition();
+		Vector3 currentLocation = GlobalTransform.origin;
+		Vector3 nextLocation = _nav_agent.GetNextLocation();
 
 		velocity = (nextLocation - currentLocation).Normalized() * Speed;
+
 		if (!IsOnFloor())
-			velocity.Y -= Gravity;
+			velocity.y -= Gravity;
 		// if (OrderFinished)
 		//     _nav_agent.SetVelocity(velocity);
-		// else
+		// else 
 		// {
 			Velocity = velocity;
-			MoveAndSlide();
+			MoveAndSlide(Velocity);
 		// }
 
-		if ((_nav_agent.TargetPosition - GlobalPosition).Length() <= 0.6f)
-			_on_navigation_agent_3d_target_reached();
+		if ((_nav_agent.GetTargetLocation() - GlobalTransform.origin).Length() <= 0.6f)
+			_on_NavigationAgent_target_reached();
 	}
 
 
@@ -104,19 +105,19 @@ public partial class CustomerBase : CharacterBody3D
 		_my_chair = _parent.GetRandomFreeChair();
 		if(_my_chair == null)
 		{
-			GetNode<Sprite3D>("Sprite3D").Texture = (Texture2D)GD.Load("res://Assets/SadEnd.png");
+			GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.Refund();
 			UpdateTargetLocation(SpawnPoint);
 			return;
 		}
-		GetNode<Sprite3D>("Sprite3D").Texture = (Texture2D)GD.Load("res://Assets/HappyEnd.png");
+		GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
 		_my_chair.Occupied = true;
-		UpdateTargetLocation(_my_chair.GlobalPosition);
+		UpdateTargetLocation(_my_chair.GlobalTransform.origin);
 	}
 
 	public void UpdateTargetLocation(Vector3 targetLocation)
 	{
-		_nav_agent.TargetPosition = targetLocation;
+		_nav_agent.SetTargetLocation(targetLocation);
 	}
 
 	public void FinishOrder()
@@ -134,13 +135,13 @@ public partial class CustomerBase : CharacterBody3D
 	public void StartEating()
 	{
 		GetNode<Sprite3D>("Sprite3D").Scale *= 0.5f;
-		GlobalPosition = _my_chair.GlobalPosition + Vector3.Up*0.5f;
+		GlobalTransform = new Transform(_my_chair.GlobalTransform.basis, _my_chair.GlobalTransform.origin + Vector3.Up*0.5f);
 		Eating = true;
 		_timer.WaitTime = EatingTime;
 		StartTimer(); 
 	}
 
-	public void _on_timer_timeout()
+	public void _on_Timer_timeout()
 	{
 		if(Eating)
 		{
@@ -155,12 +156,12 @@ public partial class CustomerBase : CharacterBody3D
 			TargetRestaurant.IncomingCustomers[LineNumber + 1].StartTimer();
 	}
 
-	private void _on_navigation_agent_3d_target_reached()
+	private void _on_NavigationAgent_target_reached()
 	{
 		if (Waiting || Eating)
 			return;
 		
-		if (_nav_agent.TargetPosition == SpawnPoint)
+		if (_nav_agent.GetTargetLocation() == SpawnPoint)
 		{
 			QueueFree();
 			return;
@@ -172,7 +173,7 @@ public partial class CustomerBase : CharacterBody3D
 			return;
 		}
 
-		if (_nav_agent.TargetPosition != _target_window && (TargetRestaurant.IncomingCustomers.Count == 1 || TargetRestaurant.IncomingCustomers[0] == null || !TargetRestaurant.IncomingCustomers[LineNumber - 1].Waiting))
+		if (_nav_agent.GetTargetLocation() != _target_window && (TargetRestaurant.IncomingCustomers.Count == 1 || TargetRestaurant.IncomingCustomers[0] == null || !TargetRestaurant.IncomingCustomers[LineNumber - 1].Waiting))
 		{
 			UpdateTargetLocation(_target_window);
 			return;
@@ -184,9 +185,9 @@ public partial class CustomerBase : CharacterBody3D
 			TargetRestaurant.Order();
 	}
 
-	private void _on_navigation_agent_3d_velocity_computed(Vector3 safe_velocity)
+	private void _on_NavigationAgent_velocity_computed(Vector3 safe_velocity)
 	{
 		Velocity = this.Velocity.MoveToward(safe_velocity, 0.25f);
-		MoveAndSlide();
+		MoveAndSlide(Velocity);
 	}
 }

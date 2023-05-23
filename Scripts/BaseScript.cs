@@ -2,32 +2,32 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class BaseScript : Node
+public partial class BaseScript : Spatial
 {
 	[Export]
 	public float StartMoneyValue;
 	[Export]
 	public string StartMoneyMagnitude;
 
-	public Tuxdollar Money;
+	public Tuxdollar Money = new Tuxdollar(0);
 	public Label MoneyLabel;
 
-	public List<Node3D> Spots = new();
+	public List<Spatial> Spots = new List<Spatial>();
 	//private RestaurantBase _rest;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		foreach(Node3D n3d in Spots)
+		GD.Print("mooh");
+		foreach(Spatial n3d in Spots)
 			n3d.Visible = false;
 		
-		this.Money = new Tuxdollar();
 		this.MoneyLabel = (Label)GetNode("MoneyLabel");
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _Process(float delta)
 	{
 		//if(Input.IsActionJustPressed("place")) 
 		//{
@@ -52,10 +52,10 @@ public partial class BaseScript : Node
 		MoneyLabel.Text = $"Money: {this.Money}";
 	}
 
-	public void _on_button_toggled(bool button_pressed)
+	public void _on_Button_toggled(bool button_pressed)
 	{
 		GD.Print("muuh");
-		foreach(Node3D n3d in Spots)
+		foreach(Spatial n3d in Spots)
 			n3d.Visible = button_pressed;
 	}
 	

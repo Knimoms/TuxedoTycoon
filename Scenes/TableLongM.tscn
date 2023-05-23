@@ -1,63 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://do0x5r8caj8je"]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource type="Script" path="res://Scripts/Table.cs" id="1_r75ph"]
-[ext_resource type="PackedScene" uid="uid://4mbprmknn88q" path="res://Scenes/Chair.tscn" id="2_mn86j"]
+[ext_resource path="res://Scenes/Chair.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Table.cs" type="Script" id=2]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imegb"]
-albedo_color = Color(0.466667, 0.207843, 0, 1)
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.466667, 0.207843, 0, 1 )
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ug7u5"]
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.6, 0.5, 0.75 )
 
-[node name="Table" type="Node3D"]
-script = ExtResource("1_r75ph")
+[node name="Table" type="Spatial"]
+script = ExtResource( 2 )
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(3.5, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-material = SubResource("StandardMaterial3D_imegb")
+[node name="CSGBox" type="CSGBox" parent="."]
+transform = Transform( 3.5, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+width = 1.0
+height = 1.0
+depth = 1.0
+material = SubResource( 1 )
 
-[node name="StaticBody3D" type="StaticBody3D" parent="CSGBox3D"]
+[node name="StaticBody" type="StaticBody" parent="CSGBox"]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_ug7u5")
+[node name="CollisionShape" type="CollisionShape" parent="CSGBox/StaticBody"]
+shape = SubResource( 2 )
 
-[node name="Chair" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0.85)
-visible = false
-
-[node name="Chair2" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.85)
-visible = false
-
-[node name="Chair3" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0.85)
-visible = false
-
-[node name="Chair4" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0.85)
-visible = false
-
-[node name="Chair5" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -0.85)
-visible = false
-
-[node name="Chair6" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.85)
-visible = false
-
-[node name="Chair7" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.85)
-visible = false
-
-[node name="Chair8" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -0.85)
-visible = false
-
-[node name="Chair9" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 0, 0)
-visible = false
-
-[node name="Chair10" parent="." instance=ExtResource("2_mn86j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 0, 0)
-visible = false
+[node name="Chair" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85 )

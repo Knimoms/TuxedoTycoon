@@ -1,27 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://bftgfbxtcwm0l"]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource type="Script" path="res://Scripts/FoodSpawner.cs" id="1_5pnpv"]
-[ext_resource type="PackedScene" uid="uid://cvfwcsl6cph4y" path="res://Scenes/Minigame/FoodBase.tscn" id="2_nsotb"]
+[ext_resource path="res://Scripts/FoodSpawner.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Minigame/Food.tscn" type="PackedScene" id=2]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_prhml"]
-albedo_color = Color(0.741176, 0.360784, 0.101961, 1)
+[sub_resource type="BoxShape" id=1]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jenso"]
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.741176, 0.360784, 0.101961, 1 )
 
-[node name="FoodSpawner" type="Node3D"]
-transform = Transform3D(2.01275, 0, 0, 0, 0.0926445, 0, 0, 0, 1, 0, 0, 0)
-script = ExtResource("1_5pnpv")
-FoodBaseScene = ExtResource("2_nsotb")
+[node name="FoodSpawner" type="Spatial"]
+transform = Transform( 2.013, 0, 0, 0, 0.093, 0, 0, 0, 1, 0, 0, 0 )
+script = ExtResource( 1 )
+FoodBaseScene = ExtResource( 2 )
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
 
-[node name="CSGBox3D" type="CSGBox3D" parent="StaticBody3D"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-material = SubResource("StandardMaterial3D_prhml")
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 1 )
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-shape = SubResource("BoxShape3D_jenso")
+[node name="CSGBox" type="CSGBox" parent="StaticBody"]
+material = SubResource( 2 )
 
-[connection signal="input_event" from="StaticBody3D" to="." method="_on_static_body_3d_input_event"]
+[connection signal="input_event" from="StaticBody" to="." method="_on_StaticBody_input_event"]
