@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/CourtArea1.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/CourtArea2.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/CourtArea3.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/CourtAreaSpot.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scripts/IsoCam.cs" type="Script" id=6]
+
+[sub_resource type="RectangleShape2D" id=2]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 42, 0.001, 28 )
@@ -13,14 +16,25 @@ extents = Vector3( 42, 0.001, 28 )
 script = ExtResource( 1 )
 StartMoneyValue = 3000.0
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.707107, 0.579228, -0.40558, 0, 0.573576, 0.819152, 0.707107, -0.579228, 0.40558, -19.821, 19.146, 15.295 )
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+shape = SubResource( 2 )
+action = "left"
 
-[node name="MoneyLabel" type="Label" parent="."]
-margin_right = 217.0
-margin_bottom = 91.0
+[node name="pivot" type="Spatial" parent="."]
+script = ExtResource( 6 )
+
+[node name="Camera" type="Camera" parent="pivot"]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 100, 100 )
+projection = 1
+fov = 29.5
+size = 20.0
+far = 175.0
+
+[node name="Spatial" type="Spatial" parent="."]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
 
 [node name="Floor" type="CSGBox" parent="."]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
 width = 42.0
 height = 0.001
 depth = 28.0
@@ -30,24 +44,35 @@ depth = 28.0
 [node name="CollisionShape" type="CollisionShape" parent="Floor/StaticBody"]
 shape = SubResource( 1 )
 
-[node name="Button" type="Button" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -192.0
-margin_top = -96.0
-toggle_mode = true
-text = "Build"
-
 [node name="CourtArea2" parent="." instance=ExtResource( 3 )]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0.05, 0 )
 
 [node name="CourtAreaSpot" parent="." instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9.8995, 0.05, 9.8995 )
 CourtAreaScene = ExtResource( 2 )
 
 [node name="CourtAreaSpot2" parent="." instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 9.8995, 0.05, -9.8995 )
 CourtAreaScene = ExtResource( 4 )
 
-[connection signal="toggled" from="Button" to="." method="_on_Button_toggled"]
+[node name="MoneyLabel" type="Label" parent="."]
+anchor_right = 0.191406
+anchor_bottom = 0.181667
+text = "ghfghfgh"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 0.80957
+anchor_top = 0.833333
+anchor_right = 0.99707
+anchor_bottom = 0.993333
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Build"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

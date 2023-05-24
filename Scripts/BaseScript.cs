@@ -9,6 +9,9 @@ public partial class BaseScript : Spatial
 	[Export]
 	public string StartMoneyMagnitude;
 
+	public bool CameraMoving;
+	public bool UIopened;
+
 	public Tuxdollar Money = new Tuxdollar(0);
 	public Label MoneyLabel;
 
@@ -52,11 +55,10 @@ public partial class BaseScript : Spatial
 		MoneyLabel.Text = $"Money: {this.Money}";
 	}
 
-	public void _on_Button_toggled(bool button_pressed)
+	public void _on_Button_pressed()
 	{
-		GD.Print("muuh");
 		foreach(Spatial n3d in Spots)
-			n3d.Visible = button_pressed;
+			n3d.Visible = !n3d.Visible;
 	}
 	
 	/*

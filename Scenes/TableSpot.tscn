@@ -25,37 +25,43 @@ mesh = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-margin_right = 153.0
-margin_bottom = 63.0
+anchor_left = 0.425293
+anchor_top = 0.4475
+anchor_right = 0.574707
+anchor_bottom = 0.5525
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -38.0
-margin_top = 1.0
-margin_right = 39.0
-margin_bottom = 22.0
+anchor_left = 0.251634
+anchor_top = 0.015873
+anchor_right = 0.754902
+anchor_bottom = 0.349206
 text = "safasdfsadf"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="ConfirmationButton" type="Button" parent="PopupMenu"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 6.0
-margin_top = -23.0
-margin_right = 68.0
-margin_bottom = -3.0
+anchor_left = 0.0392157
+anchor_top = 0.555556
+anchor_right = 0.444444
+anchor_bottom = 0.968254
 text = "Confirm"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -59.0
-margin_top = -24.0
-margin_right = -5.0
-margin_bottom = -4.0
+anchor_left = 0.614379
+anchor_top = 0.555556
+anchor_right = 0.96732
+anchor_bottom = 0.952381
 text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [connection signal="input_event" from="MeshInstance/Area" to="." method="_on_Area_input_event"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]
