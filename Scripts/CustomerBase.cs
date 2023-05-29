@@ -3,7 +3,7 @@ using System;
 
 public partial class CustomerBase : KinematicBody
 {
-	public RestaurantBase TargetRestaurant;
+	public FoodStall TargetRestaurant;
 	private CourtArea _parent;
 	public Vector3 Direction;
 	public Vector3 SpawnPoint;

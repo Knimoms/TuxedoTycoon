@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class RestaurantBase : Spatial
+public partial class FoodStall : Spatial
 {
 	public Tuxdollar MealPrice, OriginalMealPrice, Cost;
 	public float WaitTime;

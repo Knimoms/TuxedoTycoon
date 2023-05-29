@@ -3,7 +3,7 @@ using System;
 
 public partial class TableSpot : Spatial
 {
-	private CourtArea _courtArea;
+	private CourtArea _parent;
 	[Export]
 	public PackedScene TableScene;
 	[Export]
@@ -19,7 +19,7 @@ public partial class TableSpot : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		_courtArea = (CourtArea)this.GetParent().GetParent();	
+		_parent = (CourtArea)this.GetParent().GetParent();	
 		
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
 
@@ -37,7 +37,7 @@ public partial class TableSpot : Spatial
 		Scale = new Vector3(tempTableBox.Scale.x, 1f, tempTableBox.Scale.z);
 		tempTable.QueueFree();
 
-		_courtArea.GetParent<BaseScript>().Spots.Add(this);
+		_parent.GetParent<BaseScript>().Spots.Add(this);
 
 
 		// Set the label text for the Cost label
@@ -52,18 +52,21 @@ public partial class TableSpot : Spatial
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
-		if(event1 is InputEventMouseButton && event1.IsPressed()) 
-			_popupMenu.PopupCentered();
+		if(!(event1 is InputEventMouseButton))
+			return;
+
+		if(!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0 && GetViewport().GetMousePosition() == _parent.Parent.InputPosition) 
+			_popupMenu.Popup_();
 	}
 
 	private void _on_ConfirmationButton_pressed()
 	{
-		if(_courtArea.Parent.Money < Cost) return;
-		_courtArea.Parent.TransferMoney(-Cost);
+		if(_parent.Parent.Money < Cost) return;
+		_parent.Parent.TransferMoney(-Cost);
 		Table table = TableScene.Instance<Table>();
 		table.Transform = this.Transform;
 		table.Scale = new Vector3(1,1,1);
-		_courtArea.Parent.Spots.Remove(this);
+		_parent.Parent.Spots.Remove(this);
 		this.QueueFree();
 		GetParent().AddChild(table);
 
@@ -80,7 +83,7 @@ public partial class TableSpot : Spatial
 	{
 		if (@event is InputEventMouseMotion motionEvent)
 		{
-			if (_courtArea.Parent.Money < Cost)
+			if (_parent.Parent.Money < Cost)
 			{
 				_confirmationButton.Disabled = true;
 			}
