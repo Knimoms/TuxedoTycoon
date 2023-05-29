@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class RestaurantSpot : Spatial
+public partial class FoodStallSpot : Spatial
 {
 
 	private CourtArea _parent;
@@ -18,6 +18,8 @@ public partial class RestaurantSpot : Spatial
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
+
+	private ulong _input_time;
 
 	
 	// Called when the node enters the scene tree for the first time.
@@ -53,16 +55,20 @@ public partial class RestaurantSpot : Spatial
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
-		if(event1 is InputEventMouseButton && event1.IsPressed()) 
+		if(!(event1 is InputEventMouseButton)) 
+			return;
+
+		if(!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0 && GetViewport().GetMousePosition() == _parent.Parent.InputPosition) 
 		{
-            _popupMenu.PopupCentered();	
+			_popupMenu.PopupCentered();	
 			_costLabel.Text = $"Cost: {Cost}";
 		}
+			
 	}
 
 	private void _instantiate_restaurant()
 	{
-		RestaurantBase rest = RestaurantScene.Instance<RestaurantBase>();
+		FoodStall rest = RestaurantScene.Instance<FoodStall>();
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
 		rest.MealPrice = MealPrice;

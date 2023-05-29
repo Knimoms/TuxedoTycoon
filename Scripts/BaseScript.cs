@@ -16,6 +16,10 @@ public partial class BaseScript : Spatial
 	public Label MoneyLabel;
 
 	public List<Spatial> Spots = new List<Spatial>();
+
+	public Timer MaxInputDelay;
+
+	public Vector2 InputPosition;
 	//private RestaurantBase _rest;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -25,6 +29,7 @@ public partial class BaseScript : Spatial
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = false;
 		
+		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		this.MoneyLabel = (Label)GetNode("MoneyLabel");
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 	}

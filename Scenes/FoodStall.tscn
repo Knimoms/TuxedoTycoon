@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scripts/RestaurantBase.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -31,11 +31,10 @@ visible = false
 [node name="CSGBox" type="CSGBox" parent="OrderWindow"]
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-anchor_left = 0.374023
-anchor_top = 0.405833
-anchor_right = 0.625977
-anchor_bottom = 0.594167
-margin_bottom = -3.05176e-05
+anchor_left = 0.402344
+anchor_top = 0.43
+anchor_right = 0.597656
+anchor_bottom = 0.57
 __meta__ = {
 "_edit_use_anchors_": true
 }

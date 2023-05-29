@@ -8,7 +8,7 @@ public partial class CustomerSpawner : Spatial
 	public PackedScene CustomerScene;
 	private Random _rnd;
 	private Timer _timer;
-	public List<RestaurantBase> Rests;
+	public List<FoodStall> Rests;
 
 	//private PathFollow3D _path_follow_child;
 	
@@ -18,7 +18,7 @@ public partial class CustomerSpawner : Spatial
 		_timer = (Timer)GetNode("Timer");
 		
 		_rnd = new Random();
-		Rests = new List<RestaurantBase>();
+		Rests = new List<FoodStall>();
 	}
 
 	
@@ -33,7 +33,7 @@ public partial class CustomerSpawner : Spatial
 
 	public void Change_wait_time() {
 		float avgTimeClutter = 0;
-		foreach(RestaurantBase r in Rests){
+		foreach(FoodStall r in Rests){
 			avgTimeClutter += r.TimerProp.WaitTime;
 		}
 

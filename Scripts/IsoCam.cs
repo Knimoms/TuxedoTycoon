@@ -15,9 +15,16 @@ public class IsoCam : Spatial
         
     }
 
-    public override void _Input(InputEvent @event)
+    public override void _Input(InputEvent event1)
 	{
-		if (!(@event is InputEventMouseMotion motionEvent))
+
+        if(event1.IsPressed()) 
+        {
+            _parent.MaxInputDelay.Start();
+            _parent.InputPosition = GetViewport().GetMousePosition();
+        }
+
+		if (!(event1 is InputEventMouseMotion motionEvent))
             return;
 		
         if(Input.IsMouseButtonPressed(1) && !_parent.UIopened)

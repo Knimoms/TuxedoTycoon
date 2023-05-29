@@ -15,6 +15,10 @@ public partial class CourtAreaSpot : Spatial
 	private Label _costLabel;
 	private Button _confirmationButton;
 
+	ulong InputTime;
+
+	
+
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -44,7 +48,10 @@ public partial class CourtAreaSpot : Spatial
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
-		if(event1 is InputEventMouseButton && event1.IsPressed()) 
+		if(!(event1 is InputEventMouseButton))
+			return;
+
+		if(!event1.IsPressed() && _parent.MaxInputDelay.TimeLeft > 0 && GetViewport().GetMousePosition() == _parent.InputPosition) 
 			_popupMenu.Popup_();
 	}
 

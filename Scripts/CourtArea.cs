@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class CourtArea : Spatial
 {
 	public BaseScript Parent;
-	public List<RestaurantBase> Restaurants;
+	public List<FoodStall> Restaurants;
 	public List<Chair> Chairs = new List<Chair>();
 
 	Random rnd = new Random();
