@@ -32,7 +32,7 @@ public partial class FoodSpawner : Spatial
         if (kitchenCounter.minigame.CompareLists() == true)
         {
             FoodBase foodBase = FoodBaseScene.Instance<FoodBase>();
-            foodBase.Transform = new Transform(this.Transform.basis,this.Transform.origin + Vector3.Up);
+            foodBase.Transform = new Transform(foodBase.Transform.basis,this.Transform.origin + Vector3.Up);
             CallDeferred("add_child", foodBase);
             GD.Print("NOT POOP!");
 

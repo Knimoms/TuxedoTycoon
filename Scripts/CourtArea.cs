@@ -13,7 +13,7 @@ public partial class CourtArea : Spatial
 
 	public override void _Ready()
 	{
-				GD.Print(this);
+		GD.Print(this);
 
 		Parent = (BaseScript)this.GetParent();
 		Restaurants = GetNode<CustomerSpawner>("Spawner").Rests;

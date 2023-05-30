@@ -24,6 +24,7 @@ public partial class CustomerBase : KinematicBody
 
 	private Vector3 _target_window;
 	private Timer _timer;
+	private Timer _patienceTimer;
 	public bool Waiting = false;
 	public bool OrderFinished = false;
 	public bool Eating = false;
@@ -35,6 +36,8 @@ public partial class CustomerBase : KinematicBody
 	public override void _Ready()
 	{
 		_timer = (Timer)GetNode("Timer");
+		_patienceTimer = (Timer)GetNode("PatienceTimer");
+		_patienceTimer.Start();
 		_nav_agent = (NavigationAgent)GetNode("NavigationAgent");
 		this._parent = (CourtArea)this.GetParent();
 
@@ -67,7 +70,7 @@ public partial class CustomerBase : KinematicBody
 
 		Vector3 velocity = Velocity;
 
-		if (LineNumber != 0)
+		if (LineNumber != 0 && !OrderFinished)
 			UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalTransform.origin);
 
 		Vector3 currentLocation = GlobalTransform.origin;
@@ -141,6 +144,23 @@ public partial class CustomerBase : KinematicBody
 		StartTimer(); 
 	}
 
+	public void _on_PatienceTimer_timeout()
+	{
+		if(LineNumber > 15) 
+		{
+			UpdateTargetLocation(SpawnPoint);
+			GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
+			TargetRestaurant.IncomingCustomers.Remove(this);
+			for(int i = LineNumber; i < TargetRestaurant.IncomingCustomers.Count; i++)
+			{	
+				TargetRestaurant.IncomingCustomers[i].LineNumber--;
+				TargetRestaurant.IncomingCustomers[i].Waiting = false;
+			}
+			LineNumber = 0;
+			Waiting = false;
+		}
+	}
+
 	public void _on_Timer_timeout()
 	{
 		if(Eating)
@@ -154,6 +174,16 @@ public partial class CustomerBase : KinematicBody
 		Waiting = false;
 		if (TargetRestaurant.IncomingCustomers.Count - 1 > LineNumber)
 			TargetRestaurant.IncomingCustomers[LineNumber + 1].StartTimer();
+	}
+
+	public void TakeAwayFood()
+	{
+		Waiting = false;
+		OrderFinished = true;
+		LineNumber = 0;
+		GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
+		TargetRestaurant.IncomingCustomers.Remove(this);		
+		UpdateTargetLocation(SpawnPoint);
 	}
 
 	private void _on_NavigationAgent_target_reached()

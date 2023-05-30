@@ -54,6 +54,29 @@ public partial class FoodStall : Spatial
 		
 	}
 
+	public void MiniGameDone()
+	{
+		int j = IncomingCustomers.Count;
+		for(int i = 0; i < 5 && i < j; i++)
+		{
+			IncomingCustomers[0].TakeAwayFood();
+			_base_script.TransferMoney(MealPrice*1.25f);
+		}
+
+		for(int i = 0; i < IncomingCustomers.Count; i++)
+		{
+			IncomingCustomers[i].LineNumber = i;
+		}
+
+		if(IncomingCustomers.Count > 0) 
+		{
+			IncomingCustomers[0].FirstInQueue();
+			IncomingCustomers[0].StartTimer();
+		}
+
+		_timer.Stop();
+	}
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
@@ -62,6 +85,8 @@ public partial class FoodStall : Spatial
 
 	private void _on_Timer_timeout()
 	{
+		if(IncomingCustomers.Count == 0)
+			return;
 		_base_script.TransferMoney(MealPrice);
 		this.IncomingCustomers[0].FinishOrder();
 		this.IncomingCustomers[0] = null;
@@ -89,7 +114,9 @@ public partial class FoodStall : Spatial
 	{
 		if(event1 is InputEventMouseButton && event1.IsPressed()) 
 			ShowPopupMenu();
+			
 			//LevelUp();
+		
 	}
 
 	public void Order()
