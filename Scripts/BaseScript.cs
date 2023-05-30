@@ -20,17 +20,22 @@ public partial class BaseScript : Spatial
 	public Timer MaxInputDelay;
 
 	public Vector2 InputPosition;
+
+	public Button BuildButton;
+
+	public Camera BaseCam;
 	//private RestaurantBase _rest;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("mooh");
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = false;
 		
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		this.MoneyLabel = (Label)GetNode("MoneyLabel");
+		this.BuildButton = (Button)GetNode("Button");
+		this.BaseCam = (Camera)GetNode("pivot").GetNode("Camera");
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 	}
 

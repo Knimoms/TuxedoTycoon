@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -11,6 +12,7 @@ albedo_color = Color( 0, 1, 0, 1 )
 
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
+MiniGameScene = ExtResource( 2 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
@@ -31,10 +33,11 @@ visible = false
 [node name="CSGBox" type="CSGBox" parent="OrderWindow"]
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-anchor_left = 0.402344
-anchor_top = 0.43
-anchor_right = 0.597656
-anchor_bottom = 0.57
+anchor_left = 0.308594
+anchor_top = 0.345
+anchor_right = 0.691406
+anchor_bottom = 0.655
+margin_bottom = 3.05176e-05
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -51,24 +54,22 @@ margin_bottom = 12.0
 text = "Upgrade price"
 
 [node name="UpgradeButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.0310078
-anchor_top = 0.654867
-anchor_right = 0.375969
-anchor_bottom = 0.946903
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -60.0
+margin_right = 130.0
+rect_scale = Vector2( 0.99246, 0.926192 )
 text = "Upgrade"
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.624031
-anchor_top = 0.681416
-anchor_right = 0.968992
-anchor_bottom = 0.946903
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -130.0
+margin_top = -60.0
+rect_scale = Vector2( 0.975223, 0.949553 )
 text = "Cancel"
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [node name="NameLabel" type="Label" parent="PopupMenu"]
 anchor_left = 0.5
@@ -79,7 +80,22 @@ margin_right = 20.0
 margin_bottom = 27.0
 text = "Name"
 
+[node name="MiniGame" type="Button" parent="PopupMenu"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -65.0
+margin_top = -60.0
+margin_right = 65.0
+rect_scale = Vector2( 0.993384, 0.94656 )
+text = "MiniGame"
+
+[node name="MiniGameSpot" type="Spatial" parent="."]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
+
 [connection signal="input_event" from="MeshInstance/StaticBody" to="." method="_on_StaticBody_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="pressed" from="PopupMenu/UpgradeButton" to="." method="_on_UpgradeButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="pressed" from="PopupMenu/MiniGame" to="." method="_on_MiniGame_pressed"]

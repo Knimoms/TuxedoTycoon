@@ -15,6 +15,8 @@ public partial class FoodSpawner : Spatial
 	{
 		if (event1 is InputEventMouseButton && event1.IsPressed())
 		{
+			if(kitchenCounter.minigame.Done)
+				return;
 			GD.Print(event1);
 			foreach (IngredientBase arsch in kitchenCounter.minigame.ingredientList)
 			{
@@ -28,13 +30,13 @@ public partial class FoodSpawner : Spatial
 
 	public void spawnFood()
 	{
-		if (kitchenCounter.minigame.CompareLists() == true)
+		if (kitchenCounter.minigame.CompareLists())
 		{
+			kitchenCounter.minigame.Done = true;
 			FoodBase foodBase = FoodBaseScene.Instance<FoodBase>();
 			foodBase.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up*0.1f);
 			CallDeferred("add_child", foodBase);
-
-
+			kitchenCounter.minigame.MyFoodStall.MiniGameDone();
 		}
 		else
 		{

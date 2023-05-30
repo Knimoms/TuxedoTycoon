@@ -32,7 +32,7 @@ public partial class CustomerSpawner : Spatial
             avgTimeClutter += r.TimerProp.WaitTime;
         }
 
-        _timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count;
+        _timer.WaitTime = (avgTimeClutter / Rests.Count) / Rests.Count/2;
         if (Rests.Count == 1)
         {
             _timer.Start();

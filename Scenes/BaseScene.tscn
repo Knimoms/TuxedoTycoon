@@ -57,10 +57,14 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0
 [node name="CourtAreaSpot" parent="." instance=ExtResource( 5 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -9.8995, 0.05, 9.8995 )
 CourtAreaScene = ExtResource( 2 )
+CostValue = 30.0
+CostMagnitude = "c"
 
 [node name="CourtAreaSpot2" parent="." instance=ExtResource( 5 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 9.8995, 0.05, -9.8995 )
 CourtAreaScene = ExtResource( 4 )
+CostValue = 560.0
+CostMagnitude = "m"
 
 [node name="MoneyLabel" type="Label" parent="."]
 anchor_right = 0.191406

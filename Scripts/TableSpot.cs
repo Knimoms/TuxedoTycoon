@@ -10,7 +10,7 @@ public partial class TableSpot : Spatial
 	public float CostValue;
 	[Export]
 	public string CostMagnitude;
-	public Tuxdollar Cost;
+	public static Tuxdollar Cost;
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
@@ -56,7 +56,11 @@ public partial class TableSpot : Spatial
 			return;
 
 		if(!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0 && GetViewport().GetMousePosition() == _parent.Parent.InputPosition) 
+		{
 			_popupMenu.Popup_();
+			_costLabel.Text = Cost.ToString();
+		}
+
 	}
 
 	private void _on_ConfirmationButton_pressed()
@@ -69,6 +73,8 @@ public partial class TableSpot : Spatial
 		_parent.Parent.Spots.Remove(this);
 		this.QueueFree();
 		GetParent().AddChild(table);
+
+		Cost *= 8;
 
 		_popupMenu.Hide();
 	}

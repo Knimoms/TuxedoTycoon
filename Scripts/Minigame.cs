@@ -3,10 +3,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public partial class Minigame : Node
+public partial class Minigame : Spatial
 {
     //private string _compare1;
     //private string _compare2;
+
+    public FoodStall MyFoodStall;
     public List<Ingredient> userList = new List<Ingredient>
     {
     };
@@ -15,12 +17,25 @@ public partial class Minigame : Node
     {
     };
 
+    public bool Done = false;
+
     Ingredient[] recipe1 = new Ingredient[]
     {
         new Ingredient { IngName = "Ing1" },
         new Ingredient { IngName = "Ing2" },
         new Ingredient { IngName = "Ing3" },
     };
+
+    private void _on_CloseButton_pressed()
+    {
+        MyFoodStall._parent.Parent.BaseCam.MakeCurrent();
+        MyFoodStall.ToggleVisibility();
+        if(MyFoodStall.IncomingCustomers.Count > 0 && MyFoodStall.IncomingCustomers[0].Waiting == true)
+        {
+            MyFoodStall.TimerProp.Start();
+        }
+        this.QueueFree();
+    }
 
     public bool CompareLists()
     {

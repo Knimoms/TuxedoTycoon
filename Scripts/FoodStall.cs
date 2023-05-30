@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public partial class FoodStall : Spatial
 {
+
+	[Export]
+	public PackedScene MiniGameScene;
 	public Tuxdollar MealPrice, OriginalMealPrice, Cost;
 	public float WaitTime;
 	public CustomerBase CurrentCustomer;
@@ -11,7 +14,7 @@ public partial class FoodStall : Spatial
 	public List<CustomerBase> IncomingCustomers = new List<CustomerBase>();
 	//public List<CustomerBase> Queue;
 
-	private CourtArea _parent = null;
+	public CourtArea _parent = null;
 
 	private static BaseScript _base_script;
 
@@ -29,13 +32,17 @@ public partial class FoodStall : Spatial
 	private Button _cancelButton;
 	private Label _costLabel;
 	private Label _nameLabel;
+	public Button MiniGameButton;
 	
 	private bool _popupMenuOpen = false;
+
+	private MeshInstance _my_mesh_instance;
 	
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		_my_mesh_instance = GetNode<MeshInstance>("MeshInstance");
 		_parent = GetParent<CourtArea>();
 		if(_base_script == null)_base_script = _parent.Parent;
 		this.OriginalMealPrice = this.MealPrice;
@@ -48,6 +55,7 @@ public partial class FoodStall : Spatial
 		_cancelButton = _popupMenu.GetNode<Button>("CancelButton");
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_nameLabel = _popupMenu.GetNode<Label>("NameLabel");
+		MiniGameButton = _popupMenu.GetNode<Button>("MiniGame");
 
 		_upgradeButton.Disabled = true;
 		//_upgradeButton.Connect("pressed", this, "_on_upgrade_button_pressed");
@@ -59,6 +67,8 @@ public partial class FoodStall : Spatial
 		int j = IncomingCustomers.Count;
 		for(int i = 0; i < 5 && i < j; i++)
 		{
+			if(!IncomingCustomers[0].Waiting)
+				break;
 			IncomingCustomers[0].TakeAwayFood();
 			_base_script.TransferMoney(MealPrice*1.25f);
 		}
@@ -81,6 +91,31 @@ public partial class FoodStall : Spatial
 	public override void _Process(float delta)
 	{
 		 
+	}
+
+	private void _on_MiniGame_pressed()
+	{
+		Minigame minigame = MiniGameScene.Instance<Minigame>();
+
+		AddChild(minigame);
+		minigame.Transform = GetNode<Spatial>("MiniGameSpot").Transform;
+		minigame.MyFoodStall = this;
+		minigame.GetNode<Camera>("Camera").MakeCurrent();
+
+		_popupMenu.Hide();
+
+		_timer.Stop();
+		_my_mesh_instance.Visible = false;
+		_parent.Parent.BuildButton.Visible = false;
+		_parent.Parent.MoneyLabel.Visible = false;
+
+	}
+
+	public void ToggleVisibility ()
+	{
+		_my_mesh_instance.Visible = !_my_mesh_instance.Visible;
+		_parent.Parent.BuildButton.Visible = !_parent.Parent.BuildButton.Visible;
+		_parent.Parent.MoneyLabel.Visible = !_parent.Parent.MoneyLabel.Visible;
 	}
 
 	private void _on_Timer_timeout()
@@ -114,7 +149,7 @@ public partial class FoodStall : Spatial
 	{
 		if(event1 is InputEventMouseButton && event1.IsPressed()) 
 			ShowPopupMenu();
-			
+
 			//LevelUp();
 		
 	}
