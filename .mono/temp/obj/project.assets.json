@@ -8,24 +8,24 @@
     ".NETFramework,Version=v4.7.2": []
   },
   "packageFolders": {
-    "C:\\Users\\Knimoms\\.nuget\\packages\\": {},
-    "C:\\Users\\Knimoms\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
+    "C:\\Users\\skrip\\.nuget\\packages\\": {},
+    "C:\\Users\\skrip\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Knimoms\\Documents\\dev\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
+      "projectUniqueName": "C:\\GitProjects\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
       "projectName": "TuxedoTycoon(Godotv3.5.2)",
-      "projectPath": "C:\\Users\\Knimoms\\Documents\\dev\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
-      "packagesPath": "C:\\Users\\Knimoms\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Knimoms\\Documents\\dev\\TuxedoTycoon\\.mono\\temp\\obj\\",
+      "projectPath": "C:\\GitProjects\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
+      "packagesPath": "C:\\Users\\skrip\\.nuget\\packages\\",
+      "outputPath": "C:\\GitProjects\\TuxedoTycoon\\.mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Users\\Knimoms\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+        "C:\\Users\\skrip\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Knimoms\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Users\\Knimoms\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
+        "C:\\Users\\skrip\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\skrip\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -50,7 +50,7 @@
     "frameworks": {
       "net472": {
         "targetAlias": "net472",
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

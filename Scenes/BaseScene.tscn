@@ -14,7 +14,7 @@ extents = Vector3( 42, 0.001, 28 )
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
-StartMoneyValue = 3000.0
+StartMoneyValue = 3e+07
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 shape = SubResource( 2 )
