@@ -10,6 +10,9 @@ public partial class FoodBase : Spatial
 	{
 		foodSpawner = GetParent<FoodSpawner>();
 	}
-
+	public override void _Process(float delta)
+	{
+		RotateObjectLocal(new Vector3(0, 1, 0), 0.05f);
+	}
     
 }

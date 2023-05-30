@@ -16,6 +16,7 @@ C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Go
 C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).csproj.CoreCompileInputs.cache
 C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).dll
 C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).pdb
+<<<<<<< Updated upstream
 C:\GitProjects\TuxedoTycoon\.mono\temp\bin\Debug\TuxedoTycoon(Godotv3.5.2).dll
 C:\GitProjects\TuxedoTycoon\.mono\temp\bin\Debug\TuxedoTycoon(Godotv3.5.2).pdb
 C:\GitProjects\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).csproj.AssemblyReference.cache
@@ -25,3 +26,14 @@ C:\GitProjects\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).Assem
 C:\GitProjects\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).csproj.CoreCompileInputs.cache
 C:\GitProjects\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).dll
 C:\GitProjects\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).pdb
+=======
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\bin\Debug\TuxedoTycoon(Godotv3.5.2).dll
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\bin\Debug\TuxedoTycoon(Godotv3.5.2).pdb
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).csproj.AssemblyReference.cache
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).GeneratedMSBuildEditorConfig.editorconfig
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).AssemblyInfoInputs.cache
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).AssemblyInfo.cs
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).csproj.CoreCompileInputs.cache
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).dll
+C:\programming stuff\Other\TuxedoTycoon\.mono\temp\obj\Debug\TuxedoTycoon(Godotv3.5.2).pdb
+>>>>>>> Stashed changes

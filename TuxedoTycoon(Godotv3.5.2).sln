@@ -1,12 +1,15 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33423.256
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TuxedoTycoon(Godotv3.5.2)", "TuxedoTycoon(Godotv3.5.2).csproj", "{E25364CB-F770-45B3-8F46-5F2BF80E0FB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E25364CB-F770-45B3-8F46-5F2BF80E0FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +18,11 @@ Global
 		{E25364CB-F770-45B3-8F46-5F2BF80E0FB8}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{E25364CB-F770-45B3-8F46-5F2BF80E0FB8}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{E25364CB-F770-45B3-8F46-5F2BF80E0FB8}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6EE515DD-9153-43F3-90F1-78E5CAE40882}
 	EndGlobalSection
 EndGlobal

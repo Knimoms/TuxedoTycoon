@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "dgSpecHash": "h8wlictNVWs1tZ7VVmn6NVBpcd2rho1rttzkLwREN4pLfEAmfQ/BdOlIG1JUFbTWLqHEmtGxLq8dCHKtesdLwQ==",
   "success": true,
   "projectFilePath": "C:\\GitProjects\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
+=======
+  "dgSpecHash": "91zddDS3Z7e6rtzkYRvtCpx6oXrFoPM4L9xx+P/ZnmC9c8g8MfIcp+8ddXNWQupVIb1UVafRFeVGNHUTU3ULiw==",
+  "success": true,
+  "projectFilePath": "C:\\programming stuff\\Other\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
+>>>>>>> Stashed changes
   "expectedPackageFiles": [],
   "logs": []
 }

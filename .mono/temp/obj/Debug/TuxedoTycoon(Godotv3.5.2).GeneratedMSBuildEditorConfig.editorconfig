@@ -1,3 +1,7 @@
 is_global = true
 build_property.RootNamespace = TuxedoTycoonGodotv3.Empty.Empty
+<<<<<<< Updated upstream
 build_property.ProjectDir = C:\GitProjects\TuxedoTycoon\
+=======
+build_property.ProjectDir = C:\programming stuff\Other\TuxedoTycoon\
+>>>>>>> Stashed changes
