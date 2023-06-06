@@ -43,53 +43,63 @@ __meta__ = {
 }
 
 [node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -45.5
-margin_top = -12.0
-margin_right = 45.5
-margin_bottom = 12.0
+anchor_left = 0.383928
+anchor_top = 0.435484
+anchor_right = 0.616072
+anchor_bottom = 0.564516
 text = "Upgrade price"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="UpgradeButton" type="Button" parent="PopupMenu"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -60.0
-margin_right = 130.0
+anchor_top = 0.677419
+anchor_right = 0.329133
+anchor_bottom = 0.976191
+margin_right = 0.980194
+margin_bottom = 4.42848
 rect_scale = Vector2( 0.99246, 0.926192 )
 text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -130.0
-margin_top = -60.0
+anchor_left = 0.668367
+anchor_top = 0.677419
+anchor_right = 0.991783
+anchor_bottom = 0.983727
+margin_right = 3.22101
+margin_bottom = 3.02682
 rect_scale = Vector2( 0.975223, 0.949553 )
 text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="NameLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -20.0
-margin_top = 13.0
-margin_right = 20.0
-margin_bottom = 27.0
+anchor_left = 0.44898
+anchor_top = 0.0698925
+anchor_right = 0.55102
+anchor_bottom = 0.145161
+margin_right = 1.52588e-05
 text = "Name"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="MiniGame" type="Button" parent="PopupMenu"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -65.0
-margin_top = -60.0
-margin_right = 65.0
+anchor_left = 0.334183
+anchor_top = 0.677419
+anchor_right = 0.663622
+anchor_bottom = 0.982761
+margin_right = 0.860077
+margin_bottom = 3.20639
 rect_scale = Vector2( 0.993384, 0.94656 )
 text = "MiniGame"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="MiniGameSpot" type="Spatial" parent="."]
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )

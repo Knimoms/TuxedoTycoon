@@ -22,6 +22,8 @@ public partial class BaseScript : Spatial
 	public Vector2 InputPosition;
 
 	public Button BuildButton;
+	public bool BuildMode = false;
+	public bool MiniGameStarted = false;
 
 	public Camera BaseCam;
 	//private RestaurantBase _rest;
@@ -67,6 +69,8 @@ public partial class BaseScript : Spatial
 
 	public void _on_Button_pressed()
 	{
+		BuildMode = !BuildMode;
+
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = !n3d.Visible;
 	}

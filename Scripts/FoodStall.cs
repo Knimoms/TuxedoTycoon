@@ -97,6 +97,8 @@ public partial class FoodStall : Spatial
 	{
 		Minigame minigame = MiniGameScene.Instance<Minigame>();
 
+		_base_script.MiniGameStarted = true;
+
 		AddChild(minigame);
 		minigame.Transform = GetNode<Spatial>("MiniGameSpot").Transform;
 		minigame.MyFoodStall = this;
@@ -147,7 +149,7 @@ public partial class FoodStall : Spatial
 
 	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
-		if(event1 is InputEventMouseButton && event1.IsPressed()) 
+		if(event1 is InputEventMouseButton && event1.IsPressed() && !_base_script.BuildMode && !_base_script.MiniGameStarted) 
 			ShowPopupMenu();
 
 			//LevelUp();

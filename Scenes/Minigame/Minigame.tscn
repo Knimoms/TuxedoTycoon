@@ -39,12 +39,12 @@ flat = true
 script = ExtResource( 3 )
 
 [node name="CloseButton" type="Button" parent="."]
-anchor_left = 0.862305
-anchor_top = 0.0233333
-anchor_right = 0.989258
-anchor_bottom = 0.143333
-margin_right = -65.0
-margin_bottom = -36.0
+anchor_left = 0.837891
+anchor_top = 0.03
+anchor_right = 0.964843
+anchor_bottom = 0.149999
+margin_right = -64.9999
+margin_bottom = -35.9998
 rect_scale = Vector2( 2, 2 )
 text = "Close"
 __meta__ = {

@@ -35,6 +35,8 @@ public partial class Minigame : Spatial
             MyFoodStall.TimerProp.Start();
         }
         this.QueueFree();
+
+        MyFoodStall._parent.Parent.MiniGameStarted = false;
     }
 
     public bool CompareLists()

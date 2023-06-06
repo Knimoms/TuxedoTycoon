@@ -76,10 +76,10 @@ public class IsoCam : Spatial
         if(@event is InputEventMouseButton mb && @event.IsPressed())
         {
             if(mb.ButtonIndex == (int)ButtonList.WheelUp && _camera.Size > ZoomMinimum)
-                _camera.Size -= ZoomSpeed*10;
+                _camera.Size -= ZoomSpeed*60;
             
             if(mb.ButtonIndex == (int)ButtonList.WheelDown && _camera.Size < ZoomMaximum)
-                _camera.Size += ZoomSpeed*10;
+                _camera.Size += ZoomSpeed*60;
             
             
         }       		
