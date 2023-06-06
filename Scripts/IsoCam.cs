@@ -30,13 +30,12 @@ public class IsoCam : Spatial
 
         if(@event is InputEventScreenTouch st)
         {
-            _parent.MaxInputDelay.Start();
-            _parent.InputPosition = GetViewport().GetMousePosition();
-
             if(@event.IsPressed())
             {
                 events[st.Index] = new InputEventScreenDrag();
                 events[st.Index].Position = st.Position;
+                _parent.MaxInputDelay.Start();
+                _parent.InputPosition = GetViewport().GetMousePosition();
             } else
             {
                 events.Remove(st.Index);

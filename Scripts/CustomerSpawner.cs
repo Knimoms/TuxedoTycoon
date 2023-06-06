@@ -47,7 +47,7 @@ public partial class CustomerSpawner : Spatial
         FoodStall targetFoodStall = TargetFoodStall();
         if (targetFoodStall == null) return;
 
-        CustomerBase customer = CustomerScene.Instance<CustomerBase>();
+        Customer customer = CustomerScene.Instance<Customer>();
         customer.TargetRestaurant = targetFoodStall;
         customer.Transform = Transform;
         GetParent().AddChild(customer);

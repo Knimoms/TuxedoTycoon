@@ -9,9 +9,9 @@ public partial class FoodStall : Spatial
 	public PackedScene MiniGameScene;
 	public Tuxdollar MealPrice, OriginalMealPrice, Cost;
 	public float WaitTime;
-	public CustomerBase CurrentCustomer;
+	public Customer CurrentCustomer;
 
-	public List<CustomerBase> IncomingCustomers = new List<CustomerBase>();
+	public List<Customer> IncomingCustomers = new List<Customer>();
 	//public List<CustomerBase> Queue;
 
 	public CourtArea _parent = null;

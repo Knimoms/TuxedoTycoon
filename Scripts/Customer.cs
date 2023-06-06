@@ -1,8 +1,9 @@
 using Godot;
 using System;
 
-public partial class CustomerBase : KinematicBody
+public partial class Customer : KinematicBody
 {
+	private Spatial _my_body;
 	public FoodStall TargetRestaurant;
 	private CourtArea _parent;
 	public Vector3 Direction;
@@ -30,11 +31,15 @@ public partial class CustomerBase : KinematicBody
 	public bool Eating = false;
 	private Chair _my_chair;
 
+	private Sprite3D _my_sprite;
+
 	
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		_my_body = (Spatial)GetNode("Body");
+		_my_sprite = (Sprite3D)GetNode("Sprite3D");
 		_timer = (Timer)GetNode("Timer");
 		_patienceTimer = (Timer)GetNode("PatienceTimer");
 		_patienceTimer.Start();
@@ -63,7 +68,7 @@ public partial class CustomerBase : KinematicBody
 
 	public override void _PhysicsProcess(float delta)
 	{
-		this.Rotate(Vector3.Up, (float)(5*delta));
+		_my_sprite.Rotate(Vector3.Up, (float)(5*delta));
 
 		if (Waiting || Eating)
 			return;
@@ -86,6 +91,8 @@ public partial class CustomerBase : KinematicBody
 		// {
 			Velocity = velocity;
 			MoveAndSlide(Velocity);
+
+			_my_body.LookAt(_nav_agent.GetNextLocation(), Vector3.Up);
 		// }
 
 		if ((_nav_agent.GetTargetLocation() - GlobalTransform.origin).Length() <= 0.6f)
@@ -108,12 +115,12 @@ public partial class CustomerBase : KinematicBody
 		_my_chair = _parent.GetRandomFreeChair();
 		if(_my_chair == null)
 		{
-			GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
+			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.Refund();
 			UpdateTargetLocation(SpawnPoint);
 			return;
 		}
-		GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
+		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
 		_my_chair.Occupied = true;
 		UpdateTargetLocation(_my_chair.GlobalTransform.origin);
 	}
@@ -137,8 +144,9 @@ public partial class CustomerBase : KinematicBody
 
 	public void StartEating()
 	{
-		GetNode<Sprite3D>("Sprite3D").Scale *= 0.5f;
+		_my_sprite.Scale *= 0.5f;
 		GlobalTransform = new Transform(_my_chair.GlobalTransform.basis, _my_chair.GlobalTransform.origin + Vector3.Up*0.5f);
+		_my_body.Rotation = _my_chair.Rotation;
 		Eating = true;
 		_timer.WaitTime = EatingTime;
 		StartTimer(); 
@@ -149,7 +157,7 @@ public partial class CustomerBase : KinematicBody
 		if(LineNumber > 15) 
 		{
 			UpdateTargetLocation(SpawnPoint);
-			GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
+			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.IncomingCustomers.Remove(this);
 			for(int i = LineNumber; i < TargetRestaurant.IncomingCustomers.Count; i++)
 			{	
@@ -181,7 +189,7 @@ public partial class CustomerBase : KinematicBody
 		Waiting = false;
 		OrderFinished = true;
 		LineNumber = 0;
-		GetNode<Sprite3D>("Sprite3D").Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
+		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
 		TargetRestaurant.IncomingCustomers.Remove(this);		
 		UpdateTargetLocation(SpawnPoint);
 	}
