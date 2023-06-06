@@ -67,7 +67,7 @@ public partial class FoodStall : Spatial
 		int j = IncomingCustomers.Count;
 		for(int i = 0; i < 5 && i < j; i++)
 		{
-			if(!IncomingCustomers[0].Waiting)
+			if(IncomingCustomers[0].State != CustomerState.Waiting)
 				break;
 			IncomingCustomers[0].TakeAwayFood();
 			_base_script.TransferMoney(MealPrice*1.25f);

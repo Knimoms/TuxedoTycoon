@@ -8,18 +8,12 @@
     ".NETFramework,Version=v4.7.2": []
   },
   "packageFolders": {
-<<<<<<< Updated upstream
     "C:\\Users\\skrip\\.nuget\\packages\\": {},
     "C:\\Users\\skrip\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
-=======
-    "C:\\Users\\robin\\.nuget\\packages\\": {},
-    "C:\\Users\\robin\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
->>>>>>> Stashed changes
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< Updated upstream
       "projectUniqueName": "C:\\GitProjects\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
       "projectName": "TuxedoTycoon(Godotv3.5.2)",
       "projectPath": "C:\\GitProjects\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
@@ -32,20 +26,6 @@
       "configFilePaths": [
         "C:\\Users\\skrip\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Users\\skrip\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
-=======
-      "projectUniqueName": "C:\\programming stuff\\Other\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
-      "projectName": "TuxedoTycoon(Godotv3.5.2)",
-      "projectPath": "C:\\programming stuff\\Other\\TuxedoTycoon\\TuxedoTycoon(Godotv3.5.2).csproj",
-      "packagesPath": "C:\\Users\\robin\\.nuget\\packages\\",
-      "outputPath": "C:\\programming stuff\\Other\\TuxedoTycoon\\.mono\\temp\\obj\\",
-      "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Users\\robin\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
-      ],
-      "configFilePaths": [
-        "C:\\Users\\robin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Users\\robin\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
->>>>>>> Stashed changes
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -70,12 +50,16 @@
     "frameworks": {
       "net472": {
         "targetAlias": "net472",
-<<<<<<< Updated upstream
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
->>>>>>> Stashed changes
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\GitProjects\\TuxedoTycoon\\.mono\\temp\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
