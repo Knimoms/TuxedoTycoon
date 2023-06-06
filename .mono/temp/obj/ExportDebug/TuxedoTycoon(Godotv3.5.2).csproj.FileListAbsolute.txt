@@ -1,9 +1,0 @@
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\bin\ExportDebug\TuxedoTycoon(Godotv3.5.2).dll
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\bin\ExportDebug\TuxedoTycoon(Godotv3.5.2).pdb
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\ExportDebug\TuxedoTycoon(Godotv3.5.2).csproj.AssemblyReference.cache
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\ExportDebug\TuxedoTycoon(Godotv3.5.2).GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\ExportDebug\TuxedoTycoon(Godotv3.5.2).AssemblyInfoInputs.cache
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\ExportDebug\TuxedoTycoon(Godotv3.5.2).AssemblyInfo.cs
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\ExportDebug\TuxedoTycoon(Godotv3.5.2).csproj.CoreCompileInputs.cache
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\ExportDebug\TuxedoTycoon(Godotv3.5.2).dll
-C:\Users\Knimoms\Documents\dev\TuxedoTycoon\.mono\temp\obj\ExportDebug\TuxedoTycoon(Godotv3.5.2).pdb
