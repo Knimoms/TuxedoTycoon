@@ -5,21 +5,12 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-<<<<<<< Updated upstream
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\skrip\.nuget\packages\;C:\Users\skrip\AppData\Roaming\Godot\mono\GodotNuGetFallbackFolder</NuGetPackageFolders>
-=======
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\robin\.nuget\packages\;C:\Users\robin\AppData\Roaming\Godot\mono\GodotNuGetFallbackFolder</NuGetPackageFolders>
->>>>>>> Stashed changes
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.6.0</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.5.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-<<<<<<< Updated upstream
     <SourceRoot Include="C:\Users\skrip\.nuget\packages\" />
     <SourceRoot Include="C:\Users\skrip\AppData\Roaming\Godot\mono\GodotNuGetFallbackFolder\" />
-=======
-    <SourceRoot Include="C:\Users\robin\.nuget\packages\" />
-    <SourceRoot Include="C:\Users\robin\AppData\Roaming\Godot\mono\GodotNuGetFallbackFolder\" />
->>>>>>> Stashed changes
   </ItemGroup>
 </Project>
