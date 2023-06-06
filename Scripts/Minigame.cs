@@ -30,7 +30,7 @@ public partial class Minigame : Spatial
     {
         MyFoodStall._parent.Parent.BaseCam.MakeCurrent();
         MyFoodStall.ToggleVisibility();
-        if(MyFoodStall.IncomingCustomers.Count > 0 && MyFoodStall.IncomingCustomers[0].Waiting == true)
+        if(MyFoodStall.IncomingCustomers.Count > 0 && MyFoodStall.IncomingCustomers[0].State == CustomerState.Waiting)
         {
             MyFoodStall.TimerProp.Start();
         }
