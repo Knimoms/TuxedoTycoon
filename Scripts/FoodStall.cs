@@ -149,7 +149,7 @@ public partial class FoodStall : Spatial
 
 	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
-		if(event1 is InputEventMouseButton && event1.IsPressed() && !_base_script.BuildMode && !_base_script.MiniGameStarted) 
+		if(event1 is InputEventMouseButton mb && !event1.IsPressed() && !_base_script.BuildMode && !_base_script.MiniGameStarted && _base_script.MaxInputDelay.TimeLeft > 0 && _base_script.InputPosition == mb.Position)
 			ShowPopupMenu();
 
 			//LevelUp();
