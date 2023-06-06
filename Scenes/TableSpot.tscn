@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/TableSpot.cs" type="Script" id=1]
 
@@ -11,6 +11,13 @@ size = Vector3( 1, 1, 1 )
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.5, 0.5, 0.5 )
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Assets/SansBlackSmall.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 30
+font_data = SubResource( 4 )
 
 [node name="TableSpot" type="Spatial"]
 script = ExtResource( 1 )
@@ -26,6 +33,7 @@ mesh = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
+visible = true
 anchor_left = 0.333496
 anchor_top = 0.359167
 anchor_right = 0.666504
@@ -39,6 +47,7 @@ anchor_left = 0.251634
 anchor_top = 0.015873
 anchor_right = 0.754902
 anchor_bottom = 0.349206
+custom_fonts/font = SubResource( 5 )
 text = "safasdfsadf"
 __meta__ = {
 "_edit_use_anchors_": true
@@ -49,6 +58,7 @@ anchor_left = 0.0392157
 anchor_top = 0.555556
 anchor_right = 0.444444
 anchor_bottom = 0.968254
+custom_fonts/font = SubResource( 5 )
 text = "Confirm"
 __meta__ = {
 "_edit_use_anchors_": true
@@ -59,6 +69,7 @@ anchor_left = 0.614379
 anchor_top = 0.555556
 anchor_right = 0.96732
 anchor_bottom = 0.952381
+custom_fonts/font = SubResource( 5 )
 text = "Cancel"
 __meta__ = {
 "_edit_use_anchors_": true

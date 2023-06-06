@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/CourtAreaSpot.cs" type="Script" id=1]
 
@@ -10,6 +10,13 @@ material = SubResource( 3 )
 size = Vector3( 1, 1, 1 )
 
 [sub_resource type="BoxShape" id=2]
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Assets/SansBlackSmall.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 30
+font_data = SubResource( 4 )
 
 [node name="CourtAreaSpot" type="Spatial"]
 script = ExtResource( 1 )
@@ -34,10 +41,11 @@ __meta__ = {
 }
 
 [node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.451613
-anchor_top = 0.289941
-anchor_right = 0.592375
-anchor_bottom = 0.491125
+anchor_left = 0.429619
+anchor_top = 0.245562
+anchor_right = 0.593841
+anchor_bottom = 0.452663
+custom_fonts/font = SubResource( 5 )
 text = "Cost"
 __meta__ = {
 "_edit_use_anchors_": true
@@ -48,6 +56,7 @@ anchor_left = 0.0349345
 anchor_top = 0.641667
 anchor_right = 0.423581
 anchor_bottom = 0.941667
+custom_fonts/font = SubResource( 5 )
 text = "Confirm"
 __meta__ = {
 "_edit_use_anchors_": true
@@ -58,6 +67,7 @@ anchor_left = 0.576419
 anchor_top = 0.65
 anchor_right = 0.965065
 anchor_bottom = 0.941667
+custom_fonts/font = SubResource( 5 )
 text = "Cancel"
 __meta__ = {
 "_edit_use_anchors_": true

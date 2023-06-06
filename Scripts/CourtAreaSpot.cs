@@ -37,7 +37,7 @@ public partial class CourtAreaSpot : Spatial
 
 		// Set the label text for the Cost label
 		_parent.Spots.Add(this);
-		_costLabel.Text = $"Cost: {Cost}";		
+		_costLabel.Text = $"{Cost}";		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,7 +51,7 @@ public partial class CourtAreaSpot : Spatial
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left)
 			return;
 
-		if(!event1.IsPressed() && _parent.MaxInputDelay.TimeLeft > 0 && GetViewport().GetMousePosition() == _parent.InputPosition) 
+		if(!event1.IsPressed() && _parent.MaxInputDelay.TimeLeft > 0) 
 			_popupMenu.Popup_();
 	}
 

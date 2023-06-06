@@ -12,6 +12,10 @@ public partial class Customer : KinematicBody
 	public Vector3 SpawnPoint;
 	private NavigationAgent _nav_agent;
 	private Vector3 _target_window;
+	private Timer _timer;
+	private Timer _patienceTimer;
+	private Chair _my_chair;
+	private Sprite3D _my_sprite;
 
 	[Export]
 	public float EatingTime = 7.0f;
@@ -22,13 +26,8 @@ public partial class Customer : KinematicBody
 
 	public Vector3 Velocity = new Vector3();
 	public int LineNumber;
-	private Timer _timer;
-	private Timer _patienceTimer;
 	public CustomerState State;
 	public bool OrderFinished = false;
-	private Chair _my_chair;
-
-	private Sprite3D _my_sprite;
 
 	
 	
@@ -84,6 +83,11 @@ public partial class Customer : KinematicBody
 			_on_NavigationAgent_target_reached();
 	}
 
+	public void UpdateTargetLocation(Vector3 targetLocation)
+	{
+		_nav_agent.SetTargetLocation(targetLocation);
+	}
+
 
 	public void QueueUp()
 	{
@@ -110,21 +114,11 @@ public partial class Customer : KinematicBody
 		UpdateTargetLocation(_my_chair.GlobalTransform.origin);
 	}
 
-	public void UpdateTargetLocation(Vector3 targetLocation)
-	{
-		_nav_agent.SetTargetLocation(targetLocation);
-	}
-
 	public void FinishOrder()
 	{
 		GoToEat();
 		State = CustomerState.Walking;
 		OrderFinished = true;
-	}
-
-	public void StartTimer()
-	{
-		_timer.Start();
 	}
 
 	public void StartEating()
@@ -135,6 +129,21 @@ public partial class Customer : KinematicBody
 		State = CustomerState.Eating;
 		_timer.WaitTime = EatingTime;
 		StartTimer(); 
+	}
+
+	public void TakeAwayFood()
+	{
+		State = CustomerState.Walking;
+		OrderFinished = true;
+		LineNumber = 0;
+		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
+		TargetRestaurant.IncomingCustomers.Remove(this);		
+		UpdateTargetLocation(SpawnPoint);
+	}
+
+	public void StartTimer()
+	{
+		_timer.Start();
 	}
 
 	public void _on_PatienceTimer_timeout()
@@ -167,16 +176,6 @@ public partial class Customer : KinematicBody
 		State = CustomerState.Walking;
 		if (TargetRestaurant.IncomingCustomers.Count - 1 > LineNumber)
 			TargetRestaurant.IncomingCustomers[LineNumber + 1].StartTimer();
-	}
-
-	public void TakeAwayFood()
-	{
-		State = CustomerState.Walking;
-		OrderFinished = true;
-		LineNumber = 0;
-		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
-		TargetRestaurant.IncomingCustomers.Remove(this);		
-		UpdateTargetLocation(SpawnPoint);
 	}
 
 	private void _on_NavigationAgent_target_reached()

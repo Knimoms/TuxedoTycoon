@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
@@ -9,6 +9,13 @@
 albedo_color = Color( 0, 1, 0, 1 )
 
 [sub_resource type="BoxShape" id=3]
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Assets/SansBlackSmall.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 30
+font_data = SubResource( 4 )
 
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
@@ -33,6 +40,7 @@ visible = false
 [node name="CSGBox" type="CSGBox" parent="OrderWindow"]
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
+visible = true
 anchor_left = 0.308594
 anchor_top = 0.345
 anchor_right = 0.691406
@@ -43,60 +51,52 @@ __meta__ = {
 }
 
 [node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.383928
-anchor_top = 0.435484
-anchor_right = 0.616072
-anchor_bottom = 0.564516
+anchor_left = 0.288265
+anchor_top = 0.392473
+anchor_right = 0.69898
+anchor_bottom = 0.580645
+custom_fonts/font = SubResource( 5 )
 text = "Upgrade price"
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="UpgradeButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.0612239
 anchor_top = 0.677419
-anchor_right = 0.329133
+anchor_right = 0.390357
 anchor_bottom = 0.976191
 margin_right = 0.980194
 margin_bottom = 4.42848
 rect_scale = Vector2( 0.99246, 0.926192 )
+custom_fonts/font = SubResource( 5 )
 text = "Upgrade"
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.668367
-anchor_top = 0.677419
-anchor_right = 0.991783
-anchor_bottom = 0.983727
-margin_right = 3.22101
-margin_bottom = 3.02682
+anchor_left = 0.604592
+anchor_top = 0.672043
+anchor_right = 0.928008
+anchor_bottom = 0.978351
+margin_right = 3.22122
+margin_bottom = 3.02678
 rect_scale = Vector2( 0.975223, 0.949553 )
+custom_fonts/font = SubResource( 5 )
 text = "Cancel"
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="NameLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.44898
-anchor_top = 0.0698925
-anchor_right = 0.55102
-anchor_bottom = 0.145161
+anchor_left = 0.415816
+anchor_top = 0.0322581
+anchor_right = 0.581633
+anchor_bottom = 0.22043
 margin_right = 1.52588e-05
+custom_fonts/font = SubResource( 5 )
 text = "Name"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="MiniGame" type="Button" parent="PopupMenu"]
-anchor_left = 0.334183
-anchor_top = 0.677419
-anchor_right = 0.663622
-anchor_bottom = 0.982761
-margin_right = 0.860077
-margin_bottom = 3.20639
-rect_scale = Vector2( 0.993384, 0.94656 )
-text = "MiniGame"
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -108,4 +108,3 @@ transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="pressed" from="PopupMenu/UpgradeButton" to="." method="_on_UpgradeButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]
-[connection signal="pressed" from="PopupMenu/MiniGame" to="." method="_on_MiniGame_pressed"]

@@ -32,7 +32,6 @@ public partial class FoodStall : Spatial
 	private Button _cancelButton;
 	private Label _costLabel;
 	private Label _nameLabel;
-	public Button MiniGameButton;
 	
 	private bool _popupMenuOpen = false;
 
@@ -55,7 +54,6 @@ public partial class FoodStall : Spatial
 		_cancelButton = _popupMenu.GetNode<Button>("CancelButton");
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_nameLabel = _popupMenu.GetNode<Label>("NameLabel");
-		MiniGameButton = _popupMenu.GetNode<Button>("MiniGame");
 
 		_upgradeButton.Disabled = true;
 		//_upgradeButton.Connect("pressed", this, "_on_upgrade_button_pressed");
@@ -149,11 +147,16 @@ public partial class FoodStall : Spatial
 
 	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
-		if(event1 is InputEventMouseButton mb && !event1.IsPressed() && !_base_script.BuildMode && !_base_script.MiniGameStarted && _base_script.MaxInputDelay.TimeLeft > 0 && _base_script.InputPosition == mb.Position)
+		if(!(event1 is InputEventMouseButton) || event1.IsPressed() || _base_script.MiniGameStarted || _base_script.MaxInputDelay.TimeLeft <= 0)
+			return;
+			
+		if(_base_script.BuildMode)
+		{
 			ShowPopupMenu();
+			return;
+		}
 
-			//LevelUp();
-		
+		_on_MiniGame_pressed();		
 	}
 
 	public void Order()
@@ -169,7 +172,7 @@ public partial class FoodStall : Spatial
 		this.MealPrice *= 4;
 		this.Cost *= 4;
 		Lvl++;
-		_costLabel.Text = $"Cost: {Cost * 4}";
+		_costLabel.Text = $"{Cost * 4}";
 	}
 	
 	public void ShowPopupMenu()
@@ -178,7 +181,7 @@ public partial class FoodStall : Spatial
 
 		// Set the name and cost in the PopupMenu
 		_nameLabel.Text = "Restaurant Name";
-		_costLabel.Text = $"Cost: {Cost * 4}";
+		_costLabel.Text = $"{Cost * 4}";
 		
 		_popupMenu.PopupCentered();
 

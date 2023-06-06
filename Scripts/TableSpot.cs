@@ -55,7 +55,7 @@ public partial class TableSpot : Spatial
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left)
 			return;
 
-		if(!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0 && GetViewport().GetMousePosition() == _parent.Parent.InputPosition) 
+		if(!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0) 
 		{
 			_popupMenu.Popup_();
 			_costLabel.Text = Cost.ToString();
