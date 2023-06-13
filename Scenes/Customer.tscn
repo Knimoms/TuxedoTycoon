@@ -20,7 +20,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0
 shape = SubResource( 1 )
 
 [node name="NavigationAgent" type="NavigationAgent" parent="."]
-target_desired_distance = 0.4
+target_desired_distance = 0.6
 path_max_distance = 5.0
 radius = 0.1
 neighbor_dist = 4.0

@@ -65,7 +65,7 @@ public partial class FoodStall : Spatial
 		int j = IncomingCustomers.Count;
 		for(int i = 0; i < 5 && i < j; i++)
 		{
-			if(IncomingCustomers[0].State != CustomerState.Waiting)
+			if(IncomingCustomers[0].State != CustomerState.WaitingInQueue)
 				break;
 			IncomingCustomers[0].TakeAwayFood();
 			_base_script.TransferMoney(MealPrice*1.25f);
@@ -124,16 +124,9 @@ public partial class FoodStall : Spatial
 			return;
 		_base_script.TransferMoney(MealPrice);
 		this.IncomingCustomers[0].FinishOrder();
-		this.IncomingCustomers[0] = null;
 		
 		for(int i = 0; i < this.IncomingCustomers.Count; i++)
 		{
-			if(i == this.IncomingCustomers.Count - 1) 
-			{
-				IncomingCustomers.RemoveAt(i);
-				break;
-			}
-			IncomingCustomers[i] = IncomingCustomers[i+1];
 			IncomingCustomers[i].LineNumber--;
 		}
 

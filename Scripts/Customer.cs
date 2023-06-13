@@ -51,14 +51,14 @@ public partial class Customer : KinematicBody
 		else
 			this.UpdateTargetLocation(_target_window);
 		
-		State = CustomerState.Walking;
+		State = CustomerState.WalkingInQueue;
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
 		_my_sprite.Rotate(Vector3.Up, (float)(5*delta));
 
-		if (State == CustomerState.Waiting || State == CustomerState.Eating)
+		if (State == CustomerState.WaitingInQueue || State == CustomerState.EatingFood)
 			return;
 
 		Vector3 velocity = Velocity;
@@ -79,8 +79,8 @@ public partial class Customer : KinematicBody
 
 		_my_body.LookAt(_nav_agent.GetNextLocation(), Vector3.Up);
 
-		if ((_nav_agent.GetTargetLocation() - GlobalTransform.origin).Length() <= 0.6f)
-			_on_NavigationAgent_target_reached();
+		// if ((_nav_agent.GetTargetLocation() - GlobalTransform.origin).Length() <= 0.6f)
+		// 	_on_NavigationAgent_target_reached();
 	}
 
 	public void UpdateTargetLocation(Vector3 targetLocation)
@@ -91,7 +91,7 @@ public partial class Customer : KinematicBody
 
 	public void QueueUp()
 	{
-		State = CustomerState.Waiting;
+		State = CustomerState.WaitingInQueue;
 	}
 
 	public void FirstInQueue()
@@ -101,14 +101,16 @@ public partial class Customer : KinematicBody
 
 	public void GoToEat()
 	{
+		State = CustomerState.WalkingToTable;
 		_my_chair = _parent.GetRandomFreeChair();
 		if(_my_chair == null)
 		{
 			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.Refund();
-			UpdateTargetLocation(SpawnPoint);
+			Leave();
 			return;
 		}
+		State = CustomerState.WalkingToTable;
 		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
 		_my_chair.Occupied = true;
 		UpdateTargetLocation(_my_chair.GlobalTransform.origin);
@@ -116,8 +118,8 @@ public partial class Customer : KinematicBody
 
 	public void FinishOrder()
 	{
+		TargetRestaurant.IncomingCustomers.Remove(this);
 		GoToEat();
-		State = CustomerState.Walking;
 		OrderFinished = true;
 	}
 
@@ -126,19 +128,25 @@ public partial class Customer : KinematicBody
 		_my_sprite.Scale *= 0.5f;
 		GlobalTransform = new Transform(_my_chair.GlobalTransform.basis, _my_chair.GlobalTransform.origin + Vector3.Up*0.5f);
 		_my_body.Rotation = _my_chair.Rotation;
-		State = CustomerState.Eating;
+		State = CustomerState.EatingFood;
 		_timer.WaitTime = EatingTime;
 		StartTimer(); 
 	}
 
 	public void TakeAwayFood()
 	{
-		State = CustomerState.Walking;
 		OrderFinished = true;
 		LineNumber = 0;
 		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
-		TargetRestaurant.IncomingCustomers.Remove(this);		
+		TargetRestaurant.IncomingCustomers.Remove(this);	
+		Leave();	
+	}
+
+	public void Leave()
+	{
 		UpdateTargetLocation(SpawnPoint);
+		State = CustomerState.Leaving;
+
 	}
 
 	public void StartTimer()
@@ -150,60 +158,52 @@ public partial class Customer : KinematicBody
 	{
 		if(LineNumber > 15) 
 		{
-			UpdateTargetLocation(SpawnPoint);
+			Leave();
 			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.IncomingCustomers.Remove(this);
 			for(int i = LineNumber; i < TargetRestaurant.IncomingCustomers.Count; i++)
 			{	
 				TargetRestaurant.IncomingCustomers[i].LineNumber--;
-				TargetRestaurant.IncomingCustomers[i].State = CustomerState.Walking;
+				TargetRestaurant.IncomingCustomers[i].State = CustomerState.WalkingInQueue;
 			}
 			LineNumber = 0;
-			State = CustomerState.Walking;;
+			State = CustomerState.WalkingInQueue;;
 		}
 	}
 
 	public void _on_Timer_timeout()
 	{
-		if(State == CustomerState.Eating)
+		if(State == CustomerState.EatingFood)
 		{
-			UpdateTargetLocation(SpawnPoint);
+			Leave();
 			_my_chair.Occupied = false;
-			State = CustomerState.Walking;
 			return;
 		}
 
-		State = CustomerState.Walking;
+		State = CustomerState.WalkingInQueue;
+
 		if (TargetRestaurant.IncomingCustomers.Count - 1 > LineNumber)
 			TargetRestaurant.IncomingCustomers[LineNumber + 1].StartTimer();
 	}
 
 	private void _on_NavigationAgent_target_reached()
 	{
-		if (State == CustomerState.Waiting || State == CustomerState.Eating)
-			return;
 		
-		if (_nav_agent.GetTargetLocation() == SpawnPoint)
+		if (State == CustomerState.Leaving)
 		{
 			QueueFree();
 			return;
 		}
 		
-		if (_my_chair != null)
+		if (State == CustomerState.WalkingToTable)
 		{
 			StartEating();
 			return;
 		}
 
-		if (_nav_agent.GetTargetLocation() != _target_window && (TargetRestaurant.IncomingCustomers.Count == 1 || TargetRestaurant.IncomingCustomers[0] == null || TargetRestaurant.IncomingCustomers[LineNumber - 1].State != CustomerState.Waiting))
-		{
-			UpdateTargetLocation(_target_window);
-			return;
-		}
-
 		QueueUp();
 
-		if (TargetRestaurant.IncomingCustomers[0] == this)
+		if (LineNumber == 0)
 			TargetRestaurant.Order();
 	}
 
@@ -216,8 +216,10 @@ public partial class Customer : KinematicBody
 
 public enum CustomerState
 {
-	Waiting,
-	Walking,
-	Eating
+	WalkingInQueue,
+	WaitingInQueue,
+	WalkingToTable,
+	EatingFood,
+	Leaving
 
 }
