@@ -50,53 +50,80 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.288265
-anchor_top = 0.392473
-anchor_right = 0.69898
-anchor_bottom = 0.580645
-custom_fonts/font = SubResource( 5 )
-text = "Upgrade price"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="UpgradeButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.0612239
-anchor_top = 0.677419
-anchor_right = 0.390357
-anchor_bottom = 0.976191
-margin_right = 0.980194
-margin_bottom = 4.42848
-rect_scale = Vector2( 0.99246, 0.926192 )
-custom_fonts/font = SubResource( 5 )
-text = "Upgrade"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.604592
-anchor_top = 0.672043
-anchor_right = 0.928008
-anchor_bottom = 0.978351
-margin_right = 3.22122
-margin_bottom = 3.02678
-rect_scale = Vector2( 0.975223, 0.949553 )
-custom_fonts/font = SubResource( 5 )
-text = "Cancel"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
 [node name="NameLabel" type="Label" parent="PopupMenu"]
 anchor_left = 0.415816
 anchor_top = 0.0322581
 anchor_right = 0.581633
 anchor_bottom = 0.22043
-margin_right = 1.52588e-05
+margin_left = 1.52588e-05
+margin_right = 3.05176e-05
+margin_bottom = 1.90735e-05
 custom_fonts/font = SubResource( 5 )
 text = "Name"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CostLabel" type="Label" parent="PopupMenu"]
+anchor_left = 0.0255102
+anchor_top = 0.376344
+anchor_right = 0.339286
+anchor_bottom = 0.564516
+custom_fonts/font = SubResource( 5 )
+text = "Price"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CookingTimeUpgradeButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.0127551
+anchor_top = 0.672042
+anchor_right = 0.336171
+anchor_bottom = 0.97835
+margin_right = 3.22101
+margin_bottom = 3.02682
+rect_scale = Vector2( 0.975223, 0.949553 )
+custom_fonts/font = SubResource( 5 )
+text = "Time"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CostLabel2" type="Label" parent="PopupMenu"]
+anchor_left = 0.344388
+anchor_top = 0.376344
+anchor_right = 0.658164
+anchor_bottom = 0.564516
+custom_fonts/font = SubResource( 5 )
+text = "Price"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="FoodQualityUpgradeButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.339285
+anchor_top = 0.672042
+anchor_right = 0.662702
+anchor_bottom = 0.97835
+margin_right = 3.22101
+margin_bottom = 3.02682
+rect_scale = Vector2( 0.975223, 0.949553 )
+custom_fonts/font = SubResource( 5 )
+text = "Quality"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CancelButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.665816
+anchor_top = 0.672042
+anchor_right = 0.989232
+anchor_bottom = 0.97835
+margin_right = 3.22101
+margin_bottom = 3.02682
+rect_scale = Vector2( 0.975223, 0.949553 )
+custom_fonts/font = SubResource( 5 )
+text = "Cancel"
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -106,5 +133,6 @@ transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 
 [connection signal="input_event" from="MeshInstance/StaticBody" to="." method="_on_StaticBody_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="pressed" from="PopupMenu/UpgradeButton" to="." method="_on_UpgradeButton_pressed"]
+[connection signal="pressed" from="PopupMenu/CookingTimeUpgradeButton" to="." method="_on_CookTimeUpgradeButton_pressed"]
+[connection signal="pressed" from="PopupMenu/FoodQualityUpgradeButton" to="." method="_on_FoodQualityUpgradeButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]

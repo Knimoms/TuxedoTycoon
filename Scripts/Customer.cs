@@ -167,7 +167,6 @@ public partial class Customer : KinematicBody
 				TargetRestaurant.IncomingCustomers[i].State = CustomerState.WalkingInQueue;
 			}
 			LineNumber = 0;
-			State = CustomerState.WalkingInQueue;;
 		}
 	}
 

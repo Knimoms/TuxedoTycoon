@@ -7,7 +7,7 @@ public partial class FoodStall : Spatial
 
 	[Export]
 	public PackedScene MiniGameScene;
-	public Tuxdollar MealPrice, OriginalMealPrice, Cost;
+	public Tuxdollar MealPrice, OriginalMealPrice, Cost, TimeUpgradeCost, QualityUpgradeCost;
 	public float WaitTime;
 	public Customer CurrentCustomer;
 
@@ -22,20 +22,22 @@ public partial class FoodStall : Spatial
 	{
 		get { return _timer; }
 	}
-
-	public int Lvl = 1;
 	
 	private Timer _timer;
 	
 	private PopupMenu _popupMenu;
-	private Button _upgradeButton;
+	private Button _foodQualityUpgradeButton;
+	private Button _cookingTimeUpgradeButton;
 	private Button _cancelButton;
-	private Label _costLabel;
+	private Label _timeCostLabel;
+	private Label _qualityCostLabel;
 	private Label _nameLabel;
 	
 	private bool _popupMenuOpen = false;
 
 	private MeshInstance _my_mesh_instance;
+
+	private float CustomersPerMinute;
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -50,12 +52,26 @@ public partial class FoodStall : Spatial
 		_parent.Restaurants.Add(this);
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
-		_upgradeButton = _popupMenu.GetNode<Button>("UpgradeButton");
+		_foodQualityUpgradeButton = _popupMenu.GetNode<Button>("FoodQualityUpgradeButton");
+		_cookingTimeUpgradeButton = _popupMenu.GetNode<Button>("CookingTimeUpgradeButton");
+
 		_cancelButton = _popupMenu.GetNode<Button>("CancelButton");
-		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
+		_timeCostLabel = _popupMenu.GetNode<Label>("CostLabel");
+		_qualityCostLabel = _popupMenu.GetNode<Label>("CostLabel2");
 		_nameLabel = _popupMenu.GetNode<Label>("NameLabel");
 
-		_upgradeButton.Disabled = true;
+		_foodQualityUpgradeButton.Disabled = true;
+		_cookingTimeUpgradeButton.Disabled = true;
+
+		TimeUpgradeCost = 4*Cost;
+		QualityUpgradeCost = 4*Cost;
+		_nameLabel.Text = "Restaurant Name";
+		_timeCostLabel.Text = $"{TimeUpgradeCost}";
+		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
+
+		CustomersPerMinute = 60/WaitTime;
+
+
 		//_upgradeButton.Connect("pressed", this, "_on_upgrade_button_pressed");
 		
 	}
@@ -157,24 +173,47 @@ public partial class FoodStall : Spatial
 		this._timer.Start();
 	}
 
-	public void LevelUp()
+	// public void LevelUp()
+	// {
+	// 	Tuxdollar cost  =  this.Cost*4;
+	// 	if(_base_script.Money < cost) return;
+	// 	_base_script.TransferMoney(-cost);
+	// 	this.MealPrice *= 4;
+	// 	this.Cost *= 4;
+	// 	Lvl++;
+	// 	_costLabel.Text = $"{Cost * 4}";
+	// }
+
+	public void FoodQualityLevelUp()
 	{
-		Tuxdollar cost  =  this.Cost*4;
-		if(_base_script.Money < cost) return;
-		_base_script.TransferMoney(-cost);
-		this.MealPrice *= 4;
-		this.Cost *= 4;
-		Lvl++;
-		_costLabel.Text = $"{Cost * 4}";
+		if(_base_script.Money < QualityUpgradeCost) 
+			return;
+
+		_base_script.TransferMoney(-QualityUpgradeCost);
+		MealPrice *= 4;
+		QualityUpgradeCost *= 4;
+		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
+	}
+
+	public void CookingTimeLevelUp()
+	{
+		if(_base_script.Money < TimeUpgradeCost) 
+			return;
+
+		_base_script.TransferMoney(-TimeUpgradeCost);
+		TimeUpgradeCost *= 4;
+		CustomersPerMinute *= 1.1f;
+		_timer.WaitTime = 60/CustomersPerMinute;
+		GD.Print(_timer.WaitTime);
+		_timeCostLabel.Text = $"{TimeUpgradeCost}";
 	}
 	
 	public void ShowPopupMenu()
 	{
-		_upgradeButton.Disabled = _base_script.Money < Cost * 4;
+		_cookingTimeUpgradeButton.Disabled = _base_script.Money < TimeUpgradeCost;
+		_foodQualityUpgradeButton.Disabled = _base_script.Money < QualityUpgradeCost;
 
 		// Set the name and cost in the PopupMenu
-		_nameLabel.Text = "Restaurant Name";
-		_costLabel.Text = $"{Cost * 4}";
 		
 		_popupMenu.PopupCentered();
 
@@ -186,11 +225,20 @@ public partial class FoodStall : Spatial
 		_base_script.TransferMoney(-MealPrice);
 	}
 
-	private void _on_UpgradeButton_pressed()
+	private void _on_CookTimeUpgradeButton_pressed()
 	{
 		if (_popupMenuOpen)
 		{
-			LevelUp();
+			CookingTimeLevelUp();
+			ShowPopupMenu();
+		}
+	}
+
+	private void _on_FoodQualityUpgradeButton_pressed()
+	{
+		if (_popupMenuOpen)
+		{
+			FoodQualityLevelUp();
 			ShowPopupMenu();
 		}
 	}
