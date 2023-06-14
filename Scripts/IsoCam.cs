@@ -55,8 +55,11 @@ public class IsoCam : Spatial
             if (events.Count == 2)
             {
                 float dragDistance = events[0].Position.DistanceTo(events[1].Position);
-                float zoomSpeed = ZoomSpeed + Math.Abs(lastDragDistance - dragDistance)*0.01f;
-                float newSize = (dragDistance < lastDragDistance) ? 1 + zoomSpeed : 1 - zoomSpeed;
+                float newSize = (dragDistance < lastDragDistance) ? 1 + ZoomSpeed : 1 - ZoomSpeed;
+                newSize = (float)Math.Pow(newSize, Math.Abs(lastDragDistance - dragDistance)*0.2);
+                //GD.Print(zoomSpeed);
+
+                GD.Print(newSize);
 
                 newSize = _camera.Size * newSize;
 
