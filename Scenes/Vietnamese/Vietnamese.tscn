@@ -31,6 +31,11 @@ Level3CostMagnitude = "e"
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 3 )
+
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
@@ -43,15 +48,10 @@ visible = false
 [node name="MiniGameSpot" type="Spatial" parent="."]
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 
-[node name="StaticBody" type="StaticBody" parent="."]
-
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-shape = SubResource( 3 )
-
 [node name="PopupMenu" parent="." instance=ExtResource( 4 )]
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[connection signal="input_event" from="MeshInstance/StaticBody" to="." method="_on_StaticBody_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="input_event" from="StaticBody" to="." method="_on_StaticBody_input_event"]

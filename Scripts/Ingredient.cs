@@ -36,7 +36,7 @@ public partial class Ingredient : Spatial
 			}
 
 			IngredientBase ingredientBase = IngredientBaseScene.Instance<IngredientBase>();
-			ingredientBase.GlobalTransform = new Transform(ingredientBase.Transform.basis, kitchenCounter.foodSpawner.GlobalTransform.origin+Vector3.Up*0.005f);
+			ingredientBase.Transform = new Transform(ingredientBase.Transform.basis, kitchenCounter.foodSpawner.Transform.origin+Vector3.Up*0.005f);
 			GetParent().CallDeferred("add_child", ingredientBase);
 
 			AddInIngredientlist(ingredientBase);
