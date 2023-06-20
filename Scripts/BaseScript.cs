@@ -24,6 +24,7 @@ public partial class BaseScript : Spatial
 	public bool MiniGameStarted = false;
 
 	public Camera BaseCam;
+	public List<FoodStall> Restaurants;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
