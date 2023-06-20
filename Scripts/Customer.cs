@@ -28,7 +28,6 @@ public partial class Customer : KinematicBody
 	public int LineNumber;
 	public CustomerState State;
 	public bool OrderFinished = false;
-
 	
 	
 	// Called when the node enters the scene tree for the first time.

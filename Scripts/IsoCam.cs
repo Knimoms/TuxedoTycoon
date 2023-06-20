@@ -51,6 +51,8 @@ public class IsoCam : Spatial
         if (@event is InputEventScreenDrag motionEvent)
         {
             events[motionEvent.Index] = motionEvent;
+            
+            _parent.MaxInputDelay.Stop();
 
             if (events.Count == 2)
             {
@@ -72,9 +74,9 @@ public class IsoCam : Spatial
             }
 
             if(_parent.InputPosition.DistanceTo(motionEvent.Position) > 30)
-                _parent.IState =InputState.Dragging;
+                _parent.IState = InputState.Dragging;
 
-            if (_parent.IState != InputState.UIopened && events.Count == 1 && _parent.IState == InputState.Dragging)
+            if (events.Count == 1 && _parent.IState == InputState.Dragging)
             {
                 Vector3 translation = new Vector3(motionEvent.Relative.x * -0.0015f * _camera.Size, 0, motionEvent.Relative.y * -0.0015f * _camera.Size);
                 TranslateWithBounds(translation);

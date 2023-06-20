@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/SushiStand/Dishes/Maki.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Test/Jap_st_2lvl.glb" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/SushiStand/Dishes/Onigiri.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/SushiStand/Dishes/Sashimi.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=7]
+
+[sub_resource type="BoxShape" id=3]
+
+[node name="FoodStall" type="Spatial"]
+script = ExtResource( 1 )
+MiniGameScene = ExtResource( 2 )
+Dish1 = ExtResource( 6 )
+Level1CostValue = 2.0
+Level1CostMagnitude = "a"
+Dish2 = ExtResource( 3 )
+Level2CostValue = 4.0
+Level2CostMagnitude = "b"
+Dish3 = ExtResource( 5 )
+Level3CostValue = 8.0
+Level3CostMagnitude = "c"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="OrderWindow" type="Spatial" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.42, 0.975 )
+visible = false
+
+[node name="CSGBox" type="CSGBox" parent="OrderWindow"]
+
+[node name="MiniGameSpot" type="Spatial" parent="."]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
+
+[node name="MeshInstance" parent="." instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.532433, 1.04944 )
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.42551e-09, 0.80182, 0.794204 )
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="PopupMenu" parent="." instance=ExtResource( 7 )]
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="input_event" from="MeshInstance/StaticBody" to="." method="_on_StaticBody_input_event"]

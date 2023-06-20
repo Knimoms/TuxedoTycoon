@@ -7,13 +7,13 @@ public partial class FoodStallSpot : Spatial
 	private CourtArea _parent;
 	[Export]
 	public PackedScene RestaurantScene;
-	[Export]
-	public float MealPriceValue, CostValue;
-	[Export]
-	public string MealPriceMagnitude, CostMagnitude;
-	public static Tuxdollar MealPrice = new Tuxdollar(), Cost = new Tuxdollar();
+
+	public Tuxdollar Cost = new Tuxdollar();
 	[Export]
 	public float  WaitTime;
+
+	[Export]
+	public PackedScene FoodStallModel;
 
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
@@ -21,17 +21,16 @@ public partial class FoodStallSpot : Spatial
 
 	private ulong _input_time;
 
+	FoodStall rest;
+
+
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		rest = RestaurantScene.Instance<FoodStall>();
+		Cost = new Tuxdollar(rest.Level1CostValue, rest.Level1CostMagnitude);
 		_parent = (CourtArea)this.GetParent();	
-		
-		if(MealPrice == new Tuxdollar())
-		{
-			MealPrice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
-			Cost = new Tuxdollar(CostValue, CostMagnitude);
-		}
 
 		// Get references to child nodes
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
@@ -66,12 +65,11 @@ public partial class FoodStallSpot : Spatial
 			
 	}
 
-	private void _instantiate_restaurant()
+	private void _add_restaurant()
 	{
 		FoodStall rest = RestaurantScene.Instance<FoodStall>();
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
-		rest.MealPrice = MealPrice;
 		rest.WaitTime = WaitTime;
 		rest.Cost = Cost;
 		_parent.Parent.Spots.Remove(this);
@@ -84,18 +82,12 @@ public partial class FoodStallSpot : Spatial
 
 	private void _on_ConfirmationButton_pressed()
 	{
-		if(_parent.Parent.Money < Cost) return;
+		if(_parent.Parent.Money < Cost) 
+			return;
 		_parent.Parent.TransferMoney(-Cost);
-		_instantiate_restaurant();
+		_add_restaurant();
 		// Hide the PopupMenu
-		_popupMenu.Hide();
-
-		if(Name != "RestaurantSpot")
-		{
-			Cost *= 8;
-			MealPrice = Cost/2;
-		}
-		
+		_popupMenu.Hide();		
 	}
 
 	private void _on_CancelButton_pressed()

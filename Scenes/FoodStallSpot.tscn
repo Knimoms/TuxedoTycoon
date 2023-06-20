@@ -23,8 +23,6 @@ font_data = SubResource( 4 )
 [node name="FoodStallSpot" type="Spatial"]
 script = ExtResource( 1 )
 RestaurantScene = ExtResource( 2 )
-MealPriceValue = 700.0
-CostValue = 1400.0
 WaitTime = 8.0
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
@@ -37,7 +35,6 @@ mesh = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-visible = true
 anchor_left = 0.333496
 anchor_top = 0.359167
 anchor_right = 0.666504

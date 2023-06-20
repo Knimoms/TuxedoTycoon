@@ -2,6 +2,8 @@
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Dish.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -10,25 +12,20 @@ albedo_color = Color( 0, 1, 0, 1 )
 
 [sub_resource type="BoxShape" id=3]
 
-[sub_resource type="DynamicFontData" id=4]
-font_path = "res://Assets/SansBlackSmall.ttf"
-
-[sub_resource type="DynamicFont" id=5]
-size = 30
-font_data = SubResource( 4 )
-
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
 MiniGameScene = ExtResource( 2 )
+Dish1 = ExtResource( 3 )
+Level1CostValue = 4.0
+Level1CostMagnitude = "a"
+Dish2 = ExtResource( 3 )
+Level2CostValue = 8.0
+Dish3 = ExtResource( 3 )
+Level3CostValue = 16.0
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
-
-[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
-
-[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
-shape = SubResource( 3 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
@@ -39,100 +36,18 @@ visible = false
 
 [node name="CSGBox" type="CSGBox" parent="OrderWindow"]
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
-visible = true
-anchor_left = 0.308594
-anchor_top = 0.345
-anchor_right = 0.691406
-anchor_bottom = 0.655
-margin_bottom = 3.05176e-05
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="NameLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.415816
-anchor_top = 0.0322581
-anchor_right = 0.581633
-anchor_bottom = 0.22043
-margin_left = 1.52588e-05
-margin_right = 3.05176e-05
-margin_bottom = 1.90735e-05
-custom_fonts/font = SubResource( 5 )
-text = "Name"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.0255102
-anchor_top = 0.376344
-anchor_right = 0.339286
-anchor_bottom = 0.564516
-custom_fonts/font = SubResource( 5 )
-text = "Price"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CookingTimeUpgradeButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.0127551
-anchor_top = 0.672042
-anchor_right = 0.336171
-anchor_bottom = 0.97835
-margin_right = 3.22101
-margin_bottom = 3.02682
-rect_scale = Vector2( 0.975223, 0.949553 )
-custom_fonts/font = SubResource( 5 )
-text = "Time"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CostLabel2" type="Label" parent="PopupMenu"]
-anchor_left = 0.344388
-anchor_top = 0.376344
-anchor_right = 0.658164
-anchor_bottom = 0.564516
-custom_fonts/font = SubResource( 5 )
-text = "Price"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="FoodQualityUpgradeButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.339285
-anchor_top = 0.672042
-anchor_right = 0.662702
-anchor_bottom = 0.97835
-margin_right = 3.22101
-margin_bottom = 3.02682
-rect_scale = Vector2( 0.975223, 0.949553 )
-custom_fonts/font = SubResource( 5 )
-text = "Quality"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.665816
-anchor_top = 0.672042
-anchor_right = 0.989232
-anchor_bottom = 0.97835
-margin_right = 3.22101
-margin_bottom = 3.02682
-rect_scale = Vector2( 0.975223, 0.949553 )
-custom_fonts/font = SubResource( 5 )
-text = "Cancel"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
 [node name="MiniGameSpot" type="Spatial" parent="."]
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 
-[connection signal="input_event" from="MeshInstance/StaticBody" to="." method="_on_StaticBody_input_event"]
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 3 )
+
+[node name="PopupMenu" parent="." instance=ExtResource( 4 )]
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="pressed" from="PopupMenu/CookingTimeUpgradeButton" to="." method="_on_CookTimeUpgradeButton_pressed"]
-[connection signal="pressed" from="PopupMenu/FoodQualityUpgradeButton" to="." method="_on_FoodQualityUpgradeButton_pressed"]
-[connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="input_event" from="StaticBody" to="." method="_on_StaticBody_input_event"]

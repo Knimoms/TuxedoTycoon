@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Dish.cs" type="Script" id=1]
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 1 )
+Ing1 = 16
+Ing2 = 17
+Ing3 = 14
+Ing4 = 18
+Ing5 = 11
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
