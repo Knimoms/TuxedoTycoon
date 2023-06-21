@@ -78,6 +78,8 @@ public partial class Customer : KinematicBody
 
 		_my_body.LookAt(_nav_agent.GetNextLocation(), Vector3.Up);
 
+		GD.Print(_my_body.Rotation);
+
 		// if ((_nav_agent.GetTargetLocation() - GlobalTransform.origin).Length() <= 0.6f)
 		// 	_on_NavigationAgent_target_reached();
 	}
@@ -126,7 +128,7 @@ public partial class Customer : KinematicBody
 	{
 		_my_sprite.Scale *= 0.5f;
 		GlobalTransform = new Transform(_my_chair.GlobalTransform.basis, _my_chair.GlobalTransform.origin + Vector3.Up*0.5f);
-		_my_body.Rotation = _my_chair.Rotation;
+		_my_body.GlobalRotation = _my_chair.GlobalRotation;
 		State = CustomerState.EatingFood;
 		_timer.WaitTime = EatingTime;
 		StartTimer(); 

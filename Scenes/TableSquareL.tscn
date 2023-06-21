@@ -34,7 +34,52 @@ collision_mask = 4
 shape = SubResource( 3 )
 
 [node name="Chair" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.1 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0, 2.1 )
+
+[node name="Chair2" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0, 2.1 )
+
+[node name="Chair3" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 2.1 )
+
+[node name="Chair4" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0, 2.1 )
+
+[node name="Chair5" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.35, 0, -2.1 )
+
+[node name="Chair6" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.45, 0, -2.1 )
+
+[node name="Chair7" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.45, 0, -2.1 )
+
+[node name="Chair8" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.35, 0, -2.1 )
+
+[node name="Chair9" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.1, 0, 1.35 )
+
+[node name="Chair10" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.1, 0, 0.45 )
+
+[node name="Chair11" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.1, 0, -0.45 )
+
+[node name="Chair12" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.1, 0, -1.35 )
+
+[node name="Chair13" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.1, 0, 1.35 )
+
+[node name="Chair14" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.1, 0, 0.45 )
+
+[node name="Chair15" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.1, 0, -0.45 )
+
+[node name="Chair16" parent="." instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.1, 0, -1.35 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496

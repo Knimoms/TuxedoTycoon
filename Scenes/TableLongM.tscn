@@ -34,7 +34,34 @@ collision_mask = 4
 shape = SubResource( 2 )
 
 [node name="Chair" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0.85 )
+
+[node name="Chair2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85 )
+
+[node name="Chair3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0.85 )
+
+[node name="Chair4" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, -1.74533e-05, -8.74228e-08, -1.74533e-05, 1, -1.74533e-05, 8.77274e-08, -1.74533e-05, -1, -1.5, 0, -0.85 )
+
+[node name="Chair5" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -0.85 )
+
+[node name="Chair6" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 1.5, 0, -0.85 )
+
+[node name="Chair7" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0.85 )
+
+[node name="Chair8" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.75, 0, -0.85 )
+
+[node name="Chair9" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0.85 )
+
+[node name="Chair10" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.75, 0, -0.85 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496

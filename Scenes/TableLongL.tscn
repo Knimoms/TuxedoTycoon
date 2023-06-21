@@ -9,12 +9,12 @@ albedo_color = Color( 0.466667, 0.207843, 0, 1 )
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.536708, 0.5, 0.700353 )
 
-[sub_resource type="DynamicFontData" id=4]
+[sub_resource type="DynamicFontData" id=6]
 font_path = "res://Assets/SansBlackSmall.ttf"
 
 [sub_resource type="DynamicFont" id=5]
 size = 30
-font_data = SubResource( 4 )
+font_data = SubResource( 6 )
 
 [node name="Table" type="Spatial"]
 script = ExtResource( 2 )
@@ -35,6 +35,45 @@ shape = SubResource( 2 )
 
 [node name="Chair" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85 )
+
+[node name="Chair2" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0, 0.85 )
+
+[node name="Chair3" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 0, 0.85 )
+
+[node name="Chair4" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.55, 0, 0.85 )
+
+[node name="Chair5" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 0, 0.85 )
+
+[node name="Chair6" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0, 0.85 )
+
+[node name="Chair7" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.55, 0, 0.85 )
+
+[node name="Chair8" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.58575e-11, 0, -0.851735 )
+
+[node name="Chair9" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.857966, 1.71661e-05, -0.85 )
+
+[node name="Chair10" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.7, 0, -0.851735 )
+
+[node name="Chair11" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.55, 0, -0.851735 )
+
+[node name="Chair12" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.85, 0, -0.851736 )
+
+[node name="Chair13" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.7, 0, -0.851736 )
+
+[node name="Chair14" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.55, 0, -0.851736 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496
