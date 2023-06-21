@@ -21,8 +21,7 @@ font_data = SubResource( 5 )
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
-StartMoneyValue = 800.0
-StartMoneyMagnitude = "b"
+StartMoneyValue = 3e+07
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 shape = SubResource( 2 )
@@ -34,6 +33,7 @@ script = ExtResource( 6 )
 [node name="Camera" type="Camera" parent="pivot"]
 transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 100, 100 )
 projection = 1
+current = true
 fov = 29.5
 size = 20.0
 far = 175.0
@@ -95,8 +95,34 @@ __meta__ = {
 wait_time = 0.2
 one_shot = true
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.881122, 0.472889, 0, -0.472889, 0.881122, -5.19891, 5.59912, 1.3027 )
-light_energy = 0.455
+[node name="Upgrade" type="Button" parent="."]
+visible = false
+anchor_left = 0.0282189
+anchor_top = 0.0540541
+anchor_right = 0.185445
+anchor_bottom = 0.205721
+margin_left = 831.104
+margin_top = -24.4324
+margin_right = 831.104
+margin_bottom = -24.4324
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Button2" type="Button" parent="."]
+visible = false
+anchor_left = 0.00878906
+anchor_top = 0.833333
+anchor_right = 0.196289
+anchor_bottom = 0.993333
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+text = "Advertisement"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Upgrade" to="." method="_on_Upgrade_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_Button_pressed"]

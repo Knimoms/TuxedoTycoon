@@ -18,6 +18,6 @@ public partial class Chair : Spatial
 
 	public void MakeUsable()
 	{
-		GetParent().GetParent().GetParent<CourtArea>().Chairs.Add(this);
+		GetParent().GetParent().GetParent<CourtArea>().Chairs.Remove(this);
 	}
 }

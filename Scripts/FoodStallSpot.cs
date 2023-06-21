@@ -61,8 +61,7 @@ public partial class FoodStallSpot : Spatial
 		{
 			_popupMenu.PopupCentered();	
 			_costLabel.Text = $"Cost: {Cost}";
-		}
-			
+		}	
 	}
 
 	private void _add_restaurant()
@@ -92,7 +91,6 @@ public partial class FoodStallSpot : Spatial
 
 	private void _on_CancelButton_pressed()
 	{
-		// Hide the PopupMenu
 		_popupMenu.Hide();
 	}
 

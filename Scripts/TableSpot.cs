@@ -81,11 +81,11 @@ public partial class TableSpot : Spatial
 
 	private void _on_CancelButton_pressed()
 	{
-		// Hide the PopupMenu
+
 		_popupMenu.Hide();
 	}
 
-	 public override void _Input(InputEvent @event)
+	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventMouseMotion motionEvent)
 		{
@@ -99,4 +99,8 @@ public partial class TableSpot : Spatial
 			}
 		}
 	}
+	public PopupMenu GetPopupMenu()
+    {
+        return _popupMenu;
+    }
 }

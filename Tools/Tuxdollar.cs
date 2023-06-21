@@ -249,6 +249,11 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
 
     public int MagnitudeToInteger() //converts the Tuxedo's magnitude to an integer
     {
+        if (Magnitude == null)
+        {
+            return 0;
+        }
+        
         int x = 0;
         for (int i = 0; i < this.Magnitude.Length; i++)
         {
