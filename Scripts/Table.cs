@@ -46,7 +46,7 @@ public partial class Table : Spatial
 
     private void UpdateCostLabel()
     {
-        _costLabel.Text = Cost.ToString();
+        _costLabel.Text = $"Cost: {Cost}";
     }
 
     private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 position, Vector3 normal, int shape_idx)

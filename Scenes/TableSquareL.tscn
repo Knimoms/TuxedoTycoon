@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/Table.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Chair.tscn" type="PackedScene" id=2]
@@ -8,6 +8,13 @@ albedo_color = Color( 0.466667, 0.207843, 0, 1 )
 
 [sub_resource type="BoxShape" id=3]
 extents = Vector3( 0.57, 0.5, 0.57 )
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Assets/SansBlackSmall.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 30
+font_data = SubResource( 4 )
 
 [node name="Table" type="Spatial"]
 script = ExtResource( 1 )
@@ -28,3 +35,49 @@ shape = SubResource( 3 )
 
 [node name="Chair" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.1 )
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+anchor_left = 0.333496
+anchor_top = 0.359167
+anchor_right = 0.666504
+anchor_bottom = 0.640833
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CostLabel" type="Label" parent="PopupMenu"]
+anchor_left = 0.251634
+anchor_top = 0.015873
+anchor_right = 0.754902
+anchor_bottom = 0.349206
+custom_fonts/font = SubResource( 5 )
+text = "safasdfsadf"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ConfirmationButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.0392157
+anchor_top = 0.555556
+anchor_right = 0.444444
+anchor_bottom = 0.968254
+custom_fonts/font = SubResource( 5 )
+text = "Confirm"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CancelButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.614379
+anchor_top = 0.555556
+anchor_right = 0.96732
+anchor_bottom = 0.952381
+custom_fonts/font = SubResource( 5 )
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="input_event" from="CSGBox/StaticBody" to="." method="_on_Area_input_event"]
+[connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]
+[connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]
