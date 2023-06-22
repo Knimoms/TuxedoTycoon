@@ -33,7 +33,7 @@ collision_mask = 4
 [node name="CollisionShape" type="CollisionShape" parent="CSGBox/StaticBody"]
 shape = SubResource( 3 )
 
-[node name="Chair" parent="." instance=ExtResource( 2 )]
+[node name="Chair1" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0, 2.1 )
 
 [node name="Chair2" parent="." instance=ExtResource( 2 )]
