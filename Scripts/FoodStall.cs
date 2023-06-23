@@ -6,7 +6,7 @@ public partial class FoodStall : Spatial
 {
 
 	[Export]
-	public PackedScene MiniGameScene;
+	public PackedScene Minigame2DScene;
 	public Tuxdollar Multiplicator = new Tuxdollar(1), Cost, TimeUpgradeCost, QualityUpgradeCost;
 	public float WaitTime;
 	public Customer CurrentCustomer;
@@ -158,16 +158,16 @@ public partial class FoodStall : Spatial
 		 
 	}
 
-	private void _on_MiniGame_pressed()
+	private void _on_MiniGame2D_pressed()
 	{
-		Minigame minigame = MiniGameScene.Instance<Minigame>();
+		Minigame2D minigame2D = Minigame2DScene.Instance<Minigame2D>();
 
 		_base_script.MiniGameStarted = true;
 
-		AddChild(minigame);
-		minigame.Transform = GetNode<Spatial>("MiniGameSpot").Transform;
-		minigame.MyFoodStall = this;
-		minigame.GetNode<Camera>("Camera").MakeCurrent();
+		AddChild(minigame2D);
+		minigame2D.Transform = GetNode<Minigame2D>("MiniGameSpot").Transform;
+		minigame2D.MyFoodStall = this;
+		minigame2D.GetNode<Camera>("Camera").MakeCurrent();
 
 		_popupMenu.Hide();
 
@@ -224,7 +224,7 @@ public partial class FoodStall : Spatial
 			return;
 		}
 
-		_on_MiniGame_pressed();		
+		_on_MiniGame2D_pressed();		
 	}
 
 	public void Order()

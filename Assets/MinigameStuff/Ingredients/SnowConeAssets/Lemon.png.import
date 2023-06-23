@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/avochill.png-51d01b4331f3563bb35bebb50443e2f4.stex"
+path="res://.import/Lemon.png-47e40481044b74888ce1e34813bd7a56.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/MinigameStuff/avochill.png"
-dest_files=[ "res://.import/avochill.png-51d01b4331f3563bb35bebb50443e2f4.stex" ]
+source_file="res://Assets/MinigameStuff/Ingredients/SnowConeAssets/Lemon.png"
+dest_files=[ "res://.import/Lemon.png-47e40481044b74888ce1e34813bd7a56.stex" ]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
-[ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Minigame/Minigame2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/English/Dishes/FishAndChips.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/English/Dishes/RoastedFish.tscn" type="PackedScene" id=5]
@@ -17,7 +17,6 @@ albedo_color = Color( 0, 1, 0, 1 )
 
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
-MiniGameScene = ExtResource( 2 )
 Dish1 = ExtResource( 5 )
 Level1CostValue = 2.5
 Level1CostMagnitude = "b"
@@ -27,6 +26,8 @@ Level2CostMagnitude = "c"
 Dish3 = ExtResource( 6 )
 Level3CostValue = 10.0
 Level3CostMagnitude = "d"
+
+[node name="Node2D" parent="." instance=ExtResource( 2 )]
 
 [node name="MeshInstance4" type="MeshInstance" parent="."]
 visible = false

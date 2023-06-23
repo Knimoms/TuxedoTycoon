@@ -1,14 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Minigame/Ingredient.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Minigame/FoodSpawner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/KitchenCounter.cs" type="Script" id=3]
-[ext_resource path="res://Assets/MinigameStuff/rice.png" type="Texture" id=4]
-[ext_resource path="res://Assets/MinigameStuff/tuna.png" type="Texture" id=5]
-[ext_resource path="res://Assets/MinigameStuff/avochill.png" type="Texture" id=6]
-[ext_resource path="res://Assets/MinigameStuff/seaweed.png" type="Texture" id=7]
-[ext_resource path="res://Assets/MinigameStuff/salmon.png" type="Texture" id=8]
-[ext_resource path="res://Assets/MinigameStuff/cuchill.png" type="Texture" id=9]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 1, 1, 1 )
@@ -35,32 +29,26 @@ shape = SubResource( 2 )
 [node name="Ingredient1" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.457958, 0 )
 IngName = "Ing1"
-png = ExtResource( 7 )
 
 [node name="Ingredient2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.457958, 0 )
 IngName = "Ing2"
-png = ExtResource( 4 )
 
 [node name="Ingredient3" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.457958, 0 )
 IngName = "Ing3"
-png = ExtResource( 8 )
 
 [node name="Ingredient4" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.457958, 0 )
 IngName = "Ing4"
-png = ExtResource( 5 )
 
 [node name="Ingredient5" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.457958, 0 )
 IngName = "Ing5"
-png = ExtResource( 6 )
 
 [node name="Ingredient6" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.457958, 0 )
 IngName = "Ing6"
-png = ExtResource( 9 )
 
 [node name="FoodSpawner" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17618, 0 )

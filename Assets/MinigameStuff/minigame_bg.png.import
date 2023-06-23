@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cuchill.png-863e9b70e4f2d1d7db6026bfc320b6f0.stex"
+path="res://.import/minigame_bg.png-8aca6394c6e46c46d555355c538b1019.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/MinigameStuff/cuchill.png"
-dest_files=[ "res://.import/cuchill.png-863e9b70e4f2d1d7db6026bfc320b6f0.stex" ]
+source_file="res://Assets/MinigameStuff/minigame_bg.png"
+dest_files=[ "res://.import/minigame_bg.png-8aca6394c6e46c46d555355c538b1019.stex" ]
 
 [params]
 

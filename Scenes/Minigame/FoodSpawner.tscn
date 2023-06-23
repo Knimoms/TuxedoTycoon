@@ -9,7 +9,6 @@
 albedo_color = Color( 0.741176, 0.360784, 0.101961, 1 )
 
 [node name="FoodSpawner" type="Spatial"]
-transform = Transform( 2.013, 0, 0, 0, 0.093, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 1 )
 FoodBaseScene = ExtResource( 2 )
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/salmon.png-5cc6614427044d85ef73df8025c1f8cf.stex"
+path="res://.import/Potato.png-29fbdb5ece9bdb01e71f29e82c1d6020.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/MinigameStuff/salmon.png"
-dest_files=[ "res://.import/salmon.png-5cc6614427044d85ef73df8025c1f8cf.stex" ]
+source_file="res://Assets/MinigameStuff/Ingredients/SnowConeAssets/Potato.png"
+dest_files=[ "res://.import/Potato.png-29fbdb5ece9bdb01e71f29e82c1d6020.stex" ]
 
 [params]
 

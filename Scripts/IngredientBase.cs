@@ -13,6 +13,6 @@ public class IngredientBase : StaticBody
 	}
 	public override void _Process(float delta)
 	{
-		RotateObjectLocal(new Vector3(0, 1, 0), 0.05f);
+		RotateObjectLocal(new Vector3(0, 1, 0), 0.001f);
 	}
 }

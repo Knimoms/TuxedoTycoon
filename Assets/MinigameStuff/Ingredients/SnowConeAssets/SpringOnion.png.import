@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/seaweed.png-99aa19b1fffd8df4b1bcb9a68fdcf127.stex"
+path="res://.import/SpringOnion.png-2e8995e013638893af3d659222f072aa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/MinigameStuff/seaweed.png"
-dest_files=[ "res://.import/seaweed.png-99aa19b1fffd8df4b1bcb9a68fdcf127.stex" ]
+source_file="res://Assets/MinigameStuff/Ingredients/SnowConeAssets/SpringOnion.png"
+dest_files=[ "res://.import/SpringOnion.png-2e8995e013638893af3d659222f072aa.stex" ]
 
 [params]
 

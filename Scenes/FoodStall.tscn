@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
-[ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Minigame/Minigame2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Dish.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=4]
 
@@ -14,7 +14,6 @@ albedo_color = Color( 0, 1, 0, 1 )
 
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
-MiniGameScene = ExtResource( 2 )
 Dish1 = ExtResource( 3 )
 Level1CostValue = 4.0
 Level1CostMagnitude = "a"
@@ -22,6 +21,8 @@ Dish2 = ExtResource( 3 )
 Level2CostValue = 8.0
 Dish3 = ExtResource( 3 )
 Level3CostValue = 16.0
+
+[node name="Node2D" parent="." instance=ExtResource( 2 )]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
