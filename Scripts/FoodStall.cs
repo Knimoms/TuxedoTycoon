@@ -165,7 +165,6 @@ public partial class FoodStall : Spatial
 		_base_script.MiniGameStarted = true;
 
 		AddChild(minigame2D);
-		minigame2D.GetNode<Camera2D>("Camera2D").MakeCurrent();
 		minigame2D.MyFoodStall = this;
 
 		_popupMenu.Hide();
