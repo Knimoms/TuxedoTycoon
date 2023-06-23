@@ -165,14 +165,12 @@ public partial class FoodStall : Spatial
 		_base_script.MiniGameStarted = true;
 
 		AddChild(minigame2D);
-		minigame2D.Transform = GetNode<Minigame2D>("MiniGameSpot").Transform;
+		minigame2D.GetNode<Camera2D>("Camera2D").MakeCurrent();
 		minigame2D.MyFoodStall = this;
-		minigame2D.GetNode<Camera>("Camera").MakeCurrent();
 
 		_popupMenu.Hide();
 
 		_timer.Stop();
-		_my_mesh_instance.Visible = false;
 		_parent.Parent.BuildButton.Visible = false;
 		_parent.Parent.MoneyLabel.Visible = false;
 

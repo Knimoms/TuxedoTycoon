@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
-[ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Minigame/Minigame2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Polar/Dishes/IceCream.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Polar/Dishes/SnowCone.tscn" type="PackedScene" id=5]
@@ -12,7 +12,7 @@
 
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
-MiniGameScene = ExtResource( 2 )
+Minigame2DScene = ExtResource( 2 )
 Dish1 = ExtResource( 5 )
 Level1CostValue = 100.0
 Level1CostMagnitude = ""

@@ -14,12 +14,9 @@ public class Dish : Spatial
     public Ing Ing4 = Ing.Null;
     [Export]
     public Ing Ing5 = Ing.Null;
-    
-    private Ing[] _allIngs;
 
     [Export]
     public float MealPriceValue;
-
     [Export]
     public string MealPriceMagnitude;
 
@@ -28,26 +25,14 @@ public class Dish : Spatial
     {
         get{ return _mealprice;}
     }
+    
     public List<Ing> Ings = new List<Ing>();
-
-    public Dish()
-    {
-        _mealprice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
-
-        _allIngs = new Ing[] {Ing1, Ing2, Ing3, Ing4, Ing5};
-
-        foreach(Ing ing in _allIngs)
-        {
-            if(ing != Ing.Null) 
-                Ings.Add(ing);
-        }
-    }
 
     public override void _Ready()
     {
         _mealprice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
 
-        _allIngs = new Ing[] {Ing1, Ing2, Ing3, Ing4, Ing5};
+        Ing[] _allIngs = new Ing[] {Ing1, Ing2, Ing3, Ing4, Ing5};
 
         foreach(Ing ing in _allIngs)
         {
@@ -55,14 +40,6 @@ public class Dish : Spatial
                 Ings.Add(ing);
         }
     }
-
-
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }
 
 public enum Ing{

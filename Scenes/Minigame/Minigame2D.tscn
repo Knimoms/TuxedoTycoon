@@ -39,3 +39,6 @@ scale = Vector2( 1.7, 0.7 )
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 512, 300.5 )

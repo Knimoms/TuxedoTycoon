@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class Minigame2D : Node2D
 {
     public FoodStall MyFoodStall = new FoodStall();
-    public FoodStall foodStall;
     public List<Ing> ingredientList = new List<Ing>
     {
         
@@ -13,8 +12,7 @@ public class Minigame2D : Node2D
 
     public override void _Ready()
     {
-        foodStall = GetParent<FoodStall>();
-    
+        GD.Print("okilidoki");    
     }
 
     public bool CompareLists()
