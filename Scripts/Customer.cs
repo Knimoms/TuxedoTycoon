@@ -9,7 +9,7 @@ public partial class Customer : KinematicBody
 	public FoodStall TargetRestaurant;
 	private CourtArea _parent;
 	public Vector3 Direction;
-	public Vector3 SpawnPoint;
+	public Spatial SpawnPoint;
 	private NavigationAgent _nav_agent;
 	private Vector3 _target_window;
 	private Timer _timer;
@@ -143,7 +143,7 @@ public partial class Customer : KinematicBody
 
 	public void Leave()
 	{
-		UpdateTargetLocation(SpawnPoint);
+		UpdateTargetLocation(SpawnPoint.GlobalTransform.origin);
 		State = CustomerState.Leaving;
 
 	}

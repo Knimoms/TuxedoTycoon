@@ -75,9 +75,6 @@ public partial class FoodStallSpot : Spatial
 		_parent.Parent.Spots.Remove(this);
 		this.QueueFree();
 		_parent.AddChild(rest);
-		//GD.Print(_parent.Restaurants[0]);
-		_parent.GetNode<CustomerSpawner>("Spawner").Change_wait_time();
-
 	}
 
 	private void _on_ConfirmationButton_pressed()

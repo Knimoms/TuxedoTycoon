@@ -14,7 +14,7 @@ public partial class FoodStall : Spatial
 	public List<Customer> IncomingCustomers = new List<Customer>();
 	//public List<CustomerBase> Queue;
 
-	public CourtArea _parent = null;
+	public CourtArea Parent = null;
 
 	private static BaseScript _base_script;
 
@@ -75,6 +75,7 @@ public partial class FoodStall : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		GD.Print("muuuuh");
 		Dishes = new List<Dish>();
 
 		AddDish(Dish1);
@@ -82,12 +83,12 @@ public partial class FoodStall : Spatial
 		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
 		
 		_my_mesh_instance = GetNode<Spatial>("MeshInstance");
-		_parent = GetParent<CourtArea>();
+		Parent = GetParent<CourtArea>();
 		if(_base_script == null)
-			_base_script = _parent.Parent;
+			_base_script = Parent.Parent;
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = this.WaitTime;
-		_parent.Restaurants.Add(this);
+		_base_script.Restaurants.Add(this);
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 		_foodQualityUpgradeButton = _popupMenu.GetNode<Button>("FoodQualityUpgradeButton");
@@ -119,12 +120,6 @@ public partial class FoodStall : Spatial
 		_nameLabel.Text = "Restaurant Name";
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";
 		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
-
-		CustomersPerMinute = 60/WaitTime;
-
-
-		//_upgradeButton.Connect("pressed", this, "_on_upgrade_button_pressed");
-		
 	}
 
 	public void MiniGameDone()
@@ -173,8 +168,8 @@ public partial class FoodStall : Spatial
 
 		_timer.Stop();
 		_my_mesh_instance.Visible = false;
-		_parent.Parent.BuildButton.Visible = false;
-		_parent.Parent.MoneyLabel.Visible = false;
+		Parent.Parent.BuildButton.Visible = false;
+		Parent.Parent.MoneyLabel.Visible = false;
 
 	}
 
@@ -188,8 +183,8 @@ public partial class FoodStall : Spatial
 	public void ToggleVisibility ()
 	{
 		_my_mesh_instance.Visible = !_my_mesh_instance.Visible;
-		_parent.Parent.BuildButton.Visible = !_parent.Parent.BuildButton.Visible;
-		_parent.Parent.MoneyLabel.Visible = !_parent.Parent.MoneyLabel.Visible;
+		Parent.Parent.BuildButton.Visible = !Parent.Parent.BuildButton.Visible;
+		Parent.Parent.MoneyLabel.Visible = !Parent.Parent.MoneyLabel.Visible;
 	}
 
 	private void _on_Timer_timeout()

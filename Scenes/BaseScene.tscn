@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/CourtArea1.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Scenes/CourtArea3.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/CourtAreaSpot.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/IsoCam.cs" type="Script" id=6]
+[ext_resource path="res://Scenes/AdvertisingManager.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/CustomerSpawner.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -19,10 +21,14 @@ font_path = "res://Assets/SansBlack.ttf"
 size = 23
 font_data = SubResource( 5 )
 
+[sub_resource type="DynamicFont" id=6]
+size = 23
+font_data = SubResource( 5 )
+
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 StartMoneyValue = 800.0
-StartMoneyMagnitude = "b"
+StartMoneyMagnitude = "a"
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 shape = SubResource( 2 )
@@ -42,10 +48,10 @@ far = 175.0
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
 
 [node name="Floor" type="CSGBox" parent="."]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 2.42018, -0.00519562, 2.37854 )
 width = 42.0
 height = 0.001
-depth = 28.0
+depth = 35.0
 
 [node name="StaticBody" type="StaticBody" parent="Floor"]
 
@@ -79,9 +85,9 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="."]
-anchor_left = 0.80957
+anchor_left = 0.786133
 anchor_top = 0.833333
-anchor_right = 0.99707
+anchor_right = 0.973633
 anchor_bottom = 0.993333
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -99,4 +105,31 @@ one_shot = true
 transform = Transform( 1, 0, 0, 0, 0.881122, 0.472889, 0, -0.472889, 0.881122, -5.19891, 5.59912, 1.3027 )
 light_energy = 0.455
 
+[node name="Panel" parent="." instance=ExtResource( 7 )]
+NewspaperCostValue = 8.0
+NewspaperCostMagnitude = "a"
+OnlineCostValue = 40.0
+OnlineCostMagnitude = "d"
+BillboardCostValue = 200.0
+BillboardCostMagnitude = "l"
+TVCostValue = 1.0
+TVCostMagnitude = "s"
+
+[node name="Spawner" parent="." instance=ExtResource( 8 )]
+
+[node name="AdvertisementButton" type="Button" parent="."]
+visible = false
+anchor_left = 0.0244141
+anchor_top = 0.833333
+anchor_right = 0.211914
+anchor_bottom = 0.993333
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 6 )
+text = "Avertisement"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="AdvertisementButton" to="." method="_on_AdvertisementButton_pressed"]
