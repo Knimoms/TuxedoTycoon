@@ -1,0 +1,217 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/AdvertisingManager.cs" type="Script" id=1]
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://Assets/SansBlack.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 14
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 19
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 15
+font_data = SubResource( 5 )
+
+[node name="AdvertisingManager" type="PopupMenu"]
+visible = true
+anchor_left = 0.303711
+anchor_top = 0.2825
+anchor_right = 0.696289
+anchor_bottom = 0.7175
+margin_bottom = 3.05176e-05
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="NewspaperLabel" type="Label" parent="."]
+anchor_left = 0.317946
+anchor_top = 0.436681
+anchor_right = 0.473664
+anchor_bottom = 0.541485
+margin_left = 0.185852
+margin_top = 0.000213623
+margin_right = 10.402
+margin_bottom = 0.000213623
+custom_fonts/font = SubResource( 6 )
+text = "Price"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="NewspaperButton" type="Button" parent="."]
+anchor_left = 0.0274733
+anchor_top = 0.371179
+anchor_right = 0.310659
+anchor_bottom = 0.558952
+margin_left = -0.0442467
+margin_top = 0.000267029
+margin_right = -0.0442505
+margin_bottom = 0.000259399
+custom_fonts/font = SubResource( 7 )
+text = "bubub"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="OnlineLabel" type="Label" parent="."]
+anchor_left = 0.804071
+anchor_top = 0.436681
+anchor_right = 0.985203
+anchor_bottom = 0.541485
+custom_fonts/font = SubResource( 6 )
+text = "Price"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="OnlineButton" type="Button" parent="."]
+anchor_left = 0.503148
+anchor_top = 0.371179
+anchor_right = 0.786334
+anchor_bottom = 0.558952
+custom_fonts/font = SubResource( 7 )
+text = "bubub"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="BillboardLabel" type="Label" parent="."]
+anchor_left = 0.322921
+anchor_top = 0.834061
+anchor_right = 0.464514
+anchor_bottom = 0.938865
+margin_left = -2.81416
+margin_top = 4.57764e-05
+margin_right = 13.0806
+margin_bottom = 6.10352e-05
+custom_fonts/font = SubResource( 6 )
+text = "Price"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="BillboardButton" type="Button" parent="."]
+anchor_left = 0.0324484
+anchor_top = 0.768559
+anchor_right = 0.315634
+anchor_bottom = 0.956332
+margin_left = -2.04425
+margin_top = 0.000106812
+margin_right = -2.04425
+margin_bottom = 0.000106812
+custom_fonts/font = SubResource( 7 )
+text = "bubub"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TVLabel" type="Label" parent="."]
+anchor_left = 0.818837
+anchor_top = 0.835249
+anchor_right = 0.992967
+anchor_bottom = 0.938697
+margin_left = -6.17267
+margin_top = 4.57764e-05
+margin_right = -3.35754
+margin_bottom = 0.353775
+custom_fonts/font = SubResource( 6 )
+text = "Price"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TVButton" type="Button" parent="."]
+anchor_left = 0.528024
+anchor_top = 0.768559
+anchor_right = 0.811209
+anchor_bottom = 0.956332
+margin_left = -9.99948
+margin_top = 0.000106812
+margin_right = -9.99948
+margin_bottom = 0.000106812
+rect_pivot_offset = Vector2( 452.008, 71 )
+custom_fonts/font = SubResource( 7 )
+text = "bubub"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="NameLabel" type="Label" parent="."]
+anchor_left = 0.325959
+anchor_top = 0.0524017
+anchor_right = 0.674041
+anchor_bottom = 0.157205
+margin_right = 1.52588e-05
+custom_fonts/font = SubResource( 8 )
+text = "Advertising"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="NewspaperNameLabel" type="Label" parent="."]
+anchor_left = 0.0501475
+anchor_top = 0.240175
+anchor_right = 0.451327
+anchor_bottom = 0.344978
+custom_fonts/font = SubResource( 9 )
+text = "Newspaper "
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="OnlineNameLabel" type="Label" parent="."]
+anchor_left = 0.501475
+anchor_top = 0.240175
+anchor_right = 0.911504
+anchor_bottom = 0.344978
+custom_fonts/font = SubResource( 9 )
+text = "Online Ads"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="BillboardNameLabel" type="Label" parent="."]
+anchor_left = 0.0501475
+anchor_top = 0.633188
+anchor_right = 0.436578
+anchor_bottom = 0.737991
+custom_fonts/font = SubResource( 9 )
+text = "Billboard"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TVNameLabel" type="Label" parent="."]
+anchor_left = 0.501475
+anchor_top = 0.633188
+anchor_right = 0.905605
+anchor_bottom = 0.737991
+custom_fonts/font = SubResource( 9 )
+text = "TV commercials"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="about_to_show" from="." to="." method="_on_AdvertisingManager_about_to_show"]
+[connection signal="pressed" from="NewspaperButton" to="." method="_on_NewspaperButton_pressed"]
+[connection signal="pressed" from="OnlineButton" to="." method="_on_OnlineButton_pressed"]
+[connection signal="pressed" from="BillboardButton" to="." method="_on_BillboardButton_pressed"]
+[connection signal="pressed" from="TVButton" to="." method="_on_TVButton_pressed"]

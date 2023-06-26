@@ -28,7 +28,7 @@ public partial class Minigame : Spatial
 
     private void _on_CloseButton_pressed()
     {
-        MyFoodStall._parent.Parent.BaseCam.MakeCurrent();
+        MyFoodStall.Parent.Parent.BaseCam.MakeCurrent();
         MyFoodStall.ToggleVisibility();
         if(MyFoodStall.IncomingCustomers.Count > 0 && MyFoodStall.IncomingCustomers[0].State == CustomerState.WaitingInQueue)
         {
@@ -36,7 +36,7 @@ public partial class Minigame : Spatial
         }
         this.QueueFree();
 
-        MyFoodStall._parent.Parent.MiniGameStarted = false;
+        MyFoodStall.Parent.Parent.MiniGameStarted = false;
     }
 
     public bool CompareLists()

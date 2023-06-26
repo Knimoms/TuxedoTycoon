@@ -145,7 +145,7 @@ public class AdvertisingManager : PopupMenu
         _upgraded_Adds();
     }
 
-    private void _on_Panel_about_to_show()
+    private void _on_AdvertisingManager_about_to_show()
     {
         UpdateText();
         CheckButtonMode();
