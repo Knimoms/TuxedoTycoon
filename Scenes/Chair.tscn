@@ -4,3 +4,12 @@
 
 [node name="Chair" type="Spatial"]
 script = ExtResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00572014, -0.016643, 0.0103817 )
+calculate_tangents = false
+width = 0.35
+height = 0.35
+depth = 0.35
+
+[node name="StaticBody" type="StaticBody" parent="CSGBox"]
