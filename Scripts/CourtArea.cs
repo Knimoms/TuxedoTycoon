@@ -5,8 +5,9 @@ using System.Collections.Generic;
 public partial class CourtArea : Spatial
 {
 	public BaseScript Parent;
-	public List<FoodStall> Restaurants;
 	public List<Chair> Chairs = new List<Chair>();
+
+	public Vector3 SpawnPoint {get; private set;}
 
 	Random rnd = new Random();
 	// Called when the node enters the scene tree for the first time.
@@ -14,9 +15,9 @@ public partial class CourtArea : Spatial
 	public override void _Ready()
 	{
 		GD.Print(this);
+		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 
 		Parent = (BaseScript)this.GetParent();
-		Restaurants = GetNode<CustomerSpawner>("Spawner").Rests;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

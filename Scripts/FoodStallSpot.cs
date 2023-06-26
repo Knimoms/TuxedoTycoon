@@ -9,8 +9,6 @@ public partial class FoodStallSpot : Spatial
 	public PackedScene RestaurantScene;
 
 	public Tuxdollar Cost = new Tuxdollar();
-	[Export]
-	public float  WaitTime;
 
 	[Export]
 	public PackedScene FoodStallModel;
@@ -70,14 +68,10 @@ public partial class FoodStallSpot : Spatial
 		FoodStall rest = RestaurantScene.Instance<FoodStall>();
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
-		rest.WaitTime = WaitTime;
 		rest.Cost = Cost;
 		_parent.Parent.Spots.Remove(this);
 		this.QueueFree();
 		_parent.AddChild(rest);
-		//GD.Print(_parent.Restaurants[0]);
-		_parent.GetNode<CustomerSpawner>("Spawner").Change_wait_time();
-
 	}
 
 	private void _on_ConfirmationButton_pressed()

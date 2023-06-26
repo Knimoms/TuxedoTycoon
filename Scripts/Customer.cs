@@ -9,7 +9,7 @@ public partial class Customer : KinematicBody
 	public FoodStall TargetRestaurant;
 	private CourtArea _parent;
 	public Vector3 Direction;
-	public Vector3 SpawnPoint;
+	public Spatial SpawnPoint;
 	private NavigationAgent _nav_agent;
 	private Vector3 _target_window;
 	private Timer _timer;
@@ -77,9 +77,6 @@ public partial class Customer : KinematicBody
 		MoveAndSlide(Velocity);
 
 		_my_body.LookAt(_nav_agent.GetNextLocation(), Vector3.Up);
-
-		// if ((_nav_agent.GetTargetLocation() - GlobalTransform.origin).Length() <= 0.6f)
-		// 	_on_NavigationAgent_target_reached();
 	}
 
 	public void UpdateTargetLocation(Vector3 targetLocation)
@@ -126,7 +123,7 @@ public partial class Customer : KinematicBody
 	{
 		_my_sprite.Scale *= 0.5f;
 		GlobalTransform = new Transform(_my_chair.GlobalTransform.basis, _my_chair.GlobalTransform.origin + Vector3.Up*0.5f);
-		_my_body.Rotation = _my_chair.Rotation;
+		_my_body.GlobalRotation = _my_chair.GlobalRotation;
 		State = CustomerState.EatingFood;
 		_timer.WaitTime = EatingTime;
 		StartTimer(); 
@@ -143,7 +140,7 @@ public partial class Customer : KinematicBody
 
 	public void Leave()
 	{
-		UpdateTargetLocation(SpawnPoint);
+		UpdateTargetLocation(SpawnPoint.GlobalTransform.origin);
 		State = CustomerState.Leaving;
 
 	}
