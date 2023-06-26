@@ -8,7 +8,6 @@ public partial class FoodStall : Spatial
 	[Export]
 	public PackedScene MiniGameScene;
 	public Tuxdollar Multiplicator = new Tuxdollar(1), Cost, TimeUpgradeCost, QualityUpgradeCost;
-	public float WaitTime;
 	public Customer CurrentCustomer;
 
 	public List<Customer> IncomingCustomers = new List<Customer>();
@@ -39,7 +38,8 @@ public partial class FoodStall : Spatial
 	
 	private Spatial _my_mesh_instance;
 
-	private float CustomersPerMinute;
+	[Export]
+	private float CustomersPerMinute = 6;
 
 	public Dish OrderedDish;
 
@@ -87,7 +87,7 @@ public partial class FoodStall : Spatial
 		if(_base_script == null)
 			_base_script = Parent.Parent;
 		_timer = GetNode<Timer>("Timer");
-		_timer.WaitTime = this.WaitTime;
+		_timer.WaitTime = 60/CustomersPerMinute;
 		_base_script.Restaurants.Add(this);
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");

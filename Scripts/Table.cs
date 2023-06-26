@@ -28,7 +28,6 @@ public partial class Table : Spatial
 
         if (_parent.Parent == null)
             _parent.Parent = _parent.GetParent<BaseScript>();
-        _parent.Parent.Spots.Add(this);
 
         currentLevel = 1;
         Cost = CalculateCost(currentLevel);
@@ -51,7 +50,7 @@ public partial class Table : Spatial
 
     private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 position, Vector3 normal, int shape_idx)
     {
-        if (!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left)
+        if (!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left || !_parent.Parent.BuildMode)
             return;
 
         if (!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0)
