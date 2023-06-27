@@ -15,24 +15,31 @@ public class AdvertisingManager : PopupMenu
     public float CostIncreaseMultiplier = 2f;
 
     [Export]
+    public float NewspaperCPMUpgradeSteps;
+    [Export]
     public float NewspaperCostValue;
     [Export]
     public string NewspaperCostMagnitude;
     public Tuxdollar NewspaperCost;
 
     [Export]
+    public float OnlineCPMUpgradeSteps;
+    [Export]
     public float OnlineCostValue;
     [Export]
     public string OnlineCostMagnitude;
     public Tuxdollar OnlineCost;
 
-
+    [Export]
+    public float BillboardCPMUpgradeSteps;
     [Export]
     public float BillboardCostValue;
     [Export]
     public string BillboardCostMagnitude;
     public Tuxdollar BillboardCost;
 
+    [Export]
+    public float TVCPMUpgradeSteps;
     [Export]
     public float TVCostValue;
     [Export]
@@ -51,7 +58,7 @@ public class AdvertisingManager : PopupMenu
     public Button TVButton;
     public Label TVCostLabel;
 
-    public int AdvertisementScore{get; private set;}
+    public float AdvertisementScore{get; private set;}
 
     
 
@@ -107,8 +114,8 @@ public class AdvertisingManager : PopupMenu
         NewspaperCost *= CostIncreaseMultiplier;
         Basescript.TransferMoney(-tempCost);
         NewspaperAdsLvl++;
-        AdvertisementScore += 2;
-        if(NewspaperAdsLvl == 1) AdvertisementScore += 18;
+        AdvertisementScore += NewspaperCPMUpgradeSteps;
+        if(NewspaperAdsLvl == 1) AdvertisementScore += NewspaperCPMUpgradeSteps*3;
         _upgraded_Adds();
     }
 
@@ -118,8 +125,8 @@ public class AdvertisingManager : PopupMenu
         OnlineCost *= CostIncreaseMultiplier;
         Basescript.TransferMoney(-tempCost);
         OnlineAdsLvl++;
-        AdvertisementScore += 3;
-        if(OnlineAdsLvl == 1) AdvertisementScore += 27;
+        AdvertisementScore += OnlineCPMUpgradeSteps;
+        if(OnlineAdsLvl == 1) AdvertisementScore += OnlineCPMUpgradeSteps*3;
         _upgraded_Adds();
     }
 
@@ -129,8 +136,8 @@ public class AdvertisingManager : PopupMenu
         BillboardCost *= CostIncreaseMultiplier;
         Basescript.TransferMoney(-tempCost);
         NewspaperAdsLvl++;
-        AdvertisementScore += 4;
-        if(NewspaperAdsLvl == 1) AdvertisementScore += 36;
+        AdvertisementScore += BillboardCPMUpgradeSteps;
+        if(NewspaperAdsLvl == 1) AdvertisementScore += BillboardCPMUpgradeSteps*3;
         _upgraded_Adds();
     }
 
@@ -140,8 +147,8 @@ public class AdvertisingManager : PopupMenu
         TVCost *= CostIncreaseMultiplier;
         Basescript.TransferMoney(-tempCost);
         NewspaperAdsLvl++;
-        AdvertisementScore += 5;
-        if(NewspaperAdsLvl == 1) AdvertisementScore += 45;
+        AdvertisementScore += TVCPMUpgradeSteps;
+        if(NewspaperAdsLvl == 1) AdvertisementScore += TVCPMUpgradeSteps*3;
         _upgraded_Adds();
     }
 

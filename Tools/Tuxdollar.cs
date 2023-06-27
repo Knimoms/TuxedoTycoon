@@ -5,10 +5,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
     public float Value; // outside of this class this Value will only be between 0 and 1000.
     public string Magnitude // a == 1, b == 2 ... z == 26, aa = 27
     {
-        get
-        {
-            return _magnitude;
-        }
+        get => _magnitude;
         set
         {
             foreach (char c in value)
@@ -24,9 +21,11 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
     private string _magnitude;
     private static string MagnitudeLetters = "abcdefghijklmnopqrstuvwxyz";
 
+    private static Tuxdollar _zeroTuxdollar = new Tuxdollar(0);
+    public static Tuxdollar ZeroTux => _zeroTuxdollar;
+
     public Tuxdollar(float Value, string Magnitude)
     {
-
         this.Value = Value;
 
         if(Magnitude == null)

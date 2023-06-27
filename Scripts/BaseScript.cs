@@ -9,27 +9,26 @@ public partial class BaseScript : Spatial
 	[Export]
 	public string StartMoneyMagnitude;
 
-	public InputState IState;
-	public Tuxdollar Money = new Tuxdollar(0);
-	public Label MoneyLabel;
-
-	public List<Spatial> Spots = new List<Spatial>();
-
-	public Timer MaxInputDelay;
-
-	public Vector2 InputPosition;
-
-	public Button BuildButton;
 	public bool BuildMode = false;
 	public bool MiniGameStarted = false;
 
+	public int CustomerSatisfactionTotal {get; private set;}
+	private Queue<int> _customer_satisfactions = new Queue<int>();
+	public float SatisfactionRating => CustomerSatisfactionTotal/_customer_satisfactions.Count;
+
+	public InputState IState;
+	public Tuxdollar Money = new Tuxdollar(0);
+	public Label MoneyLabel;
+	public List<Spatial> Spots = new List<Spatial>();
+	public Timer MaxInputDelay;
+	public Vector2 InputPosition;
+	public Button BuildButton;
 	public Camera BaseCam;
 	public List<FoodStall> Restaurants = new List<FoodStall>();
-
 	public AdvertisingManager Advertising;
 	public CustomerSpawner Spawner;
-
 	public Button AdvertisementButton;
+	public Label AverageSatisfactionLabel;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -45,6 +44,7 @@ public partial class BaseScript : Spatial
 		Advertising.Visible = false;
 		Spawner = (CustomerSpawner)GetNode("Spawner");
 		AdvertisementButton = (Button)GetNode("AdvertisementButton");
+		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		Spawner.ChangeWaitTime();
 	}
@@ -54,6 +54,17 @@ public partial class BaseScript : Spatial
 		this.Money += Money;
 		MoneyLabel.Text = $"Money: {this.Money}";
 		Advertising.CheckButtonMode();
+	}
+
+	public void AddSatisfaction(int numb)
+	{
+		CustomerSatisfactionTotal += numb;
+		_customer_satisfactions.Enqueue(numb);
+
+		if(_customer_satisfactions.Count > 999)
+			CustomerSatisfactionTotal -= _customer_satisfactions.Dequeue();
+
+		AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
 	}
 
 	private void _on_Button_pressed()
@@ -68,11 +79,6 @@ public partial class BaseScript : Spatial
 	private void _on_AdvertisementButton_pressed()
 	{
 		Advertising.Popup_();
-	}
-
-	public void _on_Upgrade_pressed()
-	{
-
 	}
 }
 

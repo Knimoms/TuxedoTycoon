@@ -49,6 +49,7 @@ public partial class FoodStall : Spatial
 	public float Level1CostValue;
 	[Export]
 	public string Level1CostMagnitude;
+	public Tuxdollar Level1Cost;
 
 	[Export]
 	public PackedScene Dish2;
@@ -75,10 +76,10 @@ public partial class FoodStall : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		GD.Print("muuuuh");
+		Level1Cost = new Tuxdollar(Level1CostValue, Level1CostMagnitude);
 		Dishes = new List<Dish>();
 
-		AddDish(Dish1);
+		AddDish(Dish1, Level1Cost*0.5f);
 
 		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
 		
@@ -160,9 +161,7 @@ public partial class FoodStall : Spatial
 		_base_script.MiniGameStarted = true;
 
 		AddChild(minigame2D);
-		minigame2D.Transform = GetNode<Minigame2D>("MiniGameSpot").Transform;
 		minigame2D.MyFoodStall = this;
-		minigame2D.GetNode<Camera>("Camera").MakeCurrent();
 
 		_popupMenu.Hide();
 
@@ -173,9 +172,10 @@ public partial class FoodStall : Spatial
 
 	}
 
-	public void AddDish(PackedScene scene)
+	public void AddDish(PackedScene scene, Tuxdollar mealprice)
 	{
 		Dish dish = (Dish)scene.Instance();
+		dish.MealPrice = mealprice;
 		Dishes.Add(dish);
 		AddChild(dish);
 	}
@@ -189,10 +189,10 @@ public partial class FoodStall : Spatial
 
 	private void _on_Timer_timeout()
 	{
-		GD.Print($"{OrderedDish.Ing1} {OrderedDish.Ing2} {OrderedDish.Ing3}");
+		GD.Print($"{OrderedDish.Ing1} {OrderedDish.Ing2} {OrderedDish.Ing3}{OrderedDish.MealPrice}");
 		if(IncomingCustomers.Count == 0)
 			return;
-		_base_script.TransferMoney(OrderedDish.MealPrice);
+		_base_script.TransferMoney(OrderedDish.MealPrice*Multiplicator);
 		this.IncomingCustomers[0].FinishOrder();
 		
 		for(int i = 0; i < this.IncomingCustomers.Count; i++)
@@ -242,12 +242,13 @@ public partial class FoodStall : Spatial
 		{
 			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
 			_levelUpButton.Disabled = _base_script.Money < LevelUpCost;
-			AddDish(Dish2);
+			AddDish(Dish2, Level1Cost);
+			GD.Print(MoneyPerMinute());
 			return;
 		}
 
 		_levelUpButton.Disabled = true;
-		AddDish(Dish3);
+		AddDish(Dish3, Level1Cost*2f);
 	}
 
 	public void FoodQualityLevelUp()
@@ -285,9 +286,20 @@ public partial class FoodStall : Spatial
 		_popupMenu.PopupCentered();
 	}
 
+	public Tuxdollar MoneyPerMinute()
+	{
+		Tuxdollar averageMealPrice = Tuxdollar.ZeroTux;
+		foreach (Dish dish in Dishes)
+			averageMealPrice += dish.MealPrice;
+
+		averageMealPrice /= Dishes.Count;
+
+		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, _base_script.Spawner.CustomersPerMinute);		
+	}
+
 	public void Refund()
 	{
-		_base_script.TransferMoney(-OrderedDish.MealPrice);
+		_base_script.TransferMoney(-OrderedDish.MealPrice*Multiplicator);
 	}
 
 	private void _on_CookTimeUpgradeButton_pressed()

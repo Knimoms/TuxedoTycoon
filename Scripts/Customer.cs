@@ -4,7 +4,26 @@ using System;
 public partial class Customer : KinematicBody
 {
 
-	
+	[Export]
+	public float EatingTime = 7.0f;
+	[Export]
+	public float Speed = 5.0f;
+	[Export]
+	public float Gravity = 9.8f;
+	public int LineNumber;
+	public float QueueTime;
+
+	private int _satisfaction = 50;
+	public int Satisfaction 
+	{
+		get => _satisfaction;
+		set{_satisfaction = (value >= 0 && value <= 100)? value : (value < 0)? 0 : 100;}
+	}
+
+	public Vector3 Velocity = new Vector3();
+	public CustomerState State;
+	public bool OrderFinished = false;
+
 	private Spatial _my_body;
 	public FoodStall TargetRestaurant;
 	private CourtArea _parent;
@@ -16,19 +35,6 @@ public partial class Customer : KinematicBody
 	private Timer _patienceTimer;
 	private Chair _my_chair;
 	private Sprite3D _my_sprite;
-
-	[Export]
-	public float EatingTime = 7.0f;
-	[Export]
-	public float Speed = 5.0f;
-	[Export]
-	public float Gravity = 9.8f;
-
-	public Vector3 Velocity = new Vector3();
-	public int LineNumber;
-	public CustomerState State;
-	public bool OrderFinished = false;
-	
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -50,11 +56,14 @@ public partial class Customer : KinematicBody
 		else
 			this.UpdateTargetLocation(_target_window);
 		
-		State = CustomerState.WalkingInQueue;
+		State = CustomerState.WalkingToQueue;
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
+		if(State < CustomerState.WalkingToTable) 
+			QueueTime += delta;
+
 		_my_sprite.Rotate(Vector3.Up, (float)(5*delta));
 
 		if (State == CustomerState.WaitingInQueue || State == CustomerState.EatingFood)
@@ -95,14 +104,22 @@ public partial class Customer : KinematicBody
 		UpdateTargetLocation(_target_window);
 	}
 
+	public void QueueTimeSatisfaction()
+	{
+		QueueTime -= 51+TargetRestaurant.TimerProp.WaitTime;
+		Satisfaction -= (int)QueueTime;
+	}
+
 	public void GoToEat()
 	{
 		State = CustomerState.WalkingToTable;
+		QueueTimeSatisfaction();
 		_my_chair = _parent.GetRandomFreeChair();
 		if(_my_chair == null)
 		{
 			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.Refund();
+			Satisfaction -= 70;
 			Leave();
 			return;
 		}
@@ -142,7 +159,8 @@ public partial class Customer : KinematicBody
 	{
 		UpdateTargetLocation(SpawnPoint.GlobalTransform.origin);
 		State = CustomerState.Leaving;
-
+		_parent.Parent.AddSatisfaction(Satisfaction);
+		GD.Print(_parent.Parent.SatisfactionRating);
 	}
 
 	public void StartTimer()
@@ -183,6 +201,8 @@ public partial class Customer : KinematicBody
 
 	private void _on_NavigationAgent_target_reached()
 	{
+		if(State == CustomerState.EatingFood || State == CustomerState.WaitingInQueue)
+			return;
 		
 		if (State == CustomerState.Leaving)
 		{
@@ -215,6 +235,7 @@ public enum CustomerState
 	WaitingInQueue,
 	WalkingToTable,
 	EatingFood,
-	Leaving
+	Leaving,
+	WalkingToQueue
 
 }

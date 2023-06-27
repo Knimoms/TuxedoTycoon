@@ -24,14 +24,16 @@ public class Dish : Spatial
     public Tuxdollar MealPrice
     {
         get{ return _mealprice;}
+        set
+        {
+            _mealprice = (value > Tuxdollar.ZeroTux)? value : Tuxdollar.ZeroTux;
+        }
     }
     
     public List<Ing> Ings = new List<Ing>();
 
     public override void _Ready()
     {
-        _mealprice = new Tuxdollar(MealPriceValue, MealPriceMagnitude);
-
         Ing[] _allIngs = new Ing[] {Ing1, Ing2, Ing3, Ing4, Ing5};
 
         foreach(Ing ing in _allIngs)

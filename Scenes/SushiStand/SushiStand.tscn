@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
-[ext_resource path="res://Scenes/Minigame/Minigame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Minigame/Minigame2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/SushiStand/Dishes/Maki.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Test/Jap_st_2lvl.glb" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/SushiStand/Dishes/Onigiri.tscn" type="PackedScene" id=5]
@@ -12,7 +12,7 @@
 
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
-MiniGameScene = ExtResource( 2 )
+Minigame2DScene = ExtResource( 2 )
 Dish1 = ExtResource( 6 )
 Level1CostValue = 2.0
 Level1CostMagnitude = "a"
