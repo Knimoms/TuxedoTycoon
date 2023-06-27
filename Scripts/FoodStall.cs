@@ -148,28 +148,40 @@ public partial class FoodStall : Spatial
 		_timer.Stop();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(float delta)
-	{
-		 
-	}
-
 	private void _on_MiniGame2D_pressed()
 	{
+		if(TimerProp.TimeLeft == 0)
+			return;
+
 		Minigame2D minigame2D = Minigame2DScene.Instance<Minigame2D>();
 
-		_base_script.MiniGameStarted = true;
-
+		ToggleMiniGameMode();
+		_base_script.IState = InputState.MiniGameOpened;
 		AddChild(minigame2D);
-		minigame2D.MyFoodStall = this;
 
 		_popupMenu.Hide();
 
 		_timer.Stop();
-		_my_mesh_instance.Visible = false;
 		Parent.Parent.BuildButton.Visible = false;
 		Parent.Parent.MoneyLabel.Visible = false;
 
+	}
+
+	public void CloseMiniGame()
+	{
+		ToggleMiniGameMode();
+
+		if(IncomingCustomers.Count != 0 && IncomingCustomers[0].State == CustomerState.WaitingInQueue)
+			_timer.Start();
+		
+		_base_script.IState = InputState.Default;
+	}
+
+	public void ToggleMiniGameMode()
+	{
+		_base_script.AverageSatisfactionLabel.Visible = !_base_script.AverageSatisfactionLabel.Visible;
+		_base_script.BuildButton.Visible = !_base_script.BuildButton.Visible;
+		_base_script.MoneyLabel.Visible = !_base_script.MoneyLabel.Visible;
 	}
 
 	public void AddDish(PackedScene scene, Tuxdollar mealprice)
@@ -210,7 +222,7 @@ public partial class FoodStall : Spatial
 
 	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
-		if(!(event1 is InputEventMouseButton) || event1.IsPressed() || _base_script.MiniGameStarted || _base_script.MaxInputDelay.TimeLeft <= 0)
+		if(!(event1 is InputEventMouseButton) || event1.IsPressed() || _base_script.IState == InputState.MiniGameOpened || _base_script.MaxInputDelay.TimeLeft <= 0)
 			return;
 			
 		if(_base_script.BuildMode)

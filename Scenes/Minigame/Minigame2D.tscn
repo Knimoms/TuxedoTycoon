@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/MinigameStuff/Ingredients/SnowConeAssets/Ice.png" type="Texture" id=1]
 [ext_resource path="res://Assets/MinigameStuff/minigame_bg.png" type="Texture" id=2]
@@ -7,9 +7,23 @@
 [ext_resource path="res://Scenes/Minigame/Ing2D.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/Minigame2D.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/Minigame/FoodSpwn2D.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Assets/MinigameStuff/minigame_wallpaper.png" type="Texture" id=8]
+[ext_resource path="res://Assets/InterfaceStuff/trash.png" type="Texture" id=10]
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://Assets/SansBlack.ttf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 23
+font_data = SubResource( 5 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 6 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 511, 300.5 )
+scale = Vector2( 1.0625, 0.892697 )
+texture = ExtResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 512, 300.5 )
@@ -39,3 +53,28 @@ scale = Vector2( 1.7, 0.7 )
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="TrashButton" type="Button" parent="."]
+anchor_left = 0.00292969
+anchor_top = 0.748333
+anchor_right = 0.12923
+anchor_bottom = 0.995475
+margin_left = 8.0
+margin_top = 481.0
+margin_right = 1713.0
+margin_bottom = 2407.0
+rect_scale = Vector2( 0.06, 0.06 )
+icon = ExtResource( 10 )
+flat = true
+
+[node name="CloseButton" type="Button" parent="."]
+margin_left = 867.0
+margin_top = 2.0
+margin_right = 1017.0
+margin_bottom = 93.0
+custom_fonts/font = SubResource( 4 )
+text = "Close"
+
+[connection signal="pressed" from="TrashButton" to="." method="_on_TrashButton_pressed"]
+[connection signal="pressed" from="TrashButton" to="TrashButton" method="_on_Button_pressed"]
+[connection signal="pressed" from="CloseButton" to="." method="_on_CloseButton_pressed"]

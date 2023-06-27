@@ -14,6 +14,7 @@ albedo_color = Color( 0, 1, 0, 1 )
 
 [node name="FoodStall" type="Spatial"]
 script = ExtResource( 1 )
+Minigame2DScene = ExtResource( 2 )
 Dish1 = ExtResource( 3 )
 Level1CostValue = 4.0
 Level1CostMagnitude = "a"
@@ -21,8 +22,6 @@ Dish2 = ExtResource( 3 )
 Level2CostValue = 8.0
 Dish3 = ExtResource( 3 )
 Level3CostValue = 16.0
-
-[node name="Node2D" parent="." instance=ExtResource( 2 )]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )

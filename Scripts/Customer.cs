@@ -148,6 +148,7 @@ public partial class Customer : KinematicBody
 
 	public void TakeAwayFood()
 	{
+		Satisfaction = 90;
 		OrderFinished = true;
 		LineNumber = 0;
 		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");

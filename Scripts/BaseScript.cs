@@ -10,7 +10,6 @@ public partial class BaseScript : Spatial
 	public string StartMoneyMagnitude;
 
 	public bool BuildMode = false;
-	public bool MiniGameStarted = false;
 
 	public int CustomerSatisfactionTotal {get; private set;}
 	private Queue<int> _customer_satisfactions = new Queue<int>();
@@ -87,6 +86,6 @@ public enum InputState
 	Default,
 	Zooming,
 	Dragging,
-	UIopened,
+	PopUpOpened,
 	MiniGameOpened
 }

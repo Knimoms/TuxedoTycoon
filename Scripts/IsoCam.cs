@@ -25,6 +25,9 @@ public class IsoCam : Spatial
 
     public override void _Input(InputEvent @event)
     {
+        if(_parent.IState == InputState.MiniGameOpened)
+            return;
+            
         if (@event is InputEventScreenTouch st)
         {
             if (@event.IsPressed())
