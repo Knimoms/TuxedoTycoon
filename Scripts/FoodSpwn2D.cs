@@ -9,7 +9,14 @@ public class FoodSpwn2D : Node2D
 	{
 		if(@event is InputEventMouseButton && @event.IsPressed())
 		{
-            GD.Print("Ordered Food is Spawned");
+            if(minigame2D.CompareLists())
+			{
+				GD.Print("NICE");
+			}
+			else
+			{
+				GD.Print("No!");
+			}
 		}
 	}
 
