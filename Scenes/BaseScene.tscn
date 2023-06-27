@@ -21,8 +21,7 @@ font_data = SubResource( 5 )
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
-StartMoneyValue = 3e+07
-StartMoneyMagnitude = "z"
+StartMoneyValue = 3e+06
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 shape = SubResource( 2 )

@@ -78,7 +78,7 @@ public partial class Customer : KinematicBody
 
 		_my_body.LookAt(_nav_agent.GetNextLocation(), Vector3.Up);
 
-		GD.Print(_my_body.Rotation);
+		//GD.Print(_my_body.Rotation);
 
 		// if ((_nav_agent.GetTargetLocation() - GlobalTransform.origin).Length() <= 0.6f)
 		// 	_on_NavigationAgent_target_reached();
