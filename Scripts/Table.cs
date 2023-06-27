@@ -64,12 +64,6 @@ public partial class Table : Spatial
 
     private void LevelUp()
     {
-        if (_parent.Parent.Money < Cost)
-        {
-            _confirmationButton.Disabled = true;
-            return;
-        }
-
         _parent.Parent.TransferMoney(-Cost);
 
         currentLevel++;
@@ -83,6 +77,12 @@ public partial class Table : Spatial
             _parent.Chairs.Add(chair);
         }
 
+        if (_parent.Parent.Money < Cost)
+        {
+            _confirmationButton.Disabled = true;
+            return;
+        }
+        
         if (currentLevel == chairsCount)
         {
             _confirmationButton.Disabled = true;
