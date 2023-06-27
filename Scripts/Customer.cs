@@ -23,6 +23,7 @@ public partial class Customer : KinematicBody
 	public Vector3 Velocity = new Vector3();
 	public CustomerState State;
 	public bool OrderFinished = false;
+	private Dish OrderedDish;
 
 	private Spatial _my_body;
 	public FoodStall TargetRestaurant;
@@ -118,11 +119,13 @@ public partial class Customer : KinematicBody
 		if(_my_chair == null)
 		{
 			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
-			TargetRestaurant.Refund();
+			TargetRestaurant.Refund(OrderedDish);
+			TargetRestaurant.OrderedDish = null;
 			Satisfaction -= 70;
 			Leave();
 			return;
 		}
+		TargetRestaurant.OrderedDish = null;
 		State = CustomerState.WalkingToTable;
 		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
 		_my_chair.Occupied = true;
@@ -173,6 +176,7 @@ public partial class Customer : KinematicBody
 	{
 		if(LineNumber > 15) 
 		{
+			Satisfaction = 25;
 			Leave();
 			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.IncomingCustomers.Remove(this);
@@ -220,7 +224,7 @@ public partial class Customer : KinematicBody
 		QueueUp();
 
 		if (LineNumber == 0)
-			TargetRestaurant.Order();
+			OrderedDish = TargetRestaurant.Order();
 	}
 
 	private void _on_NavigationAgent_velocity_computed(Vector3 safe_velocity)

@@ -4,55 +4,39 @@ using System.Collections.Generic;
 
 public class Minigame2D : Node2D
 {
+    public List<Ing> ingredientList = new List<Ing>();
+
     public FoodStall MyFoodStall;
-    public List<Ing> ingredientList = new List<Ing>
-    {
-        
-    };
+    public Label IngLabel;
+    public Label UserIngLabel;
 
     public override void _Ready()
     { 
         MyFoodStall = (FoodStall)GetParent();
-        GD.Print(MyFoodStall.OrderedDish);
+        IngLabel = (Label)GetNode("IngLabel");
+        UserIngLabel = (Label)GetNode("UserIngLabel");
+        UserIngLabel.Text = "";
+
+        IngLabel.Text = PrintRecipe();
     }
 
-    // public bool CompareLists()
-    // {
-    //     GD.Print("UL:");
-	// 	foreach (Ing a in ingredientList)
-    //     {
-    //         GD.Print(a.ToString());
-            
-    //     }
-	// 	GD.Print("RL:");
-    //     foreach (Ing b in MyFoodStall.OrderedDish.Ings)
-    //     {
-    //         GD.Print(b);
-    //     }
-    //     if (ingredientList.Count > MyFoodStall.OrderedDish.Ings.Count || ingredientList.Count < MyFoodStall.OrderedDish.Ings.Count)
-    //         return false;
-    //     for (int i = 0; i < ingredientList.Count; i++)
-    //     {
-    //         if (ingredientList[i] != MyFoodStall.OrderedDish.Ings[i])
-    //             return false;
+    public override void _PhysicsProcess(float delta)
+    {
+        if(MyFoodStall.OrderedDish != null && IngLabel.Text == "")
+            IngLabel.Text = PrintRecipe();
+        
 
-    //     }
-    //     return true;
-    // }
+        if(MyFoodStall.OrderedDish == null && IngLabel.Text != "")
+            IngLabel.Text = "";
+    }
     
     public bool CompareLists()
     {
-        GD.Print("UL:");
-		foreach(Ing a in ingredientList)
-        {
-			GD.Print(a);
-		}
-		GD.Print("RL:");
+        if(MyFoodStall.OrderedDish == null)
+            return false;
+
         GD.Print(MyFoodStall.OrderedDish);
-        foreach (Ing b in MyFoodStall.OrderedDish.Ings)
-        {
-            GD.Print(b);
-        }
+    
         if (ingredientList.Count > MyFoodStall.OrderedDish.Ings.Count || ingredientList.Count < MyFoodStall.OrderedDish.Ings.Count)
             return false;
         for (int i = 0; i < ingredientList.Count; i++)
@@ -61,8 +45,33 @@ public class Minigame2D : Node2D
                 return false;
 
         }
-        MyFoodStall.MiniGameDone();
+        RecipeCorrect();
         return true;
+    }
+
+    public void AddIng(Ing ing)
+    {
+        if(MyFoodStall.OrderedDish == null)
+            return;
+        ingredientList.Add(ing);
+        UserIngLabel.Text += $"{ing}\n";
+    }
+
+    public void RecipeCorrect()
+    {
+        MyFoodStall.MiniGameDone();
+        _on_TrashButton_pressed();
+    }
+
+    private string PrintRecipe()
+    {
+        string recipe = "";
+        foreach(Ing ing in MyFoodStall.OrderedDish.Ings)
+        {
+            recipe += $"{ing} ";
+        }
+
+        return recipe;
     }
 
     private void _on_CloseButton_pressed()
@@ -74,5 +83,6 @@ public class Minigame2D : Node2D
     private void _on_TrashButton_pressed()
     {
 		ingredientList.Clear();
+        UserIngLabel.Text = "";
     }
 }

@@ -133,6 +133,7 @@ public partial class FoodStall : Spatial
 			IncomingCustomers[0].TakeAwayFood();
 			_base_script.TransferMoney(OrderedDish.MealPrice*1.25f);
 		}
+		OrderedDish = null;
 
 		for(int i = 0; i < IncomingCustomers.Count; i++)
 		{
@@ -146,6 +147,7 @@ public partial class FoodStall : Spatial
 		}
 
 		_timer.Stop();
+
 	}
 
 	private void _on_MiniGame2D_pressed()
@@ -162,9 +164,6 @@ public partial class FoodStall : Spatial
 		_popupMenu.Hide();
 
 		_timer.Stop();
-		Parent.Parent.BuildButton.Visible = false;
-		Parent.Parent.MoneyLabel.Visible = false;
-
 	}
 
 	public void CloseMiniGame()
@@ -181,7 +180,6 @@ public partial class FoodStall : Spatial
 	{
 		_base_script.AverageSatisfactionLabel.Visible = !_base_script.AverageSatisfactionLabel.Visible;
 		_base_script.BuildButton.Visible = !_base_script.BuildButton.Visible;
-		_base_script.MoneyLabel.Visible = !_base_script.MoneyLabel.Visible;
 	}
 
 	public void AddDish(PackedScene scene, Tuxdollar mealprice)
@@ -234,10 +232,12 @@ public partial class FoodStall : Spatial
 		_on_MiniGame2D_pressed();		
 	}
 
-	public void Order()
+	public Dish Order()
 	{
 		OrderedDish = Dishes[rnd.Next(0,Dishes.Count)];
 		this._timer.Start();
+
+		return OrderedDish;
 	}
 
 	public void LevelUp()
@@ -309,9 +309,9 @@ public partial class FoodStall : Spatial
 		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, _base_script.Spawner.CustomersPerMinute);		
 	}
 
-	public void Refund()
+	public void Refund(Dish dish)
 	{
-		_base_script.TransferMoney(-OrderedDish.MealPrice*Multiplicator);
+		_base_script.TransferMoney(-dish.MealPrice*Multiplicator);
 	}
 
 	private void _on_CookTimeUpgradeButton_pressed()

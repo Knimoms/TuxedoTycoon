@@ -15,6 +15,7 @@ font_path = "res://Assets/SansBlack.ttf"
 
 [sub_resource type="DynamicFont" id=4]
 size = 23
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 5 )
 
 [node name="Node2D" type="Node2D"]
@@ -74,6 +75,26 @@ margin_right = 1017.0
 margin_bottom = 93.0
 custom_fonts/font = SubResource( 4 )
 text = "Close"
+
+[node name="IngLabel" type="Label" parent="."]
+margin_left = 170.0
+margin_top = 156.0
+margin_right = 552.0
+margin_bottom = 242.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "sdgdsfsdf"
+align = 2
+
+[node name="UserIngLabel" type="Label" parent="."]
+margin_left = 417.0
+margin_top = 461.0
+margin_right = 539.0
+margin_bottom = 547.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "sdgdsfsdf"
+align = 1
 
 [connection signal="pressed" from="TrashButton" to="." method="_on_TrashButton_pressed"]
 [connection signal="pressed" from="TrashButton" to="TrashButton" method="_on_Button_pressed"]
