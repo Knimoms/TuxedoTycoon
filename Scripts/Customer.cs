@@ -113,6 +113,7 @@ public partial class Customer : KinematicBody
 
 	public void GoToEat()
 	{
+		_parent.Parent.TransferMoney(OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 		State = CustomerState.WalkingToTable;
 		QueueTimeSatisfaction();
 		_my_chair = _parent.GetRandomFreeChair();
@@ -161,10 +162,12 @@ public partial class Customer : KinematicBody
 
 	public void Leave()
 	{
+		float tip = Math.Max(0,(Satisfaction/50)-1);
+		_parent.Parent.TransferMoney(tip*OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
+
 		UpdateTargetLocation(SpawnPoint.GlobalTransform.origin);
 		State = CustomerState.Leaving;
 		_parent.Parent.AddSatisfaction(Satisfaction);
-		GD.Print(_parent.Parent.SatisfactionRating);
 	}
 
 	public void StartTimer()

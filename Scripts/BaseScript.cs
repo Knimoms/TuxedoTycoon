@@ -13,7 +13,11 @@ public partial class BaseScript : Spatial
 
 	public int CustomerSatisfactionTotal {get; private set;}
 	private Queue<int> _customer_satisfactions = new Queue<int>();
-	public float SatisfactionRating => CustomerSatisfactionTotal/_customer_satisfactions.Count;
+	private float _satisfactionRation;
+	public float SatisfactionRating {
+		get => _satisfactionRation;
+		set{_satisfactionRation = CustomerSatisfactionTotal/_customer_satisfactions.Count;}
+	}
 
 	public InputState IState;
 	public Tuxdollar Money = new Tuxdollar(0);
@@ -62,8 +66,11 @@ public partial class BaseScript : Spatial
 
 		if(_customer_satisfactions.Count > 999)
 			CustomerSatisfactionTotal -= _customer_satisfactions.Dequeue();
-
+		
+		SatisfactionRating = 0;
 		AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
+
+		Spawner.ChangeWaitTime();
 	}
 
 	private void _on_Button_pressed()

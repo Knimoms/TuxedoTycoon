@@ -56,10 +56,6 @@ __meta__ = {
 }
 
 [node name="TrashButton" type="Button" parent="."]
-anchor_left = 0.00292969
-anchor_top = 0.748333
-anchor_right = 0.12923
-anchor_bottom = 0.995475
 margin_left = 8.0
 margin_top = 481.0
 margin_right = 1713.0
@@ -67,14 +63,20 @@ margin_bottom = 2407.0
 rect_scale = Vector2( 0.06, 0.06 )
 icon = ExtResource( 10 )
 flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="CloseButton" type="Button" parent="."]
-margin_left = 867.0
+margin_left = 840.0
 margin_top = 2.0
-margin_right = 1017.0
+margin_right = 990.0
 margin_bottom = 93.0
 custom_fonts/font = SubResource( 4 )
 text = "Close"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="IngLabel" type="Label" parent="."]
 margin_left = 170.0
@@ -85,17 +87,18 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 4 )
 text = "sdgdsfsdf"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="UserIngLabel" type="Label" parent="."]
-margin_left = 417.0
-margin_top = 461.0
-margin_right = 539.0
-margin_bottom = 547.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = SubResource( 4 )
-text = "sdgdsfsdf"
-align = 1
+[node name="IngSpot1" type="Sprite" parent="."]
+position = Vector2( 435, 542 )
+
+[node name="IngSpot2" type="Sprite" parent="."]
+position = Vector2( 476, 526 )
+
+[node name="IngSpot3" type="Sprite" parent="."]
+position = Vector2( 523, 543 )
 
 [connection signal="pressed" from="TrashButton" to="." method="_on_TrashButton_pressed"]
-[connection signal="pressed" from="TrashButton" to="TrashButton" method="_on_Button_pressed"]
 [connection signal="pressed" from="CloseButton" to="." method="_on_CloseButton_pressed"]

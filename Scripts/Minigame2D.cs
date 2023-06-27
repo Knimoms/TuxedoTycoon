@@ -8,14 +8,15 @@ public class Minigame2D : Node2D
 
     public FoodStall MyFoodStall;
     public Label IngLabel;
-    public Label UserIngLabel;
+
+    public Sprite[] IngSpots = new Sprite[3];
 
     public override void _Ready()
     { 
         MyFoodStall = (FoodStall)GetParent();
         IngLabel = (Label)GetNode("IngLabel");
-        UserIngLabel = (Label)GetNode("UserIngLabel");
-        UserIngLabel.Text = "";
+        for(int i = 0; i < IngSpots.Length; i++)
+            IngSpots[i] =(Sprite)GetNode("IngSpot" + (i+1));
 
         IngLabel.Text = PrintRecipe();
     }
@@ -34,8 +35,6 @@ public class Minigame2D : Node2D
     {
         if(MyFoodStall.OrderedDish == null)
             return false;
-
-        GD.Print(MyFoodStall.OrderedDish);
     
         if (ingredientList.Count > MyFoodStall.OrderedDish.Ings.Count || ingredientList.Count < MyFoodStall.OrderedDish.Ings.Count)
             return false;
@@ -49,12 +48,13 @@ public class Minigame2D : Node2D
         return true;
     }
 
-    public void AddIng(Ing ing)
+    public Sprite AddIng(Ing ing)
     {
         if(MyFoodStall.OrderedDish == null)
-            return;
+            return null;
         ingredientList.Add(ing);
-        UserIngLabel.Text += $"{ing}\n";
+
+        return IngSpots[ingredientList.IndexOf(ing)];
     }
 
     public void RecipeCorrect()
@@ -83,6 +83,7 @@ public class Minigame2D : Node2D
     private void _on_TrashButton_pressed()
     {
 		ingredientList.Clear();
-        UserIngLabel.Text = "";
+        foreach(Sprite fanta in IngSpots)
+            fanta.Texture = null;
     }
 }

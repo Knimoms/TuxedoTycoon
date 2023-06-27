@@ -30,12 +30,11 @@ public class Ing2D : Node2D
 	{
 		if(@event is InputEventMouseButton && @event.IsPressed())
 		{
-			_minigame2D.AddIng(ing);
-            foreach(Ing a in _minigame2D.ingredientList )
-            {
-				GD.Print(a);
-			}
-            GD.Print("");
+			Sprite positionSprite = _minigame2D.AddIng(ing);
+
+            if(positionSprite != null)
+                positionSprite.Texture = png;
+
 		}
 	}
 }

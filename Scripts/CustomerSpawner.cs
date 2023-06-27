@@ -33,7 +33,9 @@ public partial class CustomerSpawner : Spatial
     public void ChangeWaitTime()
     {
         CustomersPerMinute = BaseCustomersPerMinute + _base_script.Advertising.AdvertisementScore;
-        _timer.WaitTime = 60/CustomersPerMinute;
+        float satisfactionMultiplicator = (_base_script.SatisfactionRating < 34)? 0.67f : (_base_script.SatisfactionRating > 65)? 1.33f: 0f ;
+        
+        _timer.WaitTime = (60/CustomersPerMinute)*satisfactionMultiplicator;
     }
 
     private void _on_Timer_timeout()

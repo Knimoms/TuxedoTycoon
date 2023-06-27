@@ -126,13 +126,16 @@ public partial class FoodStall : Spatial
 	public void MiniGameDone()
 	{
 		int j = IncomingCustomers.Count;
-		for(int i = 0; i < 5 && i < j; i++)
-		{
-			if(IncomingCustomers[0].State != CustomerState.WaitingInQueue)
-				break;
-			IncomingCustomers[0].TakeAwayFood();
-			_base_script.TransferMoney(OrderedDish.MealPrice*1.25f);
-		}
+		// for(int i = 0; i < 5 && i < j; i++)
+		// {
+		// 	if(IncomingCustomers[0].State != CustomerState.WaitingInQueue)
+		// 		break;
+		// 	IncomingCustomers[0].TakeAwayFood();
+		// 	_base_script.TransferMoney(OrderedDish.MealPrice*1.25f);
+		// }
+
+		IncomingCustomers[0].TakeAwayFood();
+		_base_script.TransferMoney(OrderedDish.MealPrice*Multiplicator*1.9f);
 		OrderedDish = null;
 
 		for(int i = 0; i < IncomingCustomers.Count; i++)
@@ -199,10 +202,8 @@ public partial class FoodStall : Spatial
 
 	private void _on_Timer_timeout()
 	{
-		GD.Print($"{OrderedDish.Ing1} {OrderedDish.Ing2} {OrderedDish.Ing3}{OrderedDish.MealPrice}");
 		if(IncomingCustomers.Count == 0)
 			return;
-		_base_script.TransferMoney(OrderedDish.MealPrice*Multiplicator);
 		this.IncomingCustomers[0].FinishOrder();
 		
 		for(int i = 0; i < this.IncomingCustomers.Count; i++)
@@ -255,7 +256,6 @@ public partial class FoodStall : Spatial
 			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
 			_levelUpButton.Disabled = _base_script.Money < LevelUpCost;
 			AddDish(Dish2, Level1Cost);
-			GD.Print(MoneyPerMinute());
 			return;
 		}
 
@@ -283,7 +283,6 @@ public partial class FoodStall : Spatial
 		TimeUpgradeCost *= 4;
 		CustomersPerMinute *= 1.1f;
 		_timer.WaitTime = 60/CustomersPerMinute;
-		GD.Print(_timer.WaitTime);
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";
 	}
 	

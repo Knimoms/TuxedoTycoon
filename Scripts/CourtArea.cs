@@ -14,7 +14,6 @@ public partial class CourtArea : Spatial
 
 	public override void _Ready()
 	{
-		GD.Print(this);
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 
 		Parent = (BaseScript)this.GetParent();
