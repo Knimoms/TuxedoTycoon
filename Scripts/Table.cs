@@ -12,6 +12,9 @@ public partial class Table : Spatial
     private Button _cancelButton;
     public Tuxdollar Cost;
     private int currentLevel;
+    private List<Chair> usableChairs = new List<Chair>();
+    private int chairsCount;
+    private int maxPossibleChairs = 16;
 
     public override void _Ready()
     {
@@ -29,23 +32,61 @@ public partial class Table : Spatial
         if (_parent.Parent == null)
             _parent.Parent = _parent.GetParent<BaseScript>();
 
-        currentLevel = 1;
+        currentLevel = 0;
         Cost = CalculateCost(currentLevel);
         UpdateCostLabel();
 
-        _confirmationButton.Text = "Upgrade";
-        _costLabel.Text = $"Cost: {Cost}";
+        _confirmationButton.Text = "Buy a chair";
+        _costLabel.Text = $"Cost: {Cost}\nChairs: {currentLevel}";
 
         CreateChairs();
 
-        // Check initial money and disable the button if not enough funds
         if (_parent.Parent.Money < Cost)
             _confirmationButton.Disabled = true;
+
+        for (int i = 0; i <= maxPossibleChairs; i++)
+        {
+            Chair chair = GetNodeOrNull<Chair>($"Chair{i}");
+            if (chair != null)
+            {
+                chairsCount++;
+            }
+        }
+
+        LevelUp();
     }
 
     private void UpdateCostLabel()
     {
-        _costLabel.Text = $"Cost: {Cost}";
+        _costLabel.Text = $"Cost: {Cost}\nChairs: {currentLevel}";
+    }
+
+    private void LevelUp()
+    {
+        _parent.Parent.TransferMoney(-Cost);
+
+        currentLevel++;
+        Cost = CalculateCost(currentLevel);
+        UpdateCostLabel();
+
+        CreateChairs();
+
+        foreach (var chair in usableChairs)
+        {
+            _parent.Chairs.Add(chair);
+        }
+
+        if (_parent.Parent.Money < Cost)
+        {
+            _confirmationButton.Disabled = true;
+            return;
+        }
+        
+        if (currentLevel == chairsCount)
+        {
+            _confirmationButton.Disabled = true;
+            return;
+        }
     }
 
     private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 position, Vector3 normal, int shape_idx)
@@ -61,33 +102,22 @@ public partial class Table : Spatial
 
     private void CreateChairs()
     {
-        int chairCount = currentLevel - 1;
+        usableChairs.Clear();
 
-        for (int i = 0; i < chairCount; i++)
+        if (currentLevel > 0)
         {
-            Chair chair = new Chair();
-            _parent.Chairs.Add(chair);
-            AddChild(chair);
+            Chair chair = GetNodeOrNull<Chair>($"Chair{currentLevel}");
+            if (chair != null)
+            {
+                chair.MakeUsable();
+                usableChairs.Add(chair);
+            }
         }
     }
 
     private void _on_ConfirmationButton_pressed()
     {
-        if (_parent.Parent.Money < Cost)
-        {
-            _confirmationButton.Disabled = true;
-            return;
-        }
-
-        _parent.Parent.TransferMoney(-Cost);
-
-        currentLevel++;
-        Cost = CalculateCost(currentLevel);
-        UpdateCostLabel();
-
-        Chair chair = new Chair();
-        _parent.Chairs.Add(chair);
-        AddChild(chair);
+        LevelUp();
     }
 
     private void _on_CancelButton_pressed()
@@ -97,7 +127,7 @@ public partial class Table : Spatial
 
     private Tuxdollar CalculateCost(int level)
     {
-        int cost = 7000 * (int)Mathf.Pow(10, level - 1);
+        ulong cost = 7000 * (ulong)Mathf.Pow(10, level);
         return new Tuxdollar(cost);
     }
 

@@ -54,3 +54,4 @@ skeleton = NodePath("../..")
 [connection signal="velocity_computed" from="NavigationAgent" to="." method="_on_NavigationAgent_velocity_computed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="PatienceTimer" to="." method="_on_PatienceTimer_timeout"]
+[connection signal="timeout" from="PatienceTimer" to="." method="_on_Timer_timeout"]
