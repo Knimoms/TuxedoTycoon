@@ -79,7 +79,7 @@ public partial class FoodStall : Spatial
 		Level1Cost = new Tuxdollar(Level1CostValue, Level1CostMagnitude);
 		Dishes = new List<Dish>();
 
-		AddDish(Dish1, Level1Cost*0.5f);
+		AddDish(Dish1, Level1Cost);
 
 		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
 		
@@ -255,12 +255,12 @@ public partial class FoodStall : Spatial
 		{
 			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
 			_levelUpButton.Disabled = _base_script.Money < LevelUpCost;
-			AddDish(Dish2, Level1Cost);
+			AddDish(Dish2, Level1Cost*2f);
 			return;
 		}
 
 		_levelUpButton.Disabled = true;
-		AddDish(Dish3, Level1Cost*2f);
+		AddDish(Dish3, Level1Cost*4f);
 	}
 
 	public void FoodQualityLevelUp()
