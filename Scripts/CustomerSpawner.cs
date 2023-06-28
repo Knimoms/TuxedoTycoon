@@ -34,6 +34,9 @@ public partial class CustomerSpawner : Spatial
     {
         CustomersPerMinute = BaseCustomersPerMinute + _base_script.Advertising.AdvertisementScore;
         float satisfactionMultiplicator = (_base_script.SatisfactionRating < 34)? 0.67f : (_base_script.SatisfactionRating > 65)? 1.33f: 0f ;
+
+        if(_base_script.CustomerSatisfactionTotal == 0)
+            satisfactionMultiplicator = 1f;
         
         _timer.WaitTime = (60/CustomersPerMinute)*satisfactionMultiplicator;
     }

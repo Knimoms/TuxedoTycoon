@@ -117,17 +117,12 @@ __meta__ = {
 }
 
 [node name="Panel" parent="." instance=ExtResource( 7 )]
-visible = false
-NewspaperCPMUpgradeSteps = 1.0
 NewspaperCostValue = 8.0
 NewspaperCostMagnitude = "a"
-OnlineCPMUpgradeSteps = 1.5
 OnlineCostValue = 40.0
 OnlineCostMagnitude = "d"
-BillboardCPMUpgradeSteps = 2.0
 BillboardCostValue = 200.0
 BillboardCostMagnitude = "l"
-TVCPMUpgradeSteps = 3.0
 TVCostValue = 1.0
 TVCostMagnitude = "s"
 
