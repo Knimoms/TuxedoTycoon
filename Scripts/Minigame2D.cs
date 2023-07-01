@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Minigame2D : Node2D
 {
-    public List<Ing> ingredientList = new List<Ing>();
+    public List<Ingredient> ingredientList = new List<Ingredient>();
 
     public FoodStall MyFoodStall;
     public Label IngLabel;
@@ -31,24 +31,16 @@ public class Minigame2D : Node2D
             IngLabel.Text = "";
     }
     
-    public bool CompareLists()
+    public void CompareLists()
     {
         if(MyFoodStall.OrderedDish == null)
-            return false;
-    
-        if (ingredientList.Count > MyFoodStall.OrderedDish.Ings.Count || ingredientList.Count < MyFoodStall.OrderedDish.Ings.Count)
-            return false;
-        for (int i = 0; i < ingredientList.Count; i++)
-        {
-            if (ingredientList[i] != MyFoodStall.OrderedDish.Ings[i])
-                return false;
+            return;
 
-        }
-        RecipeCorrect();
-        return true;
+        if(MyFoodStall.OrderedDish.CompareIngredients(ingredientList))
+            RecipeCorrect();
     }
 
-    public Sprite AddIng(Ing ing)
+    public Sprite AddIng(Ingredient ing)
     {
         if(MyFoodStall.OrderedDish == null)
             return null;
@@ -66,7 +58,7 @@ public class Minigame2D : Node2D
     private string PrintRecipe()
     {
         string recipe = "";
-        foreach(Ing ing in MyFoodStall.OrderedDish.Ings)
+        foreach(Ingredient ing in MyFoodStall.OrderedDish.Ings)
         {
             recipe += $"{ing} ";
         }

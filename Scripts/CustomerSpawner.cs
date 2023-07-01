@@ -10,7 +10,7 @@ public partial class CustomerSpawner : Spatial
     [Export]
     public float BaseCustomersPerMinute = 20;
 
-    public float CustomersPerMinute;
+    public float BonusCustomersPerMinute;
 
     private BaseScript _base_script;
     private Random _rnd;
@@ -18,7 +18,7 @@ public partial class CustomerSpawner : Spatial
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
-    {     
+    {   
         _timer = (Timer)GetNode("Timer");
         _rnd = new Random();
         _base_script = (BaseScript)GetParent();
@@ -32,13 +32,13 @@ public partial class CustomerSpawner : Spatial
 
     public void ChangeWaitTime()
     {
-        CustomersPerMinute = BaseCustomersPerMinute + _base_script.Advertising.AdvertisementScore;
+        BonusCustomersPerMinute = BaseCustomersPerMinute + _base_script.Advertising.AdvertisementScore;
         float satisfactionMultiplicator = (_base_script.SatisfactionRating < 34)? 0.67f : (_base_script.SatisfactionRating > 65)? 1.33f: 0f ;
 
         if(_base_script.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
         
-        _timer.WaitTime = (60/CustomersPerMinute)*satisfactionMultiplicator;
+        _timer.WaitTime = (60/BaseCustomersPerMinute+BonusCustomersPerMinute)*satisfactionMultiplicator;
     }
 
     private void _on_Timer_timeout()
