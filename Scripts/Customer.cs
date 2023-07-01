@@ -117,7 +117,7 @@ public partial class Customer : KinematicBody
 		State = CustomerState.WalkingToTable;
 		QueueTimeSatisfaction();
 		_my_chair = _parent.GetRandomFreeChair();
-		if(_my_chair == null)
+		if(_my_chair == null || !OrderedDish.Unlocked)
 		{
 			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
 			TargetRestaurant.Refund(OrderedDish);

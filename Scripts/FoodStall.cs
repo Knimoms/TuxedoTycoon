@@ -305,7 +305,7 @@ public partial class FoodStall : Spatial
 
 		averageMealPrice /= Dishes.Count;
 
-		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, _base_script.Spawner.CustomersPerMinute);		
+		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, _base_script.Spawner.BonusCustomersPerMinute);		
 	}
 
 	public void Refund(Dish dish)

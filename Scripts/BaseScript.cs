@@ -32,6 +32,7 @@ public partial class BaseScript : Spatial
 	public CustomerSpawner Spawner;
 	public Button AdvertisementButton;
 	public Label AverageSatisfactionLabel;
+	public RecipeBook TheRecipeBook;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -48,6 +49,7 @@ public partial class BaseScript : Spatial
 		Spawner = (CustomerSpawner)GetNode("Spawner");
 		AdvertisementButton = (Button)GetNode("AdvertisementButton");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
+		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		Spawner.ChangeWaitTime();
 	}

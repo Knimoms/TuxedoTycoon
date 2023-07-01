@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/CourtArea1.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scripts/IsoCam.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/AdvertisingManager.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/CustomerSpawner.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/RecipeBook.tscn" type="PackedScene" id=9]
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -23,6 +24,10 @@ font_data = SubResource( 5 )
 
 [sub_resource type="DynamicFont" id=6]
 size = 23
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 14
 font_data = SubResource( 5 )
 
 [node name="Spatial" type="Spatial"]
@@ -117,6 +122,7 @@ __meta__ = {
 }
 
 [node name="Panel" parent="." instance=ExtResource( 7 )]
+visible = false
 NewspaperCostValue = 8.0
 NewspaperCostMagnitude = "a"
 OnlineCostValue = 40.0
@@ -144,16 +150,26 @@ __meta__ = {
 }
 
 [node name="AverageSatisfaction" type="Label" parent="."]
-anchor_left = 0.786133
-anchor_top = 0.00166667
-anchor_right = 0.977539
-anchor_bottom = 0.183334
+anchor_left = 0.40332
+anchor_top = 0.0133333
+anchor_right = 0.594726
+anchor_bottom = 0.195001
 custom_fonts/font = SubResource( 4 )
 text = "Rating: no data "
 align = 2
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="RecipeButton" type="Button" parent="."]
+margin_left = 946.0
+margin_top = 4.0
+margin_right = 1021.0
+margin_bottom = 49.0
+custom_fonts/font = SubResource( 7 )
+text = "Recipes"
+
+[node name="RecipeBook" parent="." instance=ExtResource( 9 )]
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="AdvertisementButton" to="." method="_on_AdvertisementButton_pressed"]

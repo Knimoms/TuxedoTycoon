@@ -5,17 +5,20 @@ using System;
 public class Dish : Spatial
 {
     public string Name {get; private set;}
+
+    private bool _unlocked = false;
+    public bool Unlocked => _unlocked;
     
     [Export]
-    public Ing Ing1 = Ing.Null;
+    public Ingredient Ing1 = Ingredient.Null;
     [Export]
-    public Ing Ing2 = Ing.Null;
+    public Ingredient Ing2 = Ingredient.Null;
     [Export]
-    public Ing Ing3 = Ing.Null;
+    public Ingredient Ing3 = Ingredient.Null;
     [Export]
-    public Ing Ing4 = Ing.Null;
+    public Ingredient Ing4 = Ingredient.Null;
     [Export]
-    public Ing Ing5 = Ing.Null;
+    public Ingredient Ing5 = Ingredient.Null;
 
     [Export]
     public float MealPriceValue;
@@ -29,24 +32,39 @@ public class Dish : Spatial
         set {_mealprice = (value > Tuxdollar.ZeroTux)? value : Tuxdollar.ZeroTux;}
     }
     
-    public List<Ing> Ings = new List<Ing>();
+    public List<Ingredient> Ings = new List<Ingredient>();
 
     public override void _Ready()
     {
         string[] splittedFilename = Filename.Split(new char[]{'/', '.'});
         Name = splittedFilename[splittedFilename.Length-2];
 
-        Ing[] _allIngs = new Ing[] {Ing1, Ing2, Ing3, Ing4, Ing5};
+        Ingredient[] _allIngs = new Ingredient[] {Ing1, Ing2, Ing3, Ing4, Ing5};
 
-        foreach(Ing ing in _allIngs)
+        foreach(Ingredient ing in _allIngs)
         {
-            if(ing != Ing.Null) 
+            if(ing != Ingredient.Null) 
                 Ings.Add(ing);
         }
     }
+
+    public bool CompareIngredients(List<Ingredient> ingredients)
+    {
+        if(ingredients.Count != Ings.Count)
+            return false;
+
+        for(int i = 0; i < Ings.Count; i++)
+        {
+            if(ingredients[i] != Ings[i])
+                return false;
+        }
+
+        _unlocked = true;
+        return true;
+    }
 }
 
-public enum Ing{
+public enum Ingredient{
     Null,
     Ice,
     Milk,

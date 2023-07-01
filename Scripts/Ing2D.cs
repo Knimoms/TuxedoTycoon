@@ -5,7 +5,7 @@ using System;
 public class Ing2D : Node2D
 {
     [Export]
-    public Ing ing;
+    public Ingredient ing;
 
     
 
