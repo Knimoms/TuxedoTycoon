@@ -4,7 +4,7 @@ using System;
 public partial class FoodStallSpot : Spatial
 {
 
-	private CourtArea _parent;
+	
 	[Export]
 	public PackedScene RestaurantScene;
 
@@ -13,6 +13,7 @@ public partial class FoodStallSpot : Spatial
 	[Export]
 	public PackedScene FoodStallModel;
 
+	public static BaseScript Parent;
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
@@ -28,7 +29,9 @@ public partial class FoodStallSpot : Spatial
 	{	
 		rest = RestaurantScene.Instance<FoodStall>();
 		Cost = new Tuxdollar(rest.Level1CostValue, rest.Level1CostMagnitude);
-		_parent = (CourtArea)this.GetParent();	
+		if(Parent == null)
+			Parent = (BaseScript)GetParent();
+		Parent = (BaseScript)this.GetParent();	
 
 		// Get references to child nodes
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
@@ -38,8 +41,7 @@ public partial class FoodStallSpot : Spatial
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		if(_parent.Parent == null) _parent.Parent =  _parent.GetParent<BaseScript>();
-		_parent.Parent.Spots.Add(this);
+		Parent.Spots.Add(this);
 
 		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}
@@ -55,7 +57,7 @@ public partial class FoodStallSpot : Spatial
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left) 
 			return;
 
-		if(!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0) 
+		if(!event1.IsPressed() && Parent.MaxInputDelay.TimeLeft > 0) 
 		{
 			_popupMenu.PopupCentered();	
 			_costLabel.Text = $"Cost: {Cost}";
@@ -69,16 +71,16 @@ public partial class FoodStallSpot : Spatial
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
 		rest.Cost = Cost;
-		_parent.Parent.Spots.Remove(this);
+		Parent.Spots.Remove(this);
 		this.QueueFree();
-		_parent.AddChild(rest);
+		Parent.AddChild(rest);
 	}
 
 	private void _on_ConfirmationButton_pressed()
 	{
-		if(_parent.Parent.Money < Cost) 
+		if(Parent.Money < Cost) 
 			return;
-		_parent.Parent.TransferMoney(-Cost);
+		Parent.TransferMoney(-Cost);
 		_add_restaurant();
 		// Hide the PopupMenu
 		_popupMenu.Hide();		
@@ -94,7 +96,7 @@ public partial class FoodStallSpot : Spatial
 	{
 		if (@event is InputEventMouseMotion motionEvent)
 		{
-			if (_parent.Parent.Money < Cost)
+			if (Parent.Money < Cost)
 			{
 				_confirmationButton.Disabled = true;
 			}

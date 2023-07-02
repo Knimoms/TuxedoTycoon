@@ -19,6 +19,9 @@ public partial class BaseScript : Spatial
 		set{_satisfactionRation = CustomerSatisfactionTotal/_customer_satisfactions.Count;}
 	}
 
+	public List<Chair> Chairs = new List<Chair>();
+	public Vector3 SpawnPoint {get; private set;}
+
 	public InputState IState;
 	public Tuxdollar Money = new Tuxdollar(0);
 	public Label MoneyLabel;
@@ -33,6 +36,7 @@ public partial class BaseScript : Spatial
 	public Button AdvertisementButton;
 	public Label AverageSatisfactionLabel;
 	public RecipeBook TheRecipeBook;
+	public Random rnd = new Random();
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -40,6 +44,7 @@ public partial class BaseScript : Spatial
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = false;
 		
+		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		BuildButton = (Button)GetNode("Button");
@@ -52,6 +57,22 @@ public partial class BaseScript : Spatial
 		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		Spawner.ChangeWaitTime();
+	}
+
+	public Chair GetRandomFreeChair()
+	{
+		if(Chairs.Count == 0) return null;
+		int i = rnd.Next(0, Chairs.Count), j = i;
+		Chair chair = Chairs[i];
+		while(chair.Occupied)
+		{
+			if(i >= Chairs.Count-1) 
+				i = -1;
+			chair = Chairs[++i];
+			if(j == i) return null;
+		}
+
+		return chair;
 	}
 
 	public void TransferMoney(Tuxdollar Money)

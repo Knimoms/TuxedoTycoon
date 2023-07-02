@@ -3,7 +3,7 @@ using System;
 
 public partial class TableSpot : Spatial
 {
-	private CourtArea _parent;
+	private BaseScript Parent;
 	[Export]
 	public PackedScene TableScene;
 	[Export]
@@ -19,7 +19,8 @@ public partial class TableSpot : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		_parent = (CourtArea)this.GetParent().GetParent();	
+		if (Parent == null)
+            Parent = (BaseScript)this.GetParent().GetParent();
 		
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
 
@@ -37,7 +38,7 @@ public partial class TableSpot : Spatial
 		Scale = new Vector3(tempTableBox.Scale.x, 1f, tempTableBox.Scale.z);
 		tempTable.QueueFree();
 
-		_parent.GetParent<BaseScript>().Spots.Add(this);
+		Parent.Spots.Add(this);
 
 
 		// Set the label text for the Cost label
@@ -55,7 +56,7 @@ public partial class TableSpot : Spatial
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left)
 			return;
 
-		if(!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0) 
+		if(!event1.IsPressed() && Parent.MaxInputDelay.TimeLeft > 0) 
 		{
 			_popupMenu.Popup_();
 			_costLabel.Text = Cost.ToString();
@@ -65,12 +66,12 @@ public partial class TableSpot : Spatial
 
 	private void _on_ConfirmationButton_pressed()
 	{
-		if(_parent.Parent.Money < Cost) return;
-		_parent.Parent.TransferMoney(-Cost);
+		if(Parent.Money < Cost) return;
+		Parent.TransferMoney(-Cost);
 		Table table = TableScene.Instance<Table>();
 		table.Transform = this.Transform;
 		table.Scale = new Vector3(1,1,1);
-		_parent.Parent.Spots.Remove(this);
+		Parent.Spots.Remove(this);
 		this.QueueFree();
 		GetParent().AddChild(table);
 
@@ -89,7 +90,7 @@ public partial class TableSpot : Spatial
 	{
 		if (@event is InputEventMouseMotion motionEvent)
 		{
-			if (_parent.Parent.Money < Cost)
+			if (Parent.Money < Cost)
 			{
 				_confirmationButton.Disabled = true;
 			}

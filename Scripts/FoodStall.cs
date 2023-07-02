@@ -12,10 +12,7 @@ public partial class FoodStall : Spatial
 
 	public List<Customer> IncomingCustomers = new List<Customer>();
 	//public List<CustomerBase> Queue;
-
-	public CourtArea Parent = null;
-
-	private static BaseScript _base_script;
+	private static BaseScript Parent;
 
 	public Timer TimerProp
 	{
@@ -84,12 +81,12 @@ public partial class FoodStall : Spatial
 		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
 		
 		_my_mesh_instance = GetNode<Spatial>("MeshInstance");
-		Parent = GetParent<CourtArea>();
-		if(_base_script == null)
-			_base_script = Parent.Parent;
+		
+		if(Parent == null)
+			Parent = (BaseScript)GetParent();
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = 60/CustomersPerMinute;
-		_base_script.Restaurants.Add(this);
+		Parent.Restaurants.Add(this);
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 		_foodQualityUpgradeButton = _popupMenu.GetNode<Button>("FoodQualityUpgradeButton");
@@ -135,7 +132,7 @@ public partial class FoodStall : Spatial
 		// }
 
 		IncomingCustomers[0].TakeAwayFood();
-		_base_script.TransferMoney(OrderedDish.MealPrice*Multiplicator*1.9f);
+		Parent.TransferMoney(OrderedDish.MealPrice*Multiplicator*1.9f);
 		OrderedDish = null;
 
 		for(int i = 0; i < IncomingCustomers.Count; i++)
@@ -161,7 +158,7 @@ public partial class FoodStall : Spatial
 		Minigame2D minigame2D = Minigame2DScene.Instance<Minigame2D>();
 
 		ToggleMiniGameMode();
-		_base_script.IState = InputState.MiniGameOpened;
+		Parent.IState = InputState.MiniGameOpened;
 		AddChild(minigame2D);
 
 		_popupMenu.Hide();
@@ -176,13 +173,13 @@ public partial class FoodStall : Spatial
 		if(IncomingCustomers.Count != 0 && IncomingCustomers[0].State == CustomerState.WaitingInQueue)
 			_timer.Start();
 		
-		_base_script.IState = InputState.Default;
+		Parent.IState = InputState.Default;
 	}
 
 	public void ToggleMiniGameMode()
 	{
-		_base_script.AverageSatisfactionLabel.Visible = !_base_script.AverageSatisfactionLabel.Visible;
-		_base_script.BuildButton.Visible = !_base_script.BuildButton.Visible;
+		Parent.AverageSatisfactionLabel.Visible = !Parent.AverageSatisfactionLabel.Visible;
+		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
 	}
 
 	public void AddDish(PackedScene scene, Tuxdollar mealprice)
@@ -196,8 +193,8 @@ public partial class FoodStall : Spatial
 	public void ToggleVisibility ()
 	{
 		_my_mesh_instance.Visible = !_my_mesh_instance.Visible;
-		Parent.Parent.BuildButton.Visible = !Parent.Parent.BuildButton.Visible;
-		Parent.Parent.MoneyLabel.Visible = !Parent.Parent.MoneyLabel.Visible;
+		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
+		Parent.MoneyLabel.Visible = !Parent.MoneyLabel.Visible;
 	}
 
 	private void _on_Timer_timeout()
@@ -221,10 +218,10 @@ public partial class FoodStall : Spatial
 
 	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
-		if(!(event1 is InputEventMouseButton) || event1.IsPressed() || _base_script.IState == InputState.MiniGameOpened || _base_script.MaxInputDelay.TimeLeft <= 0)
+		if(!(event1 is InputEventMouseButton) || event1.IsPressed() || Parent.IState == InputState.MiniGameOpened || Parent.MaxInputDelay.TimeLeft <= 0)
 			return;
 			
-		if(_base_script.BuildMode)
+		if(Parent.BuildMode)
 		{
 			ShowPopupMenu();
 			return;
@@ -249,12 +246,12 @@ public partial class FoodStall : Spatial
 		Level++;
 
 		_levelLabel.Text = $"Lvl {Level}";
-		_base_script.TransferMoney(-LevelUpCost);
+		Parent.TransferMoney(-LevelUpCost);
 
 		if(Level == 2)
 		{
 			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
-			_levelUpButton.Disabled = _base_script.Money < LevelUpCost;
+			_levelUpButton.Disabled = Parent.Money < LevelUpCost;
 			AddDish(Dish2, Level1Cost*2f);
 			return;
 		}
@@ -265,10 +262,10 @@ public partial class FoodStall : Spatial
 
 	public void FoodQualityLevelUp()
 	{
-		if(_base_script.Money < QualityUpgradeCost) 
+		if(Parent.Money < QualityUpgradeCost) 
 			return;
 
-		_base_script.TransferMoney(-QualityUpgradeCost);
+		Parent.TransferMoney(-QualityUpgradeCost);
 		Multiplicator *= 1.25f;
 		QualityUpgradeCost *= 4;
 		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
@@ -276,10 +273,10 @@ public partial class FoodStall : Spatial
 
 	public void CookingTimeLevelUp()
 	{
-		if(_base_script.Money < TimeUpgradeCost) 
+		if(Parent.Money < TimeUpgradeCost) 
 			return;
 
-		_base_script.TransferMoney(-TimeUpgradeCost);
+		Parent.TransferMoney(-TimeUpgradeCost);
 		TimeUpgradeCost *= 4;
 		CustomersPerMinute *= 1.1f;
 		_timer.WaitTime = 60/CustomersPerMinute;
@@ -288,9 +285,9 @@ public partial class FoodStall : Spatial
 	
 	public void ShowPopupMenu()
 	{
-		_cookingTimeUpgradeButton.Disabled = _base_script.Money < TimeUpgradeCost;
-		_foodQualityUpgradeButton.Disabled = _base_script.Money < QualityUpgradeCost;
-		_levelUpButton.Disabled = _base_script.Money < LevelUpCost || Level >= 3;
+		_cookingTimeUpgradeButton.Disabled = Parent.Money < TimeUpgradeCost;
+		_foodQualityUpgradeButton.Disabled = Parent.Money < QualityUpgradeCost;
+		_levelUpButton.Disabled = Parent.Money < LevelUpCost || Level >= 3;
 
 		// Set the name and cost in the PopupMenu
 		
@@ -305,12 +302,12 @@ public partial class FoodStall : Spatial
 
 		averageMealPrice /= Dishes.Count;
 
-		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, _base_script.Spawner.BonusCustomersPerMinute);		
+		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, Parent.Spawner.BonusCustomersPerMinute);		
 	}
 
 	public void Refund(Dish dish)
 	{
-		_base_script.TransferMoney(-dish.MealPrice*Multiplicator);
+		Parent.TransferMoney(-dish.MealPrice*Multiplicator);
 	}
 
 	private void _on_CookTimeUpgradeButton_pressed()

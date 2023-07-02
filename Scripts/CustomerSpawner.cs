@@ -12,7 +12,7 @@ public partial class CustomerSpawner : Spatial
 
     public float BonusCustomersPerMinute;
 
-    private BaseScript _base_script;
+    private BaseScript Parent;
     private Random _rnd;
     private Timer _timer;
 
@@ -21,7 +21,7 @@ public partial class CustomerSpawner : Spatial
     {   
         _timer = (Timer)GetNode("Timer");
         _rnd = new Random();
-        _base_script = (BaseScript)GetParent();
+        Parent = (BaseScript)GetParent();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,10 +32,10 @@ public partial class CustomerSpawner : Spatial
 
     public void ChangeWaitTime()
     {
-        BonusCustomersPerMinute = BaseCustomersPerMinute + _base_script.Advertising.AdvertisementScore;
-        float satisfactionMultiplicator = (_base_script.SatisfactionRating < 34)? 0.67f : (_base_script.SatisfactionRating > 65)? 1.33f: 0f ;
+        BonusCustomersPerMinute = BaseCustomersPerMinute + Parent.Advertising.AdvertisementScore;
+        float satisfactionMultiplicator = (Parent.SatisfactionRating < 34)? 0.67f : (Parent.SatisfactionRating > 65)? 1.33f: 1f ;
 
-        if(_base_script.CustomerSatisfactionTotal == 0)
+        if(Parent.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
         
         _timer.WaitTime = (60/BaseCustomersPerMinute+BonusCustomersPerMinute)*satisfactionMultiplicator;
@@ -43,7 +43,7 @@ public partial class CustomerSpawner : Spatial
 
     private void _on_Timer_timeout()
     {
-        if (_base_script.Restaurants.Count == 0) return; 
+        if (Parent.Restaurants.Count == 0) return; 
 
         FoodStall targetFoodStall = TargetFoodStall();
         if (targetFoodStall == null) return;
@@ -52,7 +52,7 @@ public partial class CustomerSpawner : Spatial
         customer.TargetRestaurant = targetFoodStall;
         customer.SpawnPoint = (Spatial)targetFoodStall.GetParent().GetNode("SpawnPoint");
         customer.Transform = customer.SpawnPoint.Transform;
-        targetFoodStall.Parent.AddChild(customer);
+        Parent.AddChild(customer);
     }
 
     private FoodStall TargetFoodStall()
@@ -60,7 +60,7 @@ public partial class CustomerSpawner : Spatial
         FoodStall targetFoodStall = null;
         int smallestCustomerCount = int.MaxValue;
 
-        foreach (FoodStall foodStall in _base_script.Restaurants)
+        foreach (FoodStall foodStall in Parent.Restaurants)
         {
             int customerCount = foodStall.IncomingCustomers.Count;
             if (customerCount < smallestCustomerCount)
