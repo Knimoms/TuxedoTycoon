@@ -7,7 +7,7 @@ public partial class Chair : Spatial
 
     public override void _Ready()
     {
-        GetParent().GetParent().GetParent<CourtArea>().Chairs.Add(this);
+        GetParent().GetParent().GetParent<BaseScript>().Chairs.Add(this);
     }
 
     public override void _Process(float delta)
@@ -17,6 +17,6 @@ public partial class Chair : Spatial
     public void MakeUsable()
     {
         Occupied = false;
-        GetParent().GetParent().GetParent<CourtArea>().Chairs.Remove(this);
+        GetParent().GetParent().GetParent<BaseScript>().Chairs.Remove(this);
     }
 }

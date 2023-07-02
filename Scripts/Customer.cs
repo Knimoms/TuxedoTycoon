@@ -27,7 +27,7 @@ public partial class Customer : KinematicBody
 
 	private Spatial _my_body;
 	public FoodStall TargetRestaurant;
-	private CourtArea _parent;
+	public static BaseScript Parent;
 	public Vector3 Direction;
 	public Spatial SpawnPoint;
 	private NavigationAgent _nav_agent;
@@ -46,7 +46,8 @@ public partial class Customer : KinematicBody
 		_patienceTimer = (Timer)GetNode("PatienceTimer");
 		_patienceTimer.Start();
 		_nav_agent = (NavigationAgent)GetNode("NavigationAgent");
-		this._parent = (CourtArea)this.GetParent();
+		if(Parent == null)
+			Parent = (BaseScript)this.GetParent();
 
 		//_nav_agent.TargetDesiredDistance = ;
 		_target_window = TargetRestaurant.GetNode<Spatial>("OrderWindow").GlobalTransform.origin;
@@ -113,10 +114,10 @@ public partial class Customer : KinematicBody
 
 	public void GoToEat()
 	{
-		_parent.Parent.TransferMoney(OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
+		Parent.TransferMoney(OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 		State = CustomerState.WalkingToTable;
 		QueueTimeSatisfaction();
-		_my_chair = _parent.GetRandomFreeChair();
+		_my_chair = Parent.GetRandomFreeChair();
 		if(_my_chair == null || !OrderedDish.Unlocked)
 		{
 			_my_sprite.Texture = (Texture)GD.Load("res://Assets/SadEnd.png");
@@ -163,11 +164,11 @@ public partial class Customer : KinematicBody
 	public void Leave()
 	{
 		float tip = Math.Max(0,(Satisfaction/50)-1);
-		_parent.Parent.TransferMoney(tip*OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
+		Parent.TransferMoney(tip*OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 
 		UpdateTargetLocation(SpawnPoint.GlobalTransform.origin);
 		State = CustomerState.Leaving;
-		_parent.Parent.AddSatisfaction(Satisfaction);
+		Parent.AddSatisfaction(Satisfaction);
 	}
 
 	public void StartTimer()

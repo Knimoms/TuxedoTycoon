@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public partial class Table : Spatial
 {
-    private CourtArea _parent;
+    public BaseScript Parent;
     public string CostMagnitude;
     private PopupMenu _popupMenu;
     private Label _costLabel;
@@ -20,7 +20,8 @@ public partial class Table : Spatial
     {
         GetParent<NavigationMeshInstance>().BakeNavigationMesh(false);
 
-        _parent = (CourtArea)this.GetParent().GetParent();
+        if (Parent == null)
+            Parent = (BaseScript)this.GetParent().GetParent();
 
         _popupMenu = GetNode<PopupMenu>("PopupMenu");
         _costLabel = _popupMenu.GetNode<Label>("CostLabel");
@@ -28,9 +29,6 @@ public partial class Table : Spatial
         _cancelButton = _popupMenu.GetNode<Button>("CancelButton");
 
         _popupMenu.Hide();
-
-        if (_parent.Parent == null)
-            _parent.Parent = _parent.GetParent<BaseScript>();
 
         currentLevel = 0;
         Cost = CalculateCost(currentLevel);
@@ -41,7 +39,7 @@ public partial class Table : Spatial
 
         CreateChairs();
 
-        if (_parent.Parent.Money < Cost)
+        if (Parent.Money < Cost)
             _confirmationButton.Disabled = true;
 
         for (int i = 0; i <= maxPossibleChairs; i++)
@@ -63,7 +61,7 @@ public partial class Table : Spatial
 
     private void LevelUp()
     {
-        _parent.Parent.TransferMoney(-Cost);
+        Parent.TransferMoney(-Cost);
 
         currentLevel++;
         Cost = CalculateCost(currentLevel);
@@ -73,10 +71,10 @@ public partial class Table : Spatial
 
         foreach (var chair in usableChairs)
         {
-            _parent.Chairs.Add(chair);
+            Parent.Chairs.Add(chair);
         }
 
-        if (_parent.Parent.Money < Cost)
+        if (Parent.Money < Cost)
         {
             _confirmationButton.Disabled = true;
             return;
@@ -91,10 +89,10 @@ public partial class Table : Spatial
 
     private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 position, Vector3 normal, int shape_idx)
     {
-        if (!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left || !_parent.Parent.BuildMode)
+        if (!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left || !Parent.BuildMode)
             return;
 
-        if (!event1.IsPressed() && _parent.Parent.MaxInputDelay.TimeLeft > 0)
+        if (!event1.IsPressed() && Parent.MaxInputDelay.TimeLeft > 0)
         {
             _popupMenu.PopupCentered();
         }
