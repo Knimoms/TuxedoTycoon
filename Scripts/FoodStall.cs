@@ -64,6 +64,7 @@ public partial class FoodStall : Spatial
 	
 	private Tuxdollar LevelUpCost;
 	public List<Dish> Dishes {get; private set;}
+	public Dish[] allDishes = new Dish[3];
 
 	public int Level = 1;
 
@@ -76,7 +77,9 @@ public partial class FoodStall : Spatial
 		Level1Cost = new Tuxdollar(Level1CostValue, Level1CostMagnitude);
 		Dishes = new List<Dish>();
 
-		AddDish(Dish1, Level1Cost);
+		_initiate_all_dishes();
+
+		Dishes.Add(allDishes[0]);
 
 		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
 		
@@ -86,7 +89,6 @@ public partial class FoodStall : Spatial
 			Parent = (BaseScript)GetParent();
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = 60/CustomersPerMinute;
-		Parent.Restaurants.Add(this);
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 		_foodQualityUpgradeButton = _popupMenu.GetNode<Button>("FoodQualityUpgradeButton");
@@ -152,9 +154,6 @@ public partial class FoodStall : Spatial
 
 	private void _on_MiniGame2D_pressed()
 	{
-		if(TimerProp.TimeLeft == 0)
-			return;
-
 		Minigame2D minigame2D = Minigame2DScene.Instance<Minigame2D>();
 
 		ToggleMiniGameMode();
@@ -176,18 +175,38 @@ public partial class FoodStall : Spatial
 		Parent.IState = InputState.Default;
 	}
 
+	private void _initiate_all_dishes()
+	{
+		for(int i = 0; i < allDishes.Length; i++)
+		{
+			switch(i)
+			{
+				case 0:
+					allDishes[i] = _initiate_dish(Dish1, Level1Cost);
+					break;
+				case 1:
+					allDishes[i] = _initiate_dish(Dish2, Level1Cost*2f);
+					break;
+				case 2: 
+					allDishes[i] = _initiate_dish(Dish3, Level1Cost*4f);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	private Dish _initiate_dish(PackedScene dishScene, Tuxdollar MealPrice)
+	{
+		Dish dish = (Dish)dishScene.Instance();
+		dish.MealPrice = MealPrice;
+		AddChild(dish);
+		return dish;
+	}
+
 	public void ToggleMiniGameMode()
 	{
 		Parent.AverageSatisfactionLabel.Visible = !Parent.AverageSatisfactionLabel.Visible;
 		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
-	}
-
-	public void AddDish(PackedScene scene, Tuxdollar mealprice)
-	{
-		Dish dish = (Dish)scene.Instance();
-		dish.MealPrice = mealprice;
-		Dishes.Add(dish);
-		AddChild(dish);
 	}
 
 	public void ToggleVisibility ()
@@ -252,12 +271,12 @@ public partial class FoodStall : Spatial
 		{
 			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
 			_levelUpButton.Disabled = Parent.Money < LevelUpCost;
-			AddDish(Dish2, Level1Cost*2f);
+			Dishes.Add(allDishes[1]);
 			return;
 		}
 
 		_levelUpButton.Disabled = true;
-		AddDish(Dish3, Level1Cost*4f);
+		Dishes.Add(allDishes[2]);
 	}
 
 	public void FoodQualityLevelUp()

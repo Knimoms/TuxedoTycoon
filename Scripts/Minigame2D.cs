@@ -58,6 +58,10 @@ public class Minigame2D : Node2D
     private string PrintRecipe()
     {
         string recipe = "";
+        
+        if(MyFoodStall.OrderedDish == null)
+            return recipe;
+
         foreach(Ingredient ing in MyFoodStall.OrderedDish.Ings)
         {
             recipe += $"{ing} ";

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Potato.png-29fbdb5ece9bdb01e71f29e82c1d6020.stex"
+path="res://.import/SpringOnion.png-539277e05f1132eaae5bc936f792ced3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/MinigameStuff/Ingredients/SnowConeAssets/Potato.png"
-dest_files=[ "res://.import/Potato.png-29fbdb5ece9bdb01e71f29e82c1d6020.stex" ]
+source_file="res://Assets/MinigameStuff/Ingredients/SpringOnion.png"
+dest_files=[ "res://.import/SpringOnion.png-539277e05f1132eaae5bc936f792ced3.stex" ]
 
 [params]
 

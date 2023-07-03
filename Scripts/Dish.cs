@@ -34,8 +34,12 @@ public class Dish : Spatial
     
     public List<Ingredient> Ings = new List<Ingredient>();
 
+    public static Dictionary<Ingredient, Texture> IngredientSprites;
+
     public override void _Ready()
     {
+        IngredientSprites = new Dictionary<Ingredient, Texture>();
+
         string[] splittedFilename = Filename.Split(new char[]{'/', '.'});
         Name = splittedFilename[splittedFilename.Length-2];
 
@@ -62,7 +66,16 @@ public class Dish : Spatial
         _unlocked = true;
         return true;
     }
+
+    public static Texture GetIngredientSprite(Ingredient ingredient)
+    {
+        if(!IngredientSprites.ContainsKey(ingredient))
+            IngredientSprites.Add(ingredient, (Texture)GD.Load($"res://Assets/MinigameStuff/Ingredients/{ingredient}.png"));
+
+        return IngredientSprites[ingredient];
+    }
 }
+
 
 public enum Ingredient{
     Null,

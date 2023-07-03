@@ -7,11 +7,6 @@ public class Ing2D : Node2D
     [Export]
     public Ingredient ing;
 
-    
-
-    [Export]
-    public Texture png;
-
     private Sprite _mySprite;
 
     private Minigame2D _minigame2D;
@@ -21,7 +16,7 @@ public class Ing2D : Node2D
     {
         _minigame2D = GetParent<Minigame2D>();
         _mySprite = GetNode("Area2D").GetNode<Sprite>("Sprite");
-        _mySprite.Texture = png;
+        _mySprite.Texture = Dish.GetIngredientSprite(ing);
         _mySprite.GlobalRotation = 0f;
         
     }
@@ -33,7 +28,7 @@ public class Ing2D : Node2D
 			Sprite positionSprite = _minigame2D.AddIng(ing);
 
             if(positionSprite != null)
-                positionSprite.Texture = png;
+                positionSprite.Texture = Dish.GetIngredientSprite(ing);
 
 		}
 	}
