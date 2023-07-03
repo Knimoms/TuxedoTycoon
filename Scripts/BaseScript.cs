@@ -35,6 +35,7 @@ public partial class BaseScript : Spatial
 	public CustomerSpawner Spawner;
 	public Button AdvertisementButton;
 	public Label AverageSatisfactionLabel;
+	public Button RecipeButton;
 	public RecipeBook TheRecipeBook;
 	public Random rnd = new Random();
 	
@@ -54,7 +55,9 @@ public partial class BaseScript : Spatial
 		Spawner = (CustomerSpawner)GetNode("Spawner");
 		AdvertisementButton = (Button)GetNode("AdvertisementButton");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
-		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
+		RecipeButton = (Button)GetNode("RecipeButton");
+		TheRecipeBook = (RecipeBook)RecipeButton.GetNode("RecipeBook");
+		TheRecipeBook.FoodStalls = Restaurants;
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		Spawner.ChangeWaitTime();
 	}
@@ -94,6 +97,11 @@ public partial class BaseScript : Spatial
 		AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
 
 		Spawner.ChangeWaitTime();
+	}
+
+	private void _on_RecipeButton_pressed()
+	{
+		TheRecipeBook.OpenRecipeBook();
 	}
 
 	private void _on_Button_pressed()

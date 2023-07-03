@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Milk.png-fb73f185f3361983a87d2cc9f7dcf5fd.stex"
+path="res://.import/Ice.png-d452fee5bdc107e1937a21542b5a3adf.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/MinigameStuff/Ingredients/SnowConeAssets/Milk.png"
-dest_files=[ "res://.import/Milk.png-fb73f185f3361983a87d2cc9f7dcf5fd.stex" ]
+source_file="res://Assets/MinigameStuff/Ingredients/Ice.png"
+dest_files=[ "res://.import/Ice.png-d452fee5bdc107e1937a21542b5a3adf.stex" ]
 
 [params]
 

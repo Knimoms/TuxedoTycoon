@@ -23,6 +23,7 @@ font_path = "res://Assets/SansBlack.ttf"
 
 [sub_resource type="DynamicFont" id=4]
 size = 23
+outline_color = Color( 0.0823529, 0.0745098, 0.0745098, 1 )
 font_data = SubResource( 5 )
 
 [sub_resource type="DynamicFont" id=6]
@@ -181,7 +182,9 @@ margin_bottom = 49.0
 custom_fonts/font = SubResource( 7 )
 text = "Recipes"
 
-[node name="RecipeBook" parent="." instance=ExtResource( 9 )]
+[node name="RecipeBook" parent="RecipeButton" instance=ExtResource( 9 )]
+visible = false
+position = Vector2( -435, 310 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="."]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 4.24264, 0, 4.24264 )
@@ -306,3 +309,4 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 8
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="AdvertisementButton" to="." method="_on_AdvertisementButton_pressed"]
+[connection signal="pressed" from="RecipeButton" to="." method="_on_RecipeButton_pressed"]
