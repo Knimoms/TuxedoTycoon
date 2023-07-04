@@ -69,6 +69,8 @@ public partial class FoodStall : Spatial
 	public int Level = 1;
 
 	public Random rnd = new Random();
+
+	private bool _minigame_started = false;
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -156,6 +158,8 @@ public partial class FoodStall : Spatial
 	{
 		Minigame2D minigame2D = Minigame2DScene.Instance<Minigame2D>();
 
+
+		_minigame_started = true;
 		ToggleMiniGameMode();
 		Parent.IState = InputState.MiniGameOpened;
 		AddChild(minigame2D);
@@ -168,6 +172,7 @@ public partial class FoodStall : Spatial
 	public void CloseMiniGame()
 	{
 		ToggleMiniGameMode();
+		_minigame_started = false;
 
 		if(IncomingCustomers.Count != 0 && IncomingCustomers[0].State == CustomerState.WaitingInQueue)
 			_timer.Start();
@@ -207,6 +212,7 @@ public partial class FoodStall : Spatial
 	{
 		Parent.AverageSatisfactionLabel.Visible = !Parent.AverageSatisfactionLabel.Visible;
 		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
+		Parent.RecipeButton.Visible = !Parent.RecipeButton.Visible;
 	}
 
 	public void ToggleVisibility ()
@@ -252,7 +258,8 @@ public partial class FoodStall : Spatial
 	public Dish Order()
 	{
 		OrderedDish = Dishes[rnd.Next(0,Dishes.Count)];
-		this._timer.Start();
+		if(!_minigame_started)
+			this._timer.Start();
 
 		return OrderedDish;
 	}
