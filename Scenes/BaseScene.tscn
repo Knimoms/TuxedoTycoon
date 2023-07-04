@@ -135,15 +135,8 @@ __meta__ = {
 }
 
 [node name="Panel" parent="." instance=ExtResource( 7 )]
-visible = false
-NewspaperCostValue = 8.0
+NewspaperCostValue = 10.0
 NewspaperCostMagnitude = "a"
-OnlineCostValue = 40.0
-OnlineCostMagnitude = "d"
-BillboardCostValue = 200.0
-BillboardCostMagnitude = "l"
-TVCostValue = 1.0
-TVCostMagnitude = "s"
 
 [node name="Spawner" parent="." instance=ExtResource( 8 )]
 BaseCustomersPerMinute = 6.0

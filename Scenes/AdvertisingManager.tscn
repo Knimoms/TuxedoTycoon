@@ -21,7 +21,6 @@ size = 15
 font_data = SubResource( 5 )
 
 [node name="AdvertisingManager" type="PopupMenu"]
-visible = true
 anchor_left = 0.303711
 anchor_top = 0.2825
 anchor_right = 0.696289
@@ -33,10 +32,10 @@ __meta__ = {
 }
 
 [node name="NewspaperLabel" type="Label" parent="."]
-anchor_left = 0.317946
-anchor_top = 0.436681
-anchor_right = 0.473664
-anchor_bottom = 0.541485
+anchor_left = 0.400035
+anchor_top = 0.660919
+anchor_right = 0.555753
+anchor_bottom = 0.765723
 margin_left = 0.185852
 margin_top = 0.000213623
 margin_right = 10.402
@@ -49,10 +48,10 @@ __meta__ = {
 }
 
 [node name="NewspaperButton" type="Button" parent="."]
-anchor_left = 0.0274733
-anchor_top = 0.371179
-anchor_right = 0.310659
-anchor_bottom = 0.558952
+anchor_left = 0.343394
+anchor_top = 0.408045
+anchor_right = 0.626579
+anchor_bottom = 0.595818
 margin_left = -0.0442467
 margin_top = 0.000267029
 margin_right = -0.0442505
@@ -64,6 +63,7 @@ __meta__ = {
 }
 
 [node name="OnlineLabel" type="Label" parent="."]
+visible = false
 anchor_left = 0.804071
 anchor_top = 0.436681
 anchor_right = 0.985203
@@ -76,6 +76,7 @@ __meta__ = {
 }
 
 [node name="OnlineButton" type="Button" parent="."]
+visible = false
 anchor_left = 0.503148
 anchor_top = 0.371179
 anchor_right = 0.786334
@@ -87,6 +88,7 @@ __meta__ = {
 }
 
 [node name="BillboardLabel" type="Label" parent="."]
+visible = false
 anchor_left = 0.322921
 anchor_top = 0.834061
 anchor_right = 0.464514
@@ -103,6 +105,7 @@ __meta__ = {
 }
 
 [node name="BillboardButton" type="Button" parent="."]
+visible = false
 anchor_left = 0.0324484
 anchor_top = 0.768559
 anchor_right = 0.315634
@@ -118,6 +121,7 @@ __meta__ = {
 }
 
 [node name="TVLabel" type="Label" parent="."]
+visible = false
 anchor_left = 0.818837
 anchor_top = 0.835249
 anchor_right = 0.992967
@@ -134,6 +138,7 @@ __meta__ = {
 }
 
 [node name="TVButton" type="Button" parent="."]
+visible = false
 anchor_left = 0.528024
 anchor_top = 0.768559
 anchor_right = 0.811209
@@ -162,19 +167,20 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="NewspaperNameLabel" type="Label" parent="."]
-anchor_left = 0.0501475
+[node name="AdNameLabel" type="Label" parent="."]
+anchor_left = 0.283582
 anchor_top = 0.240175
-anchor_right = 0.451327
+anchor_right = 0.684762
 anchor_bottom = 0.344978
 custom_fonts/font = SubResource( 9 )
-text = "Newspaper "
+text = "Newspaper Ad"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="OnlineNameLabel" type="Label" parent="."]
+visible = false
 anchor_left = 0.501475
 anchor_top = 0.240175
 anchor_right = 0.911504
@@ -187,6 +193,7 @@ __meta__ = {
 }
 
 [node name="BillboardNameLabel" type="Label" parent="."]
+visible = false
 anchor_left = 0.0501475
 anchor_top = 0.633188
 anchor_right = 0.436578
@@ -199,6 +206,7 @@ __meta__ = {
 }
 
 [node name="TVNameLabel" type="Label" parent="."]
+visible = false
 anchor_left = 0.501475
 anchor_top = 0.633188
 anchor_right = 0.905605
@@ -210,8 +218,12 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="AdTimer" type="Timer" parent="."]
+wait_time = 180.0
+
 [connection signal="about_to_show" from="." to="." method="_on_AdvertisingManager_about_to_show"]
 [connection signal="pressed" from="NewspaperButton" to="." method="_on_NewspaperButton_pressed"]
 [connection signal="pressed" from="OnlineButton" to="." method="_on_OnlineButton_pressed"]
 [connection signal="pressed" from="BillboardButton" to="." method="_on_BillboardButton_pressed"]
 [connection signal="pressed" from="TVButton" to="." method="_on_TVButton_pressed"]
+[connection signal="timeout" from="AdTimer" to="." method="_on_AdTimer_timeout"]
