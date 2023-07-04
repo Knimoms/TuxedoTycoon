@@ -45,6 +45,7 @@ public partial class BaseScript : Spatial
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = false;
 		
+		RecipeButton = (Button)GetNode("RecipeButton");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
@@ -55,8 +56,7 @@ public partial class BaseScript : Spatial
 		Spawner = (CustomerSpawner)GetNode("Spawner");
 		AdvertisementButton = (Button)GetNode("AdvertisementButton");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
-		RecipeButton = (Button)GetNode("RecipeButton");
-		TheRecipeBook = (RecipeBook)RecipeButton.GetNode("RecipeBook");
+		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
 		TheRecipeBook.FoodStalls = Restaurants;
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		Spawner.ChangeWaitTime();
@@ -108,6 +108,7 @@ public partial class BaseScript : Spatial
 	{
 		BuildMode = !BuildMode;
 		AdvertisementButton.Visible = BuildMode;
+		RecipeButton.Visible = !RecipeButton.Visible;
 		
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = !n3d.Visible;

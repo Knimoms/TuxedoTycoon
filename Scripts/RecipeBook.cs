@@ -2,11 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class RecipeBook : Node2D
+public class RecipeBook : Popup
 {
 
     public int Page;
     public List<FoodStall> FoodStalls;
+    public BaseScript Parent;
 
     Node2D PageL;
     Label FoodStallLabelL;
@@ -21,6 +22,7 @@ public class RecipeBook : Node2D
     
     public override void _Ready()
     {
+        Parent = (BaseScript)GetParent();
         PageL = (Node2D)GetNode("PageL");
         FoodStallLabelL = (Label)PageL.GetNode("FoodStallLabel");
         for(int i = 0; i < DishesL.Length; i++)
@@ -50,61 +52,75 @@ public class RecipeBook : Node2D
 
     public void OpenRecipeBook()
     {
-        Page = 1;
+        _open_recipe_book_page(1);
+    }
+
+    private void _open_recipe_book_page(int page)
+    {
+        this.Popup_();
+        if(page < 1)
+            return;
+
+        Page = page;
         _clear_book();
 
-        for(int i = 0; i < DishesL.Length && FoodStalls.Count != 0; i++)
+        for(int i = 0; i < DishesL.Length && FoodStalls.Count >= page*2-1; i++)
         {
-            DishesL[i].Text = FoodStalls[0].allDishes[i].Name;
+            DishesL[i].Text = FoodStalls[page*2-2].allDishes[i].Name;
 
             int treshold = IngSpritesL[DishesL[i]].Length;
 
             for(int j = 0; j < treshold; j++)
             {
-                if(FoodStalls[0].allDishes[i].Ings.Count > j && FoodStalls[0].allDishes[i].Unlocked)
-                    IngSpritesL[DishesL[i]][j].Texture = Dish.GetIngredientSprite(FoodStalls[0].allDishes[i].Ings[j]);
+                if(FoodStalls[page*2-2].allDishes[i].Ings.Count > j && FoodStalls[page*2-2].allDishes[i].Unlocked)
+                    IngSpritesL[DishesL[i]][j].Texture = Dish.GetIngredientSprite(FoodStalls[page*2-2].allDishes[i].Ings[j]);
                 else IngSpritesL[DishesL[i]][j].Texture = null;
             }
         }
 
-        for(int i = 0; i < DishesR.Length && FoodStalls.Count > 1; i++)
+        for(int i = 0; i < DishesR.Length && FoodStalls.Count >= page*2; i++)
         {
-            DishesR[i].Text = FoodStalls[1].allDishes[i].Name;
+            DishesR[i].Text = FoodStalls[page*2-1].allDishes[i].Name;
 
             int treshold = IngSpritesR[DishesR[i]].Length;
 
             for(int j = 0; j < treshold; j++)
             {
-                if(FoodStalls[0].allDishes[i].Ings.Count > j && FoodStalls[1].allDishes[i].Unlocked)
-                    IngSpritesR[DishesR[i]][j].Texture = Dish.GetIngredientSprite(FoodStalls[0].allDishes[i].Ings[j]);
+                if(FoodStalls[page*2-1].allDishes[i].Ings.Count > j && FoodStalls[page*2-1].allDishes[i].Unlocked)
+                    IngSpritesR[DishesR[i]][j].Texture = Dish.GetIngredientSprite(FoodStalls[page*2-1].allDishes[i].Ings[j]);
                 else IngSpritesR[DishesR[i]][j].Texture = null;
             }
         }
 
+        GD.Print(Page);
+    }
 
-        Visible = !Visible;
+    private void _on_ButtonR_pressed()
+    {
+        _open_recipe_book_page(Page+1);
+    }
+
+    private void _on_ButtonL_pressed()
+    {
+        _open_recipe_book_page(Page-1);
     }
 
     private void _clear_book()
     {
         for(int i = 0; i < DishesL.Length; i++)
         {
+            DishesL[i].Text = "";
 
             for(int j = 0; j < IngSpritesL[DishesL[i]].Length; j++)
-            {
                 IngSpritesL[DishesL[i]][j].Texture = null;
-                
-            }
         }
 
         for(int i = 0; i < DishesR.Length; i++)
         {
+            DishesR[i].Text = "";
 
             for(int j = 0; j < IngSpritesR[DishesR[i]].Length; j++)
-            {
                 IngSpritesR[DishesR[i]][j].Texture = null;
-                
-            }
         }
     }
 
