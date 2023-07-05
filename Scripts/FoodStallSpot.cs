@@ -42,6 +42,7 @@ public partial class FoodStallSpot : Spatial
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
 		Parent.Spots.Add(this);
+		Owner = Parent;
 
 		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}

@@ -39,6 +39,7 @@ public partial class TableSpot : Spatial
 		tempTable.QueueFree();
 
 		Parent.Spots.Add(this);
+		Owner = Parent;
 
 
 		// Set the label text for the Cost label

@@ -8,7 +8,7 @@ public partial class CustomerSpawner : Spatial
     public PackedScene CustomerScene;
 
     [Export]
-    public float BaseCustomersPerMinute = 20;
+    public float CustomersPerMinute = 20;
 
     public float BonusCustomersPerMinute;
 
@@ -22,6 +22,7 @@ public partial class CustomerSpawner : Spatial
         _timer = (Timer)GetNode("Timer");
         _rnd = new Random();
         Parent = (BaseScript)GetParent();
+        Owner = Parent;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,13 +33,13 @@ public partial class CustomerSpawner : Spatial
 
     public void ChangeWaitTime()
     {
-        BonusCustomersPerMinute = BaseCustomersPerMinute + Parent.Advertising.AdvertisementScore;
+        BonusCustomersPerMinute = CustomersPerMinute + Parent.Advertising.AdvertisementScore;
         float satisfactionMultiplicator = (Parent.SatisfactionRating < 34)? 0.67f : (Parent.SatisfactionRating > 65)? 1.33f: 1f ;
 
         if(Parent.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
         
-        _timer.WaitTime = (60/BaseCustomersPerMinute+BonusCustomersPerMinute)*satisfactionMultiplicator;
+        _timer.WaitTime = (60/CustomersPerMinute+BonusCustomersPerMinute)*satisfactionMultiplicator;
     }
 
     private void _on_Timer_timeout()
@@ -53,6 +54,15 @@ public partial class CustomerSpawner : Spatial
         customer.SpawnPoint = (Spatial)targetFoodStall.GetParent().GetNode("SpawnPoint");
         customer.Transform = customer.SpawnPoint.Transform;
         Parent.AddChild(customer);
+    }
+
+    private void _on_SpawnrateEvaluationTimer_timeout()
+    {
+        if(Parent.SatisfactionRating >= Parent.Advertising.GoodRatingMin)
+            CustomersPerMinute *= 1.1f;
+
+        if(Parent.SatisfactionRating <= Parent.Advertising.BadRatingMax)
+            CustomersPerMinute *= 0.9f;
     }
 
     private FoodStall TargetFoodStall()

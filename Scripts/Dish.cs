@@ -38,6 +38,7 @@ public class Dish : Spatial
 
     public override void _Ready()
     {
+        Owner = GetParent();
         IngredientSprites = new Dictionary<Ingredient, Texture>();
 
         string[] splittedFilename = Filename.Split(new char[]{'/', '.'});

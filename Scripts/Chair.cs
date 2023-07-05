@@ -8,6 +8,7 @@ public partial class Chair : Spatial
     public override void _Ready()
     {
         GetParent().GetParent().GetParent<BaseScript>().Chairs.Add(this);
+        Owner = GetParent();
     }
 
     public override void _Process(float delta)

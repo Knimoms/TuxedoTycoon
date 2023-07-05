@@ -13,6 +13,10 @@ public class AdvertisingManager : PopupMenu
     public CustomerSpawner Spawner{get; private set;}
 
     [Export]
+    public int BadRatingMax = 34;
+    [Export]
+    public int GoodRatingMin = 67;
+    [Export]
     public float CostIncreaseMultiplier = 2f;
 
     [Export]
@@ -23,42 +27,9 @@ public class AdvertisingManager : PopupMenu
     public string NewspaperCostMagnitude;
     public Tuxdollar NewspaperCost;
 
-    // [Export]
-    // public float OnlineCPMUpgradeSteps;
-    // [Export]
-    // public float OnlineCostValue;
-    // [Export]
-    // public string OnlineCostMagnitude;
-    // public Tuxdollar OnlineCost;
-
-    // [Export]
-    // public float BillboardCPMUpgradeSteps;
-    // [Export]
-    // public float BillboardCostValue;
-    // [Export]
-    // public string BillboardCostMagnitude;
-    // public Tuxdollar BillboardCost;
-
-    // [Export]
-    // public float TVCPMUpgradeSteps;
-    // [Export]
-    // public float TVCostValue;
-    // [Export]
-    // public string TVCostMagnitude;
-    // public Tuxdollar TVCost;
-
     public Button NewspaperButton;
     public Label NewspaperCostLabel;
     public Label AdNameLabel;
-
-    // public Button OnlineButton;
-    // public Label OnlineCostLabel;
-
-    // public Button BillboardButton;
-    // public Label BillboardCostLabel;
-
-    // public Button TVButton;
-    // public Label TVCostLabel;
 
     public float AdvertisementScore{get; private set;}
     private Timer _adTimer;
@@ -82,9 +53,6 @@ public class AdvertisingManager : PopupMenu
     public override void _Ready()
     {
         NewspaperCost = new Tuxdollar(NewspaperCostValue, NewspaperCostMagnitude);
-        // OnlineCost = new Tuxdollar(OnlineCostValue, OnlineCostMagnitude);
-        // BillboardCost = new Tuxdollar(BillboardCostValue, BillboardCostMagnitude);
-        // TVCost = new Tuxdollar(TVCostValue, TVCostMagnitude);
 
         Basescript = (BaseScript)GetParent();
         Spawner = (CustomerSpawner)Basescript.GetNode("Spawner");
@@ -96,43 +64,20 @@ public class AdvertisingManager : PopupMenu
 
         _adTimer = (Timer)GetNode("AdTimer");
 
-        AdNameLabel.Text = _adNames[_currentAdIndex];
-
-        //_UpdateButtonState();
-
-        // OnlineButton = (Button)GetNode("OnlineButton");
-        // OnlineCostLabel = (Label)GetNode("OnlineLabel");
-
-        // BillboardButton = (Button)GetNode("BillboardButton");
-        // BillboardCostLabel = (Label)GetNode("BillboardLabel");
-
-        // TVButton = (Button)GetNode("TVButton");
-        // TVCostLabel = (Label)GetNode("TVLabel");    
+        AdNameLabel.Text = _adNames[_currentAdIndex];   
     }
 
     public void CheckButtonMode()
     {
         NewspaperButton.Disabled = Basescript.Money < NewspaperCost;
 
-        // OnlineButton.Disabled = Basescript.Money < OnlineCost;
-        // BillboardButton.Disabled = Basescript.Money < BillboardCost;
-        // TVButton.Disabled = Basescript.Money < TVCost;
-
     }
 
     public void UpdateText()
     {
         NewspaperCostLabel.Text = $"{NewspaperCost}";
-        // OnlineCostLabel.Text = $"{OnlineCost}";
-        // BillboardCostLabel.Text = $"{BillboardCost}";
-        // TVCostLabel.Text = $"{TVCost}";
 
         NewspaperButton.Text = "Buy";
-        //NewspaperButton.Text = (NewspaperAdsLvl == 0)? "Unlock": "Buy";
-
-        // OnlineButton.Text = (OnlineAdsLvl == 0)? "Unlock": "Upgrade";
-        // BillboardButton.Text = (BillboardAdsLvl == 0)? "Unlock": "Upgrade";
-        // TVButton.Text = (TVAdsLvl == 0)? "Unlock": "Upgrade";
         
     }
 
@@ -206,42 +151,4 @@ public class AdvertisingManager : PopupMenu
         _currentAdIndex = (_currentAdIndex + 1) % _adNames.Count;
         AdNameLabel.Text = _adNames[_currentAdIndex];
     }
-    
-    // private void _on_OnlineButton_pressed()
-    // {
-    //     Tuxdollar tempCost = OnlineCost;
-    //     OnlineCost *= CostIncreaseMultiplier;
-    //     Basescript.TransferMoney(-tempCost);
-    //     OnlineAdsLvl++;
-    //     AdvertisementScore += OnlineCPMUpgradeSteps;
-    //     if(OnlineAdsLvl == 1) AdvertisementScore += OnlineCPMUpgradeSteps*3;
-    //     _upgraded_Adds();
-    // }
-
-    // private void _on_BillboardButton_pressed()
-    // {
-    //     Tuxdollar tempCost = BillboardCost;
-    //     BillboardCost *= CostIncreaseMultiplier;
-    //     Basescript.TransferMoney(-tempCost);
-    //     NewspaperAdsLvl++;
-    //     AdvertisementScore += BillboardCPMUpgradeSteps;
-    //     if(NewspaperAdsLvl == 1) AdvertisementScore += BillboardCPMUpgradeSteps*3;
-    //     _upgraded_Adds();
-    // }
-
-    // private void _on_TVButton_pressed()
-    // {
-    //     Tuxdollar tempCost = TVCost;
-    //     TVCost *= CostIncreaseMultiplier;
-    //     Basescript.TransferMoney(-tempCost);
-    //     NewspaperAdsLvl++;
-    //     AdvertisementScore += TVCPMUpgradeSteps;
-    //     if(NewspaperAdsLvl == 1) AdvertisementScore += TVCPMUpgradeSteps*3;
-    //     _upgraded_Adds();
-    // }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    // public override void _Process(float delta)
-    // {
-    // }
 }

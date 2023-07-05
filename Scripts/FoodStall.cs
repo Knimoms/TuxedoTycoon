@@ -8,6 +8,13 @@ public partial class FoodStall : Spatial
 	[Export]
 	public PackedScene Minigame2DScene;
 	public Tuxdollar Multiplicator = new Tuxdollar(1), Cost, TimeUpgradeCost, QualityUpgradeCost;
+
+	private Tuxdollar LevelUpCost;
+	public List<Dish> Dishes {get; private set;}
+	[Export]
+	private float CustomersPerMinute = 6;
+	public int Level = 1;
+
 	public Customer CurrentCustomer;
 
 	public List<Customer> IncomingCustomers = new List<Customer>();
@@ -35,9 +42,6 @@ public partial class FoodStall : Spatial
 	
 	private Spatial _my_mesh_instance;
 
-	[Export]
-	private float CustomersPerMinute = 6;
-
 	public Dish OrderedDish;
 
 	[Export]
@@ -61,12 +65,7 @@ public partial class FoodStall : Spatial
 	public float Level3CostValue;
 	[Export]
 	public string Level3CostMagnitude;
-	
-	private Tuxdollar LevelUpCost;
-	public List<Dish> Dishes {get; private set;}
 	public Dish[] allDishes = new Dish[3];
-
-	public int Level = 1;
 
 	public Random rnd = new Random();
 
@@ -76,12 +75,14 @@ public partial class FoodStall : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		this.AddToGroup("Persist");
 		Level1Cost = new Tuxdollar(Level1CostValue, Level1CostMagnitude);
 		Dishes = new List<Dish>();
 
 		_initiate_all_dishes();
 
-		Dishes.Add(allDishes[0]);
+		if(Dishes.Count<1)
+			Dishes.Add(allDishes[0]);
 
 		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
 		
@@ -122,6 +123,8 @@ public partial class FoodStall : Spatial
 		_nameLabel.Text = "Restaurant Name";
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";
 		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
+
+		Owner = GetParent();
 	}
 
 	public void MiniGameDone()
@@ -329,6 +332,24 @@ public partial class FoodStall : Spatial
 		averageMealPrice /= Dishes.Count;
 
 		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, Parent.Spawner.BonusCustomersPerMinute);		
+	}
+
+	public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+			{"Scene", this},
+			{"MultiplicatorValue", Multiplicator.Value},
+			{"MultiplicatorMagnitude", Multiplicator.Magnitude},
+			{"TimeUpgradeCostValue", TimeUpgradeCost.Value},
+			{"TimeUpgradeCostMagnitude", TimeUpgradeCost.Magnitude},
+			{"QualityUpgradeCostValue", QualityUpgradeCost.Value},
+			{"QualityUpgradeCostMagnitude", QualityUpgradeCost.Magnitude},
+			{"LevelUpCostValue", LevelUpCost.Value},
+			{"LevelUpCostMagnitude", LevelUpCost.Magnitude},
+			{"CustomersPerMinute", CustomersPerMinute},
+			{"Level", Level}
+		};
 	}
 
 	public void Refund(Dish dish)

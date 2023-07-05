@@ -48,6 +48,8 @@ public class RecipeBook : Popup
             for (int i = 0; i < IngSpritesR[dish].Length; i++)
                 IngSpritesR[dish][i] = (Sprite)dish.GetNode("Ing"+(1+i));
         }
+
+        Owner = Parent;
     }
 
     public void OpenRecipeBook()

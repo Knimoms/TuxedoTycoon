@@ -4,20 +4,22 @@ using System.Collections.Generic;
 
 public partial class Table : Spatial
 {
+    private List<Chair> usableChairs = new List<Chair>();
+    private int chairsCount;
+    public Tuxdollar Cost;
+    private int currentLevel = 0;
+
     public BaseScript Parent;
     public string CostMagnitude;
     private PopupMenu _popupMenu;
     private Label _costLabel;
     private Button _confirmationButton;
     private Button _cancelButton;
-    public Tuxdollar Cost;
-    private int currentLevel;
-    private List<Chair> usableChairs = new List<Chair>();
-    private int chairsCount;
     private int maxPossibleChairs = 16;
 
     public override void _Ready()
     {
+        this.AddToGroup("Persist");
         GetParent<NavigationMeshInstance>().BakeNavigationMesh(false);
 
         if (Parent == null)
@@ -30,7 +32,6 @@ public partial class Table : Spatial
 
         _popupMenu.Hide();
 
-        currentLevel = 0;
         Cost = CalculateCost(currentLevel);
         UpdateCostLabel();
 
@@ -51,7 +52,8 @@ public partial class Table : Spatial
             }
         }
 
-        LevelUp();
+        if(currentLevel == 0)LevelUp();
+        Owner = Parent;
     }
 
     private void UpdateCostLabel()
@@ -122,6 +124,19 @@ public partial class Table : Spatial
     {
         _popupMenu.Hide();
     }
+
+    public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+            {"Scene", this},
+			{"usableChairs", usableChairs},
+			{"chairsCount", chairsCount},
+			{"CostValue", Cost.Value},
+            {"CostMagnitude", Cost.Magnitude},
+			{"currentLevel", currentLevel}
+		};
+	}
 
     private Tuxdollar CalculateCost(int level)
     {

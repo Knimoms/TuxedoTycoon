@@ -22,6 +22,7 @@ public partial class BaseScript : Spatial
 	public List<Chair> Chairs = new List<Chair>();
 	public Vector3 SpawnPoint {get; private set;}
 
+
 	public InputState IState;
 	public Tuxdollar Money = new Tuxdollar(0);
 	public Label MoneyLabel;
@@ -44,6 +45,9 @@ public partial class BaseScript : Spatial
 	{
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = false;
+
+		foreach(Node node in GetChildren())
+			node.Owner = this;
 		
 		RecipeButton = (Button)GetNode("RecipeButton");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
@@ -90,7 +94,7 @@ public partial class BaseScript : Spatial
 		CustomerSatisfactionTotal += numb;
 		_customer_satisfactions.Enqueue(numb);
 
-		if(_customer_satisfactions.Count > 999)
+		if(_customer_satisfactions.Count > 49)
 			CustomerSatisfactionTotal -= _customer_satisfactions.Dequeue();
 		
 		SatisfactionRating = 0;
@@ -117,6 +121,68 @@ public partial class BaseScript : Spatial
 	private void _on_AdvertisementButton_pressed()
 	{
 		Advertising.Popup_();
+	}
+
+	public void SaveGame()
+	{
+		var packedScene = new PackedScene();
+		packedScene.Pack(GetTree().CurrentScene);
+		ResourceSaver.Save("res://SavedScene/saved_scene.tscn",packedScene);
+
+		File saveGame = new File();
+		saveGame.Open("user://Save/savegame.save", File.ModeFlags.Write);
+
+		Godot.Collections.Array saveNodes = GetTree().GetNodesInGroup("Persist");
+
+		foreach(Node saveNode in saveNodes)
+		{
+			saveGame.StoreLine(JSON.Print(saveNode.Call("Save")));
+		}
+
+		saveGame.Close();
+	}
+
+	public void LoadGame()
+	{
+		File saveGame = new File();
+		if(!saveGame.FileExists("user://Save/savegame.save"))
+			return;
+
+		var saveNodes = GetTree().GetNodesInGroup("Persist");
+
+		foreach(Node saveNode in saveNodes)
+			saveNode.QueueFree();
+
+		saveGame.Open("user://Save/savegame.save", File.ModeFlags.Read);
+
+		while(!saveGame.EofReached())
+		{
+			var currentLine = (Dictionary<string, object>)JSON.Parse(saveGame.GetLine()).Result;
+
+			if(currentLine == null)
+				continue;
+
+			
+			foreach(KeyValuePair<string, object> entry in currentLine)
+			{
+
+			}
+		}
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if(@event is InputEventKey)
+		{
+			if(@event.AsText() == "F2" && !@event.IsPressed())
+				SaveGame();
+
+			if(@event.AsText() == "F3" && !@event.IsPressed())
+			{
+				GetTree().ChangeScene("res://SavedScene/saved_scene.tscn");
+
+			}
+		}
 	}
 }
 
