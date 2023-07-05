@@ -16,7 +16,7 @@ public partial class BaseScript : Spatial
 	private float _satisfactionRation;
 	public float SatisfactionRating {
 		get => _satisfactionRation;
-		set{_satisfactionRation = CustomerSatisfactionTotal/_customer_satisfactions.Count;}
+		set{_satisfactionRation = (_customer_satisfactions.Count != 0)? CustomerSatisfactionTotal/_customer_satisfactions.Count : (Advertising.BadRatingMax+Advertising.GoodRatingMin)/2;}
 	}
 
 	public List<Chair> Chairs = new List<Chair>();
@@ -106,6 +106,12 @@ public partial class BaseScript : Spatial
 	private void _on_RecipeButton_pressed()
 	{
 		TheRecipeBook.OpenRecipeBook();
+		RecipeButton.Visible = false;
+	}
+
+	private void _on_RecipeBook_popup_hide()
+	{
+		RecipeButton.Visible = true;
 	}
 
 	private void _on_Button_pressed()
@@ -130,12 +136,15 @@ public partial class BaseScript : Spatial
 		ResourceSaver.Save("res://SavedScene/saved_scene.tscn",packedScene);
 
 		File saveGame = new File();
-		saveGame.Open("user://Save/savegame.save", File.ModeFlags.Write);
 
 		Godot.Collections.Array saveNodes = GetTree().GetNodesInGroup("Persist");
 
 		foreach(Node saveNode in saveNodes)
 		{
+			if(!saveNode.HasMethod("Save"))
+				continue;
+				
+			saveGame.Open($"user://Save/{saveNode}Save.save", File.ModeFlags.Write);
 			saveGame.StoreLine(JSON.Print(saveNode.Call("Save")));
 		}
 
@@ -145,7 +154,7 @@ public partial class BaseScript : Spatial
 	public void LoadGame()
 	{
 		File saveGame = new File();
-		if(!saveGame.FileExists("user://Save/savegame.save"))
+		if(!saveGame.FileExists("user://Save/baseSave.save"))
 			return;
 
 		var saveNodes = GetTree().GetNodesInGroup("Persist");
@@ -153,7 +162,7 @@ public partial class BaseScript : Spatial
 		foreach(Node saveNode in saveNodes)
 			saveNode.QueueFree();
 
-		saveGame.Open("user://Save/savegame.save", File.ModeFlags.Read);
+		saveGame.Open("user://Save/baseSave.save", File.ModeFlags.Read);
 
 		while(!saveGame.EofReached())
 		{

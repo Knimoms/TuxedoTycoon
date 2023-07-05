@@ -4,7 +4,7 @@ using System;
 
 public class Dish : Spatial
 {
-    public string Name {get; private set;}
+    public string DishName {get; private set;}
 
     private bool _unlocked = false;
     public bool Unlocked => _unlocked;
@@ -42,7 +42,7 @@ public class Dish : Spatial
         IngredientSprites = new Dictionary<Ingredient, Texture>();
 
         string[] splittedFilename = Filename.Split(new char[]{'/', '.'});
-        Name = splittedFilename[splittedFilename.Length-2];
+        DishName = splittedFilename[splittedFilename.Length-2];
 
         Ingredient[] _allIngs = new Ingredient[] {Ing1, Ing2, Ing3, Ing4, Ing5};
 

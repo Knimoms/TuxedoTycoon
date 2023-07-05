@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class RecipeBook : Popup
 {
-
     public int Page;
     public List<FoodStall> FoodStalls;
     public BaseScript Parent;
@@ -52,6 +51,8 @@ public class RecipeBook : Popup
         Owner = Parent;
     }
 
+    
+
     public void OpenRecipeBook()
     {
         _open_recipe_book_page(1);
@@ -68,7 +69,7 @@ public class RecipeBook : Popup
 
         for(int i = 0; i < DishesL.Length && FoodStalls.Count >= page*2-1; i++)
         {
-            DishesL[i].Text = FoodStalls[page*2-2].allDishes[i].Name;
+            DishesL[i].Text = FoodStalls[page*2-2].allDishes[i].DishName;
 
             int treshold = IngSpritesL[DishesL[i]].Length;
 
@@ -82,7 +83,7 @@ public class RecipeBook : Popup
 
         for(int i = 0; i < DishesR.Length && FoodStalls.Count >= page*2; i++)
         {
-            DishesR[i].Text = FoodStalls[page*2-1].allDishes[i].Name;
+            DishesR[i].Text = FoodStalls[page*2-1].allDishes[i].DishName;
 
             int treshold = IngSpritesR[DishesR[i]].Length;
 

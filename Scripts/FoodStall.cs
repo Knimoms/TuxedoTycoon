@@ -338,7 +338,6 @@ public partial class FoodStall : Spatial
 	{
 		return new Dictionary<string, object>()
 		{
-			{"Scene", this},
 			{"MultiplicatorValue", Multiplicator.Value},
 			{"MultiplicatorMagnitude", Multiplicator.Magnitude},
 			{"TimeUpgradeCostValue", TimeUpgradeCost.Value},
