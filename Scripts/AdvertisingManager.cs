@@ -70,29 +70,18 @@ public class AdvertisingManager : PopupMenu
     public void CheckButtonMode()
     {
         NewspaperButton.Disabled = Basescript.Money < NewspaperCost;
-
     }
 
     public void UpdateText()
     {
         NewspaperCostLabel.Text = $"{NewspaperCost}";
-
         NewspaperButton.Text = "Buy";
-        
     }
 
     private void _on_NewspaperButton_pressed()
     {
-        if (Basescript.Money < NewspaperCost) return; 
-
-        Tuxdollar tempCost = NewspaperCost;
-        NewspaperCost *= CostIncreaseMultiplier;
-        Basescript.TransferMoney(-tempCost);
-        NewspaperAdsLvl++;
-        AdvertisementScore += NewspaperCPMUpgradeSteps;
-        if(NewspaperAdsLvl == 1) AdvertisementScore += NewspaperCPMUpgradeSteps*3;
-        _isUpgraded = true;
-        _upgraded_Adds();
+        //Tuxdollar tempCost = NewspaperCost;
+        Basescript.TransferMoney(-NewspaperCost);
 
         _adTimer.Start();
         _adIsActive = false;
@@ -110,7 +99,6 @@ public class AdvertisingManager : PopupMenu
         {
             NewspaperButton.Text = "Is Advertising";
         }
-
         NewspaperButton.Disabled = !_adIsActive || Basescript.Money < NewspaperCost;
     }
 
@@ -136,6 +124,15 @@ public class AdvertisingManager : PopupMenu
 
     public void _on_AdTimer_timeout()
     {
+        if (Basescript.Money < NewspaperCost) return; 
+
+        NewspaperCost *= CostIncreaseMultiplier;
+        NewspaperAdsLvl++;
+        AdvertisementScore += NewspaperCPMUpgradeSteps;
+        if(NewspaperAdsLvl == 1) AdvertisementScore += NewspaperCPMUpgradeSteps*3;
+        _isUpgraded = true;
+        _upgraded_Adds();
+
         _adIsActive = true;
         _UpdateButtonState();
 
@@ -150,5 +147,7 @@ public class AdvertisingManager : PopupMenu
         //_updateAdName = true;
         _currentAdIndex = (_currentAdIndex + 1) % _adNames.Count;
         AdNameLabel.Text = _adNames[_currentAdIndex];
+
+        UpdateText();
     }
 }
