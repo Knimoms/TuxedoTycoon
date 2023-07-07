@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public partial class Table : Spatial
 {
-    private List<Chair> usableChairs = new List<Chair>();
     private int chairsCount;
     public Tuxdollar Cost;
     private int currentLevel = 0;
@@ -71,11 +70,6 @@ public partial class Table : Spatial
 
         CreateChairs();
 
-        foreach (var chair in usableChairs)
-        {
-            Parent.Chairs.Add(chair);
-        }
-
         if (Parent.Money < Cost)
         {
             _confirmationButton.Disabled = true;
@@ -102,16 +96,12 @@ public partial class Table : Spatial
 
     private void CreateChairs()
     {
-        usableChairs.Clear();
 
         if (currentLevel > 0)
         {
             Chair chair = GetNodeOrNull<Chair>($"Chair{currentLevel}");
             if (chair != null)
-            {
                 chair.MakeUsable();
-                usableChairs.Add(chair);
-            }
         }
     }
 
@@ -129,8 +119,11 @@ public partial class Table : Spatial
 	{
 		return new Dictionary<string, object>()
 		{
-            {"Scene", this},
-			{"usableChairs", usableChairs},
+            {"Filename", Filename},
+			{"Parent", Parent},
+			{"PositionX", Transform.origin.x},
+			{"PositionY", Transform.origin.y},
+			{"PositionZ", Transform.origin.z},
 			{"chairsCount", chairsCount},
 			{"CostValue", Cost.Value},
             {"CostMagnitude", Cost.Magnitude},

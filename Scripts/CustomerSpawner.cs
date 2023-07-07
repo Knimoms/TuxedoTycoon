@@ -39,7 +39,9 @@ public partial class CustomerSpawner : Spatial
         if(Parent.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
         
-        _timer.WaitTime = (60/CustomersPerMinute+BonusCustomersPerMinute)*satisfactionMultiplicator;
+        GD.Print(BonusCustomersPerMinute);
+        _timer.WaitTime = (60/BonusCustomersPerMinute)*satisfactionMultiplicator;
+        GD.Print(_timer.WaitTime);
     }
 
     private void _on_Timer_timeout()
@@ -63,6 +65,9 @@ public partial class CustomerSpawner : Spatial
 
         if(Parent.SatisfactionRating <= Parent.Advertising.BadRatingMax)
             CustomersPerMinute *= 0.9f;
+
+            ChangeWaitTime();
+            GD.Print(CustomersPerMinute);
     }
 
     private FoodStall TargetFoodStall()

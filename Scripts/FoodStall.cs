@@ -338,6 +338,11 @@ public partial class FoodStall : Spatial
 	{
 		return new Dictionary<string, object>()
 		{
+			{"Filename", Filename},
+			{"Parent", Parent},
+			{"PositionX", Transform.origin.x},
+			{"PositionY", Transform.origin.y},
+			{"PositionZ", Transform.origin.z},
 			{"MultiplicatorValue", Multiplicator.Value},
 			{"MultiplicatorMagnitude", Multiplicator.Magnitude},
 			{"TimeUpgradeCostValue", TimeUpgradeCost.Value},

@@ -4,6 +4,7 @@ using System;
 public partial class Chair : Spatial
 {
     public bool Occupied = true;
+    public bool unlocked = false;
 
     public override void _Ready()
     {
@@ -18,6 +19,6 @@ public partial class Chair : Spatial
     public void MakeUsable()
     {
         Occupied = false;
-        GetParent().GetParent().GetParent<BaseScript>().Chairs.Remove(this);
+        unlocked = true;
     }
 }

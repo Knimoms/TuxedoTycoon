@@ -56,7 +56,7 @@ size = Vector2( 13.75, 2 )
 size = Vector2( 5, 12 )
 
 [sub_resource type="PlaneMesh" id=14]
-size = Vector2( 128, 128 )
+size = Vector2( 64, 64 )
 subdivide_width = 16
 subdivide_depth = 16
 
@@ -414,6 +414,10 @@ visible = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 16 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.892783, 0.450488, 0, -0.450488, 0.892783, -4.31201, 8.01253, 6.17821 )
+light_energy = 0.5
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="AdvertisementButton" to="." method="_on_AdvertisementButton_pressed"]
