@@ -13,10 +13,10 @@ public partial class BaseScript : Spatial
 
 	public int CustomerSatisfactionTotal {get; private set;}
 	private Queue<int> _customer_satisfactions = new Queue<int>();
-	private float _satisfactionRation;
+	private float _satisfactionRating;
 	public float SatisfactionRating {
-		get => _satisfactionRation;
-		set{_satisfactionRation = (_customer_satisfactions.Count != 0)? CustomerSatisfactionTotal/_customer_satisfactions.Count : (Advertising.BadRatingMax+Advertising.GoodRatingMin)/2;}
+		get => _satisfactionRating;
+		set{_satisfactionRating = (_customer_satisfactions.Count != 0)? CustomerSatisfactionTotal/_customer_satisfactions.Count : (Advertising.BadRatingMax+Advertising.GoodRatingMin)/2;}
 	}
 
 	public List<Chair> Chairs = new List<Chair>();
@@ -24,7 +24,13 @@ public partial class BaseScript : Spatial
 
 
 	public InputState IState;
-	public Tuxdollar Money = new Tuxdollar(0);
+	private Tuxdollar _money;
+	public Tuxdollar Money
+	{
+		get => _money;
+		set{_money = value; MoneyTransfered.Invoke();}
+	}
+
 	public Label MoneyLabel;
 	public List<Spatial> Spots = new List<Spatial>();
 	public Timer MaxInputDelay;
@@ -39,29 +45,33 @@ public partial class BaseScript : Spatial
 	public Button RecipeButton;
 	public RecipeBook TheRecipeBook;
 	public Random rnd = new Random();
+
+	public delegate void CheckButtonModes();
+
+	public event CheckButtonModes MoneyTransfered;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		foreach(Spatial n3d in Spots)
-			n3d.Visible = false;
+		Money = Tuxdollar.ZeroTux;
+		LoadGame();
 
-		foreach(Node node in GetChildren())
-			node.Owner = this;
-		
 		RecipeButton = (Button)GetNode("RecipeButton");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		BuildButton = (Button)GetNode("Button");
 		BaseCam = (Camera)GetNode("pivot").GetNode("Camera");
-		Advertising = (AdvertisingManager)GetNode("Panel");
+		Advertising = (AdvertisingManager)GetNode("AdManager");
 		Advertising.Visible = false;
 		Spawner = (CustomerSpawner)GetNode("Spawner");
 		AdvertisementButton = (Button)GetNode("AdvertisementButton");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
+		if(CustomerSatisfactionTotal != 0)
+			AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
 		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
 		TheRecipeBook.FoodStalls = Restaurants;
+
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		Spawner.ChangeWaitTime();
 	}
@@ -71,7 +81,7 @@ public partial class BaseScript : Spatial
 		if(Chairs.Count == 0) return null;
 		int i = rnd.Next(0, Chairs.Count), j = i;
 		Chair chair = Chairs[i];
-		while(chair.Occupied)
+		while(chair.Occupied || !chair.unlocked)
 		{
 			if(i >= Chairs.Count-1) 
 				i = -1;
@@ -85,8 +95,8 @@ public partial class BaseScript : Spatial
 	public void TransferMoney(Tuxdollar Money)
 	{
 		this.Money += Money;
+		MoneyLabel = (Label)GetNode("MoneyLabel");
 		MoneyLabel.Text = $"Money: {this.Money}";
-		Advertising.CheckButtonMode();
 	}
 
 	public void AddSatisfaction(int numb)
@@ -129,24 +139,29 @@ public partial class BaseScript : Spatial
 		Advertising.Popup_();
 	}
 
+	public Dictionary<object, object> Save()
+	{
+		return new Dictionary<object, object>()
+		{
+            {"Filename", Filename},
+			{"StartMoneyValue", Money.Value},
+			{"StartMoneyMagnitude", Money.Magnitude},
+            {"CustomerSatisfactionTotal", CustomerSatisfactionTotal},
+			{"_customer_satisfactionsArray", _customer_satisfactions.ToArray()},
+			{"_satisfactionRating", _satisfactionRating}
+		};
+	}
+
 	public void SaveGame()
 	{
-		var packedScene = new PackedScene();
-		packedScene.Pack(GetTree().CurrentScene);
-		ResourceSaver.Save("res://SavedScene/saved_scene.tscn",packedScene);
 
 		File saveGame = new File();
+		saveGame.Open("user://savegame.save", File.ModeFlags.Write);
 
 		Godot.Collections.Array saveNodes = GetTree().GetNodesInGroup("Persist");
-
+		saveGame.StoreLine(JSON.Print(Save()));
 		foreach(Node saveNode in saveNodes)
-		{
-			if(!saveNode.HasMethod("Save"))
-				continue;
-				
-			saveGame.Open($"user://Save/{saveNode}Save.save", File.ModeFlags.Write);
 			saveGame.StoreLine(JSON.Print(saveNode.Call("Save")));
-		}
 
 		saveGame.Close();
 	}
@@ -154,7 +169,7 @@ public partial class BaseScript : Spatial
 	public void LoadGame()
 	{
 		File saveGame = new File();
-		if(!saveGame.FileExists("user://Save/baseSave.save"))
+		if(!saveGame.FileExists("user://savegame.save"))
 			return;
 
 		var saveNodes = GetTree().GetNodesInGroup("Persist");
@@ -162,22 +177,64 @@ public partial class BaseScript : Spatial
 		foreach(Node saveNode in saveNodes)
 			saveNode.QueueFree();
 
-		saveGame.Open("user://Save/baseSave.save", File.ModeFlags.Read);
-
-		while(!saveGame.EofReached())
+		saveGame.Open("user://savegame.save", File.ModeFlags.Read);
+		
+		while(saveGame.GetPosition() < saveGame.GetLen())
 		{
-			var currentLine = (Dictionary<string, object>)JSON.Parse(saveGame.GetLine()).Result;
+			Godot.Collections.Dictionary currentLine = (Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result;
 
 			if(currentLine == null)
 				continue;
 
-			
-			foreach(KeyValuePair<string, object> entry in currentLine)
-			{
+			Node newObject;
 
+			if((String)currentLine["Filename"] == Filename)
+			{
+				newObject = this;
+				Godot.Collections.Array _customer_satisfactionsArray = (Godot.Collections.Array)currentLine["_customer_satisfactionsArray"];
+				foreach(System.Single x in _customer_satisfactionsArray)
+					_customer_satisfactions.Enqueue((int)x);
+
+				this.Chairs = new List<Chair>();
+				this.Spots = new List<Spatial>();
+				this.Restaurants = new List<FoodStall>();
 			}
+			else 
+			{
+				
+				PackedScene newObjectScene = (PackedScene)ResourceLoader.Load(currentLine["Filename"].ToString());
+			    newObject = newObjectScene.Instance();
+
+				if(newObject is Spatial newSpatial)
+				{
+					newSpatial.Transform = new Transform(newSpatial.Transform.basis, new Vector3((float)currentLine["PositionX"],(float)currentLine["PositionY"],(float)currentLine["PositionZ"]));
+			    	newSpatial.Rotation = new Vector3(0, (float)currentLine["RotationY"], 0);
+				} 		
+			} 
+		
+			foreach(string key in currentLine.Keys)
+			{
+				if(key == "Filename" || key == "Parent" || key == "PositionX" || key == "PositionY" || key == "PositionZ" || key == "RotationY" || key == "_customer_satisfactionsArray")
+					continue;
+				if(key == "ExportScene" && newObject is Spatial newSpatial)
+				{
+					newSpatial.Visible = false;
+					newSpatial.Set(key, GD.Load<PackedScene>(currentLine[key].ToString()));
+					continue;
+				}
+				newObject.Set(key, currentLine[key]);
+			}
+			if(currentLine["Filename"].ToString() != Filename)
+				GetNode(currentLine["Parent"].ToString()).AddChild(newObject);
 		}
+		saveGame.Close();
 	}
+
+    public override void _Notification(int what)
+    {
+        if(what == MainLoop.NotificationWmGoBackRequest)
+			SaveGame();
+    }    
 
 	public override void _Input(InputEvent @event)
 	{
@@ -185,11 +242,11 @@ public partial class BaseScript : Spatial
 		{
 			if(@event.AsText() == "F2" && !@event.IsPressed())
 				SaveGame();
-
+			
 			if(@event.AsText() == "F3" && !@event.IsPressed())
 			{
-				GetTree().ChangeScene("res://SavedScene/saved_scene.tscn");
-
+				Directory saveDir = new Directory();
+				saveDir.Remove("user://savegame.save");
 			}
 		}
 	}

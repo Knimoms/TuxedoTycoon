@@ -31,10 +31,13 @@ public class AdvertisingManager : PopupMenu
     public Label NewspaperCostLabel;
     public Label AdNameLabel;
 
-    public float AdvertisementScore{get; private set;}
+    public float AdvertisementScore;
     private Timer _adTimer;
     private bool _adIsActive = true;
     private bool _isUpgraded = false;
+
+    private float _ad_time = 0;
+    private float? SavedAdTimeLeft;
 
 
     private List<string> _adNames = new List<string>()
@@ -55,6 +58,7 @@ public class AdvertisingManager : PopupMenu
         NewspaperCost = new Tuxdollar(NewspaperCostValue, NewspaperCostMagnitude);
 
         Basescript = (BaseScript)GetParent();
+        Basescript.MoneyTransfered += CheckButtonMode;
         Spawner = (CustomerSpawner)Basescript.GetNode("Spawner");
 
         NewspaperButton = (Button)GetNode("NewspaperButton");
@@ -62,14 +66,16 @@ public class AdvertisingManager : PopupMenu
 
         AdNameLabel = (Label)GetNode("AdNameLabel");
 
-        _adTimer = (Timer)GetNode("AdTimer");
+        _adTimer = (Timer)GetNode("AdTimer");   
+        _ad_time = _adTimer.WaitTime;
+        _adTimer.WaitTime = (SavedAdTimeLeft != null)? (float)SavedAdTimeLeft : _ad_time;
 
         AdNameLabel.Text = _adNames[_currentAdIndex];   
     }
 
     public void CheckButtonMode()
     {
-        NewspaperButton.Disabled = Basescript.Money < NewspaperCost;
+        NewspaperButton.Disabled = !_adIsActive || Basescript.Money < NewspaperCost;
     }
 
     public void UpdateText()
@@ -124,7 +130,8 @@ public class AdvertisingManager : PopupMenu
 
     public void _on_AdTimer_timeout()
     {
-        if (Basescript.Money < NewspaperCost) return; 
+        if(_adTimer.WaitTime != _ad_time)
+            _adTimer.WaitTime = _ad_time;
 
         NewspaperCost *= CostIncreaseMultiplier;
         NewspaperAdsLvl++;
@@ -150,4 +157,23 @@ public class AdvertisingManager : PopupMenu
 
         UpdateText();
     }
+
+    public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+			{"Filename", Filename},
+			{"Parent", GetParent().GetPath()},
+            {"NewspaperCostValue", NewspaperCost.Value},
+            {"NewspaperCostMagnitude", NewspaperCost.Magnitude},
+        	{"BadRatingMax", BadRatingMax},
+            {"GoodRatingMin", GoodRatingMin},
+            {"CostIncreaseMultiplier", CostIncreaseMultiplier},
+            {"NewspaperCPMUpgradeSteps", NewspaperCPMUpgradeSteps},
+            {"AdvertisementScore", AdvertisementScore},
+            {"_currentAdIndex", _currentAdIndex},
+            {"SavedAdTimeLeft", _adTimer.TimeLeft}
+        };
+		
+	}
 }

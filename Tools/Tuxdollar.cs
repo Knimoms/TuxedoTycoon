@@ -57,12 +57,6 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
         while(this._check_for_magnitude_change());
     }
 
-    // public Tuxdollar()
-    // {
-    //     this.Value = 0;
-    //     this._magnitude = "";
-    // }
-
     public static Tuxdollar operator +(Tuxdollar left, Tuxdollar right)
     {
         int lM = left.MagnitudeToInteger();

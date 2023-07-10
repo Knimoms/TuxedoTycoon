@@ -19,7 +19,7 @@ font_path = "res://Assets/SansBlackSmall.ttf"
 size = 30
 font_data = SubResource( 6 )
 
-[node name="TableSpot" type="Spatial"]
+[node name="TableSpot" type="Spatial" groups=["Persist"]]
 script = ExtResource( 1 )
 CostValue = 700.0
 
@@ -74,6 +74,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[connection signal="tree_exiting" from="." to="." method="_on_TableSpot_tree_exiting"]
 [connection signal="input_event" from="MeshInstance/Area" to="." method="_on_Area_input_event"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]

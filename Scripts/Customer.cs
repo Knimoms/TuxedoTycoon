@@ -164,7 +164,8 @@ public partial class Customer : KinematicBody
 	public void Leave()
 	{
 		float tip = Math.Max(0,(Satisfaction/50)-1);
-		Parent.TransferMoney(tip*OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
+		if(OrderedDish != null)
+			Parent.TransferMoney(tip*OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 
 		UpdateTargetLocation(SpawnPoint.GlobalTransform.origin);
 		State = CustomerState.Leaving;

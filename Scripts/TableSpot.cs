@@ -1,11 +1,12 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class TableSpot : Spatial
 {
-	private BaseScript Parent;
+	private BaseScript _base_script;
 	[Export]
-	public PackedScene TableScene;
+	public PackedScene ExportScene;
 	[Export]
 	public float CostValue;
 	[Export]
@@ -19,8 +20,12 @@ public partial class TableSpot : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		if (Parent == null)
-            Parent = (BaseScript)this.GetParent().GetParent();
+        AddToGroup("Persist");
+
+		if (_base_script == null)
+            _base_script = (BaseScript)this.GetParent().GetParent();
+
+		_base_script.MoneyTransfered += CheckButtonMode;
 		
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
 
@@ -32,14 +37,14 @@ public partial class TableSpot : Spatial
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
-		Table tempTable = TableScene.Instance<Table>();
+		Table tempTable = ExportScene.Instance<Table>();
 		CSGBox tempTableBox = (CSGBox)tempTable.GetNode("CSGBox");
 	
 		Scale = new Vector3(tempTableBox.Scale.x, 1f, tempTableBox.Scale.z);
 		tempTable.QueueFree();
 
-		Parent.Spots.Add(this);
-		Owner = Parent;
+		_base_script.Spots.Add(this);
+		Visible = false;
 
 
 		// Set the label text for the Cost label
@@ -57,7 +62,7 @@ public partial class TableSpot : Spatial
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left)
 			return;
 
-		if(!event1.IsPressed() && Parent.MaxInputDelay.TimeLeft > 0) 
+		if(!event1.IsPressed() && _base_script.MaxInputDelay.TimeLeft > 0) 
 		{
 			_popupMenu.Popup_();
 			_costLabel.Text = Cost.ToString();
@@ -67,12 +72,12 @@ public partial class TableSpot : Spatial
 
 	private void _on_ConfirmationButton_pressed()
 	{
-		if(Parent.Money < Cost) return;
-		Parent.TransferMoney(-Cost);
-		Table table = TableScene.Instance<Table>();
+		if(_base_script.Money < Cost) return;
+		_base_script.TransferMoney(-Cost);
+		Table table = ExportScene.Instance<Table>();
 		table.Transform = this.Transform;
 		table.Scale = new Vector3(1,1,1);
-		Parent.Spots.Remove(this);
+		_base_script.Spots.Remove(this);
 		this.QueueFree();
 		GetParent().AddChild(table);
 
@@ -83,26 +88,34 @@ public partial class TableSpot : Spatial
 
 	private void _on_CancelButton_pressed()
 	{
-
 		_popupMenu.Hide();
 	}
 
-	public override void _Input(InputEvent @event)
+	public void CheckButtonMode()
 	{
-		if (@event is InputEventMouseMotion motionEvent)
-		{
-			if (Parent.Money < Cost)
-			{
-				_confirmationButton.Disabled = true;
-			}
-			else
-			{
-				_confirmationButton.Disabled = false;
-			}
-		}
+		_confirmationButton.Disabled = _base_script.Money < Cost;
 	}
+
 	public PopupMenu GetPopupMenu()
     {
         return _popupMenu;
     }
+
+	private void _on_TableSpot_tree_exiting()
+	{
+		_base_script.MoneyTransfered -= CheckButtonMode;
+	}
+	public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+			{"Filename", Filename},
+			{"Parent", GetParent().GetPath()},
+			{"ExportScene", ExportScene.ResourcePath},
+			{"PositionX", Transform.origin.x},
+			{"PositionY", Transform.origin.y},
+			{"PositionZ", Transform.origin.z},
+			{"RotationY", Rotation.y},
+		};
+	}
 }

@@ -7,7 +7,10 @@ public partial class FoodStall : Spatial
 
 	[Export]
 	public PackedScene Minigame2DScene;
-	public Tuxdollar Multiplicator = new Tuxdollar(1), Cost, TimeUpgradeCost, QualityUpgradeCost;
+	public Tuxdollar Multiplicator, TimeUpgradeCost, QualityUpgradeCost;
+
+	public float TimeUpgradeCostValue, QualityUpgradeCostValue, MultiplicatorValue = 1;
+	public string TimeUpgradeCostMagnitude, QualityUpgradeCostMagnitude, MultiplicatorMagnitude = "";
 
 	private Tuxdollar LevelUpCost;
 	public List<Dish> Dishes {get; private set;}
@@ -52,6 +55,8 @@ public partial class FoodStall : Spatial
 	public string Level1CostMagnitude;
 	public Tuxdollar Level1Cost;
 
+	public bool Dish1Unlocked = false;
+
 	[Export]
 	public PackedScene Dish2;
 	[Export]	
@@ -59,12 +64,17 @@ public partial class FoodStall : Spatial
 	[Export]
 	public string Level2CostMagnitude;
 
+	public bool Dish2Unlocked = false;
+
 	[Export]
 	public PackedScene Dish3;
 	[Export]	
 	public float Level3CostValue;
 	[Export]
 	public string Level3CostMagnitude;
+
+	public bool Dish3Unlocked = false;
+
 	public Dish[] allDishes = new Dish[3];
 
 	public Random rnd = new Random();
@@ -81,15 +91,17 @@ public partial class FoodStall : Spatial
 
 		_initiate_all_dishes();
 
-		if(Dishes.Count<1)
-			Dishes.Add(allDishes[0]);
-
+		for(int i = 0; i < Level; i++)
+			Dishes.Add(allDishes[i]);
 		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
 		
 		_my_mesh_instance = GetNode<Spatial>("MeshInstance");
 		
 		if(Parent == null)
 			Parent = (BaseScript)GetParent();
+
+		Parent.MoneyTransfered += CheckButtonMode;
+		Parent.Restaurants.Add(this);
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = 60/CustomersPerMinute;
 		
@@ -115,16 +127,18 @@ public partial class FoodStall : Spatial
 
 		_levelLabel.Text = $"Lvl {Level}";
 
-		_foodQualityUpgradeButton.Disabled = true;
-		_cookingTimeUpgradeButton.Disabled = true;
+		TimeUpgradeCost = new Tuxdollar(TimeUpgradeCostValue, TimeUpgradeCostMagnitude);
+		QualityUpgradeCost = new Tuxdollar(QualityUpgradeCostValue, QualityUpgradeCostMagnitude);
+		Multiplicator = new Tuxdollar(MultiplicatorValue, MultiplicatorMagnitude);
 
-		TimeUpgradeCost = 4*Cost;
-		QualityUpgradeCost = 4*Cost;
 		_nameLabel.Text = "Restaurant Name";
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";
 		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
 
-		Owner = GetParent();
+		foreach(Dish dish in allDishes)
+			GD.Print(dish.Unlocked);
+
+		CheckButtonMode();
 	}
 
 	public void MiniGameDone()
@@ -191,12 +205,15 @@ public partial class FoodStall : Spatial
 			{
 				case 0:
 					allDishes[i] = _initiate_dish(Dish1, Level1Cost);
+					allDishes[i].Unlocked = Dish1Unlocked;
 					break;
 				case 1:
 					allDishes[i] = _initiate_dish(Dish2, Level1Cost*2f);
+					allDishes[i].Unlocked = Dish2Unlocked;
 					break;
 				case 2: 
 					allDishes[i] = _initiate_dish(Dish3, Level1Cost*4f);
+					allDishes[i].Unlocked = Dish3Unlocked;
 					break;
 				default:
 					break;
@@ -280,7 +297,6 @@ public partial class FoodStall : Spatial
 		if(Level == 2)
 		{
 			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
-			_levelUpButton.Disabled = Parent.Money < LevelUpCost;
 			Dishes.Add(allDishes[1]);
 			return;
 		}
@@ -294,9 +310,10 @@ public partial class FoodStall : Spatial
 		if(Parent.Money < QualityUpgradeCost) 
 			return;
 
-		Parent.TransferMoney(-QualityUpgradeCost);
-		Multiplicator *= 1.25f;
+		Tuxdollar cost = QualityUpgradeCost;
 		QualityUpgradeCost *= 4;
+		Parent.TransferMoney(-cost);
+		Multiplicator *= 1.25f;
 		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
 	}
 
@@ -305,8 +322,9 @@ public partial class FoodStall : Spatial
 		if(Parent.Money < TimeUpgradeCost) 
 			return;
 
-		Parent.TransferMoney(-TimeUpgradeCost);
+		Tuxdollar cost = TimeUpgradeCost;
 		TimeUpgradeCost *= 4;
+		Parent.TransferMoney(-TimeUpgradeCost);
 		CustomersPerMinute *= 1.1f;
 		_timer.WaitTime = 60/CustomersPerMinute;
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";
@@ -314,13 +332,14 @@ public partial class FoodStall : Spatial
 	
 	public void ShowPopupMenu()
 	{
+		_popupMenu.PopupCentered();
+	}
+
+	public void CheckButtonMode()
+	{
 		_cookingTimeUpgradeButton.Disabled = Parent.Money < TimeUpgradeCost;
 		_foodQualityUpgradeButton.Disabled = Parent.Money < QualityUpgradeCost;
 		_levelUpButton.Disabled = Parent.Money < LevelUpCost || Level >= 3;
-
-		// Set the name and cost in the PopupMenu
-		
-		_popupMenu.PopupCentered();
 	}
 
 	public Tuxdollar MoneyPerMinute()
@@ -339,20 +358,23 @@ public partial class FoodStall : Spatial
 		return new Dictionary<string, object>()
 		{
 			{"Filename", Filename},
-			{"Parent", Parent},
+			{"Parent", Parent.GetPath()},
 			{"PositionX", Transform.origin.x},
 			{"PositionY", Transform.origin.y},
 			{"PositionZ", Transform.origin.z},
+			{"RotationY", Rotation.y},
 			{"MultiplicatorValue", Multiplicator.Value},
 			{"MultiplicatorMagnitude", Multiplicator.Magnitude},
 			{"TimeUpgradeCostValue", TimeUpgradeCost.Value},
 			{"TimeUpgradeCostMagnitude", TimeUpgradeCost.Magnitude},
 			{"QualityUpgradeCostValue", QualityUpgradeCost.Value},
 			{"QualityUpgradeCostMagnitude", QualityUpgradeCost.Magnitude},
-			{"LevelUpCostValue", LevelUpCost.Value},
-			{"LevelUpCostMagnitude", LevelUpCost.Magnitude},
 			{"CustomersPerMinute", CustomersPerMinute},
-			{"Level", Level}
+			{"Level", Level},
+			{"Dish1Unlocked",allDishes[0].Unlocked},
+			{"Dish2Unlocked",allDishes[1].Unlocked},
+			{"Dish3Unlocked",allDishes[2].Unlocked},
+
 		};
 	}
 

@@ -8,7 +8,7 @@ public partial class Table : Spatial
     public Tuxdollar Cost;
     private int currentLevel = 0;
 
-    public BaseScript Parent;
+    public BaseScript _base_script;
     public string CostMagnitude;
     private PopupMenu _popupMenu;
     private Label _costLabel;
@@ -21,8 +21,10 @@ public partial class Table : Spatial
         this.AddToGroup("Persist");
         GetParent<NavigationMeshInstance>().BakeNavigationMesh(false);
 
-        if (Parent == null)
-            Parent = (BaseScript)this.GetParent().GetParent();
+        if (_base_script == null)
+            _base_script = (BaseScript)this.GetParent().GetParent();
+        
+        _base_script.MoneyTransfered += CheckButtonMode;
 
         _popupMenu = GetNode<PopupMenu>("PopupMenu");
         _costLabel = _popupMenu.GetNode<Label>("CostLabel");
@@ -39,20 +41,16 @@ public partial class Table : Spatial
 
         CreateChairs();
 
-        if (Parent.Money < Cost)
-            _confirmationButton.Disabled = true;
+        CheckButtonMode();
 
         for (int i = 0; i <= maxPossibleChairs; i++)
         {
             Chair chair = GetNodeOrNull<Chair>($"Chair{i}");
             if (chair != null)
-            {
                 chairsCount++;
-            }
         }
 
-        if(currentLevel == 0)LevelUp();
-        Owner = Parent;
+        if(currentLevel == 0) LevelUp();
     }
 
     private void UpdateCostLabel()
@@ -62,33 +60,26 @@ public partial class Table : Spatial
 
     private void LevelUp()
     {
-        Parent.TransferMoney(-Cost);
+        _base_script.TransferMoney(-Cost);
 
         currentLevel++;
         Cost = CalculateCost(currentLevel);
         UpdateCostLabel();
 
         CreateChairs();
+    }
 
-        if (Parent.Money < Cost)
-        {
-            _confirmationButton.Disabled = true;
-            return;
-        }
-        
-        if (currentLevel == chairsCount)
-        {
-            _confirmationButton.Disabled = true;
-            return;
-        }
+    public void CheckButtonMode()
+    {
+        _confirmationButton.Disabled = _base_script.Money < Cost || currentLevel == chairsCount;
     }
 
     private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 position, Vector3 normal, int shape_idx)
     {
-        if (!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left || !Parent.BuildMode)
+        if (!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left || !_base_script.BuildMode)
             return;
 
-        if (!event1.IsPressed() && Parent.MaxInputDelay.TimeLeft > 0)
+        if (!event1.IsPressed() && _base_script.MaxInputDelay.TimeLeft > 0)
         {
             _popupMenu.PopupCentered();
         }
@@ -120,13 +111,11 @@ public partial class Table : Spatial
 		return new Dictionary<string, object>()
 		{
             {"Filename", Filename},
-			{"Parent", Parent},
+			{"Parent", GetParent().GetPath()},
 			{"PositionX", Transform.origin.x},
 			{"PositionY", Transform.origin.y},
 			{"PositionZ", Transform.origin.z},
-			{"chairsCount", chairsCount},
-			{"CostValue", Cost.Value},
-            {"CostMagnitude", Cost.Magnitude},
+            {"RotationY", Rotation.y},
 			{"currentLevel", currentLevel}
 		};
 	}
@@ -135,9 +124,5 @@ public partial class Table : Spatial
     {
         ulong cost = 7000 * (ulong)Mathf.Pow(10, level);
         return new Tuxdollar(cost);
-    }
-
-    public override void _Process(float delta)
-    {
     }
 }

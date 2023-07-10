@@ -7,7 +7,11 @@ public class Dish : Spatial
     public string DishName {get; private set;}
 
     private bool _unlocked = false;
-    public bool Unlocked => _unlocked;
+    public bool Unlocked
+    {
+        get => _unlocked;
+        set{_unlocked = value;}
+    }
     
     [Export]
     public Ingredient Ing1 = Ingredient.Null;

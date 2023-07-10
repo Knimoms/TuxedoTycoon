@@ -246,11 +246,12 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Panel" parent="." instance=ExtResource( 7 )]
+[node name="AdManager" parent="." instance=ExtResource( 7 )]
 NewspaperCostValue = 10.0
 NewspaperCostMagnitude = "a"
 
 [node name="Spawner" parent="." instance=ExtResource( 8 )]
+CustomersPerMinute = 6.0
 
 [node name="AdvertisementButton" type="Button" parent="."]
 visible = false
@@ -360,27 +361,27 @@ depth = 0.1
 
 [node name="TableSpot" parent="NavigationMeshInstance" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -3 )
-TableScene = ExtResource( 11 )
+ExportScene = ExtResource( 11 )
 
 [node name="TableSpot2" parent="NavigationMeshInstance" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 1 )
-TableScene = ExtResource( 11 )
+ExportScene = ExtResource( 11 )
 
 [node name="TableSpot3" parent="NavigationMeshInstance" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 5 )
-TableScene = ExtResource( 11 )
+ExportScene = ExtResource( 11 )
 
 [node name="TableSpot4" parent="NavigationMeshInstance" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -3 )
-TableScene = ExtResource( 11 )
+ExportScene = ExtResource( 11 )
 
 [node name="TableSpot5" parent="NavigationMeshInstance" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1 )
-TableScene = ExtResource( 11 )
+ExportScene = ExtResource( 11 )
 
 [node name="TableSpot6" parent="NavigationMeshInstance" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 5 )
-TableScene = ExtResource( 11 )
+ExportScene = ExtResource( 11 )
 
 [node name="Floor2" type="CSGBox" parent="."]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
@@ -390,19 +391,19 @@ depth = 28.0
 
 [node name="FoodStallSpot" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -13.435, 0, -4.94975 )
-RestaurantScene = ExtResource( 5 )
+ExportScene = ExtResource( 5 )
 
 [node name="FoodStallSpot2" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -10.6066, 0, -7.77817 )
-RestaurantScene = ExtResource( 2 )
+ExportScene = ExtResource( 2 )
 
 [node name="FoodStallSpot3" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7.77817, 0, -10.6066 )
-RestaurantScene = ExtResource( 13 )
+ExportScene = ExtResource( 13 )
 
 [node name="FoodStallSpot4" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.94975, 0, -13.435 )
-RestaurantScene = ExtResource( 10 )
+ExportScene = ExtResource( 10 )
 
 [node name="SpawnPoint" type="Spatial" parent="."]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 8.55588, 0.5, 8.58057 )
@@ -411,7 +412,7 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 8
 visible = false
 
 [node name="Water" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.27702, -3.43046, 1.02232 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 16 )
 

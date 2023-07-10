@@ -8,13 +8,16 @@ public partial class CustomerSpawner : Spatial
     public PackedScene CustomerScene;
 
     [Export]
-    public float CustomersPerMinute = 20;
+    public float CustomersPerMinute;
 
     public float BonusCustomersPerMinute;
 
     private BaseScript Parent;
     private Random _rnd;
     private Timer _timer;
+    private Timer _spawnrate_evaluation_timer;
+
+    public float SpawnrateEvaluationTimerTimeLeft = 60;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -22,7 +25,8 @@ public partial class CustomerSpawner : Spatial
         _timer = (Timer)GetNode("Timer");
         _rnd = new Random();
         Parent = (BaseScript)GetParent();
-        Owner = Parent;
+        _spawnrate_evaluation_timer = (Timer)GetNode("SpawnrateEvaluationTimer");
+        _spawnrate_evaluation_timer.WaitTime = SpawnrateEvaluationTimerTimeLeft;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,9 +43,7 @@ public partial class CustomerSpawner : Spatial
         if(Parent.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
         
-        GD.Print(BonusCustomersPerMinute);
         _timer.WaitTime = (60/BonusCustomersPerMinute)*satisfactionMultiplicator;
-        GD.Print(_timer.WaitTime);
     }
 
     private void _on_Timer_timeout()
@@ -60,6 +62,9 @@ public partial class CustomerSpawner : Spatial
 
     private void _on_SpawnrateEvaluationTimer_timeout()
     {
+
+        if(_spawnrate_evaluation_timer.WaitTime < 60)
+            _spawnrate_evaluation_timer.WaitTime = 60;
         if(Parent.SatisfactionRating >= Parent.Advertising.GoodRatingMin)
             CustomersPerMinute *= 1.1f;
 
@@ -87,4 +92,19 @@ public partial class CustomerSpawner : Spatial
 
         return targetFoodStall;
     }
+
+    public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+			{"Filename", Filename},
+			{"Parent", Parent.GetPath()},
+			{"PositionX", Transform.origin.x},
+			{"PositionY", Transform.origin.y},
+			{"PositionZ", Transform.origin.z},
+			{"CustomersPerMinute", CustomersPerMinute},
+            {"BonusCustomersPerMinute", BonusCustomersPerMinute},
+            {"SpawnrateEvaluationTimerTimeLeft", _spawnrate_evaluation_timer.TimeLeft}
+		};
+	}
 }

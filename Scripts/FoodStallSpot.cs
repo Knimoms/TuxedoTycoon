@@ -1,12 +1,12 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 public partial class FoodStallSpot : Spatial
 {
 
 	
 	[Export]
-	public PackedScene RestaurantScene;
+	public PackedScene ExportScene;
 
 	public Tuxdollar Cost = new Tuxdollar();
 
@@ -27,7 +27,7 @@ public partial class FoodStallSpot : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-		rest = RestaurantScene.Instance<FoodStall>();
+		rest = ExportScene.Instance<FoodStall>();
 		Cost = new Tuxdollar(rest.Level1CostValue, rest.Level1CostMagnitude);
 		if(Parent == null)
 			Parent = (BaseScript)GetParent();
@@ -42,17 +42,12 @@ public partial class FoodStallSpot : Spatial
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 
 		Parent.Spots.Add(this);
-		Owner = Parent;
-
+		Visible = false;
 		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(float delta)
-	{
-
-	}
-
+	
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left) 
@@ -68,10 +63,13 @@ public partial class FoodStallSpot : Spatial
 
 	private void _add_restaurant()
 	{
-		FoodStall rest = RestaurantScene.Instance<FoodStall>();
+		FoodStall rest = ExportScene.Instance<FoodStall>();
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
-		rest.Cost = Cost;
+		rest.TimeUpgradeCostValue = 4*Cost.Value;
+		rest.TimeUpgradeCostMagnitude = Cost.Magnitude;
+		rest.QualityUpgradeCostValue = 4*Cost.Value;
+		rest.QualityUpgradeCostMagnitude = Cost.Magnitude;
 		Parent.Spots.Remove(this);
 		this.QueueFree();
 		Parent.AddChild(rest);
@@ -94,19 +92,27 @@ public partial class FoodStallSpot : Spatial
 		_popupMenu.Hide();
 	}
 
-	 public override void _Input(InputEvent @event)
+	private void _on_FoodStallSpot_tree_exiting()
 	{
-		if (@event is InputEventMouseMotion motionEvent)
-		{
-			if (Parent.Money < Cost)
-			{
-				_confirmationButton.Disabled = true;
-			}
-			else
-			{
-				_confirmationButton.Disabled = false;
-			}
-		}
+		Parent.MoneyTransfered -= CheckButtonMode;
 	}
-	
+
+	public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+			{"Filename", Filename},
+			{"Parent", GetParent().GetPath()},
+			{"ExportScene", ExportScene.ResourcePath},
+			{"PositionX", Transform.origin.x},
+			{"PositionY", Transform.origin.y},
+			{"PositionZ", Transform.origin.z},
+			{"RotationY", Rotation.y},
+		};
+	}
+
+	public void CheckButtonMode()
+	{
+		_confirmationButton.Disabled = Parent.Money < Cost;
+	}
 }
