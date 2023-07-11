@@ -22,6 +22,13 @@ public partial class BaseScript : Spatial
 	public List<Chair> Chairs = new List<Chair>();
 	public Vector3 SpawnPoint {get; private set;}
 
+	private float _offline_customers_per_minute;
+	public float offlineCustomersPerMinute
+	{
+		get => _offline_customers_per_minute;
+		set{ _offline_customers_per_minute = CalculateCustomersPerMinute();}
+	}
+
 
 	public InputState IState;
 	private Tuxdollar _money;
@@ -43,6 +50,7 @@ public partial class BaseScript : Spatial
 	public Button AdvertisementButton;
 	public Label AverageSatisfactionLabel;
 	public Button RecipeButton;
+	public Label CPMLabel;
 	public RecipeBook TheRecipeBook;
 	public Random rnd = new Random();
 
@@ -66,7 +74,9 @@ public partial class BaseScript : Spatial
 		Advertising.Visible = false;
 		Spawner = (CustomerSpawner)GetNode("Spawner");
 		AdvertisementButton = (Button)GetNode("AdvertisementButton");
+		CPMLabel = (Label)GetNode("CPMLabel");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
+
 		if(CustomerSatisfactionTotal != 0)
 			AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
 		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
@@ -74,6 +84,7 @@ public partial class BaseScript : Spatial
 
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		Spawner.ChangeWaitTime();
+		CalculateCustomersPerMinute();
 	}
 
 	public Chair GetRandomFreeChair()
@@ -111,6 +122,18 @@ public partial class BaseScript : Spatial
 		AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
 
 		Spawner.ChangeWaitTime();
+	}
+
+	public float CalculateCustomersPerMinute()
+	{
+		float offlineCPM = 0;
+		foreach(FoodStall foodStall in Restaurants)
+			offlineCPM += Math.Min(foodStall.CustomersPerMinute, Spawner.CustomersPerMinute/Restaurants.Count);
+
+		
+		
+		CPMLabel.Text = $"{Spawner.BonusCustomersPerMinute} Cus/min";
+		return offlineCPM;
 	}
 
 	private void _on_RecipeButton_pressed()
@@ -154,7 +177,6 @@ public partial class BaseScript : Spatial
 
 	public void SaveGame()
 	{
-
 		File saveGame = new File();
 		saveGame.Open("user://savegame.save", File.ModeFlags.Write);
 

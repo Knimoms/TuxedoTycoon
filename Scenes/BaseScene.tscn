@@ -2,6 +2,7 @@
 
 [ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Polar/Polar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Japanese/SushiStand.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/FoodStallSpot.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/English/English.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/IsoCam.cs" type="Script" id=6]
@@ -11,7 +12,6 @@
 [ext_resource path="res://Scenes/Vietnamese/Vietnamese.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/TableLongM.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/TableSpot.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Scenes/SushiStand/SushiStand.tscn" type="PackedScene" id=13]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 42, 0.001, 28 )
@@ -176,7 +176,7 @@ shader_param/normalmap = SubResource( 22 )
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 StartMoneyValue = 800.0
-StartMoneyMagnitude = "a"
+StartMoneyMagnitude = ""
 
 [node name="pivot" type="Spatial" parent="."]
 script = ExtResource( 6 )
@@ -268,10 +268,10 @@ __meta__ = {
 }
 
 [node name="AverageSatisfaction" type="Label" parent="."]
-anchor_left = 0.40332
-anchor_top = 0.0133333
-anchor_right = 0.594726
-anchor_bottom = 0.195001
+anchor_left = 0.662109
+anchor_top = 0.01
+anchor_right = 0.853515
+anchor_bottom = 0.191668
 custom_fonts/font = SubResource( 4 )
 text = "Rating: no data "
 align = 2
@@ -399,7 +399,7 @@ ExportScene = ExtResource( 2 )
 
 [node name="FoodStallSpot3" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -7.77817, 0, -10.6066 )
-ExportScene = ExtResource( 13 )
+ExportScene = ExtResource( 3 )
 
 [node name="FoodStallSpot4" parent="." instance=ExtResource( 4 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.94975, 0, -13.435 )
@@ -419,6 +419,20 @@ material/0 = SubResource( 16 )
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.892783, 0.450488, 0, -0.450488, 0.892783, -4.31201, 8.01253, 6.17821 )
 light_energy = 0.5
+
+[node name="CPMLabel" type="Label" parent="."]
+anchor_left = 0.662109
+anchor_top = 0.01
+anchor_right = 0.853515
+anchor_bottom = 0.191668
+margin_left = -353.0
+margin_right = -353.0
+custom_fonts/font = SubResource( 4 )
+text = "CPM"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="AdvertisementButton" to="." method="_on_AdvertisementButton_pressed"]

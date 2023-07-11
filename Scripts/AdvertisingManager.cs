@@ -92,6 +92,7 @@ public class AdvertisingManager : PopupMenu
         _adTimer.Start();
         _adIsActive = false;
         _UpdateButtonState();
+         Basescript.CalculateCustomersPerMinute();
     }
 
     private void _UpdateButtonState()
@@ -154,7 +155,7 @@ public class AdvertisingManager : PopupMenu
         //_updateAdName = true;
         _currentAdIndex = (_currentAdIndex + 1) % _adNames.Count;
         AdNameLabel.Text = _adNames[_currentAdIndex];
-
+        Basescript.CalculateCustomersPerMinute();
         UpdateText();
     }
 

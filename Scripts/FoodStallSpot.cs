@@ -73,7 +73,6 @@ public partial class FoodStallSpot : Spatial
 		Parent.Spots.Remove(this);
 		this.QueueFree();
 		Parent.AddChild(rest);
-		Parent.Restaurants.Add(rest);
 	}
 
 	private void _on_ConfirmationButton_pressed()

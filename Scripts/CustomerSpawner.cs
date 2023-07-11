@@ -17,7 +17,8 @@ public partial class CustomerSpawner : Spatial
     private Timer _timer;
     private Timer _spawnrate_evaluation_timer;
 
-    public float SpawnrateEvaluationTimerTimeLeft = 60;
+    public float SpawnrateEvaluationTimerWaitTime;
+    public float? SpawnrateEvaluationTimerTimeLeft;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -26,7 +27,8 @@ public partial class CustomerSpawner : Spatial
         _rnd = new Random();
         Parent = (BaseScript)GetParent();
         _spawnrate_evaluation_timer = (Timer)GetNode("SpawnrateEvaluationTimer");
-        _spawnrate_evaluation_timer.WaitTime = SpawnrateEvaluationTimerTimeLeft;
+        SpawnrateEvaluationTimerWaitTime = _spawnrate_evaluation_timer.WaitTime;
+        _spawnrate_evaluation_timer.WaitTime =(SpawnrateEvaluationTimerTimeLeft != null)? (float)SpawnrateEvaluationTimerTimeLeft : SpawnrateEvaluationTimerWaitTime;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -62,17 +64,21 @@ public partial class CustomerSpawner : Spatial
 
     private void _on_SpawnrateEvaluationTimer_timeout()
     {
+        GD.Print("woof");
+        if(_spawnrate_evaluation_timer.WaitTime < SpawnrateEvaluationTimerWaitTime)
+            _spawnrate_evaluation_timer.WaitTime = SpawnrateEvaluationTimerWaitTime;
 
-        if(_spawnrate_evaluation_timer.WaitTime < 60)
-            _spawnrate_evaluation_timer.WaitTime = 60;
+        if(Parent.CustomerSatisfactionTotal == 0)
+            return;
+
         if(Parent.SatisfactionRating >= Parent.Advertising.GoodRatingMin)
             CustomersPerMinute *= 1.1f;
 
         if(Parent.SatisfactionRating <= Parent.Advertising.BadRatingMax)
             CustomersPerMinute *= 0.9f;
 
-            ChangeWaitTime();
-            GD.Print(CustomersPerMinute);
+        ChangeWaitTime();
+        Parent.CalculateCustomersPerMinute();
     }
 
     private FoodStall TargetFoodStall()

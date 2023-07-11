@@ -15,7 +15,7 @@ public partial class FoodStall : Spatial
 	private Tuxdollar LevelUpCost;
 	public List<Dish> Dishes {get; private set;}
 	[Export]
-	private float CustomersPerMinute = 6;
+	public float CustomersPerMinute = 6;
 	public int Level = 1;
 
 	public Customer CurrentCustomer;
@@ -328,6 +328,7 @@ public partial class FoodStall : Spatial
 		CustomersPerMinute *= 1.1f;
 		_timer.WaitTime = 60/CustomersPerMinute;
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";
+		Parent.CalculateCustomersPerMinute();
 	}
 	
 	public void ShowPopupMenu()
