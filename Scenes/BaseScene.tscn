@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Polar/Polar.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Japanese/SushiStand.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/SushiStand/SushiStand.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/FoodStallSpot.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/English/English.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/IsoCam.cs" type="Script" id=6]
@@ -176,7 +176,7 @@ shader_param/normalmap = SubResource( 22 )
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 StartMoneyValue = 800.0
-StartMoneyMagnitude = ""
+StartMoneyMagnitude = "a"
 
 [node name="pivot" type="Spatial" parent="."]
 script = ExtResource( 6 )

@@ -60,13 +60,16 @@ public partial class Table : Spatial
 
     private void LevelUp()
     {
-        _base_script.TransferMoney(-Cost);
+        if(_base_script.Money >= Cost)
+        {
+            _base_script.TransferMoney(-Cost);
 
-        currentLevel++;
-        Cost = CalculateCost(currentLevel);
-        UpdateCostLabel();
+            currentLevel++;
+            Cost = CalculateCost(currentLevel);
+            UpdateCostLabel();
 
-        CreateChairs();
+            CreateChairs();
+        }
     }
 
     public void CheckButtonMode()

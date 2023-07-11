@@ -12,15 +12,13 @@ public partial class FoodStallSpot : Spatial
 
 	[Export]
 	public PackedScene FoodStallModel;
-
 	public static BaseScript Parent;
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
-
 	private ulong _input_time;
-
 	FoodStall rest;
+	private Particles _poofParticle;
 
 
 	
@@ -33,13 +31,15 @@ public partial class FoodStallSpot : Spatial
 			Parent = (BaseScript)GetParent();
 		Parent = (BaseScript)this.GetParent();	
 
-		// Get references to child nodes
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 		
 		_popupMenu.PopupCentered();
 		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
+
+		_poofParticle = GetNode<Particles>("PoofParticle");
+		_poofParticle.Hide();
 
 		Parent.Spots.Add(this);
 		Visible = false;
@@ -48,7 +48,7 @@ public partial class FoodStallSpot : Spatial
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	
-	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
+	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left) 
 			return;
@@ -58,7 +58,6 @@ public partial class FoodStallSpot : Spatial
 			_popupMenu.PopupCentered();	
 			_costLabel.Text = $"Cost: {Cost}";
 		}
-			
 	}
 
 	private void _add_restaurant()
@@ -73,6 +72,7 @@ public partial class FoodStallSpot : Spatial
 		Parent.Spots.Remove(this);
 		this.QueueFree();
 		Parent.AddChild(rest);
+
 	}
 
 	private void _on_ConfirmationButton_pressed()
@@ -81,13 +81,12 @@ public partial class FoodStallSpot : Spatial
 			return;
 		Parent.TransferMoney(-Cost);
 		_add_restaurant();
-		// Hide the PopupMenu
+		
 		_popupMenu.Hide();		
 	}
 
 	private void _on_CancelButton_pressed()
 	{
-		// Hide the PopupMenu
 		_popupMenu.Hide();
 	}
 

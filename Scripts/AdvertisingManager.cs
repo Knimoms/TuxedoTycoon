@@ -20,7 +20,7 @@ public class AdvertisingManager : PopupMenu
     public float CostIncreaseMultiplier = 2f;
 
     [Export]
-    public float NewspaperCPMUpgradeSteps;
+    public float NewspaperCPMUpgradeSteps = 1;
     [Export]
     public float NewspaperCostValue;
     [Export]
@@ -38,6 +38,7 @@ public class AdvertisingManager : PopupMenu
 
     private float _ad_time = 0;
     private float? SavedAdTimeLeft;
+
 
 
     private List<string> _adNames = new List<string>()
@@ -92,7 +93,19 @@ public class AdvertisingManager : PopupMenu
         _adTimer.Start();
         _adIsActive = false;
         _UpdateButtonState();
-         Basescript.CalculateCustomersPerMinute();
+        _increaseCustomerRate();
+
+        Basescript.CalculateCustomersPerMinute();
+    }
+
+    private void _increaseCustomerRate()
+    {
+        AdvertisementScore += NewspaperCPMUpgradeSteps;
+        //if (NewspaperAdsLvl == 0) AdvertisementScore += NewspaperCPMUpgradeSteps;
+        UpdateText();
+        Spawner.ChangeWaitTime();
+        
+        Basescript.CalculateCustomersPerMinute();
     }
 
     private void _UpdateButtonState()
@@ -119,14 +132,6 @@ public class AdvertisingManager : PopupMenu
     private void _upgraded_Adds()
     {
         if (!_adIsActive) return;
-
-        if (!_isUpgraded)
-        {
-            Spawner.ChangeWaitTime();
-            AdvertisementScore += NewspaperCPMUpgradeSteps;
-            if (NewspaperAdsLvl == 1) AdvertisementScore += NewspaperCPMUpgradeSteps * 3;
-            UpdateText();
-        }
     }
 
     public void _on_AdTimer_timeout()
@@ -144,13 +149,6 @@ public class AdvertisingManager : PopupMenu
         _adIsActive = true;
         _UpdateButtonState();
 
-        if (_isUpgraded)
-        {
-            Spawner.ChangeWaitTime();
-            AdvertisementScore -= NewspaperCPMUpgradeSteps;
-            if (NewspaperAdsLvl == 1) AdvertisementScore -= NewspaperCPMUpgradeSteps*3;
-            _isUpgraded = false;
-        }
         _adTimer.Stop();
         //_updateAdName = true;
         _currentAdIndex = (_currentAdIndex + 1) % _adNames.Count;

@@ -40,15 +40,16 @@ public partial class CustomerSpawner : Spatial
     public void ChangeWaitTime()
     {
         BonusCustomersPerMinute = CustomersPerMinute + Parent.Advertising.AdvertisementScore;
-        float satisfactionMultiplicator = (Parent.SatisfactionRating < 34)? 0.67f : (Parent.SatisfactionRating > 65)? 1.33f: 1f ;
+        float satisfactionMultiplicator = (Parent.SatisfactionRating < 34)? 0.67f : (Parent.SatisfactionRating > 65)? 1.33f: 1f;
 
         if(Parent.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
         
         _timer.WaitTime = (60/BonusCustomersPerMinute)*satisfactionMultiplicator;
+        GD.Print(_timer.WaitTime);
     }
 
-    private void _on_Timer_timeout()
+    private async void _on_Timer_timeout()
     {
         if (Parent.Restaurants.Count == 0) return; 
 
@@ -60,8 +61,15 @@ public partial class CustomerSpawner : Spatial
         customer.SpawnPoint = (Spatial)targetFoodStall.GetParent().GetNode("SpawnPoint");
         customer.Transform = customer.SpawnPoint.Transform;
         Parent.AddChild(customer);
+        StartDebuggerTimer();
+        GD.Print("A customer has been spawned!");
     }
 
+    private async void StartDebuggerTimer()
+    {
+        await ToSignal(GetTree().CreateTimer(120), "timeout");
+        GD.Print("2 minutes have passed in the debugger!");
+    }
     private void _on_SpawnrateEvaluationTimer_timeout()
     {
         GD.Print("woof");
