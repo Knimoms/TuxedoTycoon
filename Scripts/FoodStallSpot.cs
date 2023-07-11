@@ -18,7 +18,6 @@ public partial class FoodStallSpot : Spatial
 	private Button _confirmationButton;
 	private ulong _input_time;
 	FoodStall rest;
-	private Particles _poofParticle;
 
 
 	
@@ -37,9 +36,6 @@ public partial class FoodStallSpot : Spatial
 		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
-
-		_poofParticle = GetNode<Particles>("PoofParticle");
-		_poofParticle.Hide();
 
 		Parent.Spots.Add(this);
 		Visible = false;
@@ -60,19 +56,35 @@ public partial class FoodStallSpot : Spatial
 		}
 	}
 
-	private void _add_restaurant()
+	private async void _add_restaurant()
+	{
+		PackedScene poofParticleScene = ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn");
+		Particles poofParticleInstance = (Particles)poofParticleScene.Instance();
+		poofParticleInstance.GlobalTransform = GlobalTransform;
+		Parent.AddChild(poofParticleInstance);
+		poofParticleInstance.Emitting = true;
+		poofParticleInstance.OneShot = true;
+
+		Timer delayTimer = new Timer();
+		delayTimer.WaitTime = 0.15f;
+		delayTimer.OneShot = true;
+		delayTimer.Connect("timeout", this, "_on_DelayTimer_timeout");
+		AddChild(delayTimer);
+		delayTimer.Start();
+	}
+
+	private void _on_DelayTimer_timeout()
 	{
 		FoodStall rest = ExportScene.Instance<FoodStall>();
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
-		rest.TimeUpgradeCostValue = 4*Cost.Value;
+		rest.TimeUpgradeCostValue = 4 * Cost.Value;
 		rest.TimeUpgradeCostMagnitude = Cost.Magnitude;
-		rest.QualityUpgradeCostValue = 4*Cost.Value;
+		rest.QualityUpgradeCostValue = 4 * Cost.Value;
 		rest.QualityUpgradeCostMagnitude = Cost.Magnitude;
 		Parent.Spots.Remove(this);
 		this.QueueFree();
 		Parent.AddChild(rest);
-
 	}
 
 	private void _on_ConfirmationButton_pressed()
