@@ -19,7 +19,7 @@ public partial class FoodStall : Spatial
 	public int Level = 1;
 
 	public Customer CurrentCustomer;
-
+	public Texture OrderedDishPng;
 	public List<Customer> IncomingCustomers = new List<Customer>();
 	//public List<CustomerBase> Queue;
 	private static BaseScript Parent;
@@ -30,7 +30,7 @@ public partial class FoodStall : Spatial
 	}
 	
 	private Timer _timer;
-	
+
 	private PopupMenu _popupMenu;
 	private Button _foodQualityUpgradeButton;
 	private Button _cookingTimeUpgradeButton;

@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System;
 
-public class Dish : Spatial
+public class Dish : Node2D
 {
     public string DishName {get; private set;}
 
@@ -13,6 +13,8 @@ public class Dish : Spatial
         set{_unlocked = value;}
     }
     
+    [Export]
+    public Texture ODpng;
     [Export]
     public Ingredient Ing1 = Ingredient.Null;
     [Export]
@@ -44,6 +46,7 @@ public class Dish : Spatial
     {
         Owner = GetParent();
         IngredientSprites = new Dictionary<Ingredient, Texture>();
+        ODpng = GetNode<Sprite>("Sprite").Texture;
 
         string[] splittedFilename = Filename.Split(new char[]{'/', '.'});
         DishName = splittedFilename[splittedFilename.Length-2];

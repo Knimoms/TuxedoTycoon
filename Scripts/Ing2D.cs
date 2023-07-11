@@ -34,5 +34,3 @@ public class Ing2D : Node2D
 	}
 }
 
-
-    

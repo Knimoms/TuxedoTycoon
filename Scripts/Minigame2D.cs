@@ -34,10 +34,18 @@ public class Minigame2D : Node2D
     public void CompareLists()
     {
         if(MyFoodStall.OrderedDish == null)
-            return;
+            {
+                return;
+            }
 
-        if(MyFoodStall.OrderedDish.CompareIngredients(ingredientList))
+        if(MyFoodStall.OrderedDish.CompareIngredients(ingredientList)){
+            GD.Print("asdasfas");
             RecipeCorrect();
+        } else {
+            ingredientList.Clear();
+            foreach(Sprite fanta in IngSpots)
+                fanta.Texture = null;
+        }
     }
 
     public Sprite AddIng(Ingredient ing)
