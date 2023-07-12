@@ -39,7 +39,6 @@ public class Minigame2D : Node2D
             }
 
         if(MyFoodStall.OrderedDish.CompareIngredients(ingredientList)){
-            GD.Print("asdasfas");
             RecipeCorrect();
         } else {
             ingredientList.Clear();

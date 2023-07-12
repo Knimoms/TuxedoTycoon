@@ -15,6 +15,7 @@ public partial class TableSpot : Spatial
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
+	private MeshInstance _meshInstance;
 
 	
 	// Called when the node enters the scene tree for the first time.
@@ -36,6 +37,7 @@ public partial class TableSpot : Spatial
 		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
+		_meshInstance = (MeshInstance)GetNode("MeshInstance");
 
 		Table tempTable = ExportScene.Instance<Table>();
 		CSGBox tempTableBox = (CSGBox)tempTable.GetNode("CSGBox");
@@ -94,6 +96,9 @@ public partial class TableSpot : Spatial
 	public void CheckButtonMode()
 	{
 		_confirmationButton.Disabled = _base_script.Money < Cost;
+		SpatialMaterial newMat = new SpatialMaterial();
+        newMat.AlbedoColor = (_base_script.Money < Cost)? new Color(150f/255, 150f/255, 150f/255, 1) : new Color(0, 150f/255, 255f/255, 1);
+		_meshInstance.MaterialOverride = newMat;
 	}
 
 	public PopupMenu GetPopupMenu()

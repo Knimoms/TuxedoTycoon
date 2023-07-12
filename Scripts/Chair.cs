@@ -9,7 +9,6 @@ public partial class Chair : Spatial
 
     public override void _Ready()
     {
-        AddToGroup("Persist");
         GetParent().GetParent().GetParent<BaseScript>().Chairs.Add(this);
         Owner = GetParent();
     }
@@ -22,19 +21,4 @@ public partial class Chair : Spatial
     {
         unlocked = true;
     }
-
-    public Dictionary<string, object> Save()
-	{
-		return new Dictionary<string, object>()
-		{
-			{"Filename", Filename},
-			{"Parent", GetParent().GetPath()},
-			{"PositionX", Transform.origin.x},
-			{"PositionY", Transform.origin.y},
-			{"PositionZ", Transform.origin.z},
-            {"RotationY", Rotation.y},
-            {"Unlocked", unlocked}
-			
-		};
-	}
 }

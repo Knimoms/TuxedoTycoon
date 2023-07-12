@@ -19,6 +19,7 @@ public partial class FoodStallSpot : Spatial
 	private ulong _input_time;
 	FoodStall rest;
 	private Particles _poofParticle;
+	private MeshInstance _meshInstance;
 
 
 	
@@ -29,7 +30,8 @@ public partial class FoodStallSpot : Spatial
 		Cost = new Tuxdollar(rest.Level1CostValue, rest.Level1CostMagnitude);
 		if(Parent == null)
 			Parent = (BaseScript)GetParent();
-		Parent = (BaseScript)this.GetParent();	
+		Parent = (BaseScript)this.GetParent();
+		Parent.MoneyTransfered += CheckButtonMode;	
 
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 		
@@ -37,12 +39,14 @@ public partial class FoodStallSpot : Spatial
 		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
+		_meshInstance = (MeshInstance)GetNode("MeshInstance");
 
 		_poofParticle = GetNode<Particles>("PoofParticle");
 		_poofParticle.Hide();
 
 		Parent.Spots.Add(this);
 		Visible = false;
+
 		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}
 
@@ -112,5 +116,8 @@ public partial class FoodStallSpot : Spatial
 	public void CheckButtonMode()
 	{
 		_confirmationButton.Disabled = Parent.Money < Cost;
+		SpatialMaterial newMat = new SpatialMaterial();
+        newMat.AlbedoColor = (Parent.Money < Cost)? new Color(150f/255, 150f/255, 150f/255, 1) : new Color(125f/255, 1, 1, 1);
+		_meshInstance.MaterialOverride = newMat;
 	}
 }

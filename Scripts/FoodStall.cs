@@ -135,9 +135,6 @@ public partial class FoodStall : Spatial
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";
 		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
 
-		foreach(Dish dish in allDishes)
-			GD.Print(dish.Unlocked);
-
 		CheckButtonMode();
 	}
 
@@ -292,17 +289,19 @@ public partial class FoodStall : Spatial
 		Level++;
 
 		_levelLabel.Text = $"Lvl {Level}";
-		Parent.TransferMoney(-LevelUpCost);
+		Tuxdollar cost = LevelUpCost;
 
 		if(Level == 2)
 		{
 			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
 			Dishes.Add(allDishes[1]);
-			return;
+			
+		} else{
+			_levelUpButton.Disabled = true;
+			Dishes.Add(allDishes[2]);
 		}
 
-		_levelUpButton.Disabled = true;
-		Dishes.Add(allDishes[2]);
+		Parent.TransferMoney(-cost);
 	}
 
 	public void FoodQualityLevelUp()
@@ -324,7 +323,7 @@ public partial class FoodStall : Spatial
 
 		Tuxdollar cost = TimeUpgradeCost;
 		TimeUpgradeCost *= 4;
-		Parent.TransferMoney(-TimeUpgradeCost);
+		Parent.TransferMoney(-cost);
 		CustomersPerMinute *= 1.1f;
 		_timer.WaitTime = 60/CustomersPerMinute;
 		_timeCostLabel.Text = $"{TimeUpgradeCost}";

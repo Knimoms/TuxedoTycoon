@@ -72,7 +72,6 @@ public partial class BaseScript : Spatial
 		BaseCam = (Camera)GetNode("pivot").GetNode("Camera");
 		Advertising = (AdvertisingManager)GetNode("AdManager");
 		Advertising.Visible = false;
-		Spawner = (CustomerSpawner)GetNode("Spawner");
 		AdvertisementButton = (Button)GetNode("AdvertisementButton");
 		CPMLabel = (Label)GetNode("CPMLabel");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
@@ -83,7 +82,6 @@ public partial class BaseScript : Spatial
 		TheRecipeBook.FoodStalls = Restaurants;
 
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
-		Spawner.ChangeWaitTime();
 		CalculateCustomersPerMinute();
 	}
 
@@ -132,7 +130,7 @@ public partial class BaseScript : Spatial
 
 		
 		
-		CPMLabel.Text = $"{Spawner.BonusCustomersPerMinute} Cus/min";
+		CPMLabel.Text = $"{Spawner.BonusCustomersPerMinute.ToString("F2")} Cus/min";
 		return offlineCPM;
 	}
 
@@ -151,7 +149,7 @@ public partial class BaseScript : Spatial
 	{
 		BuildMode = !BuildMode;
 		AdvertisementButton.Visible = BuildMode;
-		RecipeButton.Visible = !RecipeButton.Visible;
+		RecipeButton.Visible = !BuildMode;
 		
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = !n3d.Visible;
@@ -248,6 +246,7 @@ public partial class BaseScript : Spatial
 			}
 			if(currentLine["Filename"].ToString() != Filename)
 				GetNode(currentLine["Parent"].ToString()).AddChild(newObject);
+			
 		}
 		saveGame.Close();
 	}

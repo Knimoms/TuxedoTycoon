@@ -18,6 +18,7 @@ public class Ing2D : Node2D
         _mySprite = GetNode("Area2D").GetNode<Sprite>("Sprite");
         _mySprite.Texture = Dish.GetIngredientSprite(ing);
         _mySprite.GlobalRotation = 0f;
+        _mySprite.GlobalTransform = new Transform2D(1, 0, 0, 1, GlobalTransform.origin.x, GlobalTransform.origin.y);
         
     }
 

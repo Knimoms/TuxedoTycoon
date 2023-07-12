@@ -6,7 +6,7 @@ public partial class Table : Spatial
 {
     private int chairsCount;
     public Tuxdollar Cost;
-    private int currentLevel = 0;
+    private int currentLevel = 1;
 
     public BaseScript _base_script;
     public string CostMagnitude;
@@ -14,11 +14,11 @@ public partial class Table : Spatial
     private Label _costLabel;
     private Button _confirmationButton;
     private Button _cancelButton;
-    private int maxPossibleChairs = 16;
 
     public override void _Ready()
     {
         this.AddToGroup("Persist");
+        chairsCount = GetChildCount();
         GetParent<NavigationMeshInstance>().BakeNavigationMesh(false);
 
         if (_base_script == null)
@@ -39,18 +39,16 @@ public partial class Table : Spatial
         _confirmationButton.Text = "Buy a chair";
         _costLabel.Text = $"Cost: {Cost}\nChairs: {currentLevel}";
 
-        CreateChairs();
-
-        CheckButtonMode();
-
-        for (int i = 0; i <= maxPossibleChairs; i++)
+        int j = currentLevel;
+        currentLevel = 0;
+        for(int i = 0; i < j; i++)
         {
-            Chair chair = GetNodeOrNull<Chair>($"Chair{i}");
-            if (chair != null)
-                chairsCount++;
+            currentLevel++;
+            CreateChairs();
         }
-
-        if(currentLevel == 0) LevelUp();
+        
+        Cost = CalculateCost(currentLevel);
+        CheckButtonMode();
     }
 
     private void UpdateCostLabel()

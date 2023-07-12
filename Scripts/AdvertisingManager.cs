@@ -37,7 +37,7 @@ public class AdvertisingManager : PopupMenu
     private bool _isUpgraded = false;
 
     private float _ad_time = 0;
-    private float? SavedAdTimeLeft;
+    public float? SavedAdTimeLeft;
 
 
 

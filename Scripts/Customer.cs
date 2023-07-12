@@ -116,6 +116,7 @@ public partial class Customer : KinematicBody
 	{
 		Parent.TransferMoney(OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 		State = CustomerState.WalkingToTable;
+		_nav_agent.NavigationLayers = 2;
 		QueueTimeSatisfaction();
 		_my_chair = Parent.GetRandomFreeChair();
 		if(_my_chair == null || !OrderedDish.Unlocked)
@@ -179,7 +180,7 @@ public partial class Customer : KinematicBody
 
 	public void _on_PatienceTimer_timeout()
 	{
-		if(LineNumber > 15) 
+		if(LineNumber > 10) 
 		{
 			Satisfaction = 25;
 			Leave();

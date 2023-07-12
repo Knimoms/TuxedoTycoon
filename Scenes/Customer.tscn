@@ -5,7 +5,7 @@
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
-height = 0.5
+height = 0.3
 
 [sub_resource type="CapsuleMesh" id=2]
 radius = 0.25
@@ -42,7 +42,7 @@ one_shot = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0754854, 0.0442014 )
 
 [node name="PengiunBody" parent="Body" instance=ExtResource( 2 )]
-transform = Transform( -0.2, 0, -3.01992e-08, 0, 0.2, 0, 3.01992e-08, 0, -0.2, 0, -0.43845, 0 )
+transform = Transform( -0.15, 0, -2.26494e-08, 0, 0.15, 0, 2.26494e-08, 0, -0.15, 0, -0.35, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Body"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
@@ -53,5 +53,5 @@ skeleton = NodePath("../..")
 [connection signal="target_reached" from="NavigationAgent" to="." method="_on_NavigationAgent_target_reached"]
 [connection signal="velocity_computed" from="NavigationAgent" to="." method="_on_NavigationAgent_velocity_computed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="timeout" from="PatienceTimer" to="." method="_on_PatienceTimer_timeout"]
 [connection signal="timeout" from="PatienceTimer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="PatienceTimer" to="." method="_on_PatienceTimer_timeout"]

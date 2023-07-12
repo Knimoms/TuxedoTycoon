@@ -55,13 +55,13 @@ public class RecipeBook : Popup
 
     public void OpenRecipeBook()
     {
+        Popup_();
         _open_recipe_book_page(1);
     }
 
     private void _open_recipe_book_page(int page)
     {
-        this.Popup_();
-        if(page < 1)
+        if(page < 1 || page > 2)
             return;
 
         Page = page;
@@ -94,8 +94,6 @@ public class RecipeBook : Popup
                 else IngSpritesR[DishesR[i]][j].Texture = null;
             }
         }
-
-        GD.Print(Page);
     }
 
     private void _on_ButtonR_pressed()

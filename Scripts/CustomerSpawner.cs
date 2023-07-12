@@ -10,7 +10,7 @@ public partial class CustomerSpawner : Spatial
     [Export]
     public float CustomersPerMinute;
 
-    public float BonusCustomersPerMinute;
+    public float BonusCustomersPerMinute = 0;
 
     private BaseScript Parent;
     private Random _rnd;
@@ -18,7 +18,7 @@ public partial class CustomerSpawner : Spatial
     private Timer _spawnrate_evaluation_timer;
 
     public float SpawnrateEvaluationTimerWaitTime;
-    public float? SpawnrateEvaluationTimerTimeLeft;
+    public float SpawnrateEvaluationTimerTimeLeft;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -26,16 +26,14 @@ public partial class CustomerSpawner : Spatial
         _timer = (Timer)GetNode("Timer");
         _rnd = new Random();
         Parent = (BaseScript)GetParent();
+        Parent.Spawner = this;
         _spawnrate_evaluation_timer = (Timer)GetNode("SpawnrateEvaluationTimer");
         SpawnrateEvaluationTimerWaitTime = _spawnrate_evaluation_timer.WaitTime;
-        _spawnrate_evaluation_timer.WaitTime =(SpawnrateEvaluationTimerTimeLeft != null)? (float)SpawnrateEvaluationTimerTimeLeft : SpawnrateEvaluationTimerWaitTime;
+        _spawnrate_evaluation_timer.WaitTime =(SpawnrateEvaluationTimerTimeLeft != 0)? (float)SpawnrateEvaluationTimerTimeLeft : SpawnrateEvaluationTimerWaitTime;
+        if (BonusCustomersPerMinute == 0) BonusCustomersPerMinute = CustomersPerMinute;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(float delta)
-    {
-        
-    }
 
     public void ChangeWaitTime()
     {
@@ -44,12 +42,11 @@ public partial class CustomerSpawner : Spatial
 
         if(Parent.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
-        
+
         _timer.WaitTime = (60/BonusCustomersPerMinute)*satisfactionMultiplicator;
-        GD.Print(_timer.WaitTime);
     }
 
-    private async void _on_Timer_timeout()
+    private void _on_Timer_timeout()
     {
         if (Parent.Restaurants.Count == 0) return; 
 
@@ -61,18 +58,10 @@ public partial class CustomerSpawner : Spatial
         customer.SpawnPoint = (Spatial)targetFoodStall.GetParent().GetNode("SpawnPoint");
         customer.Transform = customer.SpawnPoint.Transform;
         Parent.AddChild(customer);
-        StartDebuggerTimer();
-        GD.Print("A customer has been spawned!");
     }
 
-    private async void StartDebuggerTimer()
-    {
-        await ToSignal(GetTree().CreateTimer(120), "timeout");
-        GD.Print("2 minutes have passed in the debugger!");
-    }
     private void _on_SpawnrateEvaluationTimer_timeout()
     {
-        GD.Print("woof");
         if(_spawnrate_evaluation_timer.WaitTime < SpawnrateEvaluationTimerWaitTime)
             _spawnrate_evaluation_timer.WaitTime = SpawnrateEvaluationTimerWaitTime;
 
@@ -116,6 +105,7 @@ public partial class CustomerSpawner : Spatial
 			{"PositionX", Transform.origin.x},
 			{"PositionY", Transform.origin.y},
 			{"PositionZ", Transform.origin.z},
+            {"RotationY", 0},
 			{"CustomersPerMinute", CustomersPerMinute},
             {"BonusCustomersPerMinute", BonusCustomersPerMinute},
             {"SpawnrateEvaluationTimerTimeLeft", _spawnrate_evaluation_timer.TimeLeft}

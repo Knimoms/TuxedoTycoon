@@ -2,12 +2,11 @@
 
 [ext_resource path="res://Scripts/Dish.cs" type="Script" id=1]
 
-[node name="Spatial" type="Spatial"]
+[node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
 Ing1 = 3
 Ing2 = 4
-Ing3 = 5
-MealPriceValue = 2.0
-MealPriceMagnitude = "a"
+MealPriceValue = 750.0
+MealPriceMagnitude = ""
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Sprite" type="Sprite" parent="."]

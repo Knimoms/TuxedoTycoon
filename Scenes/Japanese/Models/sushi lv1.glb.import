@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/sushi lv1.glb-9b54993634d175811578d637a527ea11.scn"
+path="res://.import/sushi lv1.glb-eec4160a9c1f76fc4638111f599b22f8.scn"
 
 [deps]
 
-source_file="res://Scenes/SushiStand/Models/sushi lv1.glb"
-dest_files=[ "res://.import/sushi lv1.glb-9b54993634d175811578d637a527ea11.scn" ]
+source_file="res://Scenes/Japanese/Models/sushi lv1.glb"
+dest_files=[ "res://.import/sushi lv1.glb-eec4160a9c1f76fc4638111f599b22f8.scn" ]
 
 [params]
 
