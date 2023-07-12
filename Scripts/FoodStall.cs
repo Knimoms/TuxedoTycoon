@@ -302,7 +302,23 @@ public partial class FoodStall : Spatial
 		}
 
 		Parent.TransferMoney(-cost);
+
+		PackedScene poofParticleScene = ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn");
+		Particles poofParticleInstance = (Particles)poofParticleScene.Instance();
+		poofParticleInstance.GlobalTransform = GlobalTransform;
+		Parent.AddChild(poofParticleInstance);
+		poofParticleInstance.Emitting = true;
+		poofParticleInstance.OneShot = true;
+
+		Timer delayTimer = new Timer();
+		delayTimer.WaitTime = 0.25f;
+		delayTimer.OneShot = true;
+		delayTimer.Connect("timeout", this, "_on_DelayTimer_timeout");
+		AddChild(delayTimer);
+		delayTimer.Start();
 	}
+
+
 
 	public void FoodQualityLevelUp()
 	{
