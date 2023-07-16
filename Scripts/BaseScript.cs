@@ -13,20 +13,32 @@ public partial class BaseScript : Spatial
 
 	public int CustomerSatisfactionTotal {get; private set;}
 	private Queue<int> _customer_satisfactions = new Queue<int>();
+
+	[Export]
+	public int BadRatingMax = 34;
+
+	[Export]
+	public int GoodRatingMin = 67;
+
 	private float _satisfactionRating;
 	public float SatisfactionRating {
 		get => _satisfactionRating;
-		set{_satisfactionRating = (_customer_satisfactions.Count != 0)? CustomerSatisfactionTotal/_customer_satisfactions.Count : (Advertising.BadRatingMax+Advertising.GoodRatingMin)/2;}
+		set{_satisfactionRating = (_customer_satisfactions.Count != 0)? CustomerSatisfactionTotal/_customer_satisfactions.Count : (BadRatingMax+GoodRatingMin)/2;}
 	}
 
 	public List<Chair> Chairs = new List<Chair>();
 	public Vector3 SpawnPoint {get; private set;}
 
-	private float _offline_customers_per_minute;
-	public float offlineCustomersPerMinute
+	private float _customers_per_minute;
+	public float CustomersPerMinute
 	{
-		get => _offline_customers_per_minute;
-		set{ _offline_customers_per_minute = CalculateCustomersPerMinute();}
+		get 
+		{
+			if(_customers_per_minute == 0)
+				_customers_per_minute = CalculateCustomersPerMinute();
+			return _customers_per_minute;
+		}
+		set{ _customers_per_minute = CalculateCustomersPerMinute();}
 	}
 
 
@@ -45,9 +57,7 @@ public partial class BaseScript : Spatial
 	public Button BuildButton;
 	public Camera BaseCam;
 	public List<FoodStall> Restaurants = new List<FoodStall>();
-	public AdvertisingManager Advertising;
 	public CustomerSpawner Spawner;
-	public Button AdvertisementButton;
 	public Label AverageSatisfactionLabel;
 	public Button RecipeButton;
 	public Label CPMLabel;
@@ -57,6 +67,9 @@ public partial class BaseScript : Spatial
 	public delegate void CheckButtonModes();
 
 	public event CheckButtonModes MoneyTransfered;
+
+	private double _offline_seconds;
+	private double UnixTimestamp;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -70,9 +83,6 @@ public partial class BaseScript : Spatial
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		BuildButton = (Button)GetNode("Button");
 		BaseCam = (Camera)GetNode("pivot").GetNode("Camera");
-		Advertising = (AdvertisingManager)GetNode("AdManager");
-		Advertising.Visible = false;
-		AdvertisementButton = (Button)GetNode("AdvertisementButton");
 		CPMLabel = (Label)GetNode("CPMLabel");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
 
@@ -83,6 +93,10 @@ public partial class BaseScript : Spatial
 
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		CalculateCustomersPerMinute();
+		foreach(Spatial spot in Spots)
+			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
+		
+		GD.Print(CalculateMoneyPerMinute());
 	}
 
 	public Chair GetRandomFreeChair()
@@ -130,8 +144,34 @@ public partial class BaseScript : Spatial
 
 		
 		
-		CPMLabel.Text = $"{Spawner.BonusCustomersPerMinute.ToString("F2")} Cus/min";
+		CPMLabel.Text = $"{Spawner.CustomersPerMinute.ToString("F2")} Cus/min";
 		return offlineCPM;
+	}
+
+	public Tuxdollar CalculateMoneyPerMinute()
+	{
+		Tuxdollar avgMoneyPerDish = new Tuxdollar(0);
+
+		if(Restaurants.Count == 0)
+			return avgMoneyPerDish;
+
+		int dishesCount = 0;
+		foreach(FoodStall foodStall in Restaurants)
+		{
+			Tuxdollar totalDishesCost = new Tuxdollar(0);
+			foreach(Dish dish in foodStall.Dishes)
+			{
+				if(dish.Unlocked)
+				{	
+					totalDishesCost += dish.MealPrice*foodStall.Multiplicator;
+					dishesCount++;
+				}
+			}
+			avgMoneyPerDish += totalDishesCost;
+		}
+		avgMoneyPerDish /= dishesCount;
+
+		return avgMoneyPerDish * CustomersPerMinute;
 	}
 
 	private void _on_RecipeButton_pressed()
@@ -148,16 +188,10 @@ public partial class BaseScript : Spatial
 	private void _on_Button_pressed()
 	{
 		BuildMode = !BuildMode;
-		AdvertisementButton.Visible = BuildMode;
 		RecipeButton.Visible = !BuildMode;
 		
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = !n3d.Visible;
-	}
-
-	private void _on_AdvertisementButton_pressed()
-	{
-		Advertising.Popup_();
 	}
 
 	public Dictionary<object, object> Save()
@@ -169,14 +203,16 @@ public partial class BaseScript : Spatial
 			{"StartMoneyMagnitude", Money.Magnitude},
             {"CustomerSatisfactionTotal", CustomerSatisfactionTotal},
 			{"_customer_satisfactionsArray", _customer_satisfactions.ToArray()},
-			{"_satisfactionRating", _satisfactionRating}
+			{"_satisfactionRating", _satisfactionRating},
+			{"UnixTimestamp", (int)Time.GetUnixTimeFromSystem()}
+			
 		};
 	}
 
 	public void SaveGame()
 	{
 		File saveGame = new File();
-		saveGame.Open("user://savegame.save", File.ModeFlags.Write);
+		saveGame.Open($"user://{(long)Time.GetUnixTimeFromSystem()}.save", File.ModeFlags.Write);
 
 		Godot.Collections.Array saveNodes = GetTree().GetNodesInGroup("Persist");
 		saveGame.StoreLine(JSON.Print(Save()));
@@ -189,7 +225,10 @@ public partial class BaseScript : Spatial
 	public void LoadGame()
 	{
 		File saveGame = new File();
-		if(!saveGame.FileExists("user://savegame.save"))
+
+		string filePath = GetLastValidSavefile();
+
+		if(filePath == "")
 			return;
 
 		var saveNodes = GetTree().GetNodesInGroup("Persist");
@@ -197,7 +236,7 @@ public partial class BaseScript : Spatial
 		foreach(Node saveNode in saveNodes)
 			saveNode.QueueFree();
 
-		saveGame.Open("user://savegame.save", File.ModeFlags.Read);
+		saveGame.Open(filePath, File.ModeFlags.Read);
 		
 		while(saveGame.GetPosition() < saveGame.GetLen())
 		{
@@ -215,13 +254,17 @@ public partial class BaseScript : Spatial
 				foreach(System.Single x in _customer_satisfactionsArray)
 					_customer_satisfactions.Enqueue((int)x);
 
+				//_offline_seconds = Time.GetUnixTimeFromSystem() - (int)currentLine["UnixTimestamp"];
+				Set("UnixTimestamp", currentLine["UnixTimestamp"]);
+
+				_offline_seconds = Time.GetUnixTimeFromSystem() - UnixTimestamp;
+
 				this.Chairs = new List<Chair>();
 				this.Spots = new List<Spatial>();
 				this.Restaurants = new List<FoodStall>();
 			}
 			else 
 			{
-				
 				PackedScene newObjectScene = (PackedScene)ResourceLoader.Load(currentLine["Filename"].ToString());
 			    newObject = newObjectScene.Instance();
 
@@ -251,6 +294,70 @@ public partial class BaseScript : Spatial
 		saveGame.Close();
 	}
 
+	public string GetLastValidSavefile()
+	{
+		double currentUnixTime = Time.GetUnixTimeFromSystem();
+		string lastValidSavefilePath = "";
+		double lastValidSavefilePathUnixtime = 0;
+		Directory dir = new Directory();
+
+		dir.Open("user://");
+		dir.ListDirBegin(true, true);
+		
+		string filename = dir.GetNext();
+
+		while(filename != "")
+		{
+			if(filename.Find(".save") == -1)
+			{
+				filename = dir.GetNext();
+				continue;
+			}
+
+			double fileUnixtime = Convert.ToDouble(filename.Remove(filename.Length-5));
+
+			if(fileUnixtime > currentUnixTime)
+			{
+				dir.Remove(filename);
+				filename = dir.GetNext();
+				continue;
+			}
+
+			if(fileUnixtime > lastValidSavefilePathUnixtime)
+			{
+				lastValidSavefilePath = filename;
+				lastValidSavefilePathUnixtime = fileUnixtime;
+			}
+
+			filename = dir.GetNext();
+		}
+
+		return "user://" + lastValidSavefilePath;
+	}
+
+	public void DeletSavefiles()
+	{
+		Directory dir = new Directory();
+
+		dir.Open("user://");
+		dir.ListDirBegin(true, true);
+		
+		string filename = dir.GetNext();
+
+		while(filename != "")
+		{
+			if(filename.Find(".save") == -1)
+			{
+				filename = dir.GetNext();
+				continue;
+			}
+
+			dir.Remove(filename);
+
+			filename = dir.GetNext();
+		}
+	}
+
     public override void _Notification(int what)
     {
         if(what == MainLoop.NotificationWmGoBackRequest)
@@ -266,8 +373,7 @@ public partial class BaseScript : Spatial
 			
 			if(@event.AsText() == "F3" && !@event.IsPressed())
 			{
-				Directory saveDir = new Directory();
-				saveDir.Remove("user://savegame.save");
+				DeletSavefiles();
 			}
 		}
 	}

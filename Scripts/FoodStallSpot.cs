@@ -26,7 +26,7 @@ public partial class FoodStallSpot : Spatial
 	public override void _Ready()
 	{	
 		rest = ExportScene.Instance<FoodStall>();
-		Cost = new Tuxdollar(rest.Level1CostValue, rest.Level1CostMagnitude);
+		Cost = new Tuxdollar(rest.Stage1CostValue, rest.Stage1CostMagnitude);
 		if(Parent == null)
 			Parent = (BaseScript)GetParent();
 		Parent = (BaseScript)this.GetParent();
@@ -60,7 +60,7 @@ public partial class FoodStallSpot : Spatial
 		}
 	}
 
-	private async void _add_restaurant()
+	private void _add_restaurant()
 	{
 		PackedScene poofParticleScene = ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn");
 		Particles poofParticleInstance = (Particles)poofParticleScene.Instance();
@@ -82,10 +82,8 @@ public partial class FoodStallSpot : Spatial
 		FoodStall rest = ExportScene.Instance<FoodStall>();
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
 		rest.Rotation = this.Rotation;
-		rest.TimeUpgradeCostValue = 4 * Cost.Value;
-		rest.TimeUpgradeCostMagnitude = Cost.Magnitude;
-		rest.QualityUpgradeCostValue = 4 * Cost.Value;
-		rest.QualityUpgradeCostMagnitude = Cost.Magnitude;
+		rest.LevelUpCostValue = 4 * Cost.Value;
+		rest.LevelUpCostMagnitude = Cost.Magnitude;
 		Parent.Spots.Remove(this);
 		this.QueueFree();
 		Parent.AddChild(rest);

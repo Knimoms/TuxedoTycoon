@@ -7,16 +7,20 @@ public partial class FoodStall : Spatial
 
 	[Export]
 	public PackedScene Minigame2DScene;
-	public Tuxdollar Multiplicator, TimeUpgradeCost, QualityUpgradeCost;
+	public Tuxdollar Multiplicator, LevelUpCost;
 
-	public float TimeUpgradeCostValue, QualityUpgradeCostValue, MultiplicatorValue = 1;
-	public string TimeUpgradeCostMagnitude, QualityUpgradeCostMagnitude, MultiplicatorMagnitude = "";
+	public float LevelUpCostValue, MultiplicatorValue = 1;
+	public string LevelUpCostMagnitude, MultiplicatorMagnitude = "";
 
-	private Tuxdollar LevelUpCost;
+	private Tuxdollar UpgradeCost;
 	public List<Dish> Dishes {get; private set;}
 	[Export]
 	public float CustomersPerMinute = 6;
+
 	public int Level = 1;
+	public int Stage = 1;
+
+	private int _current_Upgrade_Treshold;
 
 	public Customer CurrentCustomer;
 	public Texture OrderedDishPng;
@@ -32,15 +36,13 @@ public partial class FoodStall : Spatial
 	private Timer _timer;
 
 	private PopupMenu _popupMenu;
-	private Button _foodQualityUpgradeButton;
-	private Button _cookingTimeUpgradeButton;
-	private Button _cancelButton;
 	private Button _levelUpButton;
+	private Button _cancelButton;
+	private Button _upgradeButton;
 
-	private Label _timeCostLabel;
+	private Label _levelUpCostLabel;
 	private Label _qualityCostLabel;
 	private Label _nameLabel;
-	private Label _levelUpCostLabel;
 	private Label _levelLabel;
 	
 	private Spatial _my_mesh_instance;
@@ -50,28 +52,30 @@ public partial class FoodStall : Spatial
 	[Export]
 	public PackedScene Dish1;
 	[Export]	
-	public float Level1CostValue;
+	public float Stage1CostValue;
 	[Export]
-	public string Level1CostMagnitude;
-	public Tuxdollar Level1Cost;
+	public string Stage1CostMagnitude;
+	public Tuxdollar Stage1Cost;
 
 	public bool Dish1Unlocked = false;
 
 	[Export]
 	public PackedScene Dish2;
 	[Export]	
-	public float Level2CostValue;
+	public float Stage2CostValue;
 	[Export]
-	public string Level2CostMagnitude;
+	public string Stage2CostMagnitude;
 
 	public bool Dish2Unlocked = false;
 
 	[Export]
 	public PackedScene Dish3;
 	[Export]	
-	public float Level3CostValue;
+	public float Stage3CostValue;
 	[Export]
-	public string Level3CostMagnitude;
+	public string Stage3CostMagnitude;
+
+	private Tuxdollar[] _stage_cost_values;
 
 	public bool Dish3Unlocked = false;
 
@@ -86,14 +90,17 @@ public partial class FoodStall : Spatial
 	public override void _Ready()
 	{	
 		this.AddToGroup("Persist");
-		Level1Cost = new Tuxdollar(Level1CostValue, Level1CostMagnitude);
+
+		LevelUpCost = new Tuxdollar(LevelUpCostValue, LevelUpCostMagnitude);
+		Stage1Cost = new Tuxdollar(Stage1CostValue, Stage1CostMagnitude);
+		_stage_cost_values = new Tuxdollar[]{new Tuxdollar(Stage2CostValue, Stage2CostMagnitude), new Tuxdollar(Stage3CostValue, Stage3CostMagnitude)};
 		Dishes = new List<Dish>();
 
 		_initiate_all_dishes();
 
-		for(int i = 0; i < Level; i++)
+		for(int i = 0; i < Stage; i++)
 			Dishes.Add(allDishes[i]);
-		LevelUpCost = new Tuxdollar(Level2CostValue, Level2CostMagnitude);
+		UpgradeCost = new Tuxdollar(Stage2CostValue, Stage2CostMagnitude);
 		
 		_my_mesh_instance = GetNode<Spatial>("MeshInstance");
 		
@@ -106,34 +113,29 @@ public partial class FoodStall : Spatial
 		_timer.WaitTime = 60/CustomersPerMinute;
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
-		_foodQualityUpgradeButton = _popupMenu.GetNode<Button>("FoodQualityUpgradeButton");
-		_foodQualityUpgradeButton.Connect("pressed",this, nameof(_on_FoodQualityUpgradeButton_pressed));
 
-		_cookingTimeUpgradeButton = _popupMenu.GetNode<Button>("CookingTimeUpgradeButton");
-		_cookingTimeUpgradeButton.Connect("pressed", this, nameof(_on_CookTimeUpgradeButton_pressed));
+		_levelUpButton = _popupMenu.GetNode<Button>("LevelUpButton");
+		_levelUpButton.Connect("pressed",this, nameof(_on_LevelUpButton_pressed));
+
+		_upgradeButton = _popupMenu.GetNode<Button>("UpgradeButton");
+		_upgradeButton.Connect("pressed", this, nameof(_on_UpgradeButton_pressed));
 
 		_cancelButton = _popupMenu.GetNode<Button>("CancelButton");
 		_cancelButton.Connect("pressed",this, nameof(_on_CancelButton_pressed));
 
-		_levelUpButton = _popupMenu.GetNode<Button>("LevelUpButton");
-		_levelUpButton.Connect("pressed", this, nameof(LevelUp));
 
-
-		_timeCostLabel = _popupMenu.GetNode<Label>("CostLabel");
-		_qualityCostLabel = _popupMenu.GetNode<Label>("CostLabel2");
+		_levelUpCostLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_nameLabel = _popupMenu.GetNode<Label>("NameLabel");
-		_levelUpCostLabel = _popupMenu.GetNode<Label>("CostLabel3");
+		
 		_levelLabel = _popupMenu.GetNode<Label>("LevelLabel");
 
 		_levelLabel.Text = $"Lvl {Level}";
 
-		TimeUpgradeCost = new Tuxdollar(TimeUpgradeCostValue, TimeUpgradeCostMagnitude);
-		QualityUpgradeCost = new Tuxdollar(QualityUpgradeCostValue, QualityUpgradeCostMagnitude);
+		LevelUpCost = new Tuxdollar(LevelUpCostValue, LevelUpCostMagnitude);
 		Multiplicator = new Tuxdollar(MultiplicatorValue, MultiplicatorMagnitude);
 
 		_nameLabel.Text = "Restaurant Name";
-		_timeCostLabel.Text = $"{TimeUpgradeCost}";
-		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
+		_levelUpCostLabel.Text = $"{LevelUpCost}";
 
 		CheckButtonMode();
 	}
@@ -201,15 +203,15 @@ public partial class FoodStall : Spatial
 			switch(i)
 			{
 				case 0:
-					allDishes[i] = _initiate_dish(Dish1, Level1Cost);
+					allDishes[i] = _initiate_dish(Dish1, Stage1Cost);
 					allDishes[i].Unlocked = Dish1Unlocked;
 					break;
 				case 1:
-					allDishes[i] = _initiate_dish(Dish2, Level1Cost*2f);
+					allDishes[i] = _initiate_dish(Dish2, Stage1Cost*2f);
 					allDishes[i].Unlocked = Dish2Unlocked;
 					break;
 				case 2: 
-					allDishes[i] = _initiate_dish(Dish3, Level1Cost*4f);
+					allDishes[i] = _initiate_dish(Dish3, Stage1Cost*4f);
 					allDishes[i].Unlocked = Dish3Unlocked;
 					break;
 				default:
@@ -243,12 +245,11 @@ public partial class FoodStall : Spatial
 	{
 		if(IncomingCustomers.Count == 0)
 			return;
+			
 		this.IncomingCustomers[0].FinishOrder();
 		
 		for(int i = 0; i < this.IncomingCustomers.Count; i++)
-		{
 			IncomingCustomers[i].LineNumber--;
-		}
 
 		if(IncomingCustomers.Count > 0) 
 		{
@@ -281,52 +282,31 @@ public partial class FoodStall : Spatial
 		return OrderedDish;
 	}
 
+	public void Upgrade()
+	{
+		if (Stage >= 3)
+			return;
+
+		Stage++;
+
+		Dishes.Add(allDishes[Stage-1]);
+		CheckButtonMode();
+	}
+
 	public void LevelUp()
 	{
-		if (Level >= 3)
+		if(Parent.Money < LevelUpCost)
 			return;
 
-		Level++;
-
-		_levelLabel.Text = $"Lvl {Level}";
 		Tuxdollar cost = LevelUpCost;
-
-		if(Level == 2)
-		{
-			LevelUpCost = new Tuxdollar(Level3CostValue, Level3CostMagnitude);
-			Dishes.Add(allDishes[1]);
-			
-		} else{
-			_levelUpButton.Disabled = true;
-			Dishes.Add(allDishes[2]);
-		}
-
+		LevelUpCost *= 1.1f;
 		Parent.TransferMoney(-cost);
-	}
-
-	public void FoodQualityLevelUp()
-	{
-		if(Parent.Money < QualityUpgradeCost) 
-			return;
-
-		Tuxdollar cost = QualityUpgradeCost;
-		QualityUpgradeCost *= 4;
-		Parent.TransferMoney(-cost);
-		Multiplicator *= 1.25f;
-		_qualityCostLabel.Text = $"{QualityUpgradeCost}";
-	}
-
-	public void CookingTimeLevelUp()
-	{
-		if(Parent.Money < TimeUpgradeCost) 
-			return;
-
-		Tuxdollar cost = TimeUpgradeCost;
-		TimeUpgradeCost *= 4;
-		Parent.TransferMoney(-cost);
-		CustomersPerMinute *= 1.1f;
+		CustomersPerMinute*= 1.01f;
+		Multiplicator *= 1.1f;
 		_timer.WaitTime = 60/CustomersPerMinute;
-		_timeCostLabel.Text = $"{TimeUpgradeCost}";
+		_levelUpCostLabel.Text = $"{LevelUpCost}";
+		Level++;
+		_levelLabel.Text = $"Lvl {Level}";
 		Parent.CalculateCustomersPerMinute();
 	}
 	
@@ -337,9 +317,8 @@ public partial class FoodStall : Spatial
 
 	public void CheckButtonMode()
 	{
-		_cookingTimeUpgradeButton.Disabled = Parent.Money < TimeUpgradeCost;
-		_foodQualityUpgradeButton.Disabled = Parent.Money < QualityUpgradeCost;
-		_levelUpButton.Disabled = Parent.Money < LevelUpCost || Level >= 3;
+		_levelUpButton.Disabled = Parent.Money < LevelUpCost;
+		_upgradeButton.Disabled = Stage >= 3 || LevelUpCost/4 < _stage_cost_values[Stage-1];
 	}
 
 	public Tuxdollar MoneyPerMinute()
@@ -350,7 +329,7 @@ public partial class FoodStall : Spatial
 
 		averageMealPrice /= Dishes.Count;
 
-		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, Parent.Spawner.BonusCustomersPerMinute);		
+		return averageMealPrice * Multiplicator * Math.Min(CustomersPerMinute, Parent.Spawner.CustomersPerMinute);		
 	}
 
 	public Dictionary<string, object> Save()
@@ -365,12 +344,11 @@ public partial class FoodStall : Spatial
 			{"RotationY", Rotation.y},
 			{"MultiplicatorValue", Multiplicator.Value},
 			{"MultiplicatorMagnitude", Multiplicator.Magnitude},
-			{"TimeUpgradeCostValue", TimeUpgradeCost.Value},
-			{"TimeUpgradeCostMagnitude", TimeUpgradeCost.Magnitude},
-			{"QualityUpgradeCostValue", QualityUpgradeCost.Value},
-			{"QualityUpgradeCostMagnitude", QualityUpgradeCost.Magnitude},
+			{"LevelUpCostValue", LevelUpCost.Value},
+			{"LevelUpCostMagnitude", LevelUpCost.Magnitude},
 			{"CustomersPerMinute", CustomersPerMinute},
 			{"Level", Level},
+			{"Stage", Stage},
 			{"Dish1Unlocked",allDishes[0].Unlocked},
 			{"Dish2Unlocked",allDishes[1].Unlocked},
 			{"Dish3Unlocked",allDishes[2].Unlocked},
@@ -383,25 +361,19 @@ public partial class FoodStall : Spatial
 		Parent.TransferMoney(-dish.MealPrice*Multiplicator);
 	}
 
-	private void _on_CookTimeUpgradeButton_pressed()
+	private void _on_LevelUpButton_pressed()
 	{
-		CookingTimeLevelUp();
+		LevelUp();
 		ShowPopupMenu();
 	}
 
-	private void _on_FoodQualityUpgradeButton_pressed()
+	private void _on_UpgradeButton_pressed()
 	{
-		FoodQualityLevelUp();
+		Upgrade();
 		ShowPopupMenu();
 	}
-
 	private void _on_CancelButton_pressed()
 	{
 		_popupMenu.Hide();
-	}
-
-	private void _on_LevelUpButton_pressed()
-	{
-		
 	}
 }

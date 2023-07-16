@@ -10,8 +10,6 @@ public partial class CustomerSpawner : Spatial
     [Export]
     public float CustomersPerMinute;
 
-    public float BonusCustomersPerMinute = 0;
-
     private BaseScript Parent;
     private Random _rnd;
     private Timer _timer;
@@ -30,20 +28,18 @@ public partial class CustomerSpawner : Spatial
         _spawnrate_evaluation_timer = (Timer)GetNode("SpawnrateEvaluationTimer");
         SpawnrateEvaluationTimerWaitTime = _spawnrate_evaluation_timer.WaitTime;
         _spawnrate_evaluation_timer.WaitTime =(SpawnrateEvaluationTimerTimeLeft != 0)? (float)SpawnrateEvaluationTimerTimeLeft : SpawnrateEvaluationTimerWaitTime;
-        if (BonusCustomersPerMinute == 0) BonusCustomersPerMinute = CustomersPerMinute;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
 
     public void ChangeWaitTime()
     {
-        BonusCustomersPerMinute = CustomersPerMinute + Parent.Advertising.AdvertisementScore;
         float satisfactionMultiplicator = (Parent.SatisfactionRating < 34)? 0.67f : (Parent.SatisfactionRating > 65)? 1.33f: 1f;
 
         if(Parent.CustomerSatisfactionTotal == 0)
             satisfactionMultiplicator = 1f;
 
-        _timer.WaitTime = (60/BonusCustomersPerMinute)*satisfactionMultiplicator;
+        _timer.WaitTime = (60/CustomersPerMinute)*satisfactionMultiplicator;
     }
 
     private void _on_Timer_timeout()
@@ -68,10 +64,10 @@ public partial class CustomerSpawner : Spatial
         if(Parent.CustomerSatisfactionTotal == 0)
             return;
 
-        if(Parent.SatisfactionRating >= Parent.Advertising.GoodRatingMin)
+        if(Parent.SatisfactionRating >= Parent.GoodRatingMin)
             CustomersPerMinute *= 1.1f;
 
-        if(Parent.SatisfactionRating <= Parent.Advertising.BadRatingMax)
+        if(Parent.SatisfactionRating <= Parent.BadRatingMax)
             CustomersPerMinute *= 0.9f;
 
         ChangeWaitTime();
@@ -107,7 +103,6 @@ public partial class CustomerSpawner : Spatial
 			{"PositionZ", Transform.origin.z},
             {"RotationY", 0},
 			{"CustomersPerMinute", CustomersPerMinute},
-            {"BonusCustomersPerMinute", BonusCustomersPerMinute},
             {"SpawnrateEvaluationTimerTimeLeft", _spawnrate_evaluation_timer.TimeLeft}
 		};
 	}

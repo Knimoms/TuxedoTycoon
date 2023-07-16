@@ -86,6 +86,8 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="NavigationObstacle" type="NavigationObstacle" parent="."]
+
 [connection signal="input_event" from="CSGBox/StaticBody" to="." method="_on_Area_input_event"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]

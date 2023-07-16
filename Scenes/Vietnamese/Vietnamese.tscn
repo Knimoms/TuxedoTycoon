@@ -18,14 +18,14 @@ albedo_color = Color( 0, 1, 0, 1 )
 script = ExtResource( 1 )
 Minigame2DScene = ExtResource( 2 )
 Dish1 = ExtResource( 3 )
-Level1CostValue = 3.0
-Level1CostMagnitude = "c"
+Stage1CostValue = 3.0
+Stage1CostMagnitude = "c"
 Dish2 = ExtResource( 5 )
-Level2CostValue = 6.0
-Level2CostMagnitude = "d"
+Stage2CostValue = 6.0
+Stage2CostMagnitude = "d"
 Dish3 = ExtResource( 6 )
-Level3CostValue = 12.0
-Level3CostMagnitude = "e"
+Stage3CostValue = 12.0
+Stage3CostMagnitude = "e"
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

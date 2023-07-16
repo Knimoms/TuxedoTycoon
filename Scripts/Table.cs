@@ -19,7 +19,6 @@ public partial class Table : Spatial
     {
         this.AddToGroup("Persist");
         chairsCount = GetChildCount();
-        GetParent<NavigationMeshInstance>().BakeNavigationMesh(false);
 
         if (_base_script == null)
             _base_script = (BaseScript)this.GetParent().GetParent();

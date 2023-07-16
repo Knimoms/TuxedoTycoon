@@ -45,7 +45,7 @@ margin_bottom = -49.0
 custom_fonts/font = SubResource( 5 )
 text = "Price"
 
-[node name="CookingTimeUpgradeButton" type="Button" parent="."]
+[node name="LevelUpButton" type="Button" parent="."]
 anchor_left = 0.00765306
 anchor_top = 0.348921
 anchor_right = 0.331069
@@ -54,36 +54,7 @@ margin_right = 3.22101
 margin_bottom = 3.02682
 rect_scale = Vector2( 0.975223, 0.949553 )
 custom_fonts/font = SubResource( 5 )
-text = "Time"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CostLabel2" type="Label" parent="."]
-anchor_left = 0.348214
-anchor_top = 0.19964
-anchor_right = 0.66199
-anchor_bottom = 0.32554
-margin_left = 3.05176e-05
-margin_top = -0.5
-margin_right = 3.05176e-05
-margin_bottom = -0.5
-custom_fonts/font = SubResource( 5 )
-text = "Price"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="FoodQualityUpgradeButton" type="Button" parent="."]
-anchor_left = 0.339285
-anchor_top = 0.348921
-anchor_right = 0.662702
-anchor_bottom = 0.553861
-margin_right = 3.22101
-margin_bottom = 3.02682
-rect_scale = Vector2( 0.975223, 0.949553 )
-custom_fonts/font = SubResource( 5 )
-text = "Quality"
+text = "LevelUp"
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -102,7 +73,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="LevelUpButton" type="Button" parent="."]
+[node name="UpgradeButton" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -112,19 +83,7 @@ margin_top = -71.0
 margin_right = 191.5
 margin_bottom = -5.0
 custom_fonts/font = SubResource( 6 )
-text = "LevelUp"
-
-[node name="CostLabel3" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -61.5
-margin_top = 24.5
-margin_right = 61.5
-margin_bottom = 59.5
-custom_fonts/font = SubResource( 5 )
-text = "Price"
+text = "Upgrade"
 
 [node name="LevelLabel" type="Label" parent="."]
 anchor_left = 0.818877

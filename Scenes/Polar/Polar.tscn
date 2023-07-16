@@ -14,14 +14,13 @@
 script = ExtResource( 1 )
 Minigame2DScene = ExtResource( 2 )
 Dish1 = ExtResource( 5 )
-Level1CostValue = 100.0
-Level1CostMagnitude = ""
+Stage1CostValue = 100.0
 Dish2 = ExtResource( 3 )
-Level2CostValue = 1.5
-Level2CostMagnitude = "a"
+Stage2CostValue = 1.5
+Stage2CostMagnitude = "a"
 Dish3 = ExtResource( 6 )
-Level3CostValue = 3.0
-Level3CostMagnitude = "b"
+Stage3CostValue = 3.0
+Stage3CostMagnitude = "b"
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
