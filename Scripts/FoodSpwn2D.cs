@@ -1,13 +1,14 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+
 
 public class FoodSpwn2D : Node2D
 {
+    private Sprite _finishedFood;
     public Minigame2D minigame2D;
-    public Texture finishedFoodPNG;
-    private Timer _timer;
-    private float _timeForCooking = 2;
-    private float _timeLeft;
+    private Timer _minigameTimer;
+    public FoodStall foodStall;
     public TextureProgress TimeBar;
     
 
@@ -15,40 +16,40 @@ public class FoodSpwn2D : Node2D
 	public override void _Ready()
     {
         TimeBar = GetParent().GetNode<TextureProgress>("TextureProgress");
-        _timer = GetParent().GetNode<Timer>("Timer");
+        _minigameTimer = GetParent().GetNode<Timer>("Timer");
         minigame2D = GetParent<Minigame2D>();
-        finishedFoodPNG = GetParent<Minigame2D>().GetNode<Sprite>("FinishedFood").Texture;
-        _timer.WaitTime = 1f;
+        foodStall = GetParent().GetParent<FoodStall>();
+        _finishedFood = GetParent().GetNode<Sprite>("FinishedFood");
 
     }
     private void _on_Timer_timeout()
     {
         {
-            if(TimeBar.Value == _timeForCooking)
-            {
-                minigame2D.CompareLists();
-                _timer.Stop();
-                TimeBar.Visible = false;
-            }
+            minigame2D.CompareLists();
+            minigame2D.ingredientList.Clear();
             //finishedFoodPNG = minigame2D.MyFoodStall.OrderedDish.ODpng;
-            else
-            {
-                TimeBar.Value += 1f;
-            }
         }
     }
     private void _on_Area2D_input_event(Node Viewport, InputEvent @event, int shape_idx)
 	{
 		if(@event is InputEventMouseButton && @event.IsPressed())
         {
+            foreach(Sprite fanta in minigame2D.IngSpots)
+                fanta.Texture = null;
+
+            GD.Print(minigame2D.MyFoodStall.OrderedDish.GetTree());
+
+            _minigameTimer.WaitTime = foodStall.TimerProp.WaitTime/4f;
             if(minigame2D.ingredientList.Count == 0){
                 return;
             } else {
-                TimeBar.Visible = true;
-                TimeBar.Value = 0f;
-                _timer.Start();
+                _finishedFood.Texture = minigame2D.MyFoodStall.OrderedDish.DishIcon ;
+                _minigameTimer.Start();
+                GD.Print("TimerStarted");
+                
             }   
         }
 	}
+    
 
 }

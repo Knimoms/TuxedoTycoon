@@ -19,7 +19,6 @@ public partial class FoodStall : Spatial
 	public int Level = 1;
 
 	public Customer CurrentCustomer;
-	public Texture OrderedDishPng;
 	public List<Customer> IncomingCustomers = new List<Customer>();
 	//public List<CustomerBase> Queue;
 	private static BaseScript Parent;
@@ -275,6 +274,7 @@ public partial class FoodStall : Spatial
 	public Dish Order()
 	{
 		OrderedDish = Dishes[rnd.Next(0,Dishes.Count)];
+	
 		if(!_minigame_started)
 			this._timer.Start();
 

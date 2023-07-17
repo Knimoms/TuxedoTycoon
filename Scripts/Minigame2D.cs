@@ -5,10 +5,8 @@ using System.Collections.Generic;
 public class Minigame2D : Node2D
 {
     public List<Ingredient> ingredientList = new List<Ingredient>();
-
     public FoodStall MyFoodStall;
     public Label IngLabel;
-
     public Sprite[] IngSpots = new Sprite[3];
 
     public override void _Ready()
@@ -17,24 +15,20 @@ public class Minigame2D : Node2D
         IngLabel = (Label)GetNode("IngLabel");
         for(int i = 0; i < IngSpots.Length; i++)
             IngSpots[i] =(Sprite)GetNode("IngSpot" + (i+1));
-
         IngLabel.Text = PrintRecipe();
     }
-
     public override void _PhysicsProcess(float delta)
     {
         if(MyFoodStall.OrderedDish != null && IngLabel.Text == "")
             IngLabel.Text = PrintRecipe();
-        
-
         if(MyFoodStall.OrderedDish == null && IngLabel.Text != "")
             IngLabel.Text = "";
     }
-    
     public void CompareLists()
     {
         if(MyFoodStall.OrderedDish == null)
             {
+                GD.Print("Customer.Leave: in Minigame2D.cs / CompareList() [ Didn't know how :C ]");
                 return;
             }
 
@@ -52,14 +46,15 @@ public class Minigame2D : Node2D
         if(MyFoodStall.OrderedDish == null)
             return null;
         ingredientList.Add(ing);
-
+        foreach(Ingredient i in ingredientList)
+            GD.Print(i);
+        GD.Print("\n");
         return IngSpots[ingredientList.IndexOf(ing)];
     }
 
     public void RecipeCorrect()
     {
         MyFoodStall.MiniGameDone();
-        _on_TrashButton_pressed();
     }
 
     private string PrintRecipe()

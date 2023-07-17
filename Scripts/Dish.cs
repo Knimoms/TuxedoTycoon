@@ -4,6 +4,8 @@ using System;
 
 public class Dish : Node2D
 {
+    [Export]
+    public Texture DishIcon;
     public string DishName {get; private set;}
 
     private bool _unlocked = false;
@@ -13,8 +15,7 @@ public class Dish : Node2D
         set{_unlocked = value;}
     }
     
-    [Export]
-    public Texture ODpng;
+    
     [Export]
     public Ingredient Ing1 = Ingredient.Null;
     [Export]
@@ -42,12 +43,13 @@ public class Dish : Node2D
 
     public static Dictionary<Ingredient, Texture> IngredientSprites;
 
+
+
     public override void _Ready()
     {
         Owner = GetParent();
         IngredientSprites = new Dictionary<Ingredient, Texture>();
-        ODpng = GetNode<Sprite>("Sprite").Texture;
-
+    
         string[] splittedFilename = Filename.Split(new char[]{'/', '.'});
         DishName = splittedFilename[splittedFilename.Length-2];
 
