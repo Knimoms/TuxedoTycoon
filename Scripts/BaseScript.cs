@@ -198,10 +198,10 @@ public partial class BaseScript : Spatial
 	{
 		return new Dictionary<object, object>()
 		{
-            {"Filename", Filename},
+			{"Filename", Filename},
 			{"StartMoneyValue", Money.Value},
 			{"StartMoneyMagnitude", Money.Magnitude},
-            {"CustomerSatisfactionTotal", CustomerSatisfactionTotal},
+			{"CustomerSatisfactionTotal", CustomerSatisfactionTotal},
 			{"_customer_satisfactionsArray", _customer_satisfactions.ToArray()},
 			{"_satisfactionRating", _satisfactionRating},
 			{"UnixTimestamp", (int)Time.GetUnixTimeFromSystem()}
@@ -266,12 +266,12 @@ public partial class BaseScript : Spatial
 			else 
 			{
 				PackedScene newObjectScene = (PackedScene)ResourceLoader.Load(currentLine["Filename"].ToString());
-			    newObject = newObjectScene.Instance();
+				newObject = newObjectScene.Instance();
 
 				if(newObject is Spatial newSpatial)
 				{
 					newSpatial.Transform = new Transform(newSpatial.Transform.basis, new Vector3((float)currentLine["PositionX"],(float)currentLine["PositionY"],(float)currentLine["PositionZ"]));
-			    	newSpatial.Rotation = new Vector3(0, (float)currentLine["RotationY"], 0);
+					newSpatial.Rotation = new Vector3(0, (float)currentLine["RotationY"], 0);
 				} 		
 			} 
 		
@@ -297,9 +297,8 @@ public partial class BaseScript : Spatial
 	public string GetLastValidSavefile()
 	{
 		double currentUnixTime = Time.GetUnixTimeFromSystem();
-		string lastValidSavefilePath = "";
-		double lastValidSavefilePathUnixtime = 0;
 		Directory dir = new Directory();
+		List<double> allSavesUnixtime = new List<double>();
 
 		dir.Open("user://");
 		dir.ListDirBegin(true, true);
@@ -322,18 +321,22 @@ public partial class BaseScript : Spatial
 				filename = dir.GetNext();
 				continue;
 			}
-
-			if(fileUnixtime > lastValidSavefilePathUnixtime)
-			{
-				lastValidSavefilePath = filename;
-				lastValidSavefilePathUnixtime = fileUnixtime;
-			}
+			allSavesUnixtime.Add(fileUnixtime);
 
 			filename = dir.GetNext();
 		}
 
-		return "user://" + lastValidSavefilePath;
+		allSavesUnixtime.Sort();
+
+		if(allSavesUnixtime.Count >= 10) 
+			dir.Remove($"{allSavesUnixtime[0]}.save");		
+		
+		if(allSavesUnixtime.Count < 1)
+			return "";
+
+		return "user://" + allSavesUnixtime[allSavesUnixtime.Count-1] + ".save";
 	}
+
 
 	public void DeletSavefiles()
 	{
@@ -358,11 +361,11 @@ public partial class BaseScript : Spatial
 		}
 	}
 
-    public override void _Notification(int what)
-    {
-        if(what == MainLoop.NotificationWmGoBackRequest)
+	public override void _Notification(int what)
+	{
+		if(what == MainLoop.NotificationWmGoBackRequest)
 			SaveGame();
-    }    
+	}    
 
 	public override void _Input(InputEvent @event)
 	{
