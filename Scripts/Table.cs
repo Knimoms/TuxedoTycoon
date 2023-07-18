@@ -59,11 +59,12 @@ public partial class Table : Spatial
     {
         if(_base_script.Money >= Cost)
         {
-            _base_script.TransferMoney(-Cost);
+            Tuxdollar cost = Cost;
 
             currentLevel++;
             Cost = CalculateCost(currentLevel);
             UpdateCostLabel();
+            _base_script.TransferMoney(-cost);
 
             CreateChairs();
         }

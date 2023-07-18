@@ -57,9 +57,6 @@ public class FoodSpwn2D : Node2D
                 fanta.Texture = null;
 
             _minigameTimer.WaitTime = foodStall.TimerProp.WaitTime/4f;
-
-            
-            //_finishedFood.Texture = minigame2D.MyFoodStall.OrderedDish.DishIcon ;
             _minigameTimer.Start();   
              
         }

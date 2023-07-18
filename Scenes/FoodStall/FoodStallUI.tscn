@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/MinigameStuff/Dishes/Polar/Cross.png" type="Texture" id=1]
 
 [sub_resource type="DynamicFontData" id=4]
 font_path = "res://Assets/SansBlackSmall.ttf"
@@ -36,20 +38,21 @@ __meta__ = {
 }
 
 [node name="CostLabel" type="Label" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 2.0
-margin_top = -84.0
-margin_right = 125.0
-margin_bottom = -49.0
+anchor_left = 0.00510204
+anchor_top = 0.197842
+anchor_right = 0.318878
+anchor_bottom = 0.323741
 custom_fonts/font = SubResource( 5 )
 text = "Price"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="LevelUpButton" type="Button" parent="."]
-anchor_left = 0.00765306
+anchor_left = 0.0408163
 anchor_top = 0.348921
-anchor_right = 0.331069
-anchor_bottom = 0.553861
+anchor_right = 0.364232
+anchor_bottom = 0.607817
 margin_right = 3.22101
 margin_bottom = 3.02682
 rect_scale = Vector2( 0.975223, 0.949553 )
@@ -59,42 +62,56 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="CancelButton" type="Button" parent="."]
-anchor_left = 0.668368
+[node name="MinigameButton" type="Button" parent="."]
+anchor_left = 0.433673
 anchor_top = 0.348921
-anchor_right = 0.991783
-anchor_bottom = 0.553861
+anchor_right = 0.757089
+anchor_bottom = 0.605095
 margin_right = 3.22101
-margin_bottom = 3.02682
+margin_bottom = 3.78351
 rect_scale = Vector2( 0.975223, 0.949553 )
 custom_fonts/font = SubResource( 5 )
-text = "Cancel"
+text = "Minigame"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CancelButton" type="Button" parent="."]
+anchor_left = 0.829082
+anchor_top = 0.348921
+anchor_right = 0.971939
+anchor_bottom = 0.539568
+margin_right = 56.0
+margin_bottom = 53.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 5 )
+icon = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="UpgradeButton" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -191.5
-margin_top = -71.0
-margin_right = 191.5
-margin_bottom = -5.0
+anchor_left = 0.0114796
+anchor_top = 0.744604
+anchor_right = 0.98852
+anchor_bottom = 0.982014
 custom_fonts/font = SubResource( 6 )
 text = "Upgrade"
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="LevelLabel" type="Label" parent="."]
-anchor_left = 0.818877
-anchor_top = 0.028661
+anchor_left = 0.757653
+anchor_top = 0.028777
 anchor_right = 0.984694
-anchor_bottom = 0.216833
+anchor_bottom = 0.215827
 margin_left = 1.52588e-05
 margin_right = 3.05176e-05
 margin_bottom = 1.90735e-05
 custom_fonts/font = SubResource( 5 )
 text = "Level"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": true
 }

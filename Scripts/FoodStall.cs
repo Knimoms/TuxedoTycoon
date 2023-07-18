@@ -34,6 +34,7 @@ public partial class FoodStall : Spatial
 
 	private PopupMenu _popupMenu;
 	private Button _levelUpButton;
+	private Button _minigameButton;
 	private Button _cancelButton;
 	private Button _upgradeButton;
 
@@ -124,14 +125,18 @@ public partial class FoodStall : Spatial
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 
-		_levelUpButton = _popupMenu.GetNode<Button>("LevelUpButton");
+		_levelUpButton = (Button)_popupMenu.GetNode("LevelUpButton");
 		_levelUpButton.Connect("pressed",this, nameof(_on_LevelUpButton_pressed));
 
-		_upgradeButton = _popupMenu.GetNode<Button>("UpgradeButton");
+		_upgradeButton = (Button)_popupMenu.GetNode("UpgradeButton");
 		_upgradeButton.Connect("pressed", this, nameof(_on_UpgradeButton_pressed));
 
-		_cancelButton = _popupMenu.GetNode<Button>("CancelButton");
+		_cancelButton = (Button)_popupMenu.GetNode("CancelButton");
 		_cancelButton.Connect("pressed",this, nameof(_on_CancelButton_pressed));
+
+		_minigameButton = (Button)_popupMenu.GetNode("MinigameButton");
+		_minigameButton.Connect("pressed", this, nameof(_on_MiniGame2D_pressed));
+		
 
 
 		_levelUpCostLabel = _popupMenu.GetNode<Label>("CostLabel");
@@ -280,13 +285,7 @@ public partial class FoodStall : Spatial
 		if(!(event1 is InputEventMouseButton) || event1.IsPressed() || Parent.IState == InputState.MiniGameOpened || Parent.MaxInputDelay.TimeLeft <= 0)
 			return;
 			
-		if(Parent.BuildMode)
-		{
-			ShowPopupMenu();
-			return;
-		}
-
-		_on_MiniGame2D_pressed();		
+		ShowPopupMenu();		
 	}
 
 	public Dish Order()
@@ -346,7 +345,9 @@ public partial class FoodStall : Spatial
 	
 	public void ShowPopupMenu()
 	{
+		_minigameButton.Disabled = Parent.BuildMode;
 		_popupMenu.PopupCentered();
+
 	}
 
 	public void CheckButtonMode()

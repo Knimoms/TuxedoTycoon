@@ -20,6 +20,8 @@ public partial class FoodStallSpot : Spatial
 	FoodStall rest;
 	private MeshInstance _meshInstance;
 
+	private Particles poofParticleInstance;
+
 
 	
 	// Called when the node enters the scene tree for the first time.
@@ -39,11 +41,11 @@ public partial class FoodStallSpot : Spatial
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 		_meshInstance = (MeshInstance)GetNode("MeshInstance");
+		poofParticleInstance = (Particles)ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn").Instance();
+		poofParticleInstance.GlobalTransform = GlobalTransform;
 
 		Parent.Spots.Add(this);
 		Visible = false;
-
-		//if(Name == "RestaurantSpot") _instantiate_restaurant();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -62,10 +64,6 @@ public partial class FoodStallSpot : Spatial
 
 	private void _add_restaurant()
 	{
-		PackedScene poofParticleScene = ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn");
-		Particles poofParticleInstance = (Particles)poofParticleScene.Instance();
-		poofParticleInstance.GlobalTransform = GlobalTransform;
-		Parent.AddChild(poofParticleInstance);
 		poofParticleInstance.Emitting = true;
 		poofParticleInstance.OneShot = true;
 
@@ -75,11 +73,11 @@ public partial class FoodStallSpot : Spatial
 		delayTimer.Connect("timeout", this, "_on_DelayTimer_timeout");
 		AddChild(delayTimer);
 		delayTimer.Start();
+		Parent.AddChild(poofParticleInstance);
 	}
 
 	private void _on_DelayTimer_timeout()
 	{
-		FoodStall rest = ExportScene.Instance<FoodStall>();
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin);
 		rest.Rotation = this.Rotation;
 		rest.LevelUpCostValue = 4 * Cost.Value;

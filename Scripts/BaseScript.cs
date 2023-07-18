@@ -97,6 +97,8 @@ public partial class BaseScript : Spatial
 		CalculateCustomersPerMinute();
 		foreach(Spatial spot in Spots)
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
+
+
 	}
 
 	public Chair GetRandomFreeChair()
@@ -294,6 +296,7 @@ public partial class BaseScript : Spatial
 		}
 		saveGame.Close();
 		_offline_reward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
+		if(_offline_reward < Tuxdollar.ZeroTux) _offline_reward = Tuxdollar.ZeroTux;
 		_open_offlineReward_panel();
 	}
 

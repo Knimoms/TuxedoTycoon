@@ -75,15 +75,15 @@ public partial class TableSpot : Spatial
 	private void _on_ConfirmationButton_pressed()
 	{
 		if(_base_script.Money < Cost) return;
-		_base_script.TransferMoney(-Cost);
+		Tuxdollar cost = Cost;
+		Cost *= 8;
+		_base_script.TransferMoney(-cost);
 		Table table = ExportScene.Instance<Table>();
 		table.Transform = this.Transform;
 		table.Scale = new Vector3(1,1,1);
 		_base_script.Spots.Remove(this);
 		this.QueueFree();
 		GetParent().AddChild(table);
-
-		Cost *= 8;
 
 		_popupMenu.Hide();
 	}
