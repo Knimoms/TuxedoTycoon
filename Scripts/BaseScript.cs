@@ -50,6 +50,10 @@ public partial class BaseScript : Spatial
 		set{_money = value; MoneyTransfered.Invoke();}
 	}
 
+	private Tuxdollar _offline_reward;
+	private double pastUnixTimestamp;
+
+
 	public Label MoneyLabel;
 	public List<Spatial> Spots = new List<Spatial>();
 	public Timer MaxInputDelay;
@@ -63,13 +67,11 @@ public partial class BaseScript : Spatial
 	public Label CPMLabel;
 	public RecipeBook TheRecipeBook;
 	public Random rnd = new Random();
+	private Panel _offlinePanel;
 
 	public delegate void CheckButtonModes();
 
 	public event CheckButtonModes MoneyTransfered;
-
-	private double _offline_seconds;
-	private double UnixTimestamp;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -95,8 +97,6 @@ public partial class BaseScript : Spatial
 		CalculateCustomersPerMinute();
 		foreach(Spatial spot in Spots)
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
-		
-		GD.Print(CalculateMoneyPerMinute());
 	}
 
 	public Chair GetRandomFreeChair()
@@ -141,10 +141,10 @@ public partial class BaseScript : Spatial
 		float offlineCPM = 0;
 		foreach(FoodStall foodStall in Restaurants)
 			offlineCPM += Math.Min(foodStall.CustomersPerMinute, Spawner.CustomersPerMinute/Restaurants.Count);
-
 		
-		
-		CPMLabel.Text = $"{Spawner.CustomersPerMinute.ToString("F2")} Cus/min";
+		if(CPMLabel != null)
+			CPMLabel.Text = $"{Spawner.CustomersPerMinute.ToString("F2")} Cus/min";
+			
 		return offlineCPM;
 	}
 
@@ -154,7 +154,6 @@ public partial class BaseScript : Spatial
 
 		if(Restaurants.Count == 0)
 			return avgMoneyPerDish;
-
 		int dishesCount = 0;
 		foreach(FoodStall foodStall in Restaurants)
 		{
@@ -169,6 +168,10 @@ public partial class BaseScript : Spatial
 			}
 			avgMoneyPerDish += totalDishesCost;
 		}
+		
+		if(dishesCount == 0)
+			return Tuxdollar.ZeroTux;
+
 		avgMoneyPerDish /= dishesCount;
 
 		return avgMoneyPerDish * CustomersPerMinute;
@@ -256,9 +259,7 @@ public partial class BaseScript : Spatial
 
 				//_offline_seconds = Time.GetUnixTimeFromSystem() - (int)currentLine["UnixTimestamp"];
 				Set("UnixTimestamp", currentLine["UnixTimestamp"]);
-
-				_offline_seconds = Time.GetUnixTimeFromSystem() - UnixTimestamp;
-
+				_offline_reward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
 				this.Chairs = new List<Chair>();
 				this.Spots = new List<Spatial>();
 				this.Restaurants = new List<FoodStall>();
@@ -292,6 +293,8 @@ public partial class BaseScript : Spatial
 			
 		}
 		saveGame.Close();
+		_offline_reward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
+		_open_offlineReward_panel();
 	}
 
 	public string GetLastValidSavefile()
@@ -331,7 +334,7 @@ public partial class BaseScript : Spatial
 		if(allSavesUnixtime.Count >= 10) 
 			dir.Remove($"{allSavesUnixtime[0]}.save");		
 		
-		if(allSavesUnixtime.Count < 1)
+		if(allSavesUnixtime.Count == 0)
 			return "";
 
 		return "user://" + allSavesUnixtime[allSavesUnixtime.Count-1] + ".save";
@@ -360,6 +363,21 @@ public partial class BaseScript : Spatial
 			filename = dir.GetNext();
 		}
 	}
+
+	private void _open_offlineReward_panel()
+	{
+		_offlinePanel = (Panel)GetNode("OfflineRewardPanel");
+		_offlinePanel.Visible = true;
+		GetNode<Label>("OfflineRewardPanel/Label").Text = $"While you've been away you earned {_offline_reward} money!";
+	}
+
+	private void _on_OfflineRewardButton_pressed()
+	{
+		TransferMoney(_offline_reward);
+		_offlinePanel.Visible = false;
+	}
+
+	private Tuxdollar _calculate_offlineReward(double pastUnixtime, double currentUnixtime) => CalculateMoneyPerMinute() * (float)((currentUnixtime-pastUnixtime)/60);
 
 	public override void _Notification(int what)
 	{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Japanese/Japanese.tscn" type="PackedScene" id=2]
@@ -178,6 +178,16 @@ shader_param/time_factor = Vector2( 1, 2 )
 shader_param/noise1 = SubResource( 18 )
 shader_param/noise2 = SubResource( 20 )
 shader_param/normalmap = SubResource( 22 )
+
+[sub_resource type="DynamicFont" id=37]
+size = 23
+outline_color = Color( 0.0823529, 0.0745098, 0.0745098, 1 )
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFont" id=38]
+size = 21
+outline_color = Color( 0.0823529, 0.0745098, 0.0745098, 1 )
+font_data = SubResource( 5 )
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
@@ -460,9 +470,9 @@ width = 5.0
 depth = 5.0
 
 [node name="CSGBox3" type="CSGBox" parent="NavigationMeshInstanceTableArea/Floor2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 8 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
 operation = 2
-width = 0.25
+width = 3.0
 depth = 5.0
 
 [node name="CSGBox4" type="CSGBox" parent="NavigationMeshInstanceTableArea/Floor2"]
@@ -501,6 +511,38 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 16 )
 
+[node name="OfflineRewardPanel" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -123.0
+margin_top = -82.0
+margin_right = 123.0
+margin_bottom = 82.0
+
+[node name="Button" type="Button" parent="OfflineRewardPanel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.5
+margin_top = -58.0
+margin_right = 64.5
+margin_bottom = -18.0
+custom_fonts/font = SubResource( 37 )
+text = "Collect"
+
+[node name="Label" type="Label" parent="OfflineRewardPanel"]
+margin_right = 243.0
+margin_bottom = 84.0
+custom_fonts/font = SubResource( 38 )
+text = "While you've been away you earned money!"
+align = 1
+autowrap = true
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="RecipeButton" to="." method="_on_RecipeButton_pressed"]
 [connection signal="popup_hide" from="RecipeBook" to="." method="_on_RecipeBook_popup_hide"]
+[connection signal="pressed" from="OfflineRewardPanel/Button" to="." method="_on_OfflineRewardButton_pressed"]
