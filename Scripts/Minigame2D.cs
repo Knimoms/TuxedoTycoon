@@ -12,6 +12,7 @@ public class Minigame2D : Node2D
     public Label IngLabel;
     public Sprite[] IngSpots = new Sprite[3];
     private Timer _doneTimer;
+    public Sprite Order;
     public FoodSpwn2D foodSpwn2D;
 
 
@@ -19,6 +20,7 @@ public class Minigame2D : Node2D
     public override void _Ready()
     {
         MyFoodStall = (FoodStall)GetParent();
+        Order = GetNode<Sprite>("Order");
         foodSpwn2D = GetNode<FoodSpwn2D>("FoodSpawner");
         IngLabel = (Label)GetNode("IngLabel");
         for(int i = 0; i < IngSpots.Length; i++)
@@ -32,10 +34,20 @@ public class Minigame2D : Node2D
     }
     public override void _PhysicsProcess(float delta)
     {
-        if(MyFoodStall.OrderedDish != null && IngLabel.Text == "")
-            IngLabel.Text = PrintRecipe();
-        if(MyFoodStall.OrderedDish == null && IngLabel.Text != "")
+        if(MyFoodStall.OrderedDish != null)
+            if(MyFoodStall.OrderedDish.DishIcon == null)
+            {
+                IngLabel.Text = PrintRecipe();
+            }
+            else
+            {
+                Order.Texture = MyFoodStall.OrderedDish.DishIcon;
+            }
+            
+        if(MyFoodStall.OrderedDish == null && IngLabel.Text != "" || MyFoodStall.OrderedDish != null && MyFoodStall.OrderedDish.DishIcon != null)
+        {
             IngLabel.Text = "";
+        }
     }
     private void _on_DoneTimer_timeout()
     {

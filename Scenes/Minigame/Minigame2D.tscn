@@ -104,6 +104,9 @@ position = Vector2( 523, 543 )
 position = Vector2( 481, 538 )
 texture = ExtResource( 4 )
 
+[node name="Order" type="Sprite" parent="."]
+position = Vector2( 481, 175 )
+
 [node name="FinishedFood" type="Sprite" parent="."]
 position = Vector2( 481, 538 )
 

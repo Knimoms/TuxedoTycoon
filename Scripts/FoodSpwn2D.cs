@@ -41,6 +41,7 @@ public class FoodSpwn2D : Node2D
             TimeBar.Visible = false;
             minigame2D.CompareLists();
             minigame2D.ingredientList.Clear();
+            minigame2D.Order.Texture = null;
         }
     }
     private void _on_Area2D_input_event(Node Viewport, InputEvent @event, int shape_idx)
