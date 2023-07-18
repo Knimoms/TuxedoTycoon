@@ -207,7 +207,7 @@ public partial class BaseScript : Spatial
 			{"CustomerSatisfactionTotal", CustomerSatisfactionTotal},
 			{"_customer_satisfactionsArray", _customer_satisfactions.ToArray()},
 			{"_satisfactionRating", _satisfactionRating},
-			{"UnixTimestamp", (int)Time.GetUnixTimeFromSystem()}
+			{"pastUnixTimestamp", (int)Time.GetUnixTimeFromSystem()}
 			
 		};
 	}
@@ -258,7 +258,7 @@ public partial class BaseScript : Spatial
 					_customer_satisfactions.Enqueue((int)x);
 
 				//_offline_seconds = Time.GetUnixTimeFromSystem() - (int)currentLine["UnixTimestamp"];
-				Set("UnixTimestamp", currentLine["UnixTimestamp"]);
+				Set("pastUnixTimestamp", currentLine["pastUnixTimestamp"]);
 				_offline_reward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
 				this.Chairs = new List<Chair>();
 				this.Spots = new List<Spatial>();
@@ -376,7 +376,7 @@ public partial class BaseScript : Spatial
 		TransferMoney(_offline_reward);
 		_offlinePanel.Visible = false;
 	}
-
+	
 	private Tuxdollar _calculate_offlineReward(double pastUnixtime, double currentUnixtime) => CalculateMoneyPerMinute() * (float)((currentUnixtime-pastUnixtime)/60);
 
 	public override void _Notification(int what)
