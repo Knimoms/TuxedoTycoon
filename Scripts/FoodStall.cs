@@ -149,7 +149,7 @@ public partial class FoodStall : Spatial
 		LevelUpCost = new Tuxdollar(LevelUpCostValue, LevelUpCostMagnitude);
 		Multiplicator = new Tuxdollar(MultiplicatorValue, MultiplicatorMagnitude);
 
-		_nameLabel.Text = "Restaurant Name";
+		_nameLabel.Text = "";
 		_levelUpCostLabel.Text = $"{LevelUpCost}";
 
 		NewDishIndicator = (Sprite3D)GetNode("Indicators/NewDishIndicator");

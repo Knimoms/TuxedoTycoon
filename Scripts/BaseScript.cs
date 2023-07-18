@@ -371,7 +371,7 @@ public partial class BaseScript : Spatial
 	{
 		_offlinePanel = (Panel)GetNode("OfflineRewardPanel");
 		_offlinePanel.Visible = true;
-		GetNode<Label>("OfflineRewardPanel/Label").Text = $"While you've been away you earned {_offline_reward} money!";
+		GetNode<Label>("OfflineRewardPanel/Label").Text = $"While were away you earned {_offline_reward} money!";
 	}
 
 	private void _on_OfflineRewardButton_pressed()
