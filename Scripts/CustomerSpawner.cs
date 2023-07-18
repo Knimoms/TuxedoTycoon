@@ -18,6 +18,8 @@ public partial class CustomerSpawner : Spatial
     public float SpawnrateEvaluationTimerWaitTime;
     public float SpawnrateEvaluationTimerTimeLeft;
 
+    public Spatial[] SpawnPoints;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {   
@@ -28,6 +30,7 @@ public partial class CustomerSpawner : Spatial
         _spawnrate_evaluation_timer = (Timer)GetNode("SpawnrateEvaluationTimer");
         SpawnrateEvaluationTimerWaitTime = _spawnrate_evaluation_timer.WaitTime;
         _spawnrate_evaluation_timer.WaitTime =(SpawnrateEvaluationTimerTimeLeft != 0)? (float)SpawnrateEvaluationTimerTimeLeft : SpawnrateEvaluationTimerWaitTime;
+        SpawnPoints = new Spatial[]{(Spatial)Parent.GetNode("SpawnPoint"), (Spatial)Parent.GetNode("SpawnPoint2")};
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,7 +54,7 @@ public partial class CustomerSpawner : Spatial
 
         Customer customer = CustomerScene.Instance<Customer>();
         customer.TargetRestaurant = targetFoodStall;
-        customer.SpawnPoint = (Spatial)targetFoodStall.GetParent().GetNode("SpawnPoint");
+        customer.SpawnPoint = SpawnPoints[_rnd.Next(0,2)];
         customer.Transform = customer.SpawnPoint.Transform;
         Parent.AddChild(customer);
     }

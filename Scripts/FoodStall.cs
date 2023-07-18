@@ -21,8 +21,6 @@ public partial class FoodStall : Spatial
 	public int Stage = 1;
 
 	private int _current_Upgrade_Treshold;
-
-	public Customer CurrentCustomer;
 	public List<Customer> IncomingCustomers = new List<Customer>();
 	//public List<CustomerBase> Queue;
 	private static BaseScript Parent;
@@ -44,7 +42,7 @@ public partial class FoodStall : Spatial
 	private Label _nameLabel;
 	private Label _levelLabel;
 	
-	private Spatial _my_mesh_instance;
+	private Spatial _model;
 
 	private Dish _orderedDish;
 	public Dish OrderedDish
@@ -91,11 +89,17 @@ public partial class FoodStall : Spatial
 
 	private Sprite3D NewDishIndicator;
 	private Sprite3D LevelUpAvailableIndicator;
+	private string FolderPath;
+	public Spatial OrderWindow;
 	
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		string[] splittedFilename = Filename.Split('/');
+		splittedFilename[splittedFilename.Length-1] = null;
+		FolderPath = string.Join("/", splittedFilename);
+        
 		this.AddToGroup("Persist");
 
 		LevelUpCost = new Tuxdollar(LevelUpCostValue, LevelUpCostMagnitude);
@@ -105,11 +109,10 @@ public partial class FoodStall : Spatial
 
 		_initiate_all_dishes();
 
+		_model = (Spatial)GetNode("Spatial");
 		for(int i = 0; i < Stage; i++)
 			Dishes.Add(allDishes[i]);
 		UpgradeCost = new Tuxdollar(Stage2CostValue, Stage2CostMagnitude);
-		
-		_my_mesh_instance = GetNode<Spatial>("MeshInstance");
 		
 		if(Parent == null)
 			Parent = (BaseScript)GetParent();
@@ -150,6 +153,7 @@ public partial class FoodStall : Spatial
 		LevelUpAvailableIndicator.Visible = false;
 
 		CheckButtonMode();
+		_changeModel();
 	}
 
 	public void MiniGameDone()
@@ -248,7 +252,7 @@ public partial class FoodStall : Spatial
 
 	public void ToggleVisibility ()
 	{
-		_my_mesh_instance.Visible = !_my_mesh_instance.Visible;
+		_model.Visible = !_model.Visible;
 		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
 		Parent.MoneyLabel.Visible = !Parent.MoneyLabel.Visible;
 	}
@@ -271,7 +275,7 @@ public partial class FoodStall : Spatial
 
 	}
 
-	private void _on_StaticBody_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
+	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
 	{
 		if(!(event1 is InputEventMouseButton) || event1.IsPressed() || Parent.IState == InputState.MiniGameOpened || Parent.MaxInputDelay.TimeLeft <= 0)
 			return;
@@ -302,6 +306,7 @@ public partial class FoodStall : Spatial
 
 		Stage++;
 
+		_changeModel();
 		Dishes.Add(allDishes[Stage-1]);
 		CheckButtonMode();
 		PackedScene poofParticleScene = ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn");
@@ -310,6 +315,16 @@ public partial class FoodStall : Spatial
 		Parent.AddChild(poofParticleInstance);
 		poofParticleInstance.Emitting = true;
 		poofParticleInstance.OneShot = true;
+	}
+
+	private void _changeModel()
+	{
+		Vector3 rotation = _model.Rotation;
+		_model?.QueueFree();
+		_model = (Spatial)GD.Load<PackedScene>($"{FolderPath}Stages/Stage{Stage}.tscn").Instance();
+		_model.Rotation = rotation;
+		AddChild(_model);
+		OrderWindow = (Spatial)_model.GetNode("OrderWindow");
 	}
 
 	public void LevelUp()
@@ -338,7 +353,7 @@ public partial class FoodStall : Spatial
 	{
 		_levelUpButton.Disabled = Parent.Money < LevelUpCost;
 		LevelUpAvailableIndicator.Visible = !_levelUpButton.Disabled;
-		_upgradeButton.Disabled = Stage >= 3 || LevelUpCost/4 < _stage_cost_values[Stage-1];
+		_upgradeButton.Disabled = Stage >= 3 || LevelUpCost/1.1f < _stage_cost_values[Stage-1];
 	}
 
 	public Tuxdollar MoneyPerMinute()

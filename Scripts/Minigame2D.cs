@@ -84,9 +84,6 @@ public class Minigame2D : Node2D
         if(MyFoodStall.OrderedDish == null)
             return null;
         ingredientList.Add(ing);
-        foreach(Ingredient i in ingredientList)
-            GD.Print(i);
-        GD.Print("\n");
         return IngSpots[ingredientList.IndexOf(ing)];
     }
 

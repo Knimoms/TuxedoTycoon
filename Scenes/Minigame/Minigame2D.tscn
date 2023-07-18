@@ -108,7 +108,7 @@ texture = ExtResource( 4 )
 position = Vector2( 481, 175 )
 
 [node name="FinishedFood" type="Sprite" parent="."]
-position = Vector2( 481, 538 )
+position = Vector2( 490, 540 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

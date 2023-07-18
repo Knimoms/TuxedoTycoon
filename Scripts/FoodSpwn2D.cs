@@ -46,26 +46,22 @@ public class FoodSpwn2D : Node2D
     }
     private void _on_Area2D_input_event(Node Viewport, InputEvent @event, int shape_idx)
 	{
-        if(minigame2D.Cooking == true)
+        if(minigame2D.Cooking || minigame2D.ingredientList.Count == 0 || minigame2D.MyFoodStall.IncomingCustomers.Count == 0 || minigame2D.MyFoodStall.IncomingCustomers[0].State != CustomerState.WaitingInQueue)
             return;
 		if(@event is InputEventMouseButton && @event.IsPressed())
         {
+            TimeBar.Visible = true;
             closeButton.Visible = false;
             minigame2D.Cooking = true;
             foreach(Sprite fanta in minigame2D.IngSpots)
                 fanta.Texture = null;
 
             _minigameTimer.WaitTime = foodStall.TimerProp.WaitTime/4f;
-            if(minigame2D.ingredientList.Count == 0){
-                return;
-            } else {
-                TimeBar.Visible = true;
-                _minigameTimer.Start();
-                GD.Print("TimerStarted");
-                
-            }   
+
+            
+            //_finishedFood.Texture = minigame2D.MyFoodStall.OrderedDish.DishIcon ;
+            _minigameTimer.Start();   
+             
         }
 	}
-    
-
 }
