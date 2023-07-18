@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Dish.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/Polar/FinishedFoodPngs/snowcone.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Polar/FinishedFoodPngs/SnowCone.png" type="Texture" id=2]
 
 [node name="Node2D" instance=ExtResource( 1 )]
-ODpng = ExtResource( 2 )
+DishIcon = ExtResource( 2 )
 Ing1 = 1

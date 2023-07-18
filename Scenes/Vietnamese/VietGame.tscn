@@ -33,19 +33,43 @@ texture = ExtResource( 2 )
 [node name="Ing2D" parent="." instance=ExtResource( 5 )]
 position = Vector2( 254, 489 )
 scale = Vector2( 1.5, 1.5 )
-ing = 1
+ing = 10
 
 [node name="Ing2D2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 702, 531 )
 rotation = -0.663225
 scale = Vector2( 0.8, 1.5 )
-ing = 2
+ing = 11
 
 [node name="Ing2D3" parent="." instance=ExtResource( 5 )]
 position = Vector2( 830, 526 )
 rotation = -0.750492
 scale = Vector2( 0.75, 1.5 )
-ing = 3
+ing = 12
+
+[node name="Ing2D4" parent="." instance=ExtResource( 5 )]
+position = Vector2( 952, 487 )
+ing = 13
+
+[node name="Ing2D5" parent="." instance=ExtResource( 5 )]
+position = Vector2( 953, 380 )
+ing = 14
+
+[node name="Ing2D6" parent="." instance=ExtResource( 5 )]
+position = Vector2( 950, 272 )
+ing = 15
+
+[node name="Ing2D7" parent="." instance=ExtResource( 5 )]
+position = Vector2( 949, 159 )
+ing = 16
+
+[node name="Ing2D8" parent="." instance=ExtResource( 5 )]
+position = Vector2( 840, 159 )
+ing = 17
+
+[node name="Ing2D9" parent="." instance=ExtResource( 5 )]
+position = Vector2( 838, 270 )
+ing = 18
 
 [node name="FoodSpawner" parent="." instance=ExtResource( 7 )]
 position = Vector2( 481, 538 )
@@ -100,10 +124,9 @@ position = Vector2( 476, 526 )
 position = Vector2( 523, 543 )
 
 [node name="FinishedFood" type="Sprite" parent="."]
-position = Vector2( 490, 540 )
+position = Vector2( 481, 538 )
 
 [node name="Timer" type="Timer" parent="."]
-one_shot = true
 
 [node name="TextureProgress" type="TextureProgress" parent="."]
 visible = false
@@ -111,8 +134,7 @@ margin_left = 294.0
 margin_top = 291.0
 margin_right = 690.0
 margin_bottom = 344.0
-max_value = 1.0
-step = 0.05
+max_value = 2.0
 texture_under = ExtResource( 1 )
 texture_progress = ExtResource( 3 )
 

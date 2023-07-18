@@ -23,7 +23,6 @@ public partial class FoodStall : Spatial
 	private int _current_Upgrade_Treshold;
 
 	public Customer CurrentCustomer;
-	public Texture OrderedDishPng;
 	public List<Customer> IncomingCustomers = new List<Customer>();
 	//public List<CustomerBase> Queue;
 	private static BaseScript Parent;
@@ -47,7 +46,12 @@ public partial class FoodStall : Spatial
 	
 	private Spatial _my_mesh_instance;
 
-	public Dish OrderedDish;
+	private Dish _orderedDish;
+	public Dish OrderedDish
+	{
+		get => _orderedDish;
+		set{_orderedDish = value; NewDishIndicator.Visible = _orderedDish != null && !_orderedDish.Unlocked;}
+	}
 
 	[Export]
 	public PackedScene Dish1;
@@ -84,6 +88,9 @@ public partial class FoodStall : Spatial
 	public Random rnd = new Random();
 
 	private bool _minigame_started = false;
+
+	private Sprite3D NewDishIndicator;
+	private Sprite3D LevelUpAvailableIndicator;
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -136,6 +143,11 @@ public partial class FoodStall : Spatial
 
 		_nameLabel.Text = "Restaurant Name";
 		_levelUpCostLabel.Text = $"{LevelUpCost}";
+
+		NewDishIndicator = (Sprite3D)GetNode("Indicators/NewDishIndicator");
+		LevelUpAvailableIndicator = (Sprite3D)GetNode("Indicators/LevelUpAvailableIndicator");
+		NewDishIndicator.Visible = false;
+		LevelUpAvailableIndicator.Visible = false;
 
 		CheckButtonMode();
 	}
@@ -276,7 +288,8 @@ public partial class FoodStall : Spatial
 	public Dish Order()
 	{
 		OrderedDish = Dishes[rnd.Next(0,Dishes.Count)];
-		if(!_minigame_started)
+	
+		if(!_minigame_started && OrderedDish.Unlocked)
 			this._timer.Start();
 
 		return OrderedDish;
@@ -291,6 +304,12 @@ public partial class FoodStall : Spatial
 
 		Dishes.Add(allDishes[Stage-1]);
 		CheckButtonMode();
+		PackedScene poofParticleScene = ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn");
+		Particles poofParticleInstance = (Particles)poofParticleScene.Instance();
+		poofParticleInstance.GlobalTransform = GlobalTransform;
+		Parent.AddChild(poofParticleInstance);
+		poofParticleInstance.Emitting = true;
+		poofParticleInstance.OneShot = true;
 	}
 
 	public void LevelUp()
@@ -318,6 +337,7 @@ public partial class FoodStall : Spatial
 	public void CheckButtonMode()
 	{
 		_levelUpButton.Disabled = Parent.Money < LevelUpCost;
+		LevelUpAvailableIndicator.Visible = !_levelUpButton.Disabled;
 		_upgradeButton.Disabled = Stage >= 3 || LevelUpCost/4 < _stage_cost_values[Stage-1];
 	}
 

@@ -70,7 +70,7 @@ public partial class FoodStallSpot : Spatial
 		poofParticleInstance.OneShot = true;
 
 		Timer delayTimer = new Timer();
-		delayTimer.WaitTime = 0.15f;
+		delayTimer.WaitTime = 0.25f;
 		delayTimer.OneShot = true;
 		delayTimer.Connect("timeout", this, "_on_DelayTimer_timeout");
 		AddChild(delayTimer);
@@ -92,7 +92,7 @@ public partial class FoodStallSpot : Spatial
 	private void _on_ConfirmationButton_pressed()
 	{
 		if(Parent.Money < Cost) 
-			return;
+			_confirmationButton.Disabled = true;
 		Parent.TransferMoney(-Cost);
 		_add_restaurant();
 		

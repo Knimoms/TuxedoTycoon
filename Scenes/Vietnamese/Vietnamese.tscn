@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Minigame/Minigame2D.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Vietnamese/Dishes/BahnMi.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Vietnamese/Dishes/Pho.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/FoodStall/FoodStallIndicators.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -52,6 +53,8 @@ transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="Indicators" parent="." instance=ExtResource( 7 )]
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="input_event" from="MeshInstance/StaticBody" to="." method="_on_StaticBody_input_event"]
