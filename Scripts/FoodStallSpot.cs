@@ -80,7 +80,7 @@ public partial class FoodStallSpot : Spatial
 	private void _on_DelayTimer_timeout()
 	{
 		FoodStall rest = ExportScene.Instance<FoodStall>();
-		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin + Vector3.Up);
+		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin);
 		rest.Rotation = this.Rotation;
 		rest.LevelUpCostValue = 4 * Cost.Value;
 		rest.LevelUpCostMagnitude = Cost.Magnitude;

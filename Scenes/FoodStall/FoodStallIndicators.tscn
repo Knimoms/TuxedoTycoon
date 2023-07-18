@@ -6,13 +6,13 @@
 [node name="Indicators" type="Spatial"]
 
 [node name="NewDishIndicator" type="Sprite3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 2, 0 )
 pixel_size = 0.001
 billboard = 1
 texture = ExtResource( 2 )
 
 [node name="LevelUpAvailableIndicator" type="Sprite3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 1.1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 2, 0 )
 pixel_size = 0.001
 billboard = 1
 texture = ExtResource( 1 )

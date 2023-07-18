@@ -50,7 +50,7 @@ public partial class Customer : KinematicBody
 			Parent = (BaseScript)this.GetParent();
 
 		//_nav_agent.TargetDesiredDistance = ;
-		_target_window = TargetRestaurant.GetNode<Spatial>("OrderWindow").GlobalTransform.origin;
+		_target_window = TargetRestaurant.OrderWindow.GlobalTransform.origin;
 		TargetRestaurant.IncomingCustomers.Add(this);
 		LineNumber = TargetRestaurant.IncomingCustomers.Count - 1;
 		if (TargetRestaurant.IncomingCustomers.Count > 1)
@@ -116,7 +116,6 @@ public partial class Customer : KinematicBody
 	{
 		Parent.TransferMoney(OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 		State = CustomerState.WalkingToTable;
-		_nav_agent.NavigationLayers = 2;
 		QueueTimeSatisfaction();
 		_my_chair = Parent.GetRandomFreeChair();
 		if(_my_chair == null || !OrderedDish.Unlocked)
@@ -128,6 +127,7 @@ public partial class Customer : KinematicBody
 			Leave();
 			return;
 		}
+		_nav_agent.NavigationLayers = 2;
 		TargetRestaurant.OrderedDish = null;
 		State = CustomerState.WalkingToTable;
 		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
