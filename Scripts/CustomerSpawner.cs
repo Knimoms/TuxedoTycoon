@@ -65,10 +65,10 @@ public partial class CustomerSpawner : Spatial
             return;
 
         if(Parent.SatisfactionRating >= Parent.GoodRatingMin)
-            CustomersPerMinute *= 1.1f;
+            CustomersPerMinute *= 1.02f;
 
         if(Parent.SatisfactionRating <= Parent.BadRatingMax)
-            CustomersPerMinute *= 0.9f;
+            CustomersPerMinute *= 0.98f;
 
         ChangeWaitTime();
         Parent.CalculateCustomersPerMinute();
