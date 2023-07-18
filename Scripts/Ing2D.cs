@@ -24,9 +24,11 @@ public class Ing2D : Node2D
 
     private void _on_Area2D_input_event(Node Viewport, InputEvent @event, int shape_idx)
 	{
+        if(_minigame2D.Cooking == true)
+            return;
 		if(@event is InputEventMouseButton && @event.IsPressed())
 		{
-			Sprite positionSprite = _minigame2D.AddIng(ing);
+            Sprite positionSprite = _minigame2D.AddIng(ing);
 
             if(positionSprite != null)
                 positionSprite.Texture = Dish.GetIngredientSprite(ing);
