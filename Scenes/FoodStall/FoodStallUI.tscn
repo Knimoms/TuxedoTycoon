@@ -19,7 +19,7 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -196.0
-margin_top = -139.0
+margin_top = -71.0
 margin_right = 196.0
 margin_bottom = 139.0
 
@@ -39,9 +39,9 @@ __meta__ = {
 
 [node name="CostLabel" type="Label" parent="."]
 anchor_left = 0.00510204
-anchor_top = 0.197842
+anchor_top = 0.11689
 anchor_right = 0.318878
-anchor_bottom = 0.323741
+anchor_bottom = 0.283556
 custom_fonts/font = SubResource( 5 )
 text = "Price"
 __meta__ = {
@@ -103,9 +103,9 @@ __meta__ = {
 
 [node name="LevelLabel" type="Label" parent="."]
 anchor_left = 0.757653
-anchor_top = 0.028777
+anchor_top = 0.119253
 anchor_right = 0.984694
-anchor_bottom = 0.215827
+anchor_bottom = 0.306303
 margin_left = 1.52588e-05
 margin_right = 3.05176e-05
 margin_bottom = 1.90735e-05
