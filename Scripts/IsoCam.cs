@@ -31,7 +31,7 @@ public class IsoCam : Spatial
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        ZoomEffect = Squared;
+        ZoomEffect = Logarithmic;
         _zoom_time = -1f;
         _parent = (BaseScript)GetParent();
         _camera = (Camera)GetNode("Camera");
@@ -47,7 +47,7 @@ public class IsoCam : Spatial
                 _parent.IState = InputState.Default;
                 if(_parent.OfflineReward > Tuxdollar.ZeroTux)
                     _parent._open_offlineReward_panel();
-                    
+
                 _parent.ShowUIElements();
             }
         }
@@ -64,6 +64,9 @@ public class IsoCam : Spatial
     }
 
     public float Squared(float x) => x*x;
+
+    public float Logarithmic(float x) => 0.960752f*(float)(Math.Log(1.0479*x+0.572113)+0.536503);
+
 
     public void ZoomTo(Vector3 targetPosition, float targetSize, float zoomTime)
     {
