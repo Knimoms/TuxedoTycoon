@@ -19,9 +19,8 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -196.0
-margin_top = -71.0
 margin_right = 196.0
-margin_bottom = 139.0
+margin_bottom = 210.0
 
 [node name="NameLabel" type="Label" parent="."]
 anchor_left = 0.145408

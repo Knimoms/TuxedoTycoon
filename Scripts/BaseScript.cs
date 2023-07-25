@@ -50,7 +50,7 @@ public partial class BaseScript : Spatial
 		set{_money = value; MoneyTransfered.Invoke();}
 	}
 
-	private Tuxdollar _offline_reward;
+	public Tuxdollar OfflineReward{get; private set;}
 	private double pastUnixTimestamp;
 
 	public Particles poofParticleInstance;
@@ -72,10 +72,13 @@ public partial class BaseScript : Spatial
 	public delegate void CheckButtonModes();
 
 	public event CheckButtonModes MoneyTransfered;
+
+	public IsoCam IsoCam;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		IState = InputState.StartScreen;
 		Money = Tuxdollar.ZeroTux;
 		LoadGame();
 
@@ -84,9 +87,9 @@ public partial class BaseScript : Spatial
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		BuildButton = (Button)GetNode("Button");
-		BaseCam = (Camera)GetNode("pivot").GetNode("Camera");
 		CPMLabel = (Label)GetNode("CPMLabel");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
+		IsoCam = (IsoCam)GetNode("pivot");
 
 		if(CustomerSatisfactionTotal != 0)
 			AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
@@ -102,8 +105,6 @@ public partial class BaseScript : Spatial
 		poofParticleInstance.Emitting = false;
 		poofParticleInstance.OneShot = true;
 		AddChild(poofParticleInstance);
-
-
 	}
 
 	public Chair GetRandomFreeChair()
@@ -274,7 +275,7 @@ public partial class BaseScript : Spatial
 
 				//_offline_seconds = Time.GetUnixTimeFromSystem() - (int)currentLine["UnixTimestamp"];
 				Set("pastUnixTimestamp", currentLine["pastUnixTimestamp"]);
-				_offline_reward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
+				OfflineReward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
 				this.Chairs = new List<Chair>();
 				this.Spots = new List<Spatial>();
 				this.Restaurants = new List<FoodStall>();
@@ -309,9 +310,8 @@ public partial class BaseScript : Spatial
 		}
 		saveGame.Close();
 		GD.Print(Time.GetUnixTimeFromSystem()-pastUnixTimestamp);
-		_offline_reward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
-		if(_offline_reward <= Tuxdollar.ZeroTux) _offline_reward = new Tuxdollar(0);
-		_open_offlineReward_panel();
+		OfflineReward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
+		if(OfflineReward <= Tuxdollar.ZeroTux) OfflineReward = new Tuxdollar(0);
 	}
 
 	public string GetLastValidSavefile()
@@ -383,16 +383,16 @@ public partial class BaseScript : Spatial
 		GetTree().Quit();
 	}
 
-	private void _open_offlineReward_panel()
+	public void _open_offlineReward_panel()
 	{
 		_offlinePanel = (Panel)GetNode("OfflineRewardPanel");
 		_offlinePanel.Visible = true;
-		GetNode<Label>("OfflineRewardPanel/Label").Text = $"While you were away you earned {_offline_reward} money!";
+		GetNode<Label>("OfflineRewardPanel/Label").Text = $"While you were away you earned {OfflineReward} money!";
 	}
 
 	private void _on_OfflineRewardButton_pressed()
 	{
-		TransferMoney(_offline_reward);
+		TransferMoney(OfflineReward);
 		_offlinePanel.Visible = false;
 	}
 	
@@ -409,6 +409,19 @@ public partial class BaseScript : Spatial
 
 	public override void _Input(InputEvent @event)
 	{
+		if(IState == InputState.StartScreen && @event is InputEventScreenTouch)
+        {
+			Vector3 zoomTarget;
+			if(Restaurants.Count > 0)
+				zoomTarget = Restaurants[Restaurants.Count - 1].Transform.origin;
+			else
+				zoomTarget = GetNode<Spatial>("FoodStallSpot3").Transform.origin;
+			
+            IsoCam.ZoomTo(zoomTarget, 6f, 1f);
+            IState = InputState.Default;
+            return;
+        }
+
 		if(@event is InputEventKey)
 		{
 			if(@event.AsText() == "F2" && !@event.IsPressed())
@@ -424,6 +437,7 @@ public partial class BaseScript : Spatial
 
 public enum InputState
 {
+	StartScreen,
 	Default,
 	Zooming,
 	Dragging,

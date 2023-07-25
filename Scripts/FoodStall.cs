@@ -341,8 +341,9 @@ public partial class FoodStall : Spatial
 	
 	public void ShowPopupMenu()
 	{
+		Parent.IsoCam.ZoomTo(Transform.origin + Vector3.Back, 6f, 0.5f);
 		_minigameButton.Disabled = Parent.BuildMode;
-		_popupMenu.PopupCentered();
+		_popupMenu.Popup_();
 
 	}
 
