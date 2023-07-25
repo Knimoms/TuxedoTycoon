@@ -407,6 +407,15 @@ public partial class BaseScript : Spatial
 		}
 	}    
 
+	public void ShowUIElements()
+	{
+		CPMLabel.Visible = true;
+		AverageSatisfactionLabel.Visible = true;
+		MoneyLabel.Visible = true;
+		BuildButton.Visible = true;
+		RecipeButton.Visible = true;
+	}
+
 	public override void _Input(InputEvent @event)
 	{
 		if(IState == InputState.StartScreen && @event is InputEventScreenTouch)
@@ -418,7 +427,6 @@ public partial class BaseScript : Spatial
 				zoomTarget = GetNode<Spatial>("FoodStallSpot3").Transform.origin;
 			
             IsoCam.ZoomTo(zoomTarget, 6f, 1f);
-            IState = InputState.Default;
             return;
         }
 

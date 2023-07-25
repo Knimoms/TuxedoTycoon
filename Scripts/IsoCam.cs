@@ -47,6 +47,8 @@ public class IsoCam : Spatial
                 _parent.IState = InputState.Default;
                 if(_parent.OfflineReward > Tuxdollar.ZeroTux)
                     _parent._open_offlineReward_panel();
+                    
+                _parent.ShowUIElements();
             }
         }
 
