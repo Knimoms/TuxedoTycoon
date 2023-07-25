@@ -41,8 +41,7 @@ public partial class FoodStallSpot : Spatial
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 		_meshInstance = (MeshInstance)GetNode("MeshInstance");
-		poofParticleInstance = (Particles)ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn").Instance();
-		poofParticleInstance.GlobalTransform = GlobalTransform;
+
 
 		Parent.Spots.Add(this);
 		Visible = false;
@@ -64,26 +63,13 @@ public partial class FoodStallSpot : Spatial
 
 	private void _add_restaurant()
 	{
-		poofParticleInstance.Emitting = true;
-		poofParticleInstance.OneShot = true;
-
-		Timer delayTimer = new Timer();
-		delayTimer.WaitTime = 0.25f;
-		delayTimer.OneShot = true;
-		delayTimer.Connect("timeout", this, "_on_DelayTimer_timeout");
-		AddChild(delayTimer);
-		delayTimer.Start();
-		Parent.AddChild(poofParticleInstance);
-	}
-
-	private void _on_DelayTimer_timeout()
-	{
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin);
 		rest.Rotation = this.Rotation;
 		rest.LevelUpCostValue = 4 * Cost.Value;
 		rest.LevelUpCostMagnitude = Cost.Magnitude;
 		Parent.Spots.Remove(this);
 		this.QueueFree();
+		Parent.EmitPoof(this);
 		Parent.AddChild(rest);
 	}
 

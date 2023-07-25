@@ -308,12 +308,8 @@ public partial class FoodStall : Spatial
 		_changeModel();
 		Dishes.Add(allDishes[Stage-1]);
 		CheckButtonMode();
-		PackedScene poofParticleScene = ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn");
-		Particles poofParticleInstance = (Particles)poofParticleScene.Instance();
-		poofParticleInstance.GlobalTransform = GlobalTransform;
-		Parent.AddChild(poofParticleInstance);
-		poofParticleInstance.Emitting = true;
-		poofParticleInstance.OneShot = true;
+		Parent.EmitPoof(this);
+		
 	}
 
 	private void _changeModel()

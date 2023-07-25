@@ -53,7 +53,7 @@ public partial class BaseScript : Spatial
 	private Tuxdollar _offline_reward;
 	private double pastUnixTimestamp;
 
-
+	public Particles poofParticleInstance;
 	public Label MoneyLabel;
 	public List<Spatial> Spots = new List<Spatial>();
 	public Timer MaxInputDelay;
@@ -97,6 +97,11 @@ public partial class BaseScript : Spatial
 		CalculateCustomersPerMinute();
 		foreach(Spatial spot in Spots)
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
+
+		poofParticleInstance = (Particles)ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn").Instance();
+		poofParticleInstance.Emitting = false;
+		poofParticleInstance.OneShot = true;
+		AddChild(poofParticleInstance);
 
 
 	}
@@ -183,6 +188,14 @@ public partial class BaseScript : Spatial
 	{
 		TheRecipeBook.OpenRecipeBook();
 		RecipeButton.Visible = false;
+	}
+
+	public void EmitPoof(Spatial spatial)
+	{
+		poofParticleInstance.GlobalTransform = spatial.GlobalTransform;
+		if(!poofParticleInstance.Emitting)
+			poofParticleInstance.Restart();
+		poofParticleInstance.Emitting = true;
 	}
 
 	private void _on_RecipeBook_popup_hide()
@@ -295,8 +308,9 @@ public partial class BaseScript : Spatial
 			
 		}
 		saveGame.Close();
+		GD.Print(Time.GetUnixTimeFromSystem()-pastUnixTimestamp);
 		_offline_reward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
-		if(_offline_reward < Tuxdollar.ZeroTux) _offline_reward = Tuxdollar.ZeroTux;
+		if(_offline_reward <= Tuxdollar.ZeroTux) _offline_reward = new Tuxdollar(0);
 		_open_offlineReward_panel();
 	}
 
@@ -365,13 +379,15 @@ public partial class BaseScript : Spatial
 
 			filename = dir.GetNext();
 		}
+
+		GetTree().Quit();
 	}
 
 	private void _open_offlineReward_panel()
 	{
 		_offlinePanel = (Panel)GetNode("OfflineRewardPanel");
 		_offlinePanel.Visible = true;
-		GetNode<Label>("OfflineRewardPanel/Label").Text = $"While were away you earned {_offline_reward} money!";
+		GetNode<Label>("OfflineRewardPanel/Label").Text = $"While you were away you earned {_offline_reward} money!";
 	}
 
 	private void _on_OfflineRewardButton_pressed()
@@ -384,8 +400,11 @@ public partial class BaseScript : Spatial
 
 	public override void _Notification(int what)
 	{
-		if(what == MainLoop.NotificationWmGoBackRequest)
+		if(what == MainLoop.NotificationWmGoBackRequest || what == MainLoop.NotificationWmQuitRequest)
+		{
 			SaveGame();
+			GD.Print("saving");
+		}
 	}    
 
 	public override void _Input(InputEvent @event)
