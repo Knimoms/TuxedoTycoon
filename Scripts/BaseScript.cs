@@ -113,7 +113,7 @@ public partial class BaseScript : Spatial
 		AddChild(poofParticleInstance);
 	}
 
-	public void _Process()
+	public override void _Process(float delta)
 	{
 		if(countdown <= 0)
 			GetNode<Spatial>("Cache").Visible = false;
