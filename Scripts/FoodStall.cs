@@ -350,7 +350,7 @@ public partial class FoodStall : Spatial
 	public void CheckButtonMode()
 	{
 		_levelUpButton.Disabled = Parent.Money < LevelUpCost;
-		LevelUpAvailableIndicator.Visible = !_levelUpButton.Disabled;
+		LevelUpAvailableIndicator.Visible = !_levelUpButton.Disabled && Parent.IState != InputState.StartScreen;
 		_upgradeButton.Disabled = Stage >= 3 || LevelUpCost/1.1f < _stage_cost_values[Stage-1];
 	}
 

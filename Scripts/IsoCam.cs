@@ -50,6 +50,8 @@ public class IsoCam : Spatial
 
                 _parent.ShowUIElements();
                 ZoomEffect = Squared;
+                _parent.TitleScreen.Visible = false;
+                _parent.TransferMoney(Tuxdollar.ZeroTux);
             }
         }
 
@@ -71,13 +73,20 @@ public class IsoCam : Spatial
 
     public void ZoomTo(Vector3 targetPosition, float targetSize, float zoomTime)
     {
-        ZoomTime = zoomTime;
-        _zoom_time = 0f;
-        _zoom_start = Transform.origin;
-        _zoom_delta = targetPosition - _zoom_start;
-        _zoom_delta.y = 0f;
-        _size_start = _camera.Size;
-        _size_delta = targetSize - _size_start;
+        // ZoomTime = zoomTime;
+        // _zoom_time = 0f;
+        // _zoom_start = Transform.origin;
+        // _zoom_delta = targetPosition - _zoom_start;
+        // _zoom_delta.y = 0f;
+        // _size_start = _camera.Size;
+        // _size_delta = targetSize - _size_start;
+        var positionTween = CreateTween();
+        var sizeTween = CreateTween();
+        positionTween.SetTrans(Tween.TransitionType.Quad);
+        sizeTween.SetTrans(Tween.TransitionType.Quad);
+        positionTween.TweenProperty(this, "transform", new Transform(Transform.basis, targetPosition), zoomTime);
+        sizeTween.TweenProperty(this._camera,"size", targetSize, zoomTime);
+
     }
 
     public override void _Input(InputEvent @event)

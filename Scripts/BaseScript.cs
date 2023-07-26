@@ -69,11 +69,15 @@ public partial class BaseScript : Spatial
 	public Random rnd = new Random();
 	private Panel _offlinePanel;
 
+	public TitleScreen TitleScreen;
+
 	public delegate void CheckButtonModes();
 
 	public event CheckButtonModes MoneyTransfered;
 
 	public IsoCam IsoCam;
+
+	int countdown = 2;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -91,6 +95,7 @@ public partial class BaseScript : Spatial
 		CPMLabel = (Label)GetNode("CPMLabel");
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
 		IsoCam = (IsoCam)GetNode("pivot");
+		TitleScreen = (TitleScreen)GetNode("TitleScreen");
 
 		if(CustomerSatisfactionTotal != 0)
 			AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
@@ -106,6 +111,14 @@ public partial class BaseScript : Spatial
 		poofParticleInstance.Emitting = false;
 		poofParticleInstance.OneShot = true;
 		AddChild(poofParticleInstance);
+	}
+
+	public void _Process()
+	{
+		if(countdown <= 0)
+			GetNode<Spatial>("Cache").Visible = false;
+		else countdown--;
+
 	}
 
 	public Chair GetRandomFreeChair()
@@ -310,7 +323,6 @@ public partial class BaseScript : Spatial
 			
 		}
 		saveGame.Close();
-		GD.Print(Time.GetUnixTimeFromSystem()-pastUnixTimestamp);
 		OfflineReward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
 		if(OfflineReward <= Tuxdollar.ZeroTux) OfflineReward = new Tuxdollar(0);
 	}
@@ -419,18 +431,6 @@ public partial class BaseScript : Spatial
 
 	public override void _Input(InputEvent @event)
 	{
-		if(IState == InputState.StartScreen && @event is InputEventScreenTouch)
-        {
-			Vector3 zoomTarget;
-			if(Restaurants.Count > 0)
-				zoomTarget = Restaurants[Restaurants.Count - 1].Transform.origin;
-			else
-				zoomTarget = GetNode<Spatial>("FoodStallSpot3").Transform.origin;
-			
-            IsoCam.ZoomTo(zoomTarget, 6f, 1f);
-            return;
-        }
-
 		if(@event is InputEventKey)
 		{
 			if(@event.AsText() == "F2" && !@event.IsPressed())
