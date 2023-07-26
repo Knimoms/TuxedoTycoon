@@ -78,6 +78,7 @@ public partial class BaseScript : Spatial
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		OfflineReward = Tuxdollar.ZeroTux;
 		IState = InputState.StartScreen;
 		Money = Tuxdollar.ZeroTux;
 		LoadGame();

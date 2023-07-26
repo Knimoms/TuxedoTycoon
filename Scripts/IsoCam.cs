@@ -49,6 +49,7 @@ public class IsoCam : Spatial
                     _parent._open_offlineReward_panel();
 
                 _parent.ShowUIElements();
+                ZoomEffect = Squared;
             }
         }
 
