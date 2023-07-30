@@ -14,7 +14,7 @@ public class Minigame2D : Node2D
     private Timer _doneTimer;
     public Sprite Order;
     public FoodSpwn2D foodSpwn2D;
-
+    public Node2D CustomerSprite;
 
 
     public override void _Ready()
@@ -29,6 +29,7 @@ public class Minigame2D : Node2D
         _finishedFood = GetNode<Sprite>("FinishedFood");
         _wrongFood = GetNode<Sprite>("WrongFood");
         _doneTimer = GetNode<Timer>("DoneTimer");
+        CustomerSprite = (Node2D)GetNode("CustomerSprite");
         _doneTimer.WaitTime = 1f;
         _wrongFood.Visible = false;
     }
@@ -51,6 +52,7 @@ public class Minigame2D : Node2D
     }
     private void _on_DoneTimer_timeout()
     {
+        CustomerSprite.Visible = false;
         _wrongFood.Visible = false;
         _finishedFood.Texture = null;
         foodSpwn2D.closeButton.Visible = true;

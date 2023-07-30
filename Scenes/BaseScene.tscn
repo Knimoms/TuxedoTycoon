@@ -15,7 +15,7 @@
 [ext_resource path="res://Scenes/TableSquareM.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/TableSquareS.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Assets/Ground/pier.glb" type="PackedScene" id=15]
-[ext_resource path="res://Scenes/Particles.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/CustomerSprite.tscn" type="PackedScene" id=16]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 42, 0.001, 28 )
@@ -33,9 +33,10 @@ size = 14
 font_data = SubResource( 5 )
 
 [sub_resource type="NavigationMesh" id=8]
-vertices = PoolVector3Array( -6.5, 0.5, -4.75, -6.75, 0.5, -5.75, -7.25, 0.5, -5.75, -7.5, 0.5, -4.75, -6.5, 0.5, -4.75, -9, 0.5, -4.25, -0.250001, 0.5, -4, -0.500001, 0.5, -4.75, 7.25, 0.5, -5.25, 6.75, 0.5, -5.25, 6.5, 0.5, -3.75, 7.75, 0.5, -3.25, -0.250001, 0.5, 2.5, 0.249999, 0.5, 3, 0.249999, 0.5, -3, -0.250001, 0.5, -4, 0.499999, 0.5, -3.75, 0.249999, 0.5, -6.25, -0.250001, 0.5, -6.25, -0.500001, 0.5, -4.75, -0.250001, 0.5, -4, 0.249999, 0.5, -3, -0.250001, 0.5, 2.5, -0.750001, 0.5, 8.25, 0.249999, 0.5, 3, 9.25, 0.5, -0.25, 8.75, 0.5, -0.25, 8.5, 0.5, 3.25, 9.5, 0.5, 3.75, 2.25, 0.5, 3.75, 9.5, 0.5, 3.75, 8.5, 0.5, 3.25, 0.249999, 0.5, 3, -12.75, 0.5, -5, -12.75, 0.5, -3.75, -9.25, 0.5, -3.75, -9, 0.5, -4.25, 0.249999, 0.5, -3, 7.75, 0.5, -3.25, 6.5, 0.5, -3.75, 0.499999, 0.5, -3.75, -7.5, 0.5, -4.75, -12.75, 0.5, -5, -9, 0.5, -4.25, -6.5, 0.5, -4.75, -7.5, 0.5, -4.75, -9, 0.5, -4.25, -0.750001, 0.5, 8.25, 2, 0.5, 8.25, 2.25, 0.5, 3.75, 0.249999, 0.5, 3 )
-polygons = [ PoolIntArray( 1, 0, 2 ), PoolIntArray( 2, 0, 3 ), PoolIntArray( 7, 6, 4 ), PoolIntArray( 4, 6, 5 ), PoolIntArray( 9, 8, 10 ), PoolIntArray( 10, 8, 11 ), PoolIntArray( 13, 12, 14 ), PoolIntArray( 14, 12, 15 ), PoolIntArray( 21, 20, 16 ), PoolIntArray( 16, 20, 19 ), PoolIntArray( 16, 19, 18 ), PoolIntArray( 16, 18, 17 ), PoolIntArray( 23, 22, 24 ), PoolIntArray( 26, 25, 27 ), PoolIntArray( 27, 25, 28 ), PoolIntArray( 30, 29, 31 ), PoolIntArray( 31, 29, 32 ), PoolIntArray( 35, 34, 36 ), PoolIntArray( 36, 34, 33 ), PoolIntArray( 40, 39, 37 ), PoolIntArray( 37, 39, 38 ), PoolIntArray( 43, 42, 41 ), PoolIntArray( 46, 45, 44 ), PoolIntArray( 49, 48, 50 ), PoolIntArray( 50, 48, 47 ) ]
+vertices = PoolVector3Array( -0.300001, 0.5, -5.05, -0.500001, 0.5, -4.85, -0.500001, 0.5, -4.15, -0.500001, 0.5, -4.15, 0.599999, 0.5, -3.15, 0.599999, 0.5, -3.85, 0.499999, 0.5, -4.95, 0.299999, 0.5, -5.05, -0.300001, 0.5, -5.05, -0.400001, 0.5, 3.25, 0.599999, 0.5, 3.15, 0.599999, 0.5, -3.15, -0.500001, 0.5, -4.15, 0.299999, 0.5, -5.05, 0.299999, 0.5, -7.15, -0.300001, 0.5, -7.15, -0.300001, 0.5, -5.05, -7.3, 0.5, -4.95, -9, 0.5, -4.85, -9, 0.5, -4.15, -6.6, 0.5, -4.85, -6.7, 0.5, -6.75, -7.3, 0.5, -6.75, -7.3, 0.5, -4.95, -6.6, 0.5, -4.85, -0.500001, 0.5, -4.15, -0.500001, 0.5, -4.85, -6.6, 0.5, -4.85, -9, 0.5, -4.15, 7.7, 0.5, -3.15, 7.7, 0.5, -3.85, 7.3, 0.5, -3.95, 6.6, 0.5, -3.85, 7.3, 0.5, -3.95, 7.3, 0.5, -5.75, 6.7, 0.5, -5.75, 6.6, 0.5, -3.85, 0.599999, 0.5, -3.15, 7.7, 0.5, -3.15, 6.6, 0.5, -3.85, 0.599999, 0.5, -3.85, -9, 0.5, -4.15, -9, 0.5, -4.85, -9.1, 0.5, -5.15, -12.9, 0.5, -5.15, -12.9, 0.5, -3.85, -9.1, 0.5, -3.85, 9.7, 0.5, 3.85, 9.7, 0.5, 3.15, 9.3, 0.5, 3.05, 8.6, 0.5, 3.15, 9.3, 0.5, 3.05, 9.3, 0.5, -0.449999, 8.7, 0.5, -0.449999, 8.6, 0.5, 3.15, 2, 0.5, 3.95, 9.7, 0.5, 3.85, 8.6, 0.5, 3.15, 2, 0.5, 3.15, 0.599999, 0.5, 3.15, -0.400001, 0.5, 3.25, -0.500001, 0.5, 3.55, 2, 0.5, 3.95, 2, 0.5, 3.15, 2, 0.5, 3.95, -0.500001, 0.5, 3.55, -0.900001, 0.5, 3.55, -0.900001, 0.5, 8.45, 2, 0.5, 8.45 )
+polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 7, 6, 8 ), PoolIntArray( 8, 6, 3 ), PoolIntArray( 3, 6, 5 ), PoolIntArray( 3, 5, 4 ), PoolIntArray( 10, 9, 11 ), PoolIntArray( 11, 9, 12 ), PoolIntArray( 16, 15, 13 ), PoolIntArray( 13, 15, 14 ), PoolIntArray( 18, 17, 19 ), PoolIntArray( 19, 17, 20 ), PoolIntArray( 22, 21, 23 ), PoolIntArray( 23, 21, 24 ), PoolIntArray( 26, 25, 27 ), PoolIntArray( 27, 25, 28 ), PoolIntArray( 30, 29, 31 ), PoolIntArray( 31, 29, 32 ), PoolIntArray( 34, 33, 35 ), PoolIntArray( 35, 33, 36 ), PoolIntArray( 40, 39, 37 ), PoolIntArray( 37, 39, 38 ), PoolIntArray( 41, 46, 42 ), PoolIntArray( 42, 46, 43 ), PoolIntArray( 43, 46, 45 ), PoolIntArray( 43, 45, 44 ), PoolIntArray( 48, 47, 49 ), PoolIntArray( 49, 47, 50 ), PoolIntArray( 52, 51, 53 ), PoolIntArray( 53, 51, 54 ), PoolIntArray( 58, 57, 55 ), PoolIntArray( 55, 57, 56 ), PoolIntArray( 60, 59, 61 ), PoolIntArray( 61, 59, 63 ), PoolIntArray( 61, 63, 62 ), PoolIntArray( 65, 64, 66 ), PoolIntArray( 66, 64, 68 ), PoolIntArray( 66, 68, 67 ) ]
 geometry_parsed_geometry_type = 2
+cell_size = 0.1
 agent_height = 0.5
 agent_radius = 0.1
 agent_max_climb = 0.0
@@ -53,10 +54,10 @@ size = Vector2( 9.5, 0.75 )
 size = Vector2( 13, 0.75 )
 
 [sub_resource type="PlaneMesh" id=36]
-size = Vector2( 0.75, 2 )
+size = Vector2( 0.75, 2.5 )
 
 [sub_resource type="PlaneMesh" id=40]
-size = Vector2( 0.75, 9 )
+size = Vector2( 1, 9 )
 
 [sub_resource type="PlaneMesh" id=41]
 size = Vector2( 0.75, 4 )
@@ -233,8 +234,8 @@ font_data = SubResource( 46 )
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
-StartMoneyValue = 800.0
-StartMoneyMagnitude = "a"
+StartMoneyValue = 3.0
+StartMoneyMagnitude = "b"
 
 [node name="pivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
@@ -388,14 +389,15 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 0, -4.5 )
 mesh = SubResource( 24 )
 
 [node name="MeshInstance5" type="MeshInstance" parent="NavigationMeshInstanceQueueArea"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
 mesh = SubResource( 36 )
 
 [node name="MeshInstance6" type="MeshInstance" parent="NavigationMeshInstanceQueueArea"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -5.5 )
 mesh = SubResource( 36 )
 
 [node name="MeshInstance7" type="MeshInstance" parent="NavigationMeshInstanceQueueArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 40 )
 skeleton = NodePath("../..")
 
@@ -654,10 +656,13 @@ __meta__ = {
 wait_time = 1.1
 autostart = true
 
-[node name="Cache" type="Spatial" parent="."]
+[node name="Cache2D" type="Node2D" parent="."]
+visible = false
 
-[node name="PoofParticle" parent="Cache" instance=ExtResource( 17 )]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+[node name="CustomerSprite" parent="Cache2D" instance=ExtResource( 16 )]
+
+[node name="Cache" type="Spatial" parent="."]
+visible = false
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="RecipeButton" to="." method="_on_RecipeButton_pressed"]

@@ -9,14 +9,14 @@ extents = Vector3( 0.75, 0.5, 0.5 )
 
 [node name="1lvl_ice" parent="." instance=ExtResource( 1 )]
 
-[node name="StaticBody" type="StaticBody" parent="1lvl_ice"]
-transform = Transform( -4.37114e-08, 0, 0.5, 0, 1, 0, -1, 0, -2.18557e-08, 0, 0.438301, 0 )
-
-[node name="CollisionShape" type="CollisionShape" parent="1lvl_ice/StaticBody"]
-shape = SubResource( 1 )
-
 [node name="OrderWindow" type="Spatial" parent="."]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.34952, 0.5, 0 )
 visible = false
 
 [node name="CSGBox" type="CSGBox" parent="OrderWindow"]
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( -4.37114e-08, 0, 0.5, 0, 1, 0, -1, 0, -2.18557e-08, 0, 0.438301, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 1 )

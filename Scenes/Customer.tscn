@@ -4,8 +4,8 @@
 [ext_resource path="res://Assets/Animals/penguin_30.5.2023_-toGodot.glb" type="PackedScene" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
-radius = 0.2
-height = 0.3
+radius = 0.25
+height = 0.2
 
 [sub_resource type="CapsuleMesh" id=2]
 radius = 0.25
@@ -39,10 +39,10 @@ wait_time = 2.3
 one_shot = true
 
 [node name="Body" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0754854, 0.0442014 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.044 )
 
 [node name="PengiunBody" parent="Body" instance=ExtResource( 2 )]
-transform = Transform( -0.15, 0, -2.26494e-08, 0, 0.15, 0, 2.26494e-08, 0, -0.15, 0, -0.35, 0 )
+transform = Transform( -0.15, 0, -2.26494e-08, 0, 0.15, 0, 2.26494e-08, 0, -0.15, 0, -0.269811, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Body"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )

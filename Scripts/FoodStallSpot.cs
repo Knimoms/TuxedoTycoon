@@ -69,7 +69,6 @@ public partial class FoodStallSpot : Spatial
 		rest.LevelUpCostMagnitude = Cost.Magnitude;
 		Parent.Spots.Remove(this);
 		this.QueueFree();
-		Parent.EmitPoof(this);
 		Parent.AddChild(rest);
 	}
 

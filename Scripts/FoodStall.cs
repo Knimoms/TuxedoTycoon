@@ -43,7 +43,7 @@ public partial class FoodStall : Spatial
 	private Label _nameLabel;
 	private Label _levelLabel;
 	
-	private Spatial _model;
+	public Spatial Model{get; private set;}
 
 	private Dish _orderedDish;
 	public Dish OrderedDish
@@ -92,6 +92,7 @@ public partial class FoodStall : Spatial
 	private Sprite3D LevelUpAvailableIndicator;
 	private string FolderPath;
 	public Spatial OrderWindow;
+	public Timer AnimationTimer{get; private set;}
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -110,7 +111,7 @@ public partial class FoodStall : Spatial
 
 		_initiate_all_dishes();
 
-		_model = (Spatial)GetNode("Spatial");
+		Model = (Spatial)GetNode("Spatial");
 		for(int i = 0; i < Stage; i++)
 			Dishes.Add(allDishes[i]);
 		UpgradeCost = new Tuxdollar(Stage2CostValue, Stage2CostMagnitude);
@@ -118,12 +119,17 @@ public partial class FoodStall : Spatial
 		if(Parent == null)
 			Parent = (BaseScript)GetParent();
 
+		Parent.EmitPoof(this);
 		Parent.MoneyTransfered += CheckButtonMode;
 		Parent.Restaurants.Add(this);
 		_timer = GetNode<Timer>("Timer");
 		_timer.WaitTime = 60/CustomersPerMinute;
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
+
+		AnimationTimer = _popupMenu.GetNode<Timer>("AnimationTimer");
+
+		AnimationTimer.Connect("timeout", this, nameof(_on_AnimationTimer_timeout));
 
 		_levelUpButton = (Button)_popupMenu.GetNode("LevelUpButton");
 		_levelUpButton.Connect("pressed",this, nameof(_on_LevelUpButton_pressed));
@@ -136,6 +142,8 @@ public partial class FoodStall : Spatial
 
 		_minigameButton = (Button)_popupMenu.GetNode("MinigameButton");
 		_minigameButton.Connect("pressed", this, nameof(_on_MiniGame2D_pressed));
+
+
 		
 
 
@@ -257,7 +265,7 @@ public partial class FoodStall : Spatial
 
 	public void ToggleVisibility ()
 	{
-		_model.Visible = !_model.Visible;
+		Model.Visible = !Model.Visible;
 		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
 		Parent.MoneyLabel.Visible = !Parent.MoneyLabel.Visible;
 	}
@@ -278,6 +286,11 @@ public partial class FoodStall : Spatial
 			IncomingCustomers[0].StartTimer();
 		}
 
+	}
+
+	private void _on_AnimationTimer_timeout()
+	{
+		Parent.ShowUIElements();
 	}
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
@@ -304,22 +317,28 @@ public partial class FoodStall : Spatial
 			return;
 
 		Stage++;
-
-		_changeModel();
+		Parent.HideUIElements();
 		Dishes.Add(allDishes[Stage-1]);
 		CheckButtonMode();
+		_popupMenu.Hide();
+		Parent.IsoCam.ZoomTo(Transform.origin, 6f, 1f, this, nameof(FinishedUpgrade));	
+	}
+
+	public void FinishedUpgrade()
+	{
+		_changeModel();
 		Parent.EmitPoof(this);
-		
+		AnimationTimer.Start();
 	}
 
 	private void _changeModel()
 	{
-		Vector3 rotation = _model.Rotation;
-		_model?.QueueFree();
-		_model = (Spatial)GD.Load<PackedScene>($"{FolderPath}Stages/Stage{Stage}.tscn").Instance();
-		_model.Rotation = rotation;
-		AddChild(_model);
-		OrderWindow = (Spatial)_model.GetNode("OrderWindow");
+		Vector3 rotation = Model.Rotation;
+		Model?.QueueFree();
+		Model = (Spatial)GD.Load<PackedScene>($"{FolderPath}Stages/Stage{Stage}.tscn").Instance();
+		Model.Rotation = rotation;
+		AddChild(Model);
+		OrderWindow = (Spatial)Model.GetNode("OrderWindow");
 	}
 
 	public void LevelUp()
@@ -344,7 +363,6 @@ public partial class FoodStall : Spatial
 		Parent.IsoCam.ZoomTo(Transform.origin + Vector3.Back, 6f, 0.5f);
 		_minigameButton.Disabled = Parent.BuildMode;
 		_popupMenu.Popup_();
-
 	}
 
 	public void CheckButtonMode()
@@ -403,7 +421,6 @@ public partial class FoodStall : Spatial
 	private void _on_UpgradeButton_pressed()
 	{
 		Upgrade();
-		ShowPopupMenu();
 	}
 	private void _on_CancelButton_pressed()
 	{

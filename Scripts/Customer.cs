@@ -88,6 +88,7 @@ public partial class Customer : KinematicBody
 		MoveAndSlide(Velocity);
 
 		_my_body.LookAt(_nav_agent.GetNextLocation(), Vector3.Up);
+		_my_body.RotationDegrees = new Vector3(0, _my_body.RotationDegrees.y, 0);
 	}
 
 	public void UpdateTargetLocation(Vector3 targetLocation)

@@ -77,7 +77,13 @@ public partial class BaseScript : Spatial
 
 	public IsoCam IsoCam;
 
+	public Spatial Cache;
+	public Node2D Cache2D;
+
 	int countdown = 2;
+	FoodStall temp;
+
+	public List<Control> UI = new List<Control>();
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -85,15 +91,34 @@ public partial class BaseScript : Spatial
 		OfflineReward = Tuxdollar.ZeroTux;
 		IState = InputState.StartScreen;
 		Money = Tuxdollar.ZeroTux;
+		poofParticleInstance = (Particles)ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn").Instance();
+		poofParticleInstance.OneShot = true;
+		AddChild(poofParticleInstance);
+
 		LoadGame();
+
+		Cache = (Spatial)GetNode("Cache");
+		Cache2D = (Node2D)GetNode("Cache2D");
+
+		temp = (FoodStall)GetNode<FoodStallSpot>("FoodStallSpot3").ExportScene.Instance();
+		temp.Visible = false;
+		AddChild(temp);
+		temp.RemoveFromGroup("Persist");
+		temp.Model.GetNode<StaticBody>("StaticBody").CollisionLayer = 20;
+		
+		Restaurants.Remove(temp);
 
 		RecipeButton = (Button)GetNode("RecipeButton");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
+		UI.Add(MoneyLabel);
 		BuildButton = (Button)GetNode("Button");
+		UI.Add(BuildButton);
 		CPMLabel = (Label)GetNode("CPMLabel");
+		UI.Add(CPMLabel);
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
+		UI.Add(AverageSatisfactionLabel);
 		IsoCam = (IsoCam)GetNode("pivot");
 		TitleScreen = (TitleScreen)GetNode("TitleScreen");
 
@@ -106,19 +131,19 @@ public partial class BaseScript : Spatial
 		CalculateCustomersPerMinute();
 		foreach(Spatial spot in Spots)
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
-
-		poofParticleInstance = (Particles)ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn").Instance();
-		poofParticleInstance.Emitting = false;
-		poofParticleInstance.OneShot = true;
-		AddChild(poofParticleInstance);
 	}
 
 	public override void _Process(float delta)
 	{
-		if(countdown <= 0)
-			GetNode<Spatial>("Cache").Visible = false;
-		else countdown--;
+		if(countdown == 0) 
+			return;
+		
+		countdown--;
 
+		if(countdown == 0)
+		{
+			poofParticleInstance.Visible = false;
+		}
 	}
 
 	public Chair GetRandomFreeChair()
@@ -207,6 +232,7 @@ public partial class BaseScript : Spatial
 
 	public void EmitPoof(Spatial spatial)
 	{
+		poofParticleInstance.Visible = true;
 		poofParticleInstance.GlobalTransform = spatial.GlobalTransform;
 		if(!poofParticleInstance.Emitting)
 			poofParticleInstance.Restart();
@@ -422,11 +448,14 @@ public partial class BaseScript : Spatial
 
 	public void ShowUIElements()
 	{
-		CPMLabel.Visible = true;
-		AverageSatisfactionLabel.Visible = true;
-		MoneyLabel.Visible = true;
-		BuildButton.Visible = true;
-		RecipeButton.Visible = true;
+		foreach(Control control in UI)
+			control.Visible = true;
+	}
+
+	public void HideUIElements()
+	{
+		foreach(Control control in UI)
+			control.Visible = false;
 	}
 
 	public override void _Input(InputEvent @event)

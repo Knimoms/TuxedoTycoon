@@ -64,7 +64,7 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
 
         if (lM < rM)
             left._convert_to_larger_magnitude(right.Magnitude);
-        if (rM < lM)
+        else if (rM < lM)
             right._convert_to_larger_magnitude(left.Magnitude);
 
         Tuxdollar result = new Tuxdollar(left.Value + right.Value, left.Magnitude);

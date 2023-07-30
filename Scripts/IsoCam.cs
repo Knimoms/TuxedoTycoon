@@ -8,7 +8,7 @@ public class IsoCam : Spatial
     private BaseScript _parent;
 
     float ZoomMinimum = 2f;
-    float ZoomMaximum = 30f;
+    float ZoomMaximum = 20f;
     float ZoomSpeed = 0.01f;
     private Camera _camera;
     Dictionary<int, InputEventScreenDrag> events = new Dictionary<int, InputEventScreenDrag>();
@@ -37,35 +37,6 @@ public class IsoCam : Spatial
         _camera = (Camera)GetNode("Camera");
     }
 
-    public override void _Process(float delta)
-    {
-        if(_zoom_time > ZoomTime)
-        {
-            _zoom_time = -1f;
-            if(_parent.IState == InputState.StartScreen)
-            {
-                _parent.IState = InputState.Default;
-                if(_parent.OfflineReward > Tuxdollar.ZeroTux)
-                    _parent._open_offlineReward_panel();
-
-                _parent.ShowUIElements();
-                ZoomEffect = Squared;
-                _parent.TitleScreen.Visible = false;
-                _parent.TransferMoney(Tuxdollar.ZeroTux);
-            }
-        }
-
-        if(_zoom_time >= 0f)
-        {
-            Transform modifiedTransform = Transform;
-            float progress = ZoomEffect(_zoom_time/ZoomTime);
-            modifiedTransform.origin = _zoom_start + _zoom_delta*progress;
-            _camera.Size = _size_start + _size_delta*progress;
-            Transform = modifiedTransform;
-            _zoom_time += delta;
-        }
-    }
-
     public float Squared(float x) => x*x;
 
     public float Logarithmic(float x) => 0.960752f*(float)(Math.Log(1.0479*x+0.572113)+0.536503);
@@ -73,13 +44,6 @@ public class IsoCam : Spatial
 
     public void ZoomTo(Vector3 targetPosition, float targetSize, float zoomTime)
     {
-        // ZoomTime = zoomTime;
-        // _zoom_time = 0f;
-        // _zoom_start = Transform.origin;
-        // _zoom_delta = targetPosition - _zoom_start;
-        // _zoom_delta.y = 0f;
-        // _size_start = _camera.Size;
-        // _size_delta = targetSize - _size_start;
         var positionTween = CreateTween();
         var sizeTween = CreateTween();
         positionTween.SetTrans(Tween.TransitionType.Quad);
@@ -87,6 +51,25 @@ public class IsoCam : Spatial
         positionTween.TweenProperty(this, "transform", new Transform(Transform.basis, targetPosition), zoomTime);
         sizeTween.TweenProperty(this._camera,"size", targetSize, zoomTime);
 
+    }
+
+    public void ZoomTo(Vector3 targetPosition, float targetSize, float zoomTime, Godot.Object callbackObject, string callbackMethod)
+    {
+        var positionTween = CreateTween();
+        var sizeTween = CreateTween();
+        positionTween.SetTrans(Tween.TransitionType.Quad);
+        sizeTween.SetTrans(Tween.TransitionType.Quad);
+        positionTween.TweenProperty(this, "transform", new Transform(Transform.basis, targetPosition), zoomTime);
+        sizeTween.TweenProperty(this._camera,"size", targetSize, zoomTime);
+        sizeTween.TweenCallback(callbackObject, callbackMethod);
+    }
+
+    public void ZoomTo(Vector3 targetPosition, float zoomTime, Godot.Object callbackObject, string callbackMethod)
+    {
+        var positionTween = CreateTween();
+        positionTween.SetTrans(Tween.TransitionType.Quad);
+        positionTween.TweenProperty(this, "transform", new Transform(Transform.basis, targetPosition), zoomTime);
+        positionTween.TweenCallback(callbackObject, callbackMethod);
     }
 
     public override void _Input(InputEvent @event)

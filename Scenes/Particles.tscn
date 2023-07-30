@@ -28,7 +28,10 @@ scale_curve = SubResource( 7 )
 [sub_resource type="SphereMesh" id=10]
 
 [node name="PoofParticle" type="Particles"]
+visible = false
+emitting = false
 amount = 128
+one_shot = true
 explosiveness = 1.0
 process_material = SubResource( 9 )
 draw_pass_1 = SubResource( 10 )

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Animals/penguin_30.5.2023_-toGodot.glb" type="PackedScene" id=1]
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("Viewport")
+
+[node name="CustomerSprite" type="Node2D"]
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 500, 500 )
+transparent_bg = true
+handle_input_locally = false
+render_target_v_flip = true
+gui_disable_input = true
+
+[node name="Body" type="Spatial" parent="Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.035, 0.044 )
+
+[node name="PengiunBody" parent="Viewport/Body" instance=ExtResource( 1 )]
+transform = Transform( -0.15, 0, -2.26494e-08, 0, 0.15, 0, 2.26494e-08, 0, -0.15, 0, -0.269811, 0 )
+
+[node name="Camera" type="Camera" parent="Viewport"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -12, -1.408 )
+projection = 1
+size = 0.6
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 1 )
