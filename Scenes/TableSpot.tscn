@@ -59,7 +59,7 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 [node name="TableSpot" type="Spatial" groups=["Persist"]]
 script = ExtResource( 1 )
 CostValue = 700.0
-BluePrintMat = ExtResource( 2 )
+BlueprintShader = ExtResource( 2 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496
@@ -103,10 +103,10 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="CSGMesh" type="CSGMesh" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 mesh = SubResource( 7 )
-material = SubResource( 9 )
+material/0 = SubResource( 9 )
 
 [node name="Area" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0, 0 )

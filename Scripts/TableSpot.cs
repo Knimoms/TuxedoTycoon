@@ -12,13 +12,20 @@ public partial class TableSpot : Spatial
 	[Export]
 	public string CostMagnitude;
 	[Export]
-	public ShaderMaterial BluePrintMat;
+	public ShaderMaterial BlueprintShader;
+	[Export]
+	public Color DeactivedColor;
+
+	private Color _circleColor;
+	private Color _bluePrintColor;
 	public static Tuxdollar Cost;
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
 	private CSGBox _bluePrint;
-	private CSGMesh _csgMesh;
+	private MeshInstance _mesh;
+	private Color _defaultColor;
+	private ShaderMaterial _my_blueprint_shader;
 
 	
 	// Called when the node enters the scene tree for the first time.
@@ -37,7 +44,7 @@ public partial class TableSpot : Spatial
 		
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
-		_csgMesh = (CSGMesh)GetNode("CSGMesh");
+		_mesh = (MeshInstance)GetNode("MeshInstance");
 
 		Table tempTable = ExportScene.Instance<Table>();
 		_bluePrint = (CSGBox)tempTable.GetNode("CSGBox").Duplicate();
@@ -47,8 +54,9 @@ public partial class TableSpot : Spatial
 		Scale = new Vector3(_bluePrint.Scale.x, 1f, _bluePrint.Scale.z);
 		_bluePrint.Visible = false;
 		
+		_my_blueprint_shader = (ShaderMaterial)BlueprintShader.Duplicate();
 		AddChild(_bluePrint);
-		_bluePrint.MaterialOverride = BluePrintMat;
+		_bluePrint.MaterialOverride = _my_blueprint_shader;
 		_bluePrint.Scale = _bluePrint.Scale/Scale;
 
 		_base_script.Spots.Add(this);
@@ -56,13 +64,13 @@ public partial class TableSpot : Spatial
 
 		_costLabel.Text = $"Cost: {Cost}";		
 		
-		Vector3 meshScale = _csgMesh.Scale;
+		Vector3 meshScale = _mesh.Scale;
 		if(Scale.x < Scale.z)
 			meshScale.z *= Scale.x/Scale.z;
 		else if(Scale.z < Scale.x)
 			meshScale.x *= Scale.z/Scale.x;
 
-		_csgMesh.Scale = meshScale;
+		_mesh.Scale = meshScale;
 	}    
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 

@@ -12,21 +12,32 @@ public partial class FoodStallSpot : Spatial
 
 	[Export]
 	public PackedScene FoodStallModel;
+
+	[Export]
+	public ShaderMaterial BlueprintShader;
+	[Export]
+	public Color DeactivedColor;
 	public static BaseScript Parent;
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
 	private ulong _input_time;
 	FoodStall rest;
-	private MeshInstance _meshInstance;
-
+	private MeshInstance _blueprint;
+	private Spatial _spot;
 	private Particles poofParticleInstance;
+
+	private ShaderMaterial _my_blueprint_shader;
+	private Color defaultColor;
+
+	
 
 
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		defaultColor = (Color)BlueprintShader.GetShaderParam("color");
 		rest = ExportScene.Instance<FoodStall>();
 		Cost = new Tuxdollar(rest.Stage1CostValue, rest.Stage1CostMagnitude);
 		if(Parent == null)
@@ -38,13 +49,27 @@ public partial class FoodStallSpot : Spatial
 		
 		_popupMenu.PopupCentered();
 		_popupMenu.Hide();
+
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
-		_meshInstance = (MeshInstance)GetNode("MeshInstance");
 
+		_spot = (Spatial)GetNode("Spot");
 
-		Parent.Spots.Add(this);
-		Visible = false;
+		string[] splittedFilename = rest.Filename.Split('/');
+		splittedFilename[splittedFilename.Length-1] = null;
+		string FolderPath = string.Join("/", splittedFilename);
+
+		_my_blueprint_shader = (ShaderMaterial)BlueprintShader.Duplicate();
+
+		Spatial blueprintGrandpa = (Spatial)GD.Load<PackedScene>(FolderPath+"/Stages/Stage1.tscn").Instance();
+		blueprintGrandpa.RotationDegrees = new Vector3(0, -90, 0);
+		_blueprint = (MeshInstance)blueprintGrandpa.GetChild(0).GetChild(0);
+		_blueprint.MaterialOverride = _my_blueprint_shader;
+
+		_spot.AddChild(blueprintGrandpa);
+
+		Parent.Spots.Add(_spot);
+		Visible = true;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -109,8 +134,7 @@ public partial class FoodStallSpot : Spatial
 	public void CheckButtonMode()
 	{
 		_confirmationButton.Disabled = Parent.Money < Cost;
-		SpatialMaterial newMat = new SpatialMaterial();
-        newMat.AlbedoColor = (Parent.Money < Cost)? new Color(150f/255, 150f/255, 150f/255, 1) : new Color(125f/255, 1, 1, 1);
-		_meshInstance.MaterialOverride = newMat;
+		Color temp = (Parent.Money < Cost)? DeactivedColor : defaultColor;
+        _my_blueprint_shader.SetShaderParam ("color", temp);
 	}
 }

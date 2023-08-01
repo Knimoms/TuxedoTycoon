@@ -1,6 +1,23 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/FoodStallSpot.cs" type="Script" id=1]
+[ext_resource path="res://Assets/FoodStallAssets/fence.glb" type="PackedScene" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+
+render_mode blend_mix, specular_phong;
+
+uniform vec4 color : hint_color = vec4(80, 135, 255, 70);
+
+void fragment(){
+	vec4 alpha = texture(SCREEN_TEXTURE, SCREEN_UV);
+	ALBEDO = mix(alpha.rgb, color.rgb, color.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 1 )
+shader_param/color = Color( 0.313726, 0.509804, 1, 0.27451 )
 
 [sub_resource type="Curve" id=6]
 min_value = 0.5
@@ -29,16 +46,6 @@ scale_curve = SubResource( 10 )
 
 [sub_resource type="SphereMesh" id=11]
 
-[sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.490196, 1, 1, 1 )
-
-[sub_resource type="CubeMesh" id=1]
-material = SubResource( 3 )
-size = Vector3( 1, 1, 1 )
-
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 0.5, 0.5, 0.5 )
-
 [sub_resource type="DynamicFontData" id=4]
 font_path = "res://Assets/SansBlackSmall.ttf"
 
@@ -46,8 +53,13 @@ font_path = "res://Assets/SansBlackSmall.ttf"
 size = 30
 font_data = SubResource( 4 )
 
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.5, 0.5, 0.5 )
+
 [node name="FoodStallSpot" type="Spatial" groups=["Persist"]]
 script = ExtResource( 1 )
+BlueprintShader = SubResource( 12 )
+DeactivedColor = Color( 0.588235, 0.588235, 0.588235, 0.117647 )
 
 [node name="PoofParticle" type="Particles" parent="."]
 visible = false
@@ -58,15 +70,6 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource( 8 )
 draw_pass_1 = SubResource( 11 )
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 2, 0, 0, 0, 0.01, 0, 0, 0, 2, 0, 0, 0 )
-mesh = SubResource( 1 )
-
-[node name="Area" type="Area" parent="MeshInstance"]
-
-[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/Area"]
-shape = SubResource( 2 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496
@@ -111,7 +114,19 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="fence" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.150426, 0 )
+
+[node name="Spot" type="Spatial" parent="."]
+visible = false
+
+[node name="Area" type="Area" parent="Spot"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Spot/Area"]
+shape = SubResource( 2 )
+
 [connection signal="tree_exiting" from="." to="." method="_on_FoodStallSpot_tree_exiting"]
-[connection signal="input_event" from="MeshInstance/Area" to="." method="_on_Area_input_event"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="input_event" from="Spot/Area" to="." method="_on_Area_input_event"]
