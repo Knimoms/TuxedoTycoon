@@ -92,7 +92,7 @@ public partial class FoodStallSpot : Spatial
 		rest.Rotation = this.Rotation;
 		rest.LevelUpCostValue = 4 * Cost.Value;
 		rest.LevelUpCostMagnitude = Cost.Magnitude;
-		Parent.Spots.Remove(this);
+		Parent.Spots.Remove(_spot);
 		this.QueueFree();
 		Parent.AddChild(rest);
 	}
