@@ -20,6 +20,9 @@ public partial class BaseScript : Spatial
 	[Export]
 	public int GoodRatingMin = 67;
 
+	[Export]
+	public int OfflineRewardsMinTreshold;
+
 	private float _satisfactionRating;
 	public float SatisfactionRating {
 		get => _satisfactionRating;
@@ -262,16 +265,14 @@ public partial class BaseScript : Spatial
 			{"StartMoneyMagnitude", Money.Magnitude},
 			{"CustomerSatisfactionTotal", CustomerSatisfactionTotal},
 			{"_customer_satisfactionsArray", _customer_satisfactions.ToArray()},
-			{"_satisfactionRating", _satisfactionRating},
-			{"pastUnixTimestamp", (int)Time.GetUnixTimeFromSystem()}
-			
+			{"_satisfactionRating", _satisfactionRating}			
 		};
 	}
 
 	public void SaveGame()
 	{
 		File saveGame = new File();
-		saveGame.Open($"user://{(long)Time.GetUnixTimeFromSystem()}.save", File.ModeFlags.Write);
+		saveGame.Open($"user://{OS.GetUnixTime()}.save", File.ModeFlags.Write);
 
 		Godot.Collections.Array saveNodes = GetTree().GetNodesInGroup("Persist");
 		saveGame.StoreLine(JSON.Print(Save()));
@@ -284,7 +285,7 @@ public partial class BaseScript : Spatial
 	public void LoadGame()
 	{
 		File saveGame = new File();
-
+		double offlineSeconds = 0.0;
 		string filePath = GetLastValidSavefile();
 
 		if(filePath == "")
@@ -313,9 +314,8 @@ public partial class BaseScript : Spatial
 				foreach(System.Single x in _customer_satisfactionsArray)
 					_customer_satisfactions.Enqueue((int)x);
 
-				//_offline_seconds = Time.GetUnixTimeFromSystem() - (int)currentLine["UnixTimestamp"];
-				Set("pastUnixTimestamp", currentLine["pastUnixTimestamp"]);
-				OfflineReward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
+				offlineSeconds = OS.GetUnixTime() - pastUnixTimestamp;
+				
 				this.Chairs = new List<Chair>();
 				this.Spots = new List<Spatial>();
 				this.Restaurants = new List<FoodStall>();
@@ -349,13 +349,15 @@ public partial class BaseScript : Spatial
 			
 		}
 		saveGame.Close();
-		OfflineReward = _calculate_offlineReward(pastUnixTimestamp, Time.GetUnixTimeFromSystem());
-		if(OfflineReward <= Tuxdollar.ZeroTux) OfflineReward = new Tuxdollar(0);
+		OfflineReward = _calculate_offlineReward(offlineSeconds);
+		GD.Print($"ofr: {OfflineReward}, ofs: {offlineSeconds}, cT: {OS.GetUnixTime()}, pT: {pastUnixTimestamp}, fP: {filePath}");
+		if(OfflineReward <= Tuxdollar.ZeroTux || offlineSeconds < 60*OfflineRewardsMinTreshold) 
+			OfflineReward = new Tuxdollar(0);
 	}
 
 	public string GetLastValidSavefile()
 	{
-		double currentUnixTime = Time.GetUnixTimeFromSystem();
+		ulong currentUnixTime = OS.GetUnixTime();
 		Directory dir = new Directory();
 		List<double> allSavesUnixtime = new List<double>();
 
@@ -393,6 +395,7 @@ public partial class BaseScript : Spatial
 		if(allSavesUnixtime.Count == 0)
 			return "";
 
+		pastUnixTimestamp = allSavesUnixtime[allSavesUnixtime.Count-1];
 		return "user://" + allSavesUnixtime[allSavesUnixtime.Count-1] + ".save";
 	}
 
@@ -435,7 +438,7 @@ public partial class BaseScript : Spatial
 		_offlinePanel.Visible = false;
 	}
 	
-	private Tuxdollar _calculate_offlineReward(double pastUnixtime, double currentUnixtime) => CalculateMoneyPerMinute() * (float)((currentUnixtime-pastUnixtime)/60);
+	private Tuxdollar _calculate_offlineReward(double seconds) => CalculateMoneyPerMinute() * (float)((seconds)/60);
 
 	public override void _Notification(int what)
 	{

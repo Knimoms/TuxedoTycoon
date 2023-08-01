@@ -11,11 +11,14 @@ public partial class TableSpot : Spatial
 	public float CostValue;
 	[Export]
 	public string CostMagnitude;
+	[Export]
+	public ShaderMaterial BluePrintMat;
 	public static Tuxdollar Cost;
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
-	private MeshInstance _meshInstance;
+	private CSGBox _bluePrint;
+	private CSGMesh _csgMesh;
 
 	
 	// Called when the node enters the scene tree for the first time.
@@ -30,34 +33,37 @@ public partial class TableSpot : Spatial
 		
 		Cost = new Tuxdollar(CostValue, CostMagnitude);
 
-		// Get references to child nodes
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 		
-		_popupMenu.PopupCentered();
-		_popupMenu.Hide();
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
-		_meshInstance = (MeshInstance)GetNode("MeshInstance");
+		_csgMesh = (CSGMesh)GetNode("CSGMesh");
 
 		Table tempTable = ExportScene.Instance<Table>();
-		CSGBox tempTableBox = (CSGBox)tempTable.GetNode("CSGBox");
-	
-		Scale = new Vector3(tempTableBox.Scale.x, 1f, tempTableBox.Scale.z);
+		_bluePrint = (CSGBox)tempTable.GetNode("CSGBox").Duplicate();
 		tempTable.QueueFree();
+
+
+		Scale = new Vector3(_bluePrint.Scale.x, 1f, _bluePrint.Scale.z);
+		_bluePrint.Visible = false;
+		
+		AddChild(_bluePrint);
+		_bluePrint.MaterialOverride = BluePrintMat;
+		_bluePrint.Scale = _bluePrint.Scale/Scale;
 
 		_base_script.Spots.Add(this);
 		Visible = false;
 
-
-		// Set the label text for the Cost label
 		_costLabel.Text = $"Cost: {Cost}";		
-	}
+		
+		Vector3 meshScale = _csgMesh.Scale;
+		if(Scale.x < Scale.z)
+			meshScale.z *= Scale.x/Scale.z;
+		else if(Scale.z < Scale.x)
+			meshScale.x *= Scale.z/Scale.x;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(float delta)
-	{
-
-	}
+		_csgMesh.Scale = meshScale;
+	}    
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx) 
 	{
@@ -66,10 +72,21 @@ public partial class TableSpot : Spatial
 
 		if(!event1.IsPressed() && _base_script.MaxInputDelay.TimeLeft > 0) 
 		{
+			_base_script.IsoCam.ZoomTo(GlobalTransform.origin + Vector3.Back, 6f, 0.5f);
 			_popupMenu.Popup_();
 			_costLabel.Text = Cost.ToString();
 		}
 
+	}
+
+	private void _on_PopupMenu_about_to_show()
+	{
+		_bluePrint.Visible = true;
+	}
+
+	private void _on_PopupMenu_popup_hide()
+	{
+		_bluePrint.Visible = false;
 	}
 
 	private void _on_ConfirmationButton_pressed()
@@ -97,8 +114,8 @@ public partial class TableSpot : Spatial
 	{
 		_confirmationButton.Disabled = _base_script.Money < Cost;
 		SpatialMaterial newMat = new SpatialMaterial();
-        newMat.AlbedoColor = (_base_script.Money < Cost)? new Color(150f/255, 150f/255, 150f/255, 1) : new Color(0, 150f/255, 255f/255, 1);
-		_meshInstance.MaterialOverride = newMat;
+        newMat.AlbedoColor = (_base_script.Money < Cost)? new Color(150f/255, 150f/255, 150f/255, 0.1f) : new Color(0, 150f/255, 1f, 0.1f);
+		//_csgMesh.MaterialOverride = newMat;
 	}
 
 	public PopupMenu GetPopupMenu()

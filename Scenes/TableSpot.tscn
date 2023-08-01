@@ -1,16 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/TableSpot.cs" type="Script" id=1]
-
-[sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.509277, 0.509277, 0.509277, 1 )
-
-[sub_resource type="CubeMesh" id=1]
-material = SubResource( 3 )
-size = Vector3( 1, 1, 1 )
-
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 0.5, 0.5, 0.5 )
+[ext_resource path="res://Assets/Shader/BlueprintShader.tres" type="Material" id=2]
 
 [sub_resource type="DynamicFontData" id=6]
 font_path = "res://Assets/SansBlackSmall.ttf"
@@ -19,24 +10,62 @@ font_path = "res://Assets/SansBlackSmall.ttf"
 size = 30
 font_data = SubResource( 6 )
 
+[sub_resource type="PlaneMesh" id=7]
+
+[sub_resource type="Shader" id=8]
+code = "shader_type spatial;
+
+render_mode blend_mix, specular_phong;
+
+uniform float outerRadius : hint_range(0, 0.5f) = 0.25f;
+uniform float thickness : hint_range(0, 0.5f) = 0.05f;
+
+uniform float pulseStrength : hint_range(0.0, 1.0) = 0.5f;
+
+uniform float speed : hint_range(-10,10) = 1;
+
+uniform vec4 color : hint_color;
+
+float vecLenght(vec2 values){
+	return sqrt(pow(values.x, 2) + pow(values.y, 2));
+}
+
+void fragment(){
+	float distanceFromCenter = vecLenght(abs(UV - vec2(0.5f, 0.5f)));
+	float radius = (pulseStrength*sin(TIME*speed)+1.0f+pulseStrength)* outerRadius;
+	
+	vec4 fragColor = color;
+	if(distanceFromCenter > radius)
+		discard;
+	else if(distanceFromCenter < radius-thickness) 
+		fragColor.a *= 0.0f;
+	
+	vec4 alpha = texture(SCREEN_TEXTURE, SCREEN_UV);
+	ALBEDO = mix(alpha.rgb, fragColor.rgb, fragColor.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=9]
+render_priority = 1
+shader = SubResource( 8 )
+shader_param/outerRadius = 0.25
+shader_param/thickness = 0.05
+shader_param/pulseStrength = 0.3
+shader_param/speed = 3.0
+shader_param/color = Color( 0.313726, 0.529412, 1, 0.27451 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.5, 0.5, 0.5 )
+
 [node name="TableSpot" type="Spatial" groups=["Persist"]]
 script = ExtResource( 1 )
 CostValue = 700.0
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 1 )
-
-[node name="Area" type="Area" parent="MeshInstance"]
-
-[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/Area"]
-shape = SubResource( 2 )
+BluePrintMat = ExtResource( 2 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496
-anchor_top = 0.359167
+anchor_top = 0.564167
 anchor_right = 0.666504
-anchor_bottom = 0.640833
+anchor_bottom = 0.845833
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -74,7 +103,20 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="CSGMesh" type="CSGMesh" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+mesh = SubResource( 7 )
+material = SubResource( 9 )
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 2 )
+
 [connection signal="tree_exiting" from="." to="." method="_on_TableSpot_tree_exiting"]
-[connection signal="input_event" from="MeshInstance/Area" to="." method="_on_Area_input_event"]
+[connection signal="about_to_show" from="PopupMenu" to="." method="_on_PopupMenu_about_to_show"]
+[connection signal="popup_hide" from="PopupMenu" to="." method="_on_PopupMenu_popup_hide"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="input_event" from="Area" to="." method="_on_Area_input_event"]
