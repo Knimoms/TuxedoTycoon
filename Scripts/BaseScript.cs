@@ -235,11 +235,9 @@ public partial class BaseScript : Spatial
 
 	public void EmitPoof(Spatial spatial)
 	{
-		poofParticleInstance.Visible = true;
 		poofParticleInstance.GlobalTransform = spatial.GlobalTransform;
-		if(!poofParticleInstance.Emitting)
-			poofParticleInstance.Restart();
-		poofParticleInstance.Emitting = true;
+		poofParticleInstance.Visible = true;
+		poofParticleInstance.Restart();
 	}
 
 	private void _on_RecipeBook_popup_hide()
@@ -399,6 +397,12 @@ public partial class BaseScript : Spatial
 		return "user://" + allSavesUnixtime[allSavesUnixtime.Count-1] + ".save";
 	}
 
+	public static void ChangePosition(Spatial shiftingNode, Vector3 position)
+	{
+		Transform temp = shiftingNode.Transform;
+		temp.origin = position;
+		shiftingNode.Transform = temp;
+	}
 
 	public void DeletSavefiles()
 	{

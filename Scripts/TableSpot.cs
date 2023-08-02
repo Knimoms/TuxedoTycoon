@@ -16,7 +16,7 @@ public partial class TableSpot : Spatial
 	[Export]
 	public Color DeactivedColor;
 
-	private Color _circleColor;
+	private Color defaultColor;
 	private Color _bluePrintColor;
 	public static Tuxdollar Cost;
 	private PopupMenu _popupMenu;
@@ -26,11 +26,12 @@ public partial class TableSpot : Spatial
 	private MeshInstance _mesh;
 	private Color _defaultColor;
 	private ShaderMaterial _my_blueprint_shader;
+	private ShaderMaterial _circle_shader;
 
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{	
+	{	defaultColor = (Color)BlueprintShader.GetShaderParam("color");
         AddToGroup("Persist");
 
 		if (_base_script == null)
@@ -45,6 +46,8 @@ public partial class TableSpot : Spatial
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
 		_mesh = (MeshInstance)GetNode("MeshInstance");
+
+		_circle_shader = (ShaderMaterial)_mesh.GetSurfaceMaterial(0);
 
 		Table tempTable = ExportScene.Instance<Table>();
 		_bluePrint = (CSGBox)tempTable.GetNode("CSGBox").Duplicate();
@@ -121,9 +124,9 @@ public partial class TableSpot : Spatial
 	public void CheckButtonMode()
 	{
 		_confirmationButton.Disabled = _base_script.Money < Cost;
-		SpatialMaterial newMat = new SpatialMaterial();
-        newMat.AlbedoColor = (_base_script.Money < Cost)? new Color(150f/255, 150f/255, 150f/255, 0.1f) : new Color(0, 150f/255, 1f, 0.1f);
-		//_csgMesh.MaterialOverride = newMat;
+		Color temp = (_base_script.Money < Cost)? DeactivedColor : defaultColor;
+        _my_blueprint_shader.SetShaderParam ("color", temp);
+		_circle_shader.SetShaderParam("deactivated", _confirmationButton.Disabled);
 	}
 
 	public PopupMenu GetPopupMenu()

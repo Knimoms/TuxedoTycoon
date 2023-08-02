@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Customer.cs" type="Script" id=1]
-[ext_resource path="res://Assets/Animals/penguin_30.5.2023_-toGodot.glb" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Test/penguin_v4.glb" type="PackedScene" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.25
@@ -39,16 +39,15 @@ wait_time = 2.3
 one_shot = true
 
 [node name="Body" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.044 )
-
-[node name="PengiunBody" parent="Body" instance=ExtResource( 2 )]
-transform = Transform( -0.15, 0, -2.26494e-08, 0, 0.15, 0, 2.26494e-08, 0, -0.15, 0, -0.269811, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Body"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 visible = false
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
+
+[node name="PenguinBody" parent="Body" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.105, -0.477518, 0 )
 
 [connection signal="target_reached" from="NavigationAgent" to="." method="_on_NavigationAgent_target_reached"]
 [connection signal="velocity_computed" from="NavigationAgent" to="." method="_on_NavigationAgent_velocity_computed"]

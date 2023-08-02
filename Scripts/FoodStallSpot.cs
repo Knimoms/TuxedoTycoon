@@ -25,7 +25,7 @@ public partial class FoodStallSpot : Spatial
 	FoodStall rest;
 	private MeshInstance _blueprint;
 	private Spatial _spot;
-	private Particles poofParticleInstance;
+	private Particles _poofParticleInstance;
 
 	private ShaderMaterial _my_blueprint_shader;
 	private Color defaultColor;
@@ -88,6 +88,7 @@ public partial class FoodStallSpot : Spatial
 
 	private void _add_restaurant()
 	{
+		Parent.EmitPoof(this);
 		rest.Transform = new Transform(this.Transform.basis, this.Transform.origin);
 		rest.Rotation = this.Rotation;
 		rest.LevelUpCostValue = 4 * Cost.Value;

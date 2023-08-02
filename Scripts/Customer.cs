@@ -49,7 +49,6 @@ public partial class Customer : KinematicBody
 		if(Parent == null)
 			Parent = (BaseScript)this.GetParent();
 
-		//_nav_agent.TargetDesiredDistance = ;
 		_target_window = TargetRestaurant.OrderWindow.GlobalTransform.origin;
 		TargetRestaurant.IncomingCustomers.Add(this);
 		LineNumber = TargetRestaurant.IncomingCustomers.Count - 1;

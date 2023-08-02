@@ -26,17 +26,25 @@ uniform float speed : hint_range(-10,10) = 1;
 
 uniform vec4 color : hint_color;
 
+uniform bool deactivated;
+
 float vecLenght(vec2 values){
 	return sqrt(pow(values.x, 2) + pow(values.y, 2));
 }
 
 void fragment(){
+		
 	float distanceFromCenter = vecLenght(abs(UV - vec2(0.5f, 0.5f)));
 	float radius = (pulseStrength*sin(TIME*speed)+1.0f+pulseStrength)* outerRadius;
 	
 	vec4 fragColor = color;
+	
+	if(deactivated)
+		fragColor = vec4(0.5, 0.5, 0.5, color.a);
+		
 	if(distanceFromCenter > radius)
 		discard;
+		
 	else if(distanceFromCenter < radius-thickness) 
 		fragColor.a *= 0.0f;
 	
@@ -52,6 +60,7 @@ shader_param/thickness = 0.05
 shader_param/pulseStrength = 0.3
 shader_param/speed = 3.0
 shader_param/color = Color( 0.313726, 0.529412, 1, 0.27451 )
+shader_param/deactivated = false
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.5, 0.5, 0.5 )
@@ -60,6 +69,7 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 script = ExtResource( 1 )
 CostValue = 700.0
 BlueprintShader = ExtResource( 2 )
+DeactivedColor = Color( 0.588235, 0.588235, 0.588235, 0.156863 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496

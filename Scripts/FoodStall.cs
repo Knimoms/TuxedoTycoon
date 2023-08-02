@@ -93,6 +93,7 @@ public partial class FoodStall : Spatial
 	private string FolderPath;
 	public Spatial OrderWindow;
 	public Timer AnimationTimer{get; private set;}
+	private Particles _poofParticlesInstance;
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -119,7 +120,6 @@ public partial class FoodStall : Spatial
 		if(Parent == null)
 			Parent = (BaseScript)GetParent();
 
-		Parent.EmitPoof(this);
 		Parent.MoneyTransfered += CheckButtonMode;
 		Parent.Restaurants.Add(this);
 		_timer = GetNode<Timer>("Timer");
@@ -248,6 +248,7 @@ public partial class FoodStall : Spatial
 			}
 		}
 	}
+
 	private Dish _initiate_dish(PackedScene dishScene, Tuxdollar MealPrice)
 	{
 		Dish dish = (Dish)dishScene.Instance();
