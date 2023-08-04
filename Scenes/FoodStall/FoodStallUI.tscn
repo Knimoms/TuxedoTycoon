@@ -118,3 +118,6 @@ __meta__ = {
 [node name="AnimationTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="LevelUpTimer" type="Timer" parent="."]
+wait_time = 0.2
