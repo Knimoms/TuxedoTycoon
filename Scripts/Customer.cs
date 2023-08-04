@@ -43,21 +43,20 @@ public partial class Customer : KinematicBody
 		_my_body = (Spatial)GetNode("Body");
 		_my_sprite = (Sprite3D)GetNode("Sprite3D");
 		_timer = (Timer)GetNode("Timer");
+		_timer.Stop();
 		_patienceTimer = (Timer)GetNode("PatienceTimer");
 		_patienceTimer.Start();
 		_nav_agent = (NavigationAgent)GetNode("NavigationAgent");
+
 		if(Parent == null)
 			Parent = (BaseScript)this.GetParent();
 
 		_target_window = TargetRestaurant.OrderWindow.GlobalTransform.origin;
 		TargetRestaurant.IncomingCustomers.Add(this);
 		LineNumber = TargetRestaurant.IncomingCustomers.Count - 1;
-		if (TargetRestaurant.IncomingCustomers.Count > 1)
-			this.UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalTransform.origin);
-		else
-			this.UpdateTargetLocation(_target_window);
 		
 		State = CustomerState.WalkingToQueue;
+		UpdateTargetLocation(TargetRestaurant.GetEntryQueueSpot(LineNumber));
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -72,7 +71,7 @@ public partial class Customer : KinematicBody
 
 		Vector3 velocity = Velocity;
 
-		if (LineNumber != 0 && !OrderFinished)
+		if (LineNumber != 0 && !OrderFinished && State != CustomerState.WalkingToQueue)
 			UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalTransform.origin);
 
 		Vector3 currentLocation = GlobalTransform.origin;
@@ -98,7 +97,7 @@ public partial class Customer : KinematicBody
 
 	public void QueueUp()
 	{
-		State = CustomerState.WaitingInQueue;
+		State = CustomerState.WaitingInQueue;			
 	}
 
 	public void FirstInQueue()
@@ -212,31 +211,39 @@ public partial class Customer : KinematicBody
 
 	private void _on_NavigationAgent_target_reached()
 	{
+		GD.Print(State);
 		if(State == CustomerState.EatingFood || State == CustomerState.WaitingInQueue)
 			return;
 		
-		if (State == CustomerState.Leaving)
+		if(State == CustomerState.Leaving)
 		{
 			QueueFree();
 			return;
 		}
 		
-		if (State == CustomerState.WalkingToTable)
+		if(State == CustomerState.WalkingToTable)
 		{
 			StartEating();
 			return;
+		}
+
+		if(State == CustomerState.WalkingToQueue)
+		{
+			if (LineNumber > 0)
+				this.UpdateTargetLocation(TargetRestaurant.IncomingCustomers[LineNumber - 1].GlobalTransform.origin);
+			else
+				this.UpdateTargetLocation(_target_window);
+
+			State = CustomerState.WalkingToQueueWaitSpot;
+			_nav_agent.TargetDesiredDistance = 0.6f;
+			return;
+
 		}
 
 		QueueUp();
 
 		if (LineNumber == 0)
 			OrderedDish = TargetRestaurant.Order();
-	}
-
-	private void _on_NavigationAgent_velocity_computed(Vector3 safe_velocity)
-	{
-		Velocity = this.Velocity.MoveToward(safe_velocity, 0.25f);
-		MoveAndSlide(Velocity);
 	}
 }
 
@@ -247,6 +254,7 @@ public enum CustomerState
 	WalkingToTable,
 	EatingFood,
 	Leaving,
+	WalkingToQueueWaitSpot,
 	WalkingToQueue
 
 }

@@ -46,9 +46,6 @@ public partial class FoodStallSpot : Spatial
 		Parent.MoneyTransfered += CheckButtonMode;	
 
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
-		
-		_popupMenu.PopupCentered();
-		_popupMenu.Hide();
 
 		_costLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
@@ -81,7 +78,8 @@ public partial class FoodStallSpot : Spatial
 
 		if(!event1.IsPressed() && Parent.MaxInputDelay.TimeLeft > 0) 
 		{
-			_popupMenu.PopupCentered();	
+			Parent.IsoCam.ZoomTo(this.Transform.origin + Vector3.Back, 6f, 0.5f);
+			_popupMenu.Popup_();	
 			_costLabel.Text = $"Cost: {Cost}";
 		}
 	}

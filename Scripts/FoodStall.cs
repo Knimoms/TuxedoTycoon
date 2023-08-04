@@ -94,6 +94,8 @@ public partial class FoodStall : Spatial
 	public Spatial OrderWindow;
 	public Timer AnimationTimer{get; private set;}
 	private Particles _poofParticlesInstance;
+
+	private PathFollow _path_follow;
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -126,6 +128,8 @@ public partial class FoodStall : Spatial
 		_timer.WaitTime = 60/CustomersPerMinute;
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
+
+		_path_follow = (PathFollow)GetNodeOrNull("Path/PathFollow"); 
 
 		AnimationTimer = _popupMenu.GetNode<Timer>("AnimationTimer");
 
@@ -192,7 +196,8 @@ public partial class FoodStall : Spatial
 		if(IncomingCustomers.Count > 0) 
 		{
 			IncomingCustomers[0].FirstInQueue();
-			IncomingCustomers[0].StartTimer();
+			if(IncomingCustomers[0].State >= CustomerState.WalkingToTable)
+				IncomingCustomers[0].StartTimer();
 		}
 
 		_timer.Stop();
@@ -284,7 +289,8 @@ public partial class FoodStall : Spatial
 		if(IncomingCustomers.Count > 0) 
 		{
 			IncomingCustomers[0].FirstInQueue();
-			IncomingCustomers[0].StartTimer();
+			if(IncomingCustomers[0].State >= CustomerState.WalkingToTable)
+				IncomingCustomers[0].StartTimer();
 		}
 
 	}
@@ -310,6 +316,18 @@ public partial class FoodStall : Spatial
 			this._timer.Start();
 
 		return OrderedDish;
+	}
+
+	public Vector3 GetEntryQueueSpot(int LineNumber)
+	{
+		_path_follow.Offset = 2 + LineNumber*0.5f;
+		GD.Print(_path_follow.UnitOffset);
+		return _path_follow.GlobalTransform.origin;
+	}
+
+	public void Refund(Dish dish)
+	{
+		Parent.TransferMoney(-dish.MealPrice*Multiplicator);
 	}
 
 	public void Upgrade()
@@ -406,11 +424,6 @@ public partial class FoodStall : Spatial
 			{"Dish3Unlocked",allDishes[2].Unlocked},
 
 		};
-	}
-
-	public void Refund(Dish dish)
-	{
-		Parent.TransferMoney(-dish.MealPrice*Multiplicator);
 	}
 
 	private void _on_LevelUpButton_pressed()
