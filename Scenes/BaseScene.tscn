@@ -234,7 +234,7 @@ font_data = SubResource( 46 )
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 StartMoneyValue = 3.0
-StartMoneyMagnitude = "b"
+StartMoneyMagnitude = "f"
 
 [node name="pivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )

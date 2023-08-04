@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+
 public partial class FoodStall : Spatial
 {
 
@@ -93,6 +94,11 @@ public partial class FoodStall : Spatial
 	private string FolderPath;
 	public Spatial OrderWindow;
 	public Timer AnimationTimer{get; private set;}
+	public Timer LevelUpTimer{get; private set;}
+	private const float _levelUpTimerStep = 0.005f;
+	private int _levelUpTimerCounter = 0;
+	private const float _levelUpTimerDefaultTime = 0.3f;
+	private const float _levelUpTimerMinTime = 0.05f;
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -128,11 +134,18 @@ public partial class FoodStall : Spatial
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
 
 		AnimationTimer = _popupMenu.GetNode<Timer>("AnimationTimer");
-
 		AnimationTimer.Connect("timeout", this, nameof(_on_AnimationTimer_timeout));
+
+		LevelUpTimer = _popupMenu.GetNode<Timer>("LevelUpTimer");
+		LevelUpTimer.Connect("timeout", this, nameof(_on_LevelUpTimer_timeout));
 
 		_levelUpButton = (Button)_popupMenu.GetNode("LevelUpButton");
 		_levelUpButton.Connect("pressed",this, nameof(_on_LevelUpButton_pressed));
+
+
+		//_levelUpButton.Connect("button_up",this, nameof(_on_LevelUpButton_up));
+		_levelUpButton.Connect("button_down",this, nameof(_on_LevelUpButton_down));
+
 
 		_upgradeButton = (Button)_popupMenu.GetNode("UpgradeButton");
 		_upgradeButton.Connect("pressed", this, nameof(_on_UpgradeButton_pressed));
@@ -184,7 +197,7 @@ public partial class FoodStall : Spatial
 		Parent.TransferMoney(OrderedDish.MealPrice*Multiplicator*1.9f);
 		OrderedDish = null;
 
-		for(int i = 0; i < IncomingCustomers.Count; i++)
+		for(int i = 0; i < IncomingCustomers.Count; i++)	
 		{
 			IncomingCustomers[i].LineNumber = i;
 		}
@@ -291,6 +304,15 @@ public partial class FoodStall : Spatial
 	private void _on_AnimationTimer_timeout()
 	{
 		Parent.ShowUIElements();
+	}
+
+	private void _on_LevelUpTimer_timeout()
+	{
+		LevelUp();
+		float NewLevelUpTime = LevelUpTimer.WaitTime - _levelUpTimerCounter*_levelUpTimerStep;
+		NewLevelUpTime = Mathf.Clamp(NewLevelUpTime, _levelUpTimerMinTime, _levelUpTimerDefaultTime);
+		LevelUpTimer.WaitTime = NewLevelUpTime;
+		_levelUpTimerCounter++;
 	}
 
 	private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 postition, Vector3 normal, int shape_idx)
@@ -414,8 +436,9 @@ public partial class FoodStall : Spatial
 
 	private void _on_LevelUpButton_pressed()
 	{
-		LevelUp();
-		ShowPopupMenu();
+		LevelUpTimer.Stop();
+		LevelUpTimer.WaitTime = _levelUpTimerDefaultTime;
+		_levelUpTimerCounter = 0;
 	}
 
 	private void _on_UpgradeButton_pressed()
@@ -425,5 +448,17 @@ public partial class FoodStall : Spatial
 	private void _on_CancelButton_pressed()
 	{
 		_popupMenu.Hide();
+	}
+
+	private void _on_LevelUpButton_down()
+	{
+		LevelUp();
+		LevelUpTimer.Start();
+	}
+
+
+	private void _on_LevelUpButton_up()
+	{
+		//LevelUpTimer.Stop();
 	}
 }
