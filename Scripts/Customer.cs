@@ -144,7 +144,7 @@ public partial class Customer : KinematicBody
 	public void StartEating()
 	{
 		_my_sprite.Scale *= 0.5f;
-		GlobalTransform = new Transform(_my_chair.GlobalTransform.basis, _my_chair.GlobalTransform.origin + Vector3.Up*0.5f);
+		GlobalTransform = new Transform(_my_chair.GlobalTransform.basis, _my_chair.GlobalTransform.origin);
 		_my_body.GlobalRotation = _my_chair.GlobalRotation;
 		State = CustomerState.EatingFood;
 		_timer.WaitTime = EatingTime;
@@ -163,7 +163,7 @@ public partial class Customer : KinematicBody
 
 	public void Leave()
 	{
-		float tip = Math.Max(0,(Satisfaction/50)-1);
+		float tip = Math.Max(0,((float)Satisfaction/50)-1);
 		if(OrderedDish != null)
 			Parent.TransferMoney(tip*OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 
