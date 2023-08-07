@@ -170,31 +170,52 @@ public struct Tuxdollar //actual = Value*1000 to the power of magnitude.
 
     public static bool operator <(Tuxdollar left, Tuxdollar right)
     {
-        return (left.MagnitudeToInteger() < right.MagnitudeToInteger() || left.Magnitude == right.Magnitude && left.Value < right.Value);
+        int leftSign = Math.Sign(left.Value);
+        int rightSign = Math.Sign(right.Value);
+
+        if(leftSign != rightSign)
+            return leftSign < rightSign;
+
+        if(left.Magnitude == right.Magnitude)
+            return left.Value < right.Value;
+            
+        if(leftSign > 0)
+            return left.MagnitudeToInteger() < right.MagnitudeToInteger();
+        
+        return left.MagnitudeToInteger() > right.MagnitudeToInteger();
     }
 
     public static bool operator >(Tuxdollar left, Tuxdollar right)
     {
-        return (left.MagnitudeToInteger() > right.MagnitudeToInteger() || left.Magnitude == right.Magnitude && left.Value > right.Value);
+        int leftSign = Math.Sign(left.Value);
+        int rightSign = Math.Sign(right.Value);
+
+        if(leftSign != rightSign)
+            return leftSign > rightSign;
+
+        if(left.Magnitude == right.Magnitude)
+            return left.Value > right.Value;
+            
+        if(leftSign > 0)
+            return left.MagnitudeToInteger() > right.MagnitudeToInteger();
+        
+        return left.MagnitudeToInteger() < right.MagnitudeToInteger();
     }
+
     public static bool operator >=(Tuxdollar left, Tuxdollar right)
     {
-        return (left > right || left == right);
+        return left > right || left == right;
     }
     public static bool operator <=(Tuxdollar left, Tuxdollar right)
     {
-        return (left < right || left == right);
+        return left < right || left == right;
     }
 
-    public static bool operator ==(Tuxdollar left, Tuxdollar right) //Allows tolerance of up to 0.02f
-    {
-        return (Math.Abs(left.Value - right.Value) < 0.02f && left.Magnitude == right.Magnitude);
-    }
+    public static bool operator ==(Tuxdollar left, Tuxdollar right) => Math.Sign(left.Value) == Math.Sign(right.Value) && Math.Abs(left.Value - right.Value) < 0.002f && left.Magnitude == right.Magnitude;
+    
 
-    public static bool operator !=(Tuxdollar left, Tuxdollar right) //Allows tolerance of up to 0.02f
-    {
-        return (Math.Abs(left.Value - right.Value) > 0.02f || left.Magnitude != right.Magnitude);
-    }
+    public static bool operator !=(Tuxdollar left, Tuxdollar right) => Math.Sign(left.Value) != Math.Sign(right.Value) || Math.Abs(left.Value - right.Value) >= 0.002f || left.Magnitude != right.Magnitude;
+    
 
     public override bool Equals(object o)
     {   
