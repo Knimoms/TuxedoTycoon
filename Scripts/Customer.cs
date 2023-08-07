@@ -205,13 +205,12 @@ public partial class Customer : KinematicBody
 
 		State = CustomerState.WalkingInQueue;
 
-		if (TargetRestaurant.IncomingCustomers.Count - 1 > LineNumber)
+		if (TargetRestaurant.IncomingCustomers.Count - 1 > LineNumber && TargetRestaurant.IncomingCustomers[LineNumber + 1].State == CustomerState.WaitingInQueue)
 			TargetRestaurant.IncomingCustomers[LineNumber + 1].StartTimer();
 	}
 
 	private void _on_NavigationAgent_target_reached()
 	{
-		GD.Print(State);
 		if(State == CustomerState.EatingFood || State == CustomerState.WaitingInQueue)
 			return;
 		
@@ -239,7 +238,7 @@ public partial class Customer : KinematicBody
 			return;
 
 		}
-
+		
 		QueueUp();
 
 		if (LineNumber == 0)

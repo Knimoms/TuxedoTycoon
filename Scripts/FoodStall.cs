@@ -202,14 +202,14 @@ public partial class FoodStall : Spatial
 		OrderedDish = null;
 
 		for(int i = 0; i < IncomingCustomers.Count; i++)	
-		{
 			IncomingCustomers[i].LineNumber = i;
-		}
+		
 
 		if(IncomingCustomers.Count > 0) 
 		{
 			IncomingCustomers[0].FirstInQueue();
-			if(IncomingCustomers[0].State >= CustomerState.WalkingToTable)
+			IncomingCustomers[0].StartTimer();
+			if(IncomingCustomers[0].State < CustomerState.WalkingToTable)
 				IncomingCustomers[0].StartTimer();
 		}
 
@@ -302,7 +302,7 @@ public partial class FoodStall : Spatial
 		if(IncomingCustomers.Count > 0) 
 		{
 			IncomingCustomers[0].FirstInQueue();
-			if(IncomingCustomers[0].State >= CustomerState.WalkingToTable)
+			if(IncomingCustomers[0].State < CustomerState.WalkingToTable)
 				IncomingCustomers[0].StartTimer();
 		}
 
@@ -331,7 +331,7 @@ public partial class FoodStall : Spatial
 	}
 
 	public Dish Order()
-	{
+	{	
 		OrderedDish = Dishes[rnd.Next(0,Dishes.Count)];
 	
 		if(!_minigame_started && OrderedDish.Unlocked)
@@ -342,8 +342,7 @@ public partial class FoodStall : Spatial
 
 	public Vector3 GetEntryQueueSpot(int LineNumber)
 	{
-		_path_follow.Offset = 2 + LineNumber*0.5f;
-		GD.Print(_path_follow.UnitOffset);
+		_path_follow.Offset = 1 + LineNumber*0.5f;
 		return _path_follow.GlobalTransform.origin;
 	}
 

@@ -22,7 +22,8 @@ public partial class TableSpot : Spatial
 	private PopupMenu _popupMenu;
 	private Label _costLabel;
 	private Button _confirmationButton;
-	private CSGBox _bluePrint;
+	private Spatial _blue_print_container;
+	private MeshInstance[] _blue_print = new MeshInstance[2];
 	private MeshInstance _mesh;
 	private Color _defaultColor;
 	private ShaderMaterial _my_blueprint_shader;
@@ -50,17 +51,24 @@ public partial class TableSpot : Spatial
 		_circle_shader = (ShaderMaterial)_mesh.GetSurfaceMaterial(0);
 
 		Table tempTable = ExportScene.Instance<Table>();
-		_bluePrint = (CSGBox)tempTable.GetNode("CSGBox").Duplicate();
+		_blue_print_container = (Spatial)tempTable.GetNode("Spatial").Duplicate();
+		AddChild(_blue_print_container);
+		Godot.Collections.Array temp = _blue_print_container.GetChildren();
+		for (int i = 0; i < _blue_print.Length; i++)
+			_blue_print[i] = (MeshInstance)temp[i];
+
 		tempTable.QueueFree();
 
 
-		Scale = new Vector3(_bluePrint.Scale.x, 1f, _bluePrint.Scale.z);
-		_bluePrint.Visible = false;
+		Scale = new Vector3(_blue_print_container.Scale.x, 1f, _blue_print_container.Scale.z);
+		_blue_print_container.Visible = false;
 		
 		_my_blueprint_shader = (ShaderMaterial)BlueprintShader.Duplicate();
-		AddChild(_bluePrint);
-		_bluePrint.MaterialOverride = _my_blueprint_shader;
-		_bluePrint.Scale = _bluePrint.Scale/Scale;
+		foreach(MeshInstance meshInstance in _blue_print)
+		{
+			meshInstance.MaterialOverride = _my_blueprint_shader;
+			meshInstance.Scale = meshInstance.Scale/Scale;
+		}
 
 		_base_script.Spots.Add(this);
 		Visible = false;
@@ -92,12 +100,12 @@ public partial class TableSpot : Spatial
 
 	private void _on_PopupMenu_about_to_show()
 	{
-		_bluePrint.Visible = true;
+		_blue_print_container.Visible = true;
 	}
 
 	private void _on_PopupMenu_popup_hide()
 	{
-		_bluePrint.Visible = false;
+		_blue_print_container.Visible = false;
 	}
 
 	private void _on_ConfirmationButton_pressed()
