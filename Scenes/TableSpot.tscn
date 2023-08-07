@@ -69,7 +69,7 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 script = ExtResource( 1 )
 CostValue = 700.0
 BlueprintShader = ExtResource( 2 )
-DeactivedColor = Color( 0.588235, 0.588235, 0.588235, 0.156863 )
+DeactivedColor = Color( 0.588235, 0.588235, 0.588235, 0.784314 )
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 anchor_left = 0.333496
