@@ -16,6 +16,8 @@ config/icon="res://icon.png"
 
 [display]
 
+window/size/width=1280
+window/size/height=720
 window/stretch/mode="2d"
 
 [global]
@@ -68,5 +70,10 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation.mobile=2
 vram_compression/import_etc=true
+quality/shadow_atlas/size.mobile=4096
+quality/shading/force_vertex_shading.mobile=false
+quality/shading/force_lambert_over_burley.mobile=false
+quality/shading/force_blinn_over_ggx.mobile=false
 environment/default_environment="res://default_env.tres"

@@ -86,12 +86,7 @@ public class TitleScreen : Control
     public void LeaveTitleScreen()
     {
         Visible = false;
-        parent.IState = InputState.Default;
-        if(parent.OfflineReward > Tuxdollar.ZeroTux)
-            parent._open_offlineReward_panel();
-
-        parent.ShowUIElements();
-        parent.TransferMoney(Tuxdollar.ZeroTux);
+        parent.TitleScreenLeft();
     }
 
     public override void _Input(InputEvent @event)

@@ -23,7 +23,7 @@ public partial class TableSpot : Spatial
 	private Label _costLabel;
 	private Button _confirmationButton;
 	private Spatial _blue_print_container;
-	private MeshInstance[] _blue_print = new MeshInstance[2];
+	private MeshInstance[] _blue_print;
 	private MeshInstance _mesh;
 	private Color _defaultColor;
 	private ShaderMaterial _my_blueprint_shader;
@@ -54,6 +54,7 @@ public partial class TableSpot : Spatial
 		_blue_print_container = (Spatial)tempTable.GetNode("Spatial").Duplicate();
 		AddChild(_blue_print_container);
 		Godot.Collections.Array temp = _blue_print_container.GetChildren();
+		_blue_print = new MeshInstance[temp.Count];
 		for (int i = 0; i < _blue_print.Length; i++)
 			_blue_print[i] = (MeshInstance)temp[i];
 

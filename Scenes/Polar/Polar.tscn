@@ -57,5 +57,8 @@ curve = SubResource( 2 )
 [node name="PathFollow" type="PathFollow" parent="Path"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00521088, 0.000355668, 1.78382 )
 
+[node name="Stopover" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.1, 2 )
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="input_event" from="Area" to="." method="_on_Area_input_event"]

@@ -26,7 +26,10 @@ public partial class BaseScript : Spatial
 	private float _satisfactionRating;
 	public float SatisfactionRating {
 		get => _satisfactionRating;
-		set{_satisfactionRating = (_customer_satisfactions.Count != 0)? CustomerSatisfactionTotal/_customer_satisfactions.Count : (BadRatingMax+GoodRatingMin)/2;}
+		set{_satisfactionRating = (_customer_satisfactions.Count != 0)? CustomerSatisfactionTotal/_customer_satisfactions.Count : (BadRatingMax+GoodRatingMin)/2; 
+			if(IState != InputState.StartScreen)
+				SatisfactionChanged?.Invoke();
+			}
 	}
 
 	public List<Chair> Chairs = new List<Chair>();
@@ -50,7 +53,7 @@ public partial class BaseScript : Spatial
 	public Tuxdollar Money
 	{
 		get => _money;
-		set{_money = value; MoneyTransfered.Invoke();}
+		set{_money = value; MoneyTransfered?.Invoke();}
 	}
 
 	public Tuxdollar OfflineReward{get; private set;}
@@ -71,12 +74,15 @@ public partial class BaseScript : Spatial
 	public RecipeBook TheRecipeBook;
 	public Random rnd = new Random();
 	private Panel _offlinePanel;
+	private Node2D _ui_container;
 
 	public TitleScreen TitleScreen;
 
-	public delegate void CheckButtonModes();
+	public delegate void EventHandler();
 
-	public event CheckButtonModes MoneyTransfered;
+	public event EventHandler MoneyTransfered;
+
+	public event EventHandler SatisfactionChanged;
 
 	public IsoCam IsoCam;
 
@@ -96,6 +102,8 @@ public partial class BaseScript : Spatial
 		Money = Tuxdollar.ZeroTux;
 		poofParticleInstance = (Particles)ResourceLoader.Load<PackedScene>("res://Scenes/Particles.tscn").Instance();
 		poofParticleInstance.OneShot = true;
+		poofParticleInstance.Visible = true;
+		poofParticleInstance.Emitting = true;
 		AddChild(poofParticleInstance);
 
 		LoadGame();
@@ -104,13 +112,14 @@ public partial class BaseScript : Spatial
 		Cache2D = (Node2D)GetNode("Cache2D");
 
 		temp = (FoodStall)GetNode<FoodStallSpot>("FoodStallSpot3").ExportScene.Instance();
-		temp.Visible = false;
+		temp.Visible = true;
 		AddChild(temp);
 		temp.RemoveFromGroup("Persist");
 		temp.Model.GetNode<StaticBody>("StaticBody").CollisionLayer = 20;
 		
 		Restaurants.Remove(temp);
 
+		_ui_container = (Node2D)GetNode("UI");
 		RecipeButton = (Button)GetNode("RecipeButton");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
@@ -134,6 +143,8 @@ public partial class BaseScript : Spatial
 		CalculateCustomersPerMinute();
 		foreach(Spatial spot in Spots)
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
+
+		_on_Button_pressed();
 	}
 
 	public override void _Process(float delta)
@@ -146,6 +157,9 @@ public partial class BaseScript : Spatial
 		if(countdown == 0)
 		{
 			poofParticleInstance.Visible = false;
+			temp.Visible = false;
+			Cache.Visible = false;
+			_on_Button_pressed();
 		}
 	}
 
@@ -254,6 +268,19 @@ public partial class BaseScript : Spatial
 			n3d.Visible = !n3d.Visible;
 	}
 
+	public void TitleScreenLeft()
+	{
+		 IState = InputState.Default;
+        if(OfflineReward > Tuxdollar.ZeroTux)
+            _open_offlineReward_panel();
+
+        ShowUIElements();
+        TransferMoney(Tuxdollar.ZeroTux);
+		_ui_container.Visible = true;
+		if(_customer_satisfactions.Count != 0)
+			SatisfactionChanged?.Invoke();
+	}
+
 	public Dictionary<object, object> Save()
 	{
 		return new Dictionary<object, object>()
@@ -348,7 +375,6 @@ public partial class BaseScript : Spatial
 		}
 		saveGame.Close();
 		OfflineReward = _calculate_offlineReward(offlineSeconds);
-		GD.Print($"ofr: {OfflineReward}, ofs: {offlineSeconds}, cT: {OS.GetUnixTime()}, pT: {pastUnixTimestamp}, fP: {filePath}");
 		if(OfflineReward <= Tuxdollar.ZeroTux || offlineSeconds < 60*OfflineRewardsMinTreshold) 
 			OfflineReward = new Tuxdollar(0);
 	}

@@ -36,6 +36,7 @@ one_shot = true
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 
 [node name="PopupMenu" parent="." instance=ExtResource( 5 )]
+visible = false
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -57,6 +58,9 @@ curve = SubResource( 2 )
 
 [node name="PathFollow" type="PathFollow" parent="Path"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00644684, 0.000351377, 3.77844 )
+
+[node name="Stopover" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.1, 4 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="input_event" from="Area" to="." method="_on_Area_input_event"]
