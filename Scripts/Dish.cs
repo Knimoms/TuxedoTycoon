@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class Dish : Node2D
 {
@@ -64,17 +65,8 @@ public class Dish : Node2D
 
     public bool CompareIngredients(List<Ingredient> ingredients)
     {
-        if(ingredients.Count != Ings.Count)
-            return false;
-
-        for(int i = 0; i < Ings.Count; i++)
-        {
-            if(ingredients[i] != Ings[i])
-                return false;
-        }
-
-        _unlocked = true;
-        return true;
+        bool AreEquivalent = (ingredients.Count() == Ings.Count()) && !ingredients.Except(Ings).Any();
+        return AreEquivalent;
     }
 
     public static Texture GetIngredientSprite(Ingredient ingredient)

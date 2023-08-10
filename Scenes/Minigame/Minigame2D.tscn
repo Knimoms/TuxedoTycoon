@@ -28,15 +28,16 @@ scale = Vector2( 1.33229, 1.07153 )
 texture = ExtResource( 8 )
 
 [node name="CustomerSprite" parent="." instance=ExtResource( 9 )]
+visible = false
 position = Vector2( 599, 524 )
 scale = Vector2( 0.7, 0.7 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 640, 360.5 )
-scale = Vector2( 0.987654, 0.794475 )
+position = Vector2( 640, 358.5 )
+scale = Vector2( 0.987654, 0.798895 )
 texture = ExtResource( 2 )
 
-[node name="Ing2D" parent="." instance=ExtResource( 5 )]
+[node name="Ing2D1" parent="." instance=ExtResource( 5 )]
 position = Vector2( 316, 599 )
 scale = Vector2( 1.5, 1.5 )
 ing = 1

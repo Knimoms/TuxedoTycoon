@@ -10,7 +10,7 @@ public class Ing2D : Node2D
     private Sprite _mySprite;
 
     private Minigame2D _minigame2D;
-
+    public bool Clickable;
 
     public override void _Ready()
     {
@@ -19,15 +19,17 @@ public class Ing2D : Node2D
         _mySprite.Texture = Dish.GetIngredientSprite(ing);
         _mySprite.GlobalRotation = 0f;
         _mySprite.GlobalTransform = new Transform2D(1, 0, 0, 1, GlobalTransform.origin.x, GlobalTransform.origin.y);
+        Clickable = false;
         
     }
 
     private void _on_Area2D_input_event(Node Viewport, InputEvent @event, int shape_idx)
 	{
-        if(_minigame2D.Cooking == true)
+        if(_minigame2D.Cooking == true || Clickable == false)
             return;
 		if(@event is InputEventMouseButton && @event.IsPressed())
 		{
+            this.Visible = false;
             Sprite positionSprite = _minigame2D.AddIng(ing);
 
             if(positionSprite != null)

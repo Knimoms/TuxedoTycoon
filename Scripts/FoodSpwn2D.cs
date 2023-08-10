@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 
+
 public class FoodSpwn2D : Node2D
 {
     public Minigame2D minigame2D;
@@ -11,7 +12,8 @@ public class FoodSpwn2D : Node2D
     public TextureProgress TimeBar;
     public Button closeButton;
     private float _timeLeft;
-    
+    public List<Ing2D> ing2DList = new List<Ing2D>();
+    public int i = 1;
 
 
 	public override void _Ready()
@@ -22,7 +24,11 @@ public class FoodSpwn2D : Node2D
         foodStall = GetParent().GetParent<FoodStall>();
         _minigameTimer.WaitTime = foodStall.TimerProp.WaitTime/4f;
         closeButton = GetParent().GetNode<Button>("CloseButton");
-
+        while(GetParent().GetNode<Ing2D>($"Ing2D"+ i) != null)
+        {
+            ing2DList.Add(GetParent().GetNode<Ing2D>($"Ing2D"+i));
+            i++;
+        }
     }
 
     public override void _Process(float delta)

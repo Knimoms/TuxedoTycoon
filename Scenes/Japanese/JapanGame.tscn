@@ -30,7 +30,7 @@ position = Vector2( 512, 300.5 )
 scale = Vector2( 0.790123, 0.661878 )
 texture = ExtResource( 2 )
 
-[node name="Ing2D" parent="." instance=ExtResource( 5 )]
+[node name="Ing2D1" parent="." instance=ExtResource( 5 )]
 position = Vector2( 254, 489 )
 scale = Vector2( 1.5, 1.5 )
 ing = 3

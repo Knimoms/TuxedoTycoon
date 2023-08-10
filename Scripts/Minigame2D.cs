@@ -38,10 +38,14 @@ public class Minigame2D : Node2D
         if(MyFoodStall.OrderedDish != null)
             if(MyFoodStall.OrderedDish.DishIcon == null)
             {
+                CustomerSprite.Visible = true;
                 IngLabel.Text = PrintRecipe();
             }
             else
             {
+                foreach(Ing2D ing2d in foodSpwn2D.ing2DList)
+                    ing2d.Clickable = true;
+                CustomerSprite.Visible = true;
                 Order.Texture = MyFoodStall.OrderedDish.DishIcon;
             }
             
@@ -57,7 +61,10 @@ public class Minigame2D : Node2D
         _finishedFood.Texture = null;
         foodSpwn2D.closeButton.Visible = true;
         Cooking = false;
-        
+        foreach(Ing2D ing2d in foodSpwn2D.ing2DList)
+                ing2d.Visible = true;
+        foreach(Ing2D ing2d in foodSpwn2D.ing2DList)
+                    ing2d.Clickable = false;
     }
     public void CompareLists()
     {
@@ -121,5 +128,7 @@ public class Minigame2D : Node2D
 		ingredientList.Clear();
         foreach(Sprite fanta in IngSpots)
             fanta.Texture = null;
+        foreach(Ing2D ing2d in foodSpwn2D.ing2DList)
+                    ing2d.Visible = true;
     }
 }
