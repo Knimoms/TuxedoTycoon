@@ -93,6 +93,7 @@ VScrollBar/styles/scroll_focus = SubResource( 19 )
 frames = SubResource( 7 )
 frame = 2
 script = ExtResource( 10 )
+DecorMenuSlotScene = ExtResource( 11 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 0.6
@@ -151,12 +152,6 @@ __meta__ = {
 margin_right = 422.0
 margin_bottom = 2000.0
 rect_min_size = Vector2( 422, 2000 )
-
-[node name="DecorationMenuSlot" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 11 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 422.0
-margin_bottom = 150.0
 
 [connection signal="pressed" from="BuildButton" to="." method="_on_BuildButton_pressed"]
 [connection signal="pressed" from="RecipeButton" to="." method="_on_RecipeButton_pressed"]

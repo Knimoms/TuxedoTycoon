@@ -689,6 +689,5 @@ visible = false
 [connection signal="frame_changed" from="UI/SatisfactionBar" to="UI/SatisfactionBar" method="_on_SatisfactionBar_frame_changed"]
 [connection signal="BuildButton_pressed" from="UI/Menu" to="." method="_on_Button_pressed"]
 [connection signal="RecipeButton_pressed" from="UI/Menu" to="." method="_on_RecipeButton_pressed"]
-[connection signal="popup_hide" from="RecipeBook" to="." method="_on_RecipeBook_popup_hide"]
 [connection signal="pressed" from="OfflineRewardPanel/Button" to="." method="_on_OfflineRewardButton_pressed"]
 [connection signal="timeout" from="TitleScreen/Timer" to="TitleScreen" method="_on_Timer_timeout"]

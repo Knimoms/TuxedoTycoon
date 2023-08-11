@@ -1,4 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scripts/UI/DecorationMenuSlot.cs" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="StyleBoxTexture" id=3]
 
@@ -22,6 +25,7 @@ anchor_right = 0.329688
 anchor_bottom = 0.208333
 margin_right = -14.0
 rect_min_size = Vector2( 422, 150 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -36,6 +40,7 @@ custom_styles/pressed = SubResource( 4 )
 custom_styles/focus = SubResource( 5 )
 custom_styles/disabled = SubResource( 6 )
 custom_styles/normal = SubResource( 7 )
+icon = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="."]
 use_parent_material = true
@@ -47,3 +52,5 @@ custom_fonts/font = SubResource( 2 )
 text = "Price"
 align = 1
 valign = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

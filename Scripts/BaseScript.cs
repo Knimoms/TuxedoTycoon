@@ -32,10 +32,14 @@ public partial class BaseScript : Spatial
 			}
 	}
 
+	public Spatial BoughtSpatial;
+
 	public List<Chair> Chairs = new List<Chair>();
 	public Vector3 SpawnPoint {get; private set;}
 
 	private float _customers_per_minute;
+
+	public int SatisfactionBonus;
 	public float CustomersPerMinute
 	{
 		get 
@@ -62,6 +66,7 @@ public partial class BaseScript : Spatial
 	public Particles poofParticleInstance;
 	public Label MoneyLabel;
 	public List<Spatial> Spots = new List<Spatial>();
+	public List<DecorSpot> DecorSpots = new List<DecorSpot>();
 	public Timer MaxInputDelay;
 	public Vector2 InputPosition;
 	public Camera BaseCam;
@@ -72,7 +77,7 @@ public partial class BaseScript : Spatial
 	public RecipeBook TheRecipeBook;
 	public Random rnd = new Random();
 	private Panel _offlinePanel;
-	private Node2D _ui_container;
+	public Node2D UIContainer;
 
 	public TitleScreen TitleScreen;
 
@@ -117,7 +122,7 @@ public partial class BaseScript : Spatial
 		
 		Restaurants.Remove(temp);
 
-		_ui_container = (Node2D)GetNode("UI");
+		UIContainer = (Node2D)GetNode("UI");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
@@ -140,7 +145,7 @@ public partial class BaseScript : Spatial
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
 
 		_on_Button_pressed();
-		_ui_container.Visible = false;
+		UIContainer.Visible = false;
 	}
 
 	public override void _Process(float delta)
@@ -267,7 +272,7 @@ public partial class BaseScript : Spatial
 
         ShowUIElements();
         TransferMoney(Tuxdollar.ZeroTux);
-		_ui_container.Visible = true;
+		UIContainer.Visible = true;
 		if(_customer_satisfactions.Count != 0)
 			SatisfactionChanged?.Invoke();
 	}

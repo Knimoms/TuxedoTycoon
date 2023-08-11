@@ -12,15 +12,34 @@ public class Menu : AnimatedSprite
     [Signal]
     public delegate void MuteButton_pressed();
 
+    [Export]
+    public PackedScene DecorMenuSlotScene;
     public bool Opened{get; private set;}
 
     public AnimationPlayer AnimationPlayer{get;private set;}
     private ScrollContainer _scroll_container;
+    private VBoxContainer _vbox_container;
 
     public override void _Ready()
     {
         AnimationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
         _scroll_container = (ScrollContainer)GetNode("ScrollContainer");
+        _vbox_container = (VBoxContainer)_scroll_container.GetNode("VBoxContainer");
+
+        Directory dir = new Directory();
+        dir.Open("res://Scenes/Decoration/");
+        dir.ListDirBegin(true, true);
+
+        string filename = dir.GetNext();
+
+        while(filename != "")
+        {
+            DecorationMenuSlot newMenuSlot = (DecorationMenuSlot)DecorMenuSlotScene.Instance();
+            newMenuSlot.Decoration = (Decoration)GD.Load<PackedScene>("res://Scenes/Decoration/" + filename).Instance();
+
+            _vbox_container.AddChild(newMenuSlot);
+            filename = dir.GetNext();
+        }
     }
 
     private void _on_BuildButton_pressed()
@@ -46,11 +65,6 @@ public class Menu : AnimatedSprite
     private void ToggleScrollable()
     {
         _scroll_container.Visible = !_scroll_container.Visible;
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        return;
     }
 
 
