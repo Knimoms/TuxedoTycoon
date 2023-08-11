@@ -41,6 +41,8 @@ custom_styles/focus = SubResource( 5 )
 custom_styles/disabled = SubResource( 6 )
 custom_styles/normal = SubResource( 7 )
 icon = ExtResource( 2 )
+icon_align = 1
+expand_icon = true
 
 [node name="Label" type="Label" parent="."]
 use_parent_material = true

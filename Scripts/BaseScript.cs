@@ -161,6 +161,8 @@ public partial class BaseScript : Spatial
 			temp.Visible = false;
 			Cache.Visible = false;
 			_on_Button_pressed();
+			foreach(DecorSpot decorSpot in DecorSpots)
+            	decorSpot.Visible = false;
 		}
 	}
 

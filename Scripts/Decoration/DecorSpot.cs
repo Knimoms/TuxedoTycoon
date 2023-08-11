@@ -25,6 +25,8 @@ public class DecorSpot : Spatial
 			GetParent().AddChild(_base_script.BoughtSpatial);
             _base_script.BoughtSpatial.Transform = Transform;
             _base_script.UIContainer.Visible = true;
+            foreach(DecorSpot decorSpot in _base_script.DecorSpots)
+                decorSpot.Visible = false;
             QueueFree();
 			
 		}

@@ -153,6 +153,9 @@ margin_right = 422.0
 margin_bottom = 2000.0
 rect_min_size = Vector2( 422, 2000 )
 
+[node name="Treshold" type="Position2D" parent="."]
+position = Vector2( 0, -380 )
+
 [connection signal="pressed" from="BuildButton" to="." method="_on_BuildButton_pressed"]
 [connection signal="pressed" from="RecipeButton" to="." method="_on_RecipeButton_pressed"]
 [connection signal="pressed" from="MuteButton" to="." method="_on_MuteButton_pressed"]

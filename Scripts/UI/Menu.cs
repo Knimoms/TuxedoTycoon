@@ -19,12 +19,14 @@ public class Menu : AnimatedSprite
     public AnimationPlayer AnimationPlayer{get;private set;}
     private ScrollContainer _scroll_container;
     private VBoxContainer _vbox_container;
+    public Position2D Treshold;
 
     public override void _Ready()
     {
         AnimationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
         _scroll_container = (ScrollContainer)GetNode("ScrollContainer");
         _vbox_container = (VBoxContainer)_scroll_container.GetNode("VBoxContainer");
+        Treshold = (Position2D)GetNode("Treshold");
 
         Directory dir = new Directory();
         dir.Open("res://Scenes/Decoration/");
