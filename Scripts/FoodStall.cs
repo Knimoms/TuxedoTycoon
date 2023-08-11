@@ -278,14 +278,11 @@ public partial class FoodStall : Spatial
 	public void ToggleMiniGameMode()
 	{
 		Parent.AverageSatisfactionLabel.Visible = !Parent.AverageSatisfactionLabel.Visible;
-		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
-		Parent.RecipeButton.Visible = !Parent.RecipeButton.Visible;
 	}
 
 	public void ToggleVisibility ()
 	{
 		Model.Visible = !Model.Visible;
-		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
 		Parent.MoneyLabel.Visible = !Parent.MoneyLabel.Visible;
 	}
 

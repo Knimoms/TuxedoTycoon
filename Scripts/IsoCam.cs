@@ -28,6 +28,8 @@ public class IsoCam : Spatial
 
     public Function ZoomEffect;
 
+    private bool _movement_input = false;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -72,8 +74,35 @@ public class IsoCam : Spatial
         positionTween.TweenCallback(callbackObject, callbackMethod);
     }
 
+    public void _on_Area2D_input_event(Node viewport, InputEvent @event, int shape_idx)
+    {
+        if(!(@event is InputEventScreenTouch) && !(@event is InputEventMouseButton))
+            return;
+
+        if (@event is InputEventMouseButton mb && @event.IsPressed())
+        {
+            if (mb.ButtonIndex == (int)ButtonList.WheelUp && _camera.Size > ZoomMinimum)
+                _camera.Size -= ZoomSpeed * 60;
+
+            if (mb.ButtonIndex == (int)ButtonList.WheelDown && _camera.Size < ZoomMaximum)
+                _camera.Size += ZoomSpeed * 60;
+        }      
+
+        if(@event.IsPressed() && !_movement_input)
+        {
+            _movement_input = true;
+            _Input(@event);
+            return;
+        }
+
+        if(!@event.IsPressed() && events.Count == 0)
+            _movement_input = false;
+    }
+
     public override void _Input(InputEvent @event)
     {
+        if(!_movement_input)
+            return;
 
         if(_parent.IState == InputState.MiniGameOpened || _parent.IState == InputState.StartScreen)
             return;
@@ -131,15 +160,6 @@ public class IsoCam : Spatial
                 Vector3 translation = new Vector3(motionEvent.Relative.x * -0.0015f * _camera.Size, 0, motionEvent.Relative.y * -0.0015f * _camera.Size);
                 TranslateWithBounds(translation);
             }
-        }
-
-        if (@event is InputEventMouseButton mb && @event.IsPressed())
-        {
-            if (mb.ButtonIndex == (int)ButtonList.WheelUp && _camera.Size > ZoomMinimum)
-                _camera.Size -= ZoomSpeed * 60;
-
-            if (mb.ButtonIndex == (int)ButtonList.WheelDown && _camera.Size < ZoomMaximum)
-                _camera.Size += ZoomSpeed * 60;
         }
     }
 

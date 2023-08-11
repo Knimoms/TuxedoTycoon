@@ -1,0 +1,163 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-1.png" type="Texture" id=1]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-2.png" type="Texture" id=2]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-6.png" type="Texture" id=3]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-8.png" type="Texture" id=4]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-4.png" type="Texture" id=5]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-3.png" type="Texture" id=6]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-5.png" type="Texture" id=7]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-7.png" type="Texture" id=8]
+[ext_resource path="res://Assets/UI/Menu/Single frames menu extension/Unbenanntes_Projekt-9.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/UI/Menu.cs" type="Script" id=10]
+[ext_resource path="res://Scenes/UI/DecorationMenuSlot.tscn" type="PackedScene" id=11]
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 3 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=6]
+resource_name = "Opening"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.001, 0.05, 0.1, 0.15, 0.201, 0.25, 0.301, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ScrollContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.25, 0.3, 0.35, 0.401 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -196, -581 ), Vector2( -196, -581 ), Vector2( -196, -501 ), Vector2( -196, -428 ), Vector2( -196, -181 ), Vector2( -196, -140 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "ToggleScrollable"
+} ]
+}
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="StyleBoxEmpty" id=12]
+
+[sub_resource type="StyleBoxTexture" id=15]
+
+[sub_resource type="StyleBoxTexture" id=16]
+
+[sub_resource type="StyleBoxTexture" id=17]
+
+[sub_resource type="StyleBoxTexture" id=18]
+
+[sub_resource type="StyleBoxTexture" id=19]
+
+[sub_resource type="Theme" id=20]
+VScrollBar/styles/grabber = SubResource( 15 )
+VScrollBar/styles/grabber_highlight = SubResource( 16 )
+VScrollBar/styles/grabber_pressed = SubResource( 17 )
+VScrollBar/styles/scroll = SubResource( 18 )
+VScrollBar/styles/scroll_focus = SubResource( 19 )
+
+[node name="Menu" type="AnimatedSprite"]
+frames = SubResource( 7 )
+frame = 2
+script = ExtResource( 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 0.6
+anims/Opening = SubResource( 6 )
+
+[node name="BuildButton" type="Button" parent="."]
+margin_left = -191.0
+margin_top = -513.0
+margin_right = 10.0
+margin_bottom = -292.0
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/focus = SubResource( 10 )
+custom_styles/disabled = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
+
+[node name="RecipeButton" type="Button" parent="."]
+margin_left = 31.0
+margin_top = -508.0
+margin_right = 218.0
+margin_bottom = -296.0
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/focus = SubResource( 10 )
+custom_styles/disabled = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
+
+[node name="MuteButton" type="Button" parent="."]
+margin_left = -40.0
+margin_top = -287.0
+margin_right = 107.0
+margin_bottom = -170.0
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/focus = SubResource( 10 )
+custom_styles/disabled = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+visible = false
+anchor_left = 0.195652
+anchor_top = 0.378578
+anchor_right = 0.850932
+anchor_bottom = 0.800954
+margin_left = -322.0
+margin_top = -1017.5
+margin_right = -322.0
+margin_bottom = -1017.5
+theme = SubResource( 20 )
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+margin_right = 422.0
+margin_bottom = 2000.0
+rect_min_size = Vector2( 422, 2000 )
+
+[node name="DecorationMenuSlot" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 422.0
+margin_bottom = 150.0
+
+[connection signal="pressed" from="BuildButton" to="." method="_on_BuildButton_pressed"]
+[connection signal="pressed" from="RecipeButton" to="." method="_on_RecipeButton_pressed"]
+[connection signal="pressed" from="MuteButton" to="." method="_on_MuteButton_pressed"]

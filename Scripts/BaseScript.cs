@@ -64,12 +64,10 @@ public partial class BaseScript : Spatial
 	public List<Spatial> Spots = new List<Spatial>();
 	public Timer MaxInputDelay;
 	public Vector2 InputPosition;
-	public Button BuildButton;
 	public Camera BaseCam;
 	public List<FoodStall> Restaurants = new List<FoodStall>();
 	public CustomerSpawner Spawner;
 	public Label AverageSatisfactionLabel;
-	public Button RecipeButton;
 	public Label CPMLabel;
 	public RecipeBook TheRecipeBook;
 	public Random rnd = new Random();
@@ -120,13 +118,10 @@ public partial class BaseScript : Spatial
 		Restaurants.Remove(temp);
 
 		_ui_container = (Node2D)GetNode("UI");
-		RecipeButton = (Button)GetNode("RecipeButton");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		UI.Add(MoneyLabel);
-		BuildButton = (Button)GetNode("Button");
-		UI.Add(BuildButton);
 		CPMLabel = (Label)GetNode("CPMLabel");
 		UI.Add(CPMLabel);
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
@@ -145,6 +140,7 @@ public partial class BaseScript : Spatial
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
 
 		_on_Button_pressed();
+		_ui_container.Visible = false;
 	}
 
 	public override void _Process(float delta)
@@ -244,7 +240,6 @@ public partial class BaseScript : Spatial
 	private void _on_RecipeButton_pressed()
 	{
 		TheRecipeBook.OpenRecipeBook();
-		RecipeButton.Visible = false;
 	}
 
 	public void EmitPoof(Spatial spatial)
@@ -254,15 +249,11 @@ public partial class BaseScript : Spatial
 		poofParticleInstance.Restart();
 	}
 
-	private void _on_RecipeBook_popup_hide()
-	{
-		RecipeButton.Visible = true;
-	}
+	
 
 	private void _on_Button_pressed()
 	{
 		BuildMode = !BuildMode;
-		RecipeButton.Visible = !BuildMode;
 		
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = !n3d.Visible;
