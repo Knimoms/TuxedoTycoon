@@ -54,6 +54,30 @@ public class Menu : AnimatedSprite
         Opened = !Opened;
     }
 
+    public void SortDecorations()
+    {
+        Godot.Collections.Array menuSlots = _vbox_container.GetChildren();
+
+        foreach(object obj in menuSlots)
+        {
+            DecorationMenuSlot menuSlot = obj as DecorationMenuSlot;
+
+        }
+    }
+
+    public void DeleteDecorsMenuSlot(Decoration decoration)
+    {
+        Godot.Collections.Array allMenuSlots = _vbox_container.GetChildren();
+        foreach(object obj in allMenuSlots) 
+        {
+            if(obj is DecorationMenuSlot dms && dms.Decoration.Filename == decoration.Filename)
+            {
+                dms.QueueFree();
+                return;
+            }
+        }
+    }
+
     private void _on_RecipeButton_pressed()
     {
         EmitSignal(nameof(RecipeButton_pressed));

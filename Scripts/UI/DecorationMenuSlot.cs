@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 public class DecorationMenuSlot : HBoxContainer
 {
@@ -18,7 +18,7 @@ public class DecorationMenuSlot : HBoxContainer
         if(BaseScript == null)  
             BaseScript = (BaseScript)GetViewport().GetNode("Spatial");
         if(Menu == null)    
-            Menu = (Menu)BaseScript.GetNode("UI/Menu");;
+            Menu = (Menu)BaseScript.GetNode("UI/Menu");
         _price_label.Text = Decoration.Cost.ToString();
     }
 
@@ -31,14 +31,21 @@ public class DecorationMenuSlot : HBoxContainer
 
     private void _on_Button_pressed()
     {
-        BaseScript.BoughtSpatial = Decoration;
+        BaseScript.ActiveDecorationSlot = this;
         BaseScript.UIContainer.Visible = false;
 
         foreach(DecorSpot decorSpot in BaseScript.DecorSpots)
             decorSpot.Visible = true;
     }
 
-
+    public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+            {"Filename", Filename},
+			{"Parent", GetParent().GetPath()},
+		};
+	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)

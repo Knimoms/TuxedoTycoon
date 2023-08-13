@@ -32,7 +32,7 @@ public partial class BaseScript : Spatial
 			}
 	}
 
-	public Spatial BoughtSpatial;
+	public DecorationMenuSlot ActiveDecorationSlot;
 
 	public List<Chair> Chairs = new List<Chair>();
 	public Vector3 SpawnPoint {get; private set;}
@@ -78,6 +78,7 @@ public partial class BaseScript : Spatial
 	public Random rnd = new Random();
 	private Panel _offlinePanel;
 	public Node2D UIContainer;
+	public Menu Menu;
 
 	public TitleScreen TitleScreen;
 
@@ -109,6 +110,11 @@ public partial class BaseScript : Spatial
 		poofParticleInstance.Emitting = true;
 		AddChild(poofParticleInstance);
 
+		UIContainer = (Node2D)GetNode("UI");
+
+		Menu = (Menu)UIContainer.GetNode("Menu");
+
+
 		LoadGame();
 
 		Cache = (Spatial)GetNode("Cache");
@@ -122,7 +128,6 @@ public partial class BaseScript : Spatial
 		
 		Restaurants.Remove(temp);
 
-		UIContainer = (Node2D)GetNode("UI");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
@@ -330,7 +335,7 @@ public partial class BaseScript : Spatial
 
 			Node newObject;
 
-			if((String)currentLine["Filename"] == Filename)
+			if((string)currentLine["Filename"] == Filename)
 			{
 				newObject = this;
 				Godot.Collections.Array _customer_satisfactionsArray = (Godot.Collections.Array)currentLine["_customer_satisfactionsArray"];
@@ -348,6 +353,9 @@ public partial class BaseScript : Spatial
 				PackedScene newObjectScene = (PackedScene)ResourceLoader.Load(currentLine["Filename"].ToString());
 				newObject = newObjectScene.Instance();
 
+				if(newObject is Decoration decoration)
+					Menu.DeleteDecorsMenuSlot(decoration);
+					
 				if(newObject is Spatial newSpatial)
 				{
 					newSpatial.Transform = new Transform(newSpatial.Transform.basis, new Vector3((float)currentLine["PositionX"],(float)currentLine["PositionY"],(float)currentLine["PositionZ"]));
