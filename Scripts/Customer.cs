@@ -36,10 +36,13 @@ public partial class Customer : KinematicBody
 	private Timer _patienceTimer;
 	private Chair _my_chair;
 	private Sprite3D _my_sprite;
+	private static BaseScript _base_script;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if(_base_script == null)
+			_base_script = (BaseScript)GetViewport().GetNode("Spatial");
 		_my_body = (Spatial)GetNode("Body");
 		_my_sprite = (Sprite3D)GetNode("Sprite3D");
 		_timer = (Timer)GetNode("Timer");
@@ -161,7 +164,7 @@ public partial class Customer : KinematicBody
 
 	public void TakeAwayFood()
 	{
-		Satisfaction = 90;
+		Satisfaction = 70 + (int)(_base_script.SatisfactionBonus/3.0f);
 		OrderFinished = true;
 		LineNumber = 0;
 		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");

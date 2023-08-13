@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 public class Decoration : Spatial
 {
@@ -19,11 +19,13 @@ public class Decoration : Spatial
     {
         AddToGroup("Persist");
         Cost = new Tuxdollar(CostValue, CostMagnitude);
-        _base_script = (BaseScript)GetViewport().GetNode("Spatial");
+        if(_base_script == null)
+            _base_script = (BaseScript)GetViewport().GetNode("Spatial");
 
         _base_script.SatisfactionBonus += SatisfactionBonus;
 
         Connect("tree_exiting", this, nameof(_on_Decoration_tree_exiting));
+        
     }
 
     private void _on_Decoration_tree_exiting()
@@ -31,12 +33,21 @@ public class Decoration : Spatial
         _base_script.SatisfactionBonus -= SatisfactionBonus;
     }
 
+    public void DeleteMenuSlot()
+    {
 
+    }
 
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+            {"Filename", Filename},
+			{"Parent", GetParent().GetPath()},
+			{"PositionX", Transform.origin.x},
+			{"PositionY", Transform.origin.y},
+			{"PositionZ", Transform.origin.z},
+            {"RotationY", Rotation.y}
+		};
+	}
 }

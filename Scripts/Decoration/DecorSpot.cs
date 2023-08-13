@@ -1,12 +1,13 @@
 using Godot;
-using System;
+using System.Collections.Generic;
 
 public class DecorSpot : Spatial
 {
-    private BaseScript _base_script;
+    private static BaseScript _base_script;
     public override void _Ready()
     {
-        _base_script = (BaseScript)GetViewport().GetNode("Spatial");
+        if(_base_script == null)
+            _base_script = (BaseScript)GetViewport().GetNode("Spatial");
         _base_script.DecorSpots.Add(this);
     }
 
@@ -22,15 +23,32 @@ public class DecorSpot : Spatial
 
 		if(!event1.IsPressed() && _base_script.MaxInputDelay.TimeLeft > 0) 
 		{
-			GetParent().AddChild(_base_script.BoughtSpatial);
-            _base_script.BoughtSpatial.Transform = Transform;
+			GetParent().AddChild(_base_script.ActiveDecorationSlot.Decoration);
+            _base_script.ActiveDecorationSlot.Decoration.Transform = Transform;
             _base_script.UIContainer.Visible = true;
+
+            _base_script.ActiveDecorationSlot.QueueFree();
+            _base_script.ActiveDecorationSlot = null;
             foreach(DecorSpot decorSpot in _base_script.DecorSpots)
                 decorSpot.Visible = false;
             QueueFree();
 			
 		}
+
     }
+
+    public Dictionary<string, object> Save()
+	{
+		return new Dictionary<string, object>()
+		{
+            {"Filename", Filename},
+			{"Parent", GetParent().GetPath()},
+			{"PositionX", Transform.origin.x},
+			{"PositionY", Transform.origin.y},
+			{"PositionZ", Transform.origin.z},
+            {"RotationY", Rotation.y}
+		};
+	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
