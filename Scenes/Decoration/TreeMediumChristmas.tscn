@@ -6,5 +6,8 @@
 
 [node name="TreeMediumChristmas" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
+CostValue = 2.0
+CostMagnitude = "b"
+SatisfactionBonus = 6
 
 [node name="DecorationComponents" parent="." index="2" instance=ExtResource( 1 )]

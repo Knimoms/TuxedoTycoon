@@ -31,6 +31,8 @@ public class DecorSpot : Spatial
             _base_script.ActiveDecorationSlot = null;
             foreach(DecorSpot decorSpot in _base_script.DecorSpots)
                 decorSpot.Visible = false;
+            foreach(Spatial spot in _base_script.Spots)
+                spot.Visible = true;
             QueueFree();
 			
 		}

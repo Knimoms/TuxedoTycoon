@@ -251,7 +251,7 @@ public partial class BaseScript : Spatial
 
 	private void _on_RecipeButton_pressed()
 	{
-		TheRecipeBook.OpenRecipeBook();
+		TheRecipeBook.Visible = !TheRecipeBook.Visible;;
 	}
 
 	public void EmitPoof(Spatial spatial)

@@ -21,7 +21,17 @@ public partial class Customer : KinematicBody
 	}
 
 	public Vector3 Velocity = new Vector3();
-	public CustomerState State;
+	private CustomerState _state;
+	public CustomerState State{
+		get => _state;
+		set
+		{
+			_state = value;
+			if(_state.ToString().Find("Walking") != -1)
+				_animation_player.Play("penguinWalkShort -loop");
+			else _animation_player.Play("idle");
+		}
+	}
 	public bool OrderFinished = false;
 	private Dish OrderedDish;
 
@@ -37,6 +47,7 @@ public partial class Customer : KinematicBody
 	private Chair _my_chair;
 	private Sprite3D _my_sprite;
 	private static BaseScript _base_script;
+	private AnimationPlayer _animation_player;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -50,6 +61,7 @@ public partial class Customer : KinematicBody
 		_patienceTimer = (Timer)GetNode("PatienceTimer");
 		_patienceTimer.Start();
 		_nav_agent = (NavigationAgent)GetNode("NavigationAgent");
+		_animation_player = (AnimationPlayer)_my_body.GetNode("penguin/AnimationPlayer");
 
 		if(Parent == null)
 			Parent = (BaseScript)this.GetParent();
@@ -179,7 +191,7 @@ public partial class Customer : KinematicBody
 			Parent.TransferMoney(tip*OrderedDish.MealPrice*TargetRestaurant.Multiplicator);
 
 		UpdateTargetLocation(SpawnPoint.GlobalTransform.origin);
-		State = CustomerState.Leaving;
+		State = CustomerState.WalkingToExit;
 		Parent.AddSatisfaction(Satisfaction);
 	}
 
@@ -227,7 +239,7 @@ public partial class Customer : KinematicBody
 
 		switch(State)
 		{
-			case CustomerState.Leaving:
+			case CustomerState.WalkingToExit:
 				QueueFree();
 				break;
 			case CustomerState.WalkingToTable:
@@ -264,7 +276,7 @@ public enum CustomerState
 	WaitingInQueue,
 	WalkingToTable,
 	EatingFood,
-	Leaving,
+	WalkingToExit,
 	WalkingToQueueWaitSpot,
 	WalkingToStopover,
 	WalkingToQueue

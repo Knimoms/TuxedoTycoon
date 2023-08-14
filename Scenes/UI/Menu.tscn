@@ -45,7 +45,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2, 0.25, 0.3, 0.35, 0.401 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( -196, -581 ), Vector2( -196, -581 ), Vector2( -196, -501 ), Vector2( -196, -428 ), Vector2( -196, -181 ), Vector2( -196, -140 ) ]
+"values": [ Vector2( -196, -581 ), Vector2( -196, -581 ), Vector2( -196, -501 ), Vector2( -196, -428 ), Vector2( -196, -181 ), Vector2( -196, -75 ) ]
 }
 tracks/2/type = "method"
 tracks/2/path = NodePath(".")
@@ -72,22 +72,22 @@ tracks/2/keys = {
 
 [sub_resource type="StyleBoxEmpty" id=12]
 
-[sub_resource type="StyleBoxTexture" id=15]
+[sub_resource type="StyleBoxTexture" id=21]
 
-[sub_resource type="StyleBoxTexture" id=16]
+[sub_resource type="StyleBoxTexture" id=22]
 
-[sub_resource type="StyleBoxTexture" id=17]
+[sub_resource type="StyleBoxTexture" id=23]
 
-[sub_resource type="StyleBoxTexture" id=18]
+[sub_resource type="StyleBoxTexture" id=24]
 
-[sub_resource type="StyleBoxTexture" id=19]
+[sub_resource type="StyleBoxTexture" id=25]
 
 [sub_resource type="Theme" id=20]
-VScrollBar/styles/grabber = SubResource( 15 )
-VScrollBar/styles/grabber_highlight = SubResource( 16 )
-VScrollBar/styles/grabber_pressed = SubResource( 17 )
-VScrollBar/styles/scroll = SubResource( 18 )
-VScrollBar/styles/scroll_focus = SubResource( 19 )
+VScrollBar/styles/grabber = SubResource( 21 )
+VScrollBar/styles/grabber_highlight = SubResource( 22 )
+VScrollBar/styles/grabber_pressed = SubResource( 23 )
+VScrollBar/styles/scroll = SubResource( 24 )
+VScrollBar/styles/scroll_focus = SubResource( 25 )
 
 [node name="Menu" type="AnimatedSprite"]
 frames = SubResource( 7 )
@@ -135,13 +135,13 @@ custom_styles/normal = SubResource( 12 )
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 visible = false
 anchor_left = 0.195652
-anchor_top = 0.378578
+anchor_top = 0.434952
 anchor_right = 0.850932
-anchor_bottom = 0.800954
+anchor_bottom = 0.857328
 margin_left = -322.0
-margin_top = -1017.5
+margin_top = -1082.5
 margin_right = -322.0
-margin_bottom = -1017.5
+margin_bottom = -1082.5
 theme = SubResource( 20 )
 follow_focus = true
 scroll_horizontal_enabled = false

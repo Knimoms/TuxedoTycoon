@@ -11,7 +11,7 @@ public class Decoration : Spatial
     [Export]
     public int SatisfactionBonus;
 
-    public Tuxdollar Cost{get; private set;}
+    public Tuxdollar Cost;
 
     private BaseScript _base_script;
 

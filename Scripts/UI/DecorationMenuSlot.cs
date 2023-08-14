@@ -19,6 +19,7 @@ public class DecorationMenuSlot : HBoxContainer
             BaseScript = (BaseScript)GetViewport().GetNode("Spatial");
         if(Menu == null)    
             Menu = (Menu)BaseScript.GetNode("UI/Menu");
+        Decoration.Cost = new Tuxdollar(Decoration.CostValue, Decoration.CostMagnitude);
         _price_label.Text = Decoration.Cost.ToString();
     }
 
@@ -36,6 +37,9 @@ public class DecorationMenuSlot : HBoxContainer
 
         foreach(DecorSpot decorSpot in BaseScript.DecorSpots)
             decorSpot.Visible = true;
+
+        foreach (Spatial spot in BaseScript.Spots)
+            spot.Visible = false;
     }
 
     public Dictionary<string, object> Save()
