@@ -8,9 +8,10 @@ extents = Vector3( 0.75, 0.75, 0.3 )
 [node name="Spatial" type="Spatial"]
 
 [node name="2lvl_ice" parent="." instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
 
 [node name="StaticBody" type="StaticBody" parent="2lvl_ice"]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.25, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="2lvl_ice/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )

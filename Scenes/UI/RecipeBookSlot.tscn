@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/MinigameStuff/Ingredients/Ice.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/UI/RecipeBookSlot.cs" type="Script" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[node name="RecipeSlot" type="Button"]
+margin_right = 200.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 200, 200 )
+mouse_filter = 1
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 100, 100 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+
+[connection signal="pressed" from="." to="." method="_on_RecipeSlot_pressed"]

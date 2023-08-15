@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scripts/UI/RecipeBook.cs" type="Script" id=1]
+[ext_resource path="res://Assets/UI/RecipeBook/RecipeBook.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/UI/RecipeBookSlot.tscn" type="PackedScene" id=3]
+
+[sub_resource type="StyleBoxTexture" id=15]
+
+[sub_resource type="StyleBoxTexture" id=16]
+
+[sub_resource type="StyleBoxTexture" id=17]
+
+[sub_resource type="StyleBoxTexture" id=18]
+
+[sub_resource type="StyleBoxTexture" id=19]
+
+[sub_resource type="Theme" id=20]
+VScrollBar/styles/grabber = SubResource( 15 )
+VScrollBar/styles/grabber_highlight = SubResource( 16 )
+VScrollBar/styles/grabber_pressed = SubResource( 17 )
+VScrollBar/styles/scroll = SubResource( 18 )
+VScrollBar/styles/scroll_focus = SubResource( 19 )
+
+[node name="RecipeBook" type="Control"]
+anchor_left = 0.251172
+anchor_top = 0.29375
+anchor_right = 0.748828
+anchor_bottom = 0.70625
+margin_top = 1.52588e-05
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+RecipeBookSlotScene = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 282.5, 205.5 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Sprite"]
+anchor_left = 0.250847
+anchor_top = 0.529268
+anchor_right = 0.812712
+anchor_bottom = 0.670732
+margin_left = -1180.0
+margin_top = -820.0
+margin_right = -1180.0
+margin_bottom = -820.0
+theme = SubResource( 20 )
+scroll_vertical_enabled = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Sprite/ScrollContainer"]
+margin_right = 1326.0
+margin_bottom = 232.0
+rect_min_size = Vector2( 1326, 232 )
+alignment = 1
+
+[node name="DifficultyWindow" type="Control" parent="Sprite"]
+margin_left = 368.0
+margin_top = -574.0
+margin_right = 652.0
+margin_bottom = -276.0
+
+[node name="RecipeSprite" type="Sprite" parent="Sprite/DifficultyWindow"]
+position = Vector2( -342, 554 )
+scale = Vector2( 0.95, 0.95 )
+
+[connection signal="visibility_changed" from="." to="." method="_on_RecipeBook_visibility_changed"]

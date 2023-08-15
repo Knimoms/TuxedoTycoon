@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://Scripts/BaseScript.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Japanese/Japanese.tscn" type="PackedScene" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://Scripts/IsoCam.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/TitleScreen.cs" type="Script" id=7]
 [ext_resource path="res://Scenes/CustomerSpawner.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/RecipeBook.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/UI/RecipeBook.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/English/English.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/TableLongM.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/TableSpot.tscn" type="PackedScene" id=12]
@@ -20,20 +20,13 @@
 [ext_resource path="res://Assets/Ground/ice_patch.glb" type="PackedScene" id=18]
 [ext_resource path="res://Assets/Shader/BlueprintShader.tres" type="Material" id=19]
 [ext_resource path="res://Assets/Customer/penguin.glb" type="PackedScene" id=20]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-6.png" type="Texture" id=22]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-2.png" type="Texture" id=23]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-4.png" type="Texture" id=24]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-3.png" type="Texture" id=25]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-7.png" type="Texture" id=26]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-8.png" type="Texture" id=27]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-10.png" type="Texture" id=28]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-9.png" type="Texture" id=29]
-[ext_resource path="res://Assets/UI/Menu/Extension-of-menu-singleframes-animation/Unbenanntes_Projekt-5.png" type="Texture" id=30]
+[ext_resource path="res://Scenes/UI/Menu.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/DecorSpot.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-1.png" type="Texture" id=31]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-2.png" type="Texture" id=32]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-3.png" type="Texture" id=33]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-4.png" type="Texture" id=34]
-[ext_resource path="res://Scenes/SatisfactionBar.cs" type="Script" id=35]
+[ext_resource path="res://Scripts/SatisfactionBar.cs" type="Script" id=35]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-30.png" type="Texture" id=36]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-31.png" type="Texture" id=37]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-38.png" type="Texture" id=38]
@@ -69,6 +62,17 @@
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-10.png" type="Texture" id=68]
 [ext_resource path="res://Assets/UI/Costumer satisfaction bar/Costumer satisfaction bar singlepng frames animation/Unbenanntes_Projekt-27.png" type="Texture" id=69]
 
+[sub_resource type="RectangleShape2D" id=55]
+extents = Vector2( 640, 360 )
+
+[sub_resource type="SpriteFrames" id=54]
+animations = [ {
+"frames": [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 52 ), ExtResource( 46 ), ExtResource( 58 ), ExtResource( 42 ), ExtResource( 44 ), ExtResource( 68 ), ExtResource( 43 ), ExtResource( 39 ), ExtResource( 45 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 49 ), ExtResource( 47 ), ExtResource( 40 ), ExtResource( 62 ), ExtResource( 54 ), ExtResource( 41 ), ExtResource( 65 ), ExtResource( 55 ), ExtResource( 57 ), ExtResource( 66 ), ExtResource( 67 ), ExtResource( 69 ), ExtResource( 48 ), ExtResource( 60 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 56 ), ExtResource( 61 ), ExtResource( 59 ), ExtResource( 38 ) ],
+"loop": true,
+"name": "default",
+"speed": 20.0
+} ]
+
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 42, 0.001, 28 )
 
@@ -78,10 +82,6 @@ font_path = "res://Assets/SansBlack.ttf"
 [sub_resource type="DynamicFont" id=4]
 size = 23
 outline_color = Color( 0.0823529, 0.0745098, 0.0745098, 1 )
-font_data = SubResource( 5 )
-
-[sub_resource type="DynamicFont" id=7]
-size = 14
 font_data = SubResource( 5 )
 
 [sub_resource type="SpatialMaterial" id=51]
@@ -279,31 +279,11 @@ font_data = SubResource( 46 )
 
 [sub_resource type="CubeMesh" id=52]
 
-[sub_resource type="SpriteFrames" id=53]
-animations = [ {
-"frames": [ ExtResource( 23 ), ExtResource( 25 ), ExtResource( 24 ), ExtResource( 30 ), ExtResource( 22 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 29 ), ExtResource( 28 ) ],
-"loop": false,
-"name": "default",
-"speed": 10.0
-} ]
-
-[sub_resource type="SpriteFrames" id=54]
-animations = [ {
-"frames": [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 52 ), ExtResource( 46 ), ExtResource( 58 ), ExtResource( 42 ), ExtResource( 44 ), ExtResource( 68 ), ExtResource( 43 ), ExtResource( 39 ), ExtResource( 45 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 49 ), ExtResource( 47 ), ExtResource( 40 ), ExtResource( 62 ), ExtResource( 54 ), ExtResource( 41 ), ExtResource( 65 ), ExtResource( 55 ), ExtResource( 57 ), ExtResource( 66 ), ExtResource( 67 ), ExtResource( 69 ), ExtResource( 48 ), ExtResource( 60 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 50 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 56 ), ExtResource( 61 ), ExtResource( 59 ), ExtResource( 38 ) ],
-"loop": true,
-"name": "default",
-"speed": 20.0
-} ]
-
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 StartMoneyValue = 1000.0
-StartMoneyMagnitude = ""
+StartMoneyMagnitude = "nul"
 OfflineRewardsMinTreshold = 5
-
-[node name="Spawner" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.78481, 0 )
-CustomersPerMinute = 6.0
 
 [node name="pivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
@@ -317,11 +297,34 @@ fov = 29.5
 size = 16.0
 far = 175.0
 
+[node name="Area2D" type="Area2D" parent="pivot"]
+position = Vector2( 640, 360 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/Area2D"]
+shape = SubResource( 55 )
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="SatisfactionBar" type="AnimatedSprite" parent="UI"]
+position = Vector2( 653, 704 )
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 54 )
+script = ExtResource( 35 )
+
+[node name="Menu" parent="UI" instance=ExtResource( 21 )]
+position = Vector2( 148, 340 )
+scale = Vector2( 0.5, 0.5 )
+DecorMenuSlotScene = null
+
+[node name="Spawner" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.78481, 0 )
+CustomersPerMinute = 6.0
+
 [node name="Spatial" type="Spatial" parent="."]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
 
 [node name="Floor" type="CSGBox" parent="."]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, -0.076262, 0 )
 visible = false
 width = 42.0
 height = 0.001
@@ -340,20 +343,6 @@ anchor_right = 0.222656
 anchor_bottom = 0.183334
 custom_fonts/font = SubResource( 4 )
 text = "ghfghfgh"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="Button" type="Button" parent="."]
-visible = false
-anchor_left = 0.786133
-anchor_top = 0.833333
-anchor_right = 0.973633
-anchor_bottom = 0.993333
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
-text = "Build"
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -388,15 +377,6 @@ align = 2
 __meta__ = {
 "_edit_use_anchors_": true
 }
-
-[node name="RecipeButton" type="Button" parent="."]
-visible = false
-margin_left = 946.0
-margin_top = 4.0
-margin_right = 1021.0
-margin_bottom = 49.0
-custom_fonts/font = SubResource( 7 )
-text = "Recipes"
 
 [node name="SpawnPoint" type="Spatial" parent="."]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 4.91881, 0.517619, 4.90299 )
@@ -698,35 +678,41 @@ autostart = true
 mesh = SubResource( 52 )
 material/0 = ExtResource( 19 )
 
-[node name="UI" type="Node2D" parent="."]
-visible = false
-
-[node name="Unlocked" type="Button" parent="UI"]
-visible = false
-margin_left = 24.0
-margin_top = 2.0
-margin_right = 195.0
-margin_bottom = 157.0
-
-[node name="UnlockedDishes" type="AnimatedSprite" parent="UI/Unlocked"]
-position = Vector2( 244, 189 )
-scale = Vector2( 0.25, 0.25 )
-frames = SubResource( 53 )
-
-[node name="SatisfactionBar" type="AnimatedSprite" parent="UI"]
-position = Vector2( 640, 80 )
-scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 54 )
-script = ExtResource( 35 )
-
 [node name="Cache2D" type="Node2D" parent="."]
-visible = false
 
 [node name="CustomerSprite" parent="Cache2D" instance=ExtResource( 16 )]
+visible = false
 
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="RecipeButton" to="." method="_on_RecipeButton_pressed"]
-[connection signal="popup_hide" from="RecipeBook" to="." method="_on_RecipeBook_popup_hide"]
+[node name="DecorSpot" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.12132, 0, -2.82843 )
+
+[node name="DecorSpot2" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 9.1568, 0, -6.58189 )
+
+[node name="DecorSpot3" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.46064, 0, -11.3053 )
+
+[node name="DecorSpot4" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 6.42201, 0, -7.99288 )
+
+[node name="DecorSpot5" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.08471, 0, -5.64412 )
+
+[node name="DecorSpot6" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.8799, 0, 1.31803 )
+
+[node name="DecorSpot7" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.04123, 0, 3.97257 )
+
+[node name="DecorSpot8" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -6.42781, 0, -3.37713 )
+
+[node name="DecorSpot9" parent="." instance=ExtResource( 22 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7.84335, 0, -1.73312 )
+
+[connection signal="input_event" from="pivot/Area2D" to="pivot" method="_on_Area2D_input_event"]
+[connection signal="frame_changed" from="UI/SatisfactionBar" to="UI/SatisfactionBar" method="_on_SatisfactionBar_frame_changed"]
+[connection signal="BuildButton_pressed" from="UI/Menu" to="." method="_on_Button_pressed"]
+[connection signal="RecipeButton_pressed" from="UI/Menu" to="." method="_on_RecipeButton_pressed"]
 [connection signal="pressed" from="OfflineRewardPanel/Button" to="." method="_on_OfflineRewardButton_pressed"]
 [connection signal="timeout" from="TitleScreen/Timer" to="TitleScreen" method="_on_Timer_timeout"]
-[connection signal="frame_changed" from="UI/SatisfactionBar" to="UI/SatisfactionBar" method="_on_SatisfactionBar_frame_changed"]

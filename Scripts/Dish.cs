@@ -7,6 +7,10 @@ public class Dish : Node2D
 {
     [Export]
     public Texture DishIcon;
+
+    [Export]
+    public Texture RecipeTexture;
+    
     public string DishName {get; private set;}
 
     private bool _unlocked = false;

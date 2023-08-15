@@ -87,6 +87,8 @@ public partial class FoodStall : Spatial
 
 	public Random rnd = new Random();
 
+	public RandomNumberGenerator rng = new RandomNumberGenerator();
+
 	private bool _minigame_started = false;
 
 	private Sprite3D NewDishIndicator;
@@ -102,6 +104,8 @@ public partial class FoodStall : Spatial
     
 	private Particles _poofParticlesInstance;
 	private PathFollow _path_follow;
+
+	private AnimationPlayer _animation_player;
 	
 	
 	// Called when the node enters the scene tree for the first time.
@@ -159,10 +163,6 @@ public partial class FoodStall : Spatial
 
 		_minigameButton = (Button)_popupMenu.GetNode("MinigameButton");
 		_minigameButton.Connect("pressed", this, nameof(_on_MiniGame2D_pressed));
-
-
-		
-
 
 		_levelUpCostLabel = _popupMenu.GetNode<Label>("CostLabel");
 		_nameLabel = _popupMenu.GetNode<Label>("NameLabel");
@@ -278,14 +278,11 @@ public partial class FoodStall : Spatial
 	public void ToggleMiniGameMode()
 	{
 		Parent.AverageSatisfactionLabel.Visible = !Parent.AverageSatisfactionLabel.Visible;
-		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
-		Parent.RecipeButton.Visible = !Parent.RecipeButton.Visible;
 	}
 
 	public void ToggleVisibility ()
 	{
 		Model.Visible = !Model.Visible;
-		Parent.BuildButton.Visible = !Parent.BuildButton.Visible;
 		Parent.MoneyLabel.Visible = !Parent.MoneyLabel.Visible;
 	}
 
@@ -342,7 +339,7 @@ public partial class FoodStall : Spatial
 
 	public Vector3 GetEntryQueueSpot(int LineNumber)
 	{
-		_path_follow.Offset = 1 + LineNumber*0.5f;
+		_path_follow.Offset = 2 + LineNumber*0.5f;
 		return _path_follow.GlobalTransform.origin;
 	}
 
@@ -377,8 +374,15 @@ public partial class FoodStall : Spatial
 		Model?.QueueFree();
 		Model = (Spatial)GD.Load<PackedScene>($"{FolderPath}Stages/Stage{Stage}.tscn").Instance();
 		Model.Rotation = rotation;
+		
+			
+		_animation_player = (AnimationPlayer)Model.GetChild(0).GetNode("AnimationPlayer");
+		_animation_player.Autoplay = "peng_sell_loop";
+
 		AddChild(Model);
 		OrderWindow = (Spatial)Model.GetNode("OrderWindow");
+
+		_animation_player.Seek((rng).RandfRange(0, _animation_player.CurrentAnimationLength*this.GetPositionInParent()));
 	}
 
 	public void LevelUp()

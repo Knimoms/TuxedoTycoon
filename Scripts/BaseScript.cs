@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Data;
+
 
 public partial class BaseScript : Spatial
 {
@@ -32,10 +34,14 @@ public partial class BaseScript : Spatial
 			}
 	}
 
+	public DecorationMenuSlot ActiveDecorationSlot;
+
 	public List<Chair> Chairs = new List<Chair>();
 	public Vector3 SpawnPoint {get; private set;}
 
 	private float _customers_per_minute;
+
+	public int SatisfactionBonus;
 	public float CustomersPerMinute
 	{
 		get 
@@ -62,19 +68,19 @@ public partial class BaseScript : Spatial
 	public Particles poofParticleInstance;
 	public Label MoneyLabel;
 	public List<Spatial> Spots = new List<Spatial>();
+	public List<DecorSpot> DecorSpots = new List<DecorSpot>();
 	public Timer MaxInputDelay;
 	public Vector2 InputPosition;
-	public Button BuildButton;
 	public Camera BaseCam;
 	public List<FoodStall> Restaurants = new List<FoodStall>();
 	public CustomerSpawner Spawner;
 	public Label AverageSatisfactionLabel;
-	public Button RecipeButton;
 	public Label CPMLabel;
-	public RecipeBook TheRecipeBook;
+	public RecipeBook RecipeBook;
 	public Random rnd = new Random();
 	private Panel _offlinePanel;
-	private Node2D _ui_container;
+	public Node2D UIContainer;
+	public Menu Menu;
 
 	public TitleScreen TitleScreen;
 
@@ -93,10 +99,13 @@ public partial class BaseScript : Spatial
 	FoodStall temp;
 
 	public List<Control> UI = new List<Control>();
+
+	public static BaseScript DefaultBaseScript;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		DefaultBaseScript = this;
 		OfflineReward = Tuxdollar.ZeroTux;
 		IState = InputState.StartScreen;
 		Money = Tuxdollar.ZeroTux;
@@ -105,6 +114,11 @@ public partial class BaseScript : Spatial
 		poofParticleInstance.Visible = true;
 		poofParticleInstance.Emitting = true;
 		AddChild(poofParticleInstance);
+
+		UIContainer = (Node2D)GetNode("UI");
+
+		Menu = (Menu)UIContainer.GetNode("Menu");
+
 
 		LoadGame();
 
@@ -115,18 +129,14 @@ public partial class BaseScript : Spatial
 		temp.Visible = true;
 		AddChild(temp);
 		temp.RemoveFromGroup("Persist");
-		temp.Model.GetNode<StaticBody>("StaticBody").CollisionLayer = 20;
+		temp.Model.GetChild(0).GetNode<StaticBody>("StaticBody").CollisionLayer = 20;
 		
 		Restaurants.Remove(temp);
 
-		_ui_container = (Node2D)GetNode("UI");
-		RecipeButton = (Button)GetNode("RecipeButton");
 		SpawnPoint = GetNode<Spatial>("SpawnPoint").Transform.origin;
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		UI.Add(MoneyLabel);
-		BuildButton = (Button)GetNode("Button");
-		UI.Add(BuildButton);
 		CPMLabel = (Label)GetNode("CPMLabel");
 		UI.Add(CPMLabel);
 		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
@@ -136,8 +146,9 @@ public partial class BaseScript : Spatial
 
 		if(CustomerSatisfactionTotal != 0)
 			AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
-		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
-		TheRecipeBook.FoodStalls = Restaurants;
+		RecipeBook = (RecipeBook)GetNode("RecipeBook");
+		RecipeBook.FoodStalls = Restaurants;
+		RecipeBook.AddDishesToBook();
 
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		CalculateCustomersPerMinute();
@@ -145,6 +156,7 @@ public partial class BaseScript : Spatial
 			spot.Scale = new Vector3(spot.Scale.x , 1, spot.Scale.z);
 
 		_on_Button_pressed();
+		UIContainer.Visible = false;
 	}
 
 	public override void _Process(float delta)
@@ -160,6 +172,8 @@ public partial class BaseScript : Spatial
 			temp.Visible = false;
 			Cache.Visible = false;
 			_on_Button_pressed();
+			foreach(DecorSpot decorSpot in DecorSpots)
+            	decorSpot.Visible = false;
 		}
 	}
 
@@ -243,8 +257,12 @@ public partial class BaseScript : Spatial
 
 	private void _on_RecipeButton_pressed()
 	{
-		TheRecipeBook.OpenRecipeBook();
-		RecipeButton.Visible = false;
+		RecipeBook.Visible = !RecipeBook.Visible;
+
+		if(RecipeBook.Visible)
+			IState = InputState.RecipeBookOpened;
+		else 
+			IState = InputState.Default;
 	}
 
 	public void EmitPoof(Spatial spatial)
@@ -254,15 +272,11 @@ public partial class BaseScript : Spatial
 		poofParticleInstance.Restart();
 	}
 
-	private void _on_RecipeBook_popup_hide()
-	{
-		RecipeButton.Visible = true;
-	}
+	
 
 	private void _on_Button_pressed()
 	{
 		BuildMode = !BuildMode;
-		RecipeButton.Visible = !BuildMode;
 		
 		foreach(Spatial n3d in Spots)
 			n3d.Visible = !n3d.Visible;
@@ -276,7 +290,7 @@ public partial class BaseScript : Spatial
 
         ShowUIElements();
         TransferMoney(Tuxdollar.ZeroTux);
-		_ui_container.Visible = true;
+		UIContainer.Visible = true;
 		if(_customer_satisfactions.Count != 0)
 			SatisfactionChanged?.Invoke();
 	}
@@ -297,7 +311,7 @@ public partial class BaseScript : Spatial
 	public void SaveGame()
 	{
 		File saveGame = new File();
-		saveGame.Open($"user://{OS.GetUnixTime()}.save", File.ModeFlags.Write);
+		saveGame.Open($"user://{Time.GetUnixTimeFromSystem()}.save", File.ModeFlags.Write);
 
 		Godot.Collections.Array saveNodes = GetTree().GetNodesInGroup("Persist");
 		saveGame.StoreLine(JSON.Print(Save()));
@@ -332,14 +346,14 @@ public partial class BaseScript : Spatial
 
 			Node newObject;
 
-			if((String)currentLine["Filename"] == Filename)
+			if((string)currentLine["Filename"] == Filename)
 			{
 				newObject = this;
 				Godot.Collections.Array _customer_satisfactionsArray = (Godot.Collections.Array)currentLine["_customer_satisfactionsArray"];
 				foreach(System.Single x in _customer_satisfactionsArray)
 					_customer_satisfactions.Enqueue((int)x);
 
-				offlineSeconds = OS.GetUnixTime() - pastUnixTimestamp;
+				offlineSeconds = Time.GetUnixTimeFromSystem() - pastUnixTimestamp;
 				
 				this.Chairs = new List<Chair>();
 				this.Spots = new List<Spatial>();
@@ -350,6 +364,9 @@ public partial class BaseScript : Spatial
 				PackedScene newObjectScene = (PackedScene)ResourceLoader.Load(currentLine["Filename"].ToString());
 				newObject = newObjectScene.Instance();
 
+				if(newObject is Decoration decoration)
+					Menu.DeleteDecorsMenuSlot(decoration);
+					
 				if(newObject is Spatial newSpatial)
 				{
 					newSpatial.Transform = new Transform(newSpatial.Transform.basis, new Vector3((float)currentLine["PositionX"],(float)currentLine["PositionY"],(float)currentLine["PositionZ"]));
@@ -381,7 +398,7 @@ public partial class BaseScript : Spatial
 
 	public string GetLastValidSavefile()
 	{
-		ulong currentUnixTime = OS.GetUnixTime();
+		double currentUnixTime = Time.GetUnixTimeFromSystem();
 		Directory dir = new Directory();
 		List<double> allSavesUnixtime = new List<double>();
 
@@ -513,5 +530,6 @@ public enum InputState
 	Zooming,
 	Dragging,
 	PopUpOpened,
-	MiniGameOpened
+	MiniGameOpened,
+	RecipeBookOpened
 }

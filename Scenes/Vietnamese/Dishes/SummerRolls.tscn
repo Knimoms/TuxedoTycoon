@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/Dish.cs" type="Script" id=1]
+[ext_resource path="res://Assets/UI/RecipeBook/Recipes/Vietnamese-rec1.png" type="Texture" id=2]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
+RecipeTexture = ExtResource( 2 )
 Ing1 = 10
 Ing2 = 11
 Ing3 = 12
