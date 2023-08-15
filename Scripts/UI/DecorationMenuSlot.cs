@@ -32,6 +32,9 @@ public class DecorationMenuSlot : HBoxContainer
 
     private void _on_Button_pressed()
     {
+        if((int)BaseScript.IState >= 5)
+            return;
+
         BaseScript.ActiveDecorationSlot = this;
         BaseScript.UIContainer.Visible = false;
 

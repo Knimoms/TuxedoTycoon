@@ -265,7 +265,6 @@ public partial class Customer : KinematicBody
 				if (LineNumber == 0)
 					OrderedDish = TargetRestaurant.Order();
 				break;
-
 		}
 	}
 }

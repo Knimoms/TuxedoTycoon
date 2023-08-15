@@ -15,7 +15,7 @@ font_data = SubResource( 10 )
 [sub_resource type="Shader" id=11]
 code = "shader_type spatial;
 
-render_mode blend_mix, specular_phong;
+render_mode unshaded;
 
 uniform float outerRadius : hint_range(0, 0.5f) = 0.25f;
 uniform float thickness : hint_range(0, 0.5f) = 0.05f;
@@ -46,7 +46,7 @@ void fragment(){
 		discard;
 		
 	else if(distanceFromCenter < radius-thickness) 
-		fragColor.a *= 0.0f;
+		fragColor.a *= 0.3f;
 	
 	vec4 alpha = texture(SCREEN_TEXTURE, SCREEN_UV);
 	ALBEDO = mix(alpha.rgb, fragColor.rgb, fragColor.a);
@@ -59,7 +59,7 @@ shader_param/outerRadius = 0.25
 shader_param/thickness = 0.05
 shader_param/pulseStrength = 0.3
 shader_param/speed = 3.0
-shader_param/color = Color( 0.313726, 0.529412, 1, 0.27451 )
+shader_param/color = Color( 0.313726, 0.529412, 1, 0.784314 )
 shader_param/deactivated = false
 
 [sub_resource type="BoxShape" id=2]

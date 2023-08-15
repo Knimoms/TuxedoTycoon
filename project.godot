@@ -10,7 +10,7 @@ config_version=4
 
 [application]
 
-config/name="TuxedoTycoon(Godotv3.5.2)"
+config/name="TuxedoTycoon"
 run/main_scene="res://Scenes/BaseScene.tscn"
 config/icon="res://icon.png"
 
@@ -74,6 +74,4 @@ quality/intended_usage/framebuffer_allocation.mobile=2
 vram_compression/import_etc=true
 quality/shadow_atlas/size.mobile=4096
 quality/shading/force_vertex_shading.mobile=false
-quality/shading/force_lambert_over_burley.mobile=false
-quality/shading/force_blinn_over_ggx.mobile=false
 environment/default_environment="res://default_env.tres"

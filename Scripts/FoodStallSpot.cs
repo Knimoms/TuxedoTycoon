@@ -60,7 +60,10 @@ public partial class FoodStallSpot : Spatial
 
 		Spatial blueprintGrandpa = (Spatial)GD.Load<PackedScene>(FolderPath+"/Stages/Stage1.tscn").Instance();
 		blueprintGrandpa.RotationDegrees = new Vector3(0, -90, 0);
-		_blueprint = (MeshInstance)blueprintGrandpa.GetChild(0).GetChild(0);
+		Node tempChild = blueprintGrandpa.GetChild(0);
+		_blueprint = (MeshInstance)tempChild.GetChild(1);
+		tempChild.GetChild(0).QueueFree();
+		
 		_blueprint.MaterialOverride = _my_blueprint_shader;
 
 		_spot.AddChild(blueprintGrandpa);
@@ -75,6 +78,9 @@ public partial class FoodStallSpot : Spatial
 	{
 		if(!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left) 
 			return;
+
+		if(Parent.IState == InputState.RecipeBookOpened)
+			Parent.RecipeBook.Visible = false;
 
 		if(!event1.IsPressed() && Parent.MaxInputDelay.TimeLeft > 0) 
 		{
@@ -94,6 +100,8 @@ public partial class FoodStallSpot : Spatial
 		Parent.Spots.Remove(_spot);
 		this.QueueFree();
 		Parent.AddChild(rest);
+		foreach(Dish dish in rest.allDishes)
+			Parent.RecipeBook.AddDishToBook(dish);
 	}
 
 	private void _on_ConfirmationButton_pressed()

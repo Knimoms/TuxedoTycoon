@@ -12,6 +12,7 @@ radius = 0.25
 mid_height = 0.5
 
 [node name="KinematicBody" type="KinematicBody"]
+transform = Transform( 0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0 )
 collision_layer = 2
 script = ExtResource( 1 )
 Speed = 3.0

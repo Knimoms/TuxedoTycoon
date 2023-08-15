@@ -8,7 +8,7 @@
 [ext_resource path="res://Scripts/IsoCam.cs" type="Script" id=6]
 [ext_resource path="res://Scripts/TitleScreen.cs" type="Script" id=7]
 [ext_resource path="res://Scenes/CustomerSpawner.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/RecipeBook.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/UI/RecipeBook.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/English/English.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/TableLongM.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/TableSpot.tscn" type="PackedScene" id=12]
@@ -282,7 +282,7 @@ font_data = SubResource( 46 )
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 StartMoneyValue = 1000.0
-StartMoneyMagnitude = ""
+StartMoneyMagnitude = "nul"
 OfflineRewardsMinTreshold = 5
 
 [node name="pivot" type="Spatial" parent="."]
@@ -324,7 +324,7 @@ CustomersPerMinute = 6.0
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
 
 [node name="Floor" type="CSGBox" parent="."]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, -0.076262, 0 )
 visible = false
 width = 42.0
 height = 0.001
@@ -679,36 +679,36 @@ mesh = SubResource( 52 )
 material/0 = ExtResource( 19 )
 
 [node name="Cache2D" type="Node2D" parent="."]
-visible = false
 
 [node name="CustomerSprite" parent="Cache2D" instance=ExtResource( 16 )]
+visible = false
 
 [node name="DecorSpot" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.12132, -0.000359006, -2.82843 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.12132, 0, -2.82843 )
 
 [node name="DecorSpot2" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 9.1568, 0.00102329, -6.58189 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 9.1568, 0, -6.58189 )
 
 [node name="DecorSpot3" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.46064, 0.00105286, -11.3053 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.46064, 0, -11.3053 )
 
 [node name="DecorSpot4" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 6.42201, 0.00101376, -7.99288 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 6.42201, 0, -7.99288 )
 
 [node name="DecorSpot5" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.08471, 0.00101519, -5.64412 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.08471, 0, -5.64412 )
 
 [node name="DecorSpot6" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.8799, 0.00102806, 1.31803 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.8799, 0, 1.31803 )
 
 [node name="DecorSpot7" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.04123, 0.0010128, 3.97257 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.04123, 0, 3.97257 )
 
 [node name="DecorSpot8" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -6.42781, 0.00101566, -3.37713 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -6.42781, 0, -3.37713 )
 
 [node name="DecorSpot9" parent="." instance=ExtResource( 22 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7.84335, 0.00101614, -1.73312 )
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7.84335, 0, -1.73312 )
 
 [connection signal="input_event" from="pivot/Area2D" to="pivot" method="_on_Area2D_input_event"]
 [connection signal="frame_changed" from="UI/SatisfactionBar" to="UI/SatisfactionBar" method="_on_SatisfactionBar_frame_changed"]

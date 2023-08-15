@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Data;
+
 
 public partial class BaseScript : Spatial
 {
@@ -74,7 +76,7 @@ public partial class BaseScript : Spatial
 	public CustomerSpawner Spawner;
 	public Label AverageSatisfactionLabel;
 	public Label CPMLabel;
-	public RecipeBook TheRecipeBook;
+	public RecipeBook RecipeBook;
 	public Random rnd = new Random();
 	private Panel _offlinePanel;
 	public Node2D UIContainer;
@@ -97,10 +99,13 @@ public partial class BaseScript : Spatial
 	FoodStall temp;
 
 	public List<Control> UI = new List<Control>();
+
+	public static BaseScript DefaultBaseScript;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		DefaultBaseScript = this;
 		OfflineReward = Tuxdollar.ZeroTux;
 		IState = InputState.StartScreen;
 		Money = Tuxdollar.ZeroTux;
@@ -124,7 +129,7 @@ public partial class BaseScript : Spatial
 		temp.Visible = true;
 		AddChild(temp);
 		temp.RemoveFromGroup("Persist");
-		temp.Model.GetNode<StaticBody>("StaticBody").CollisionLayer = 20;
+		temp.Model.GetChild(0).GetNode<StaticBody>("StaticBody").CollisionLayer = 20;
 		
 		Restaurants.Remove(temp);
 
@@ -141,8 +146,9 @@ public partial class BaseScript : Spatial
 
 		if(CustomerSatisfactionTotal != 0)
 			AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
-		TheRecipeBook = (RecipeBook)GetNode("RecipeBook");
-		TheRecipeBook.FoodStalls = Restaurants;
+		RecipeBook = (RecipeBook)GetNode("RecipeBook");
+		RecipeBook.FoodStalls = Restaurants;
+		RecipeBook.AddDishesToBook();
 
 		TransferMoney(new Tuxdollar(StartMoneyValue, StartMoneyMagnitude));
 		CalculateCustomersPerMinute();
@@ -251,7 +257,12 @@ public partial class BaseScript : Spatial
 
 	private void _on_RecipeButton_pressed()
 	{
-		TheRecipeBook.Visible = !TheRecipeBook.Visible;;
+		RecipeBook.Visible = !RecipeBook.Visible;
+
+		if(RecipeBook.Visible)
+			IState = InputState.RecipeBookOpened;
+		else 
+			IState = InputState.Default;
 	}
 
 	public void EmitPoof(Spatial spatial)
@@ -300,7 +311,7 @@ public partial class BaseScript : Spatial
 	public void SaveGame()
 	{
 		File saveGame = new File();
-		saveGame.Open($"user://{OS.GetUnixTime()}.save", File.ModeFlags.Write);
+		saveGame.Open($"user://{Time.GetUnixTimeFromSystem()}.save", File.ModeFlags.Write);
 
 		Godot.Collections.Array saveNodes = GetTree().GetNodesInGroup("Persist");
 		saveGame.StoreLine(JSON.Print(Save()));
@@ -342,7 +353,7 @@ public partial class BaseScript : Spatial
 				foreach(System.Single x in _customer_satisfactionsArray)
 					_customer_satisfactions.Enqueue((int)x);
 
-				offlineSeconds = OS.GetUnixTime() - pastUnixTimestamp;
+				offlineSeconds = Time.GetUnixTimeFromSystem() - pastUnixTimestamp;
 				
 				this.Chairs = new List<Chair>();
 				this.Spots = new List<Spatial>();
@@ -387,7 +398,7 @@ public partial class BaseScript : Spatial
 
 	public string GetLastValidSavefile()
 	{
-		ulong currentUnixTime = OS.GetUnixTime();
+		double currentUnixTime = Time.GetUnixTimeFromSystem();
 		Directory dir = new Directory();
 		List<double> allSavesUnixtime = new List<double>();
 
@@ -519,5 +530,6 @@ public enum InputState
 	Zooming,
 	Dragging,
 	PopUpOpened,
-	MiniGameOpened
+	MiniGameOpened,
+	RecipeBookOpened
 }

@@ -76,35 +76,7 @@ public class IsoCam : Spatial
 
     public void _on_Area2D_input_event(Node viewport, InputEvent @event, int shape_idx)
     {
-        if(!(@event is InputEventScreenTouch) && !(@event is InputEventMouseButton))
-            return;
-
-        if (@event is InputEventMouseButton mb && @event.IsPressed())
-        {
-            if (mb.ButtonIndex == (int)ButtonList.WheelUp && _camera.Size > ZoomMinimum)
-                _camera.Size -= ZoomSpeed * 60;
-
-            if (mb.ButtonIndex == (int)ButtonList.WheelDown && _camera.Size < ZoomMaximum)
-                _camera.Size += ZoomSpeed * 60;
-        }      
-
-        if(@event.IsPressed() && !_movement_input)
-        {
-            _movement_input = true;
-            _Input(@event);
-            return;
-        }
-
-        if(!@event.IsPressed() && events.Count == 0)
-            _movement_input = false;
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        if(!_movement_input)
-            return;
-
-        if(_parent.IState == InputState.MiniGameOpened || _parent.IState == InputState.StartScreen)
+        if( _parent.IState == InputState.StartScreen || (int)_parent.IState >= 5)
             return;
 
         if (@event is InputEventScreenTouch st)
@@ -162,6 +134,80 @@ public class IsoCam : Spatial
             }
         }
     }
+
+    // public override void _Input(InputEvent @event)
+    // {
+    //     return;
+    //     //if(!_movement_input)
+    //        // return;
+
+    //     if(_parent.IState == InputState.MiniGameOpened || _parent.IState == InputState.StartScreen)
+    //         return;
+
+    //     if (@event is InputEventScreenTouch st)
+    //     {
+    //         if (@event.IsPressed())
+    //         {
+    //             events[st.Index] = new InputEventScreenDrag();
+    //             events[st.Index].Position = st.Position;
+    //             _parent.MaxInputDelay.Start();
+    //             _parent.InputPosition = GetViewport().GetMousePosition();
+    //         }
+    //         else
+    //         {
+    //             events.Remove(st.Index);
+    //         }
+
+    //         if (events.Count == 2)
+    //         {
+    //             lastDragDistance = events[0].Position.DistanceTo(events[1].Position);
+    //         }
+    //     }
+
+    //     if(events.Count == 0)
+    //         _parent.IState = InputState.Default;
+
+    //     if (@event is InputEventScreenDrag motionEvent)
+    //     {
+    //         events[motionEvent.Index] = motionEvent;
+            
+    //         _parent.MaxInputDelay.Stop();
+
+    //         if (events.Count == 2)
+    //         {
+    //             float dragDistance = events[0].Position.DistanceTo(events[1].Position);
+    //             float newSize = (dragDistance < lastDragDistance) ? 1 + ZoomSpeed : 1 - ZoomSpeed;
+    //             newSize = (float)Math.Pow(newSize, Math.Abs(lastDragDistance - dragDistance)*0.2);
+
+    //             newSize = _camera.Size * newSize;
+
+    //             if (newSize > ZoomMaximum) newSize = ZoomMaximum;
+    //             if (newSize < ZoomMinimum) newSize = ZoomMinimum;
+
+    //             _camera.Size = newSize;
+
+    //             lastDragDistance = dragDistance;
+    //         }
+
+    //         if(_parent.InputPosition.DistanceTo(motionEvent.Position) > 30)
+    //             _parent.IState = InputState.Dragging;
+
+    //         if (events.Count == 1 && _parent.IState == InputState.Dragging)
+    //         {
+    //             Vector3 translation = new Vector3(motionEvent.Relative.x * -0.0015f * _camera.Size, 0, motionEvent.Relative.y * -0.0015f * _camera.Size);
+    //             TranslateWithBounds(translation);
+    //         }
+    //     }
+
+    //     if (@event is InputEventMouseButton mb && @event.IsPressed())
+    //     {
+    //         if (mb.ButtonIndex == (int)ButtonList.WheelUp && _camera.Size > ZoomMinimum)
+    //             _camera.Size -= ZoomSpeed * 60;
+
+    //         if (mb.ButtonIndex == (int)ButtonList.WheelDown && _camera.Size < ZoomMaximum)
+    //             _camera.Size += ZoomSpeed * 60;
+    //     }  
+    // }
 
     private void TranslateWithBounds(Vector3 translation)
     {
