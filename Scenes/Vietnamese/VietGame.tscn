@@ -1,12 +1,14 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/InterfaceStuff/lifebar_bg.png" type="Texture" id=1]
-[ext_resource path="res://Assets/MinigameStuff/minigame_bg.png" type="Texture" id=2]
+[ext_resource path="res://Assets/MinigameStuff/Backgrounds/minigame_bg.png" type="Texture" id=2]
 [ext_resource path="res://Assets/InterfaceStuff/lifebar_fill.png" type="Texture" id=3]
+[ext_resource path="res://Assets/MinigameStuff/Dishes/Polar/Cross.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Minigame/Ing2D.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/Minigame2D.cs" type="Script" id=6]
 [ext_resource path="res://Scenes/Minigame/FoodSpwn2D.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Assets/MinigameStuff/minigame_wallpaper.png" type="Texture" id=8]
+[ext_resource path="res://Scenes/CustomerSprite.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/InterfaceStuff/trash.png" type="Texture" id=10]
 
 [sub_resource type="DynamicFontData" id=5]
@@ -21,68 +23,49 @@ font_data = SubResource( 5 )
 script = ExtResource( 6 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 511, 300.5 )
-scale = Vector2( 1.0625, 0.892697 )
+position = Vector2( 640.5, 360.5 )
+scale = Vector2( 1.33229, 1.07153 )
 texture = ExtResource( 8 )
 
+[node name="CustomerSprite" parent="." instance=ExtResource( 9 )]
+visible = false
+position = Vector2( 599, 524 )
+scale = Vector2( 0.7, 0.7 )
+
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 512, 300.5 )
-scale = Vector2( 0.790123, 0.661878 )
+position = Vector2( 640, 358.5 )
+scale = Vector2( 0.987654, 0.798895 )
 texture = ExtResource( 2 )
 
 [node name="Ing2D1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 254, 489 )
+position = Vector2( 316, 574 )
 scale = Vector2( 1.5, 1.5 )
-ing = 10
+ing = 1
 
 [node name="Ing2D2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 702, 531 )
+position = Vector2( 870, 622 )
 rotation = -0.663225
 scale = Vector2( 0.8, 1.5 )
-ing = 11
+ing = 2
 
 [node name="Ing2D3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 830, 526 )
+position = Vector2( 1032, 630 )
 rotation = -0.750492
 scale = Vector2( 0.75, 1.5 )
-ing = 12
-
-[node name="Ing2D4" parent="." instance=ExtResource( 5 )]
-position = Vector2( 952, 487 )
-ing = 13
-
-[node name="Ing2D5" parent="." instance=ExtResource( 5 )]
-position = Vector2( 953, 380 )
-ing = 14
-
-[node name="Ing2D6" parent="." instance=ExtResource( 5 )]
-position = Vector2( 950, 272 )
-ing = 15
-
-[node name="Ing2D7" parent="." instance=ExtResource( 5 )]
-position = Vector2( 949, 159 )
-ing = 16
-
-[node name="Ing2D8" parent="." instance=ExtResource( 5 )]
-position = Vector2( 840, 159 )
-ing = 17
-
-[node name="Ing2D9" parent="." instance=ExtResource( 5 )]
-position = Vector2( 838, 270 )
-ing = 18
+ing = 3
 
 [node name="FoodSpawner" parent="." instance=ExtResource( 7 )]
-position = Vector2( 481, 538 )
-scale = Vector2( 1.7, 0.7 )
+position = Vector2( 603, 645 )
+scale = Vector2( 2.5, 1 )
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="TrashButton" type="Button" parent="."]
-margin_left = 8.0
-margin_top = 481.0
-margin_right = 1713.0
-margin_bottom = 2407.0
+margin_left = 13.0
+margin_top = 594.0
+margin_right = 1718.0
+margin_bottom = 2520.0
 rect_scale = Vector2( 0.06, 0.06 )
 icon = ExtResource( 10 )
 flat = true
@@ -91,10 +74,10 @@ __meta__ = {
 }
 
 [node name="CloseButton" type="Button" parent="."]
-margin_left = 840.0
-margin_top = 2.0
-margin_right = 990.0
-margin_bottom = 93.0
+margin_left = 1118.0
+margin_top = 8.0
+margin_right = 1268.0
+margin_bottom = 99.0
 custom_fonts/font = SubResource( 4 )
 text = "Close"
 __meta__ = {
@@ -102,10 +85,10 @@ __meta__ = {
 }
 
 [node name="IngLabel" type="Label" parent="."]
-margin_left = 170.0
-margin_top = 156.0
-margin_right = 552.0
-margin_bottom = 242.0
+margin_left = 422.0
+margin_top = 201.0
+margin_right = 804.0
+margin_bottom = 287.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 4 )
 text = "sdgdsfsdf"
@@ -115,29 +98,44 @@ __meta__ = {
 }
 
 [node name="IngSpot1" type="Sprite" parent="."]
-position = Vector2( 435, 542 )
+position = Vector2( 530, 640 )
 
 [node name="IngSpot2" type="Sprite" parent="."]
-position = Vector2( 476, 526 )
+position = Vector2( 595, 620 )
 
 [node name="IngSpot3" type="Sprite" parent="."]
-position = Vector2( 523, 543 )
+position = Vector2( 670, 640 )
+
+[node name="WrongFood" type="Sprite" parent="."]
+position = Vector2( 596, 650 )
+texture = ExtResource( 4 )
+
+[node name="Order" type="Sprite" parent="."]
+position = Vector2( 640, 175 )
 
 [node name="FinishedFood" type="Sprite" parent="."]
-position = Vector2( 481, 538 )
+position = Vector2( 596, 630 )
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DoneTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="TextureProgress" type="TextureProgress" parent="."]
 visible = false
-margin_left = 294.0
-margin_top = 291.0
-margin_right = 690.0
-margin_bottom = 344.0
-max_value = 2.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 443.0
+margin_top = 326.0
+margin_right = 839.0
+margin_bottom = 379.0
 texture_under = ExtResource( 1 )
 texture_progress = ExtResource( 3 )
 
 [connection signal="pressed" from="TrashButton" to="." method="_on_TrashButton_pressed"]
 [connection signal="pressed" from="CloseButton" to="." method="_on_CloseButton_pressed"]
 [connection signal="timeout" from="Timer" to="FoodSpawner" method="_on_Timer_timeout"]
+[connection signal="timeout" from="DoneTimer" to="." method="_on_DoneTimer_timeout"]
