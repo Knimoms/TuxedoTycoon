@@ -24,7 +24,7 @@ public class FoodSpwn2D : Node2D
         foodStall = GetParent().GetParent<FoodStall>();
         _minigameTimer.WaitTime = foodStall.TimerProp.WaitTime/4f;
         closeButton = GetParent().GetNode<Button>("CloseButton");
-        while(GetParent().GetNode<Ing2D>($"Ing2D"+ i) != null)
+        while(GetParent().GetNodeOrNull<Ing2D>($"Ing2D"+ i) != null)
         {
             ing2DList.Add(GetParent().GetNode<Ing2D>($"Ing2D"+i));
             i++;

@@ -29,6 +29,8 @@ public partial class Customer : KinematicBody
 			_state = value;
 			if(_state.ToString().Find("Walking") != -1)
 				_animation_player.Play("penguinWalkShort -loop");
+			else if(_state == CustomerState.EatingFood) 
+				_animation_player.Play("eating -loop");
 			else _animation_player.Play("idle");
 		}
 	}

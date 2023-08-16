@@ -53,6 +53,15 @@ public partial class BaseScript : Spatial
 		set{ _customers_per_minute = CalculateCustomersPerMinute();}
 	}
 
+	private bool _sound_muted = false;
+	public bool SoundMuted
+	{
+		get => _sound_muted;  
+		set{
+			_sound_muted = value;
+			Menu.MuteButton.Icon = _sound_muted? Menu.SoundButtonMuted: Menu.SoundButtonUnmuted;
+		}
+	}
 
 	public InputState IState;
 	private Tuxdollar _money;
@@ -365,7 +374,7 @@ public partial class BaseScript : Spatial
 				newObject = newObjectScene.Instance();
 
 				if(newObject is Decoration decoration)
-					Menu.DeleteDecorsMenuSlot(decoration);
+					Menu.HideDecorsMenuSlot(decoration);
 					
 				if(newObject is Spatial newSpatial)
 				{

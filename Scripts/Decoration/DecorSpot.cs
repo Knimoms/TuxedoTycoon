@@ -27,7 +27,7 @@ public class DecorSpot : Spatial
             _base_script.ActiveDecorationSlot.Decoration.Transform = Transform;
             _base_script.UIContainer.Visible = true;
 
-            _base_script.ActiveDecorationSlot.QueueFree();
+            _base_script.ActiveDecorationSlot.Visible = false;;
             _base_script.ActiveDecorationSlot = null;
             foreach(DecorSpot decorSpot in _base_script.DecorSpots)
                 decorSpot.Visible = false;

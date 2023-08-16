@@ -9,25 +9,23 @@ public class DecorationMenuSlot : HBoxContainer
     private Label _price_label;
     public static BaseScript BaseScript;
 
+    public Button Button;
     public static Menu Menu;
-
 
     public override void _Ready()
     {
+
         _price_label = (Label)GetNode("Label");
         if(BaseScript == null)  
             BaseScript = (BaseScript)GetViewport().GetNode("Spatial");
         if(Menu == null)    
             Menu = (Menu)BaseScript.GetNode("UI/Menu");
+
+        Button = (Button)GetNode("Button");
+        Menu.decorationMenuSlots.Add(this);
         Decoration.Cost = new Tuxdollar(Decoration.CostValue, Decoration.CostMagnitude);
         _price_label.Text = Decoration.Cost.ToString();
-    }
-
-    public override void _Process(float delta)
-    {
-        if(RectGlobalPosition.y < Menu.Treshold.GlobalPosition.y)
-            Visible = false;
-        else Visible = true;
+        BaseScript.MoneyTransfered += CheckButtonMode;
     }
 
     private void _on_Button_pressed()
@@ -45,14 +43,15 @@ public class DecorationMenuSlot : HBoxContainer
             spot.Visible = false;
     }
 
-    public Dictionary<string, object> Save()
-	{
-		return new Dictionary<string, object>()
-		{
-            {"Filename", Filename},
-			{"Parent", GetParent().GetPath()},
-		};
-	}
+    public void _on_DecorationMenuSlot_tree_exiting()
+    {
+        GD.Print("uuh");
+    }
+
+    public void CheckButtonMode()
+    {
+        Button.Disabled = BaseScript.Money < Decoration.Cost;
+    }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)

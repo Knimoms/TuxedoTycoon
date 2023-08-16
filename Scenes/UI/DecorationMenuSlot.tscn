@@ -55,4 +55,5 @@ text = "Price"
 align = 1
 valign = 1
 
+[connection signal="tree_exiting" from="." to="." method="_on_DecorationMenuSlot_tree_exiting"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

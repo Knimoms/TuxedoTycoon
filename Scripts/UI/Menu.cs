@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+
 
 public class Menu : AnimatedSprite
 {
@@ -14,17 +16,25 @@ public class Menu : AnimatedSprite
 
     [Export]
     public PackedScene DecorMenuSlotScene;
+    [Export]
+    public Texture SoundButtonUnmuted;
+    [Export]
+    public Texture SoundButtonMuted;
     public bool Opened{get; private set;}
 
     public AnimationPlayer AnimationPlayer{get;private set;}
     private ScrollContainer _scroll_container;
     private VBoxContainer _vbox_container;
     public Position2D Treshold;
+    public Button MuteButton;
+
+    public List<DecorationMenuSlot> decorationMenuSlots = new List<DecorationMenuSlot>();
 
     public override void _Ready()
     {
+        MuteButton = (Button)GetNode("MuteButton");
         AnimationPlayer = (AnimationPlayer)GetNode("AnimationPlayer");
-        _scroll_container = (ScrollContainer)GetNode("ScrollContainer");
+        _scroll_container = (ScrollContainer)GetNode("Cutoff/ScrollContainer");
         _vbox_container = (VBoxContainer)_scroll_container.GetNode("VBoxContainer");
         Treshold = (Position2D)GetNode("Treshold");
 
@@ -42,10 +52,14 @@ public class Menu : AnimatedSprite
             _vbox_container.AddChild(newMenuSlot);
             filename = dir.GetNext();
         }
+        SortDecorations();
     }
 
     private void _on_BuildButton_pressed()
     {
+        if(BaseScript.DefaultBaseScript.IState == InputState.RecipeBookOpened)
+            return;
+
         EmitSignal(nameof(BuildButton_pressed));
         if(!Opened)
             AnimationPlayer.Play("Opening");
@@ -55,24 +69,34 @@ public class Menu : AnimatedSprite
     }
 
     public void SortDecorations()
-    {
-        Godot.Collections.Array menuSlots = _vbox_container.GetChildren();
-
-        foreach(object obj in menuSlots)
+    {    
+        for (int i = 1; i < decorationMenuSlots.Count; i++)
         {
-            DecorationMenuSlot menuSlot = obj as DecorationMenuSlot;
-
+            var key = decorationMenuSlots[i];
+            var flag = 0;
+            for (int j = i - 1; j >= 0 && flag != 1;)
+            {
+                if (key.Decoration.Cost < decorationMenuSlots[j].Decoration.Cost)
+                {
+                    decorationMenuSlots[j + 1] = decorationMenuSlots[j];
+                    j--;
+                    decorationMenuSlots[j + 1] = key;
+                }
+                else flag = 1;
+            }
         }
+
+        for(int i = 0; i < decorationMenuSlots.Count; i++)
+            _vbox_container.MoveChild(decorationMenuSlots[i], i);
     }
 
-    public void DeleteDecorsMenuSlot(Decoration decoration)
+    public void HideDecorsMenuSlot(Decoration decoration)
     {
-        Godot.Collections.Array allMenuSlots = _vbox_container.GetChildren();
-        foreach(object obj in allMenuSlots) 
+        foreach(DecorationMenuSlot dms in decorationMenuSlots) 
         {
-            if(obj is DecorationMenuSlot dms && dms.Decoration.Filename == decoration.Filename)
+            if(dms.Decoration.Filename == decoration.Filename)
             {
-                dms.QueueFree();
+                dms.Visible = false;
                 return;
             }
         }
@@ -86,6 +110,7 @@ public class Menu : AnimatedSprite
     private void _on_MuteButton_pressed()
     {
         EmitSignal(nameof(MuteButton_pressed));
+        BaseScript.DefaultBaseScript.SoundMuted = !BaseScript.DefaultBaseScript.SoundMuted;
     }
 
     private void ToggleScrollable()

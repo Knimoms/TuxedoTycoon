@@ -281,8 +281,8 @@ font_data = SubResource( 46 )
 
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
-StartMoneyValue = 1000.0
-StartMoneyMagnitude = "nul"
+StartMoneyValue = 999.937
+StartMoneyMagnitude = "loser"
 OfflineRewardsMinTreshold = 5
 
 [node name="pivot" type="Spatial" parent="."]
@@ -709,6 +709,10 @@ transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -
 
 [node name="DecorSpot9" parent="." instance=ExtResource( 22 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7.84335, 0, -1.73312 )
+
+[node name="AudioStreamContainer" type="Node" parent="."]
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="AudioStreamContainer"]
 
 [connection signal="input_event" from="pivot/Area2D" to="pivot" method="_on_Area2D_input_event"]
 [connection signal="frame_changed" from="UI/SatisfactionBar" to="UI/SatisfactionBar" method="_on_SatisfactionBar_frame_changed"]

@@ -69,10 +69,7 @@ public class Minigame2D : Node2D
     public void CompareLists()
     {
         if(MyFoodStall.OrderedDish == null)
-            {
-                
                 return;
-            }
 
         if(MyFoodStall.OrderedDish.CompareIngredients(ingredientList)){
             _finishedFood.Texture = MyFoodStall.OrderedDish.DishIcon;
@@ -98,6 +95,8 @@ public class Minigame2D : Node2D
 
     public void RecipeCorrect()
     {
+        if(!MyFoodStall.OrderedDish.Unlocked)
+            MyFoodStall.OrderedDish.Unlocked = true;
         MyFoodStall.MiniGameDone();
     }
 
