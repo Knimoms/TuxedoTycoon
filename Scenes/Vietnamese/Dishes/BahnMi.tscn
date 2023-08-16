@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Dish.cs" type="Script" id=1]
 [ext_resource path="res://Assets/UI/RecipeBook/Recipes/Vietnamese-rec2.png" type="Texture" id=2]
+[ext_resource path="res://Assets/MinigameStuff/Dishes/Viet/BahnMi.png" type="Texture" id=3]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
+DishIcon = ExtResource( 3 )
 RecipeTexture = ExtResource( 2 )
 Ing1 = 13
 Ing2 = 14
-Ing3 = 15
+Ing3 = 17
 Ing4 = 11
 
 [node name="Sprite" type="Sprite" parent="."]

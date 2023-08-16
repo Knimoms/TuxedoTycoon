@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Scenes/Minigame/Minigame2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Japanese/JapGame.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Japanese/Dishes/Sashimi.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Japanese/Dishes/Maki.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=5]
@@ -36,7 +36,6 @@ one_shot = true
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 
 [node name="PopupMenu" parent="." instance=ExtResource( 5 )]
-visible = false
 __meta__ = {
 "_edit_use_anchors_": true
 }
