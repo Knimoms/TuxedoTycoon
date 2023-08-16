@@ -72,6 +72,4 @@ common/enable_pause_aware_picking=true
 
 quality/intended_usage/framebuffer_allocation.mobile=2
 vram_compression/import_etc=true
-quality/shadow_atlas/size.mobile=4096
-quality/shading/force_vertex_shading.mobile=false
 environment/default_environment="res://default_env.tres"

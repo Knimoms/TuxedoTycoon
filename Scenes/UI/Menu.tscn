@@ -145,6 +145,7 @@ margin_top = -155.0
 margin_right = 314.0
 margin_bottom = 779.0
 rect_clip_content = true
+mouse_filter = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Cutoff"]
 visible = false

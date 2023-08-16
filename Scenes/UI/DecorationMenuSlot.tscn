@@ -24,7 +24,7 @@ font_data = SubResource( 1 )
 anchor_right = 0.329688
 anchor_bottom = 0.208333
 margin_right = -14.0
-rect_min_size = Vector2( 422, 150 )
+rect_min_size = Vector2( 422, 200 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": true
@@ -33,7 +33,7 @@ __meta__ = {
 [node name="Button" type="Button" parent="."]
 use_parent_material = true
 margin_right = 204.0
-margin_bottom = 150.0
+margin_bottom = 200.0
 rect_min_size = Vector2( 204, 150 )
 custom_styles/hover = SubResource( 3 )
 custom_styles/pressed = SubResource( 4 )
@@ -47,8 +47,9 @@ expand_icon = true
 [node name="Label" type="Label" parent="."]
 use_parent_material = true
 margin_left = 208.0
+margin_top = 25.0
 margin_right = 416.0
-margin_bottom = 150.0
+margin_bottom = 175.0
 rect_min_size = Vector2( 208, 150 )
 custom_fonts/font = SubResource( 2 )
 text = "Price"
