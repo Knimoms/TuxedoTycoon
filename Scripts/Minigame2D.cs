@@ -10,7 +10,7 @@ public class Minigame2D : Node2D
     private Sprite _finishedFood;
     private Sprite _wrongFood;
     public Label IngLabel;
-    public Sprite[] IngSpots = new Sprite[3];
+    public List<Sprite> IngSpots = new List<Sprite>();
     private Timer _doneTimer;
     public Sprite Order;
     public FoodSpwn2D foodSpwn2D;
@@ -23,8 +23,16 @@ public class Minigame2D : Node2D
         Order = GetNode<Sprite>("Order");
         foodSpwn2D = GetNode<FoodSpwn2D>("FoodSpawner");
         IngLabel = (Label)GetNode("IngLabel");
-        for(int i = 0; i < IngSpots.Length; i++)
-            IngSpots[i] =(Sprite)GetNode("IngSpot" + (i+1));
+        int i = 1;
+        Sprite sprite = (Sprite)GetNodeOrNull("IngSpot1");
+        while(sprite != null)
+        {
+            i++;
+            IngSpots.Add(sprite);
+            sprite = (Sprite)GetNodeOrNull("IngSpot" + i);
+        }
+        // for(int i = 0; i < IngSpots.Count; i++)
+        //     IngSpots[i] =(Sprite)GetNode("IngSpot" + (i+1));
         IngLabel.Text = PrintRecipe();
         _finishedFood = GetNode<Sprite>("FinishedFood");
         _wrongFood = GetNode<Sprite>("WrongFood");
