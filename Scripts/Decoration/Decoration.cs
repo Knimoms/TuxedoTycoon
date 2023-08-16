@@ -10,6 +10,8 @@ public class Decoration : Spatial
 
     [Export]
     public int SatisfactionBonus;
+    [Export]
+    public Texture Preview;
 
     public Tuxdollar Cost;
 

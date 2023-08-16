@@ -26,6 +26,7 @@ public class DecorationMenuSlot : HBoxContainer
         Decoration.Cost = new Tuxdollar(Decoration.CostValue, Decoration.CostMagnitude);
         _price_label.Text = Decoration.Cost.ToString();
         BaseScript.MoneyTransfered += CheckButtonMode;
+        Button.Icon = Decoration.Preview;
     }
 
     private void _on_Button_pressed()
