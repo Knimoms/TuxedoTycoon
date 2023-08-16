@@ -1,17 +1,14 @@
 using Godot;
 using System;
 
-public class RecipeBookSlot : Control
+public class RecipeBookSlot : Button
 {
     public Dish Dish;
-    public Sprite Sprite;
     public static RecipeBook RecipeBook;
     public override void _Ready()
     {
-        GD.Print("mau");
-        Sprite = (Sprite)GetNode("Sprite");
         if(Dish.DishIcon != null)
-            Sprite.Texture = Dish.DishIcon;
+            Icon = Dish.DishIcon;
     }
 
     private void _on_RecipeSlot_pressed()

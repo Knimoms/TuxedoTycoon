@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/SnowCone.png-2b66d93f46c674da7b06778532887589.stex"
+path="res://.import/snowcone.png-40d07677eaee6c07b3cba012daa4efee.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Polar/FinishedFoodPngs/SnowCone.png"
-dest_files=[ "res://.import/SnowCone.png-2b66d93f46c674da7b06778532887589.stex" ]
+source_file="res://Scenes/Polar/FinishedFoodPngs/snowcone.png"
+dest_files=[ "res://.import/snowcone.png-40d07677eaee6c07b3cba012daa4efee.stex" ]
 
 [params]
 

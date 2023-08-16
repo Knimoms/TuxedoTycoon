@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/Dish.cs" type="Script" id=1]
 [ext_resource path="res://Assets/MinigameStuff/Dishes/Engish/EngDish1.png" type="Texture" id=2]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 script = ExtResource( 1 )
 DishIcon = ExtResource( 2 )
 Ing1 = 6
