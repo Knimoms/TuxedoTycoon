@@ -18,7 +18,7 @@ public class SatisfactionBar : AnimatedSprite
 
     private void CheckSatisfaction()
     {
-        CustomerMood newMood = (CustomerMood)(int)(_base_script.SatisfactionRating/33+1);
+        CustomerMood newMood = (CustomerMood)Math.Min((int)(_base_script.SatisfactionRating/33+1), 3);
         if(newMood == _customer_mood)
             return;
 

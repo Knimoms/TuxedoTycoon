@@ -44,11 +44,6 @@ public class DecorationMenuSlot : HBoxContainer
             spot.Visible = false;
     }
 
-    public void _on_DecorationMenuSlot_tree_exiting()
-    {
-        GD.Print("uuh");
-    }
-
     public void CheckButtonMode()
     {
         Button.Disabled = BaseScript.Money < Decoration.Cost;

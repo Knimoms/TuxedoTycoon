@@ -13,6 +13,7 @@ public class RecipeBookSlot : Button
 
     private void _on_RecipeSlot_pressed()
     {
+        BaseScript.PageTurnSFX.Play();
         RecipeBook.CurrentDish = Dish;
     }
 

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 public partial class Table : Spatial
 {
+    [Export]
+    public Size TableSize;
+
     private int chairsCount;
     public Tuxdollar Cost;
-    private int currentLevel = 1;
 
     public BaseScript _base_script;
     public string CostMagnitude;
@@ -23,36 +25,22 @@ public partial class Table : Spatial
         if (_base_script == null)
             _base_script = (BaseScript)this.GetParent().GetParent();
         
-        _base_script.MoneyTransfered += CheckButtonMode;
-
         _popupMenu = GetNode<PopupMenu>("PopupMenu");
         _costLabel = _popupMenu.GetNode<Label>("CostLabel");
         _confirmationButton = _popupMenu.GetNode<Button>("ConfirmationButton");
         _cancelButton = _popupMenu.GetNode<Button>("CancelButton");
-
+        
         _popupMenu.Hide();
 
-        Cost = CalculateCost(currentLevel);
-        UpdateCostLabel();
 
         _confirmationButton.Text = "Buy a chair";
-        _costLabel.Text = $"Cost: {Cost}\nChairs: {currentLevel}";
+        Godot.Collections.Array chairs = GetChildren();
 
-        int j = currentLevel;
-        currentLevel = 0;
-        for(int i = 0; i < j; i++)
+        foreach(object obj in chairs)
         {
-            currentLevel++;
-            CreateChairs();
+            if(obj is Chair chair)
+                chair.MakeUsable();
         }
-        
-        Cost = CalculateCost(currentLevel);
-        CheckButtonMode();
-    }
-
-    private void UpdateCostLabel()
-    {
-        _costLabel.Text = $"Cost: {Cost}\nChairs: {currentLevel}";
     }
 
     private void LevelUp()
@@ -61,40 +49,14 @@ public partial class Table : Spatial
         {
             Tuxdollar cost = Cost;
 
-            currentLevel++;
-            Cost = CalculateCost(currentLevel);
-            UpdateCostLabel();
             _base_script.TransferMoney(-cost);
 
-            CreateChairs();
         }
-    }
-
-    public void CheckButtonMode()
-    {
-        _confirmationButton.Disabled = _base_script.Money < Cost || currentLevel == chairsCount;
     }
 
     private void _on_Area_input_event(Node camera, InputEvent event1, Vector3 position, Vector3 normal, int shape_idx)
     {
-        if (!(event1 is InputEventMouseButton mb) || mb.ButtonIndex != (int)ButtonList.Left || !_base_script.BuildMode)
-            return;
-
-        if (!event1.IsPressed() && _base_script.MaxInputDelay.TimeLeft > 0)
-        {
-            _popupMenu.PopupCentered();
-        }
-    }
-
-    private void CreateChairs()
-    {
-
-        if (currentLevel > 0)
-        {
-            Chair chair = GetNodeOrNull<Chair>($"Chair{currentLevel}");
-            if (chair != null)
-                chair.MakeUsable();
-        }
+        
     }
 
     private void _on_ConfirmationButton_pressed()
@@ -117,7 +79,6 @@ public partial class Table : Spatial
 			{"PositionY", Transform.origin.y},
 			{"PositionZ", Transform.origin.z},
             {"RotationY", Rotation.y},
-			{"currentLevel", currentLevel}
 		};
 	}
 
@@ -125,5 +86,12 @@ public partial class Table : Spatial
     {
         ulong cost = 7000 * (ulong)Mathf.Pow(10, level);
         return new Tuxdollar(cost);
+    }
+
+    public enum Size
+    {
+        Small,
+        Medium,
+        Big
     }
 }

@@ -23,9 +23,8 @@ public class DecorationComponents : Spatial
 			return;
 
 		if(!event1.IsPressed() && _base_script.MaxInputDelay.TimeLeft > 0) 
-		{
 			_base_script.IsoCam.ZoomTo(this.Transform.origin + Vector3.Back, 6f, 0.5f);
-		}
+
     }
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
