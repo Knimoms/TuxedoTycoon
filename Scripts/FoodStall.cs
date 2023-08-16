@@ -34,14 +34,13 @@ public partial class FoodStall : Spatial
 	private Timer _timer;
 
 	private PopupMenu _popupMenu;
+	private Control UIContainer;
 	private Button _levelUpButton;
 	private Button _minigameButton;
-	private Button _cancelButton;
 	private Button _upgradeButton;
 
 	private Label _levelUpCostLabel;
 	private Label _qualityCostLabel;
-	private Label _nameLabel;
 	private Label _levelLabel;
 	
 	public Spatial Model{get; private set;}
@@ -138,6 +137,7 @@ public partial class FoodStall : Spatial
 		_timer.WaitTime = 60/CustomersPerMinute;
 		
 		_popupMenu = GetNode<PopupMenu>("PopupMenu");
+		UIContainer = (Control)_popupMenu.GetNode("UIContainer");
 
 		_path_follow = (PathFollow)GetNodeOrNull("Path/PathFollow"); 
 
@@ -147,7 +147,7 @@ public partial class FoodStall : Spatial
 		LevelUpTimer = _popupMenu.GetNode<Timer>("LevelUpTimer");
 		LevelUpTimer.Connect("timeout", this, nameof(_on_LevelUpTimer_timeout));
 
-		_levelUpButton = (Button)_popupMenu.GetNode("LevelUpButton");
+		_levelUpButton = (Button)_popupMenu.GetNode("UIContainer/LevelUpButton");
 		_levelUpButton.Connect("pressed",this, nameof(_on_LevelUpButton_pressed));
 
 
@@ -155,26 +155,21 @@ public partial class FoodStall : Spatial
 		_levelUpButton.Connect("button_down",this, nameof(_on_LevelUpButton_down));
 
 
-		_upgradeButton = (Button)_popupMenu.GetNode("UpgradeButton");
+		_upgradeButton = (Button)_popupMenu.GetNode("UIContainer/UpgradeButton");
 		_upgradeButton.Connect("pressed", this, nameof(_on_UpgradeButton_pressed));
 
-		_cancelButton = (Button)_popupMenu.GetNode("CancelButton");
-		_cancelButton.Connect("pressed",this, nameof(_on_CancelButton_pressed));
-
-		_minigameButton = (Button)_popupMenu.GetNode("MinigameButton");
+		_minigameButton = (Button)_popupMenu.GetNode("UIContainer/MinigameButton");
 		_minigameButton.Connect("pressed", this, nameof(_on_MiniGame2D_pressed));
 
-		_levelUpCostLabel = _popupMenu.GetNode<Label>("CostLabel");
-		_nameLabel = _popupMenu.GetNode<Label>("NameLabel");
+		_levelUpCostLabel = _popupMenu.GetNode<Label>("UIContainer/CostLabel");
 		
-		_levelLabel = _popupMenu.GetNode<Label>("LevelLabel");
+		_levelLabel = _popupMenu.GetNode<Label>("UIContainer/LevelLabel");
 
 		_levelLabel.Text = $"Lvl {Level}";
 
 		LevelUpCost = new Tuxdollar(LevelUpCostValue, LevelUpCostMagnitude);
 		Multiplicator = new Tuxdollar(MultiplicatorValue, MultiplicatorMagnitude);
 
-		_nameLabel.Text = "";
 		_levelUpCostLabel.Text = $"{LevelUpCost}";
 
 		NewDishIndicator = (Sprite3D)GetNode("Indicators/NewDishIndicator");
@@ -217,8 +212,14 @@ public partial class FoodStall : Spatial
 
 	}
 
+	public void ToggleUIContainer()
+	{
+		UIContainer.Visible = !UIContainer.Visible;
+	}
+
 	private void _on_MiniGame2D_pressed()
 	{
+		BaseScript.ButtonSound.Play();
 		Minigame2D minigame2D = Minigame2DScene.Instance<Minigame2D>();
 
 
@@ -350,6 +351,7 @@ public partial class FoodStall : Spatial
 
 	public void Upgrade()
 	{
+		BaseScript.ButtonSound.Play();
 		if (Stage >= 3)
 			return;
 
@@ -390,6 +392,8 @@ public partial class FoodStall : Spatial
 		if(Parent.Money < LevelUpCost)
 			return;
 
+		BaseScript.ButtonSound.Play();
+
 		Tuxdollar cost = LevelUpCost;
 		LevelUpCost *= 1.1f;
 		Parent.TransferMoney(-cost);
@@ -404,7 +408,7 @@ public partial class FoodStall : Spatial
 	
 	public void ShowPopupMenu()
 	{
-		Parent.IsoCam.ZoomTo(Transform.origin + Vector3.Back, 6f, 0.5f);
+		Parent.IsoCam.ZoomTo(Transform.origin + Vector3.Forward*2 + Vector3.Right, 6f, 0.5f);
 		_minigameButton.Disabled = Parent.BuildMode;
 		_popupMenu.Popup_();
 	}

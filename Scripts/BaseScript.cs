@@ -110,6 +110,8 @@ public partial class BaseScript : Spatial
 	public List<Control> UI = new List<Control>();
 
 	public static BaseScript DefaultBaseScript;
+	public static AudioStreamPlayer ButtonSound;
+	public static AudioStreamPlayer PageTurnSFX;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -123,6 +125,10 @@ public partial class BaseScript : Spatial
 		poofParticleInstance.Visible = true;
 		poofParticleInstance.Emitting = true;
 		AddChild(poofParticleInstance);
+
+        ButtonSound = (AudioStreamPlayer)GetNode("AudioStreamContainer/ButtonSound");
+		PageTurnSFX = (AudioStreamPlayer)GetNode("AudioStreamContainer/PageTurn");
+
 
 		UIContainer = (Node2D)GetNode("UI");
 

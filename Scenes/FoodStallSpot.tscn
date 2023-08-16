@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Scripts/FoodStallSpot.cs" type="Script" id=1]
 [ext_resource path="res://Assets/FoodStallAssets/fence.glb" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Shader/BlueprintShader.tres" type="Material" id=3]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/BuyPopUp/BuyPopUp.png" type="Texture" id=4]
 
 [sub_resource type="Curve" id=6]
 min_value = 0.5
@@ -31,15 +32,54 @@ scale_curve = SubResource( 10 )
 
 [sub_resource type="SphereMesh" id=11]
 
-[sub_resource type="DynamicFontData" id=4]
-font_path = "res://Assets/SansBlackSmall.ttf"
-
-[sub_resource type="DynamicFont" id=5]
-size = 30
-font_data = SubResource( 4 )
-
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.5, 0.5, 0.5 )
+
+[sub_resource type="StyleBoxEmpty" id=31]
+
+[sub_resource type="StyleBoxEmpty" id=32]
+
+[sub_resource type="StyleBoxEmpty" id=33]
+
+[sub_resource type="StyleBoxEmpty" id=34]
+
+[sub_resource type="StyleBoxEmpty" id=35]
+
+[sub_resource type="StyleBoxEmpty" id=36]
+
+[sub_resource type="DynamicFontData" id=30]
+font_path = "res://Assets/Fonts/TextFont.ttf"
+
+[sub_resource type="DynamicFont" id=37]
+size = 30
+font_data = SubResource( 30 )
+
+[sub_resource type="DynamicFontData" id=18]
+font_path = "res://Assets/Fonts/TextFont.ttf"
+
+[sub_resource type="DynamicFont" id=38]
+size = 30
+font_data = SubResource( 18 )
+
+[sub_resource type="StyleBoxEmpty" id=39]
+
+[sub_resource type="StyleBoxEmpty" id=40]
+
+[sub_resource type="StyleBoxEmpty" id=41]
+
+[sub_resource type="StyleBoxEmpty" id=42]
+
+[sub_resource type="StyleBoxEmpty" id=43]
+
+[sub_resource type="StyleBoxEmpty" id=44]
+
+[sub_resource type="StyleBoxEmpty" id=45]
+
+[sub_resource type="StyleBoxEmpty" id=46]
+
+[sub_resource type="StyleBoxEmpty" id=47]
+
+[sub_resource type="StyleBoxEmpty" id=48]
 
 [node name="FoodStallSpot" type="Spatial" groups=["Persist"]]
 script = ExtResource( 1 )
@@ -56,48 +96,6 @@ explosiveness = 1.0
 process_material = SubResource( 8 )
 draw_pass_1 = SubResource( 11 )
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
-anchor_left = 0.333496
-anchor_top = 0.5275
-anchor_right = 0.666504
-anchor_bottom = 0.809166
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CostLabel" type="Label" parent="PopupMenu"]
-anchor_left = 0.293532
-anchor_top = 0.0952381
-anchor_right = 0.706468
-anchor_bottom = 0.404762
-custom_fonts/font = SubResource( 5 )
-text = "safasdfsadf"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="ConfirmationButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.154229
-anchor_top = 0.52381
-anchor_right = 0.462687
-anchor_bottom = 0.892857
-custom_fonts/font = SubResource( 5 )
-text = "Confirm"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CancelButton" type="Button" parent="PopupMenu"]
-anchor_left = 0.572139
-anchor_top = 0.52381
-anchor_right = 0.870647
-anchor_bottom = 0.892857
-custom_fonts/font = SubResource( 5 )
-text = "Cancel"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
 [node name="fence" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.150426, 0 )
 
@@ -110,7 +108,78 @@ transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0 )
 [node name="CollisionShape" type="CollisionShape" parent="Spot/Area"]
 shape = SubResource( 2 )
 
+[node name="PopupMenu" type="PopupMenu" parent="."]
+anchor_left = 0.333496
+anchor_top = 0.564167
+anchor_right = 0.666504
+anchor_bottom = 0.845833
+custom_styles/labeled_separator_left = SubResource( 31 )
+custom_styles/hover = SubResource( 32 )
+custom_styles/labeled_separator_right = SubResource( 33 )
+custom_styles/panel_disabled = SubResource( 34 )
+custom_styles/panel = SubResource( 35 )
+custom_styles/separator = SubResource( 36 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Sprite" type="Sprite" parent="PopupMenu"]
+position = Vector2( 203.125, 128.8 )
+scale = Vector2( 1.4, 1.4 )
+texture = ExtResource( 4 )
+
+[node name="CostLabel" type="Label" parent="PopupMenu"]
+anchor_left = 0.216129
+anchor_top = 0.0680463
+anchor_right = 0.719397
+anchor_bottom = 0.401379
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 37 )
+text = "safasdfsadf"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ConfirmationButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.0398827
+anchor_top = 0.65582
+anchor_right = 0.410557
+anchor_bottom = 0.991127
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 38 )
+custom_styles/hover = SubResource( 39 )
+custom_styles/pressed = SubResource( 40 )
+custom_styles/focus = SubResource( 41 )
+custom_styles/disabled = SubResource( 42 )
+custom_styles/normal = SubResource( 43 )
+text = "Confirm"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CancelButton" type="Button" parent="PopupMenu"]
+anchor_left = 0.539883
+anchor_top = 0.649902
+anchor_right = 0.910557
+anchor_bottom = 0.985208
+margin_left = -0.00012207
+margin_top = 1.20023
+margin_right = -0.00012207
+margin_bottom = 1.20023
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 38 )
+custom_styles/hover = SubResource( 44 )
+custom_styles/pressed = SubResource( 45 )
+custom_styles/focus = SubResource( 46 )
+custom_styles/disabled = SubResource( 47 )
+custom_styles/normal = SubResource( 48 )
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [connection signal="tree_exiting" from="." to="." method="_on_FoodStallSpot_tree_exiting"]
+[connection signal="input_event" from="Spot/Area" to="." method="_on_Area_input_event"]
 [connection signal="pressed" from="PopupMenu/ConfirmationButton" to="." method="_on_ConfirmationButton_pressed"]
 [connection signal="pressed" from="PopupMenu/CancelButton" to="." method="_on_CancelButton_pressed"]
-[connection signal="input_event" from="Spot/Area" to="." method="_on_Area_input_event"]

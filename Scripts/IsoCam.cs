@@ -14,8 +14,8 @@ public class IsoCam : Spatial
     Dictionary<int, InputEventScreenDrag> events = new Dictionary<int, InputEventScreenDrag>();
     float lastDragDistance;
 
-    Vector3 minBounds = new Vector3(-10, -10, -10); // Minimum bounds for X, Y, and Z coordinates
-    Vector3 maxBounds = new Vector3(10, 10, 10); // Maximum bounds for X, Y, and Z coordinates
+    Vector3 minBounds = new Vector3(-13, -13, -13); // Minimum bounds for X, Y, and Z coordinates
+    Vector3 maxBounds = new Vector3(13, 13, 13); // Maximum bounds for X, Y, and Z coordinates
 
     [Export]
     public float ZoomTime = 1f;

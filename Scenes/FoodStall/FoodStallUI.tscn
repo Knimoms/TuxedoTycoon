@@ -1,119 +1,150 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=42 format=2]
 
-[ext_resource path="res://Assets/MinigameStuff/Dishes/Polar/Cross.png" type="Texture" id=1]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-9.png" type="Texture" id=1]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-2.png" type="Texture" id=2]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-4.png" type="Texture" id=3]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-5.png" type="Texture" id=4]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-3.png" type="Texture" id=5]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-6.png" type="Texture" id=6]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-7.png" type="Texture" id=7]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-1.png" type="Texture" id=8]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/Unbenanntes_Projekt-8.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/FoodStallUI.cs" type="Script" id=10]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/SingleButtons/Singular-button-update.png" type="Texture" id=11]
+[ext_resource path="res://Assets/FoodStallAssets/PopUp/SingleButtons/Singular-button-levelup.png" type="Texture" id=12]
 
-[sub_resource type="DynamicFontData" id=4]
-font_path = "res://Assets/SansBlackSmall.ttf"
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="StyleBoxEmpty" id=12]
+
+[sub_resource type="SpriteFrames" id=13]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFontData" id=14]
+font_path = "res://Assets/Fonts/TextFont.ttf"
 
 [sub_resource type="DynamicFont" id=5]
-size = 30
-font_data = SubResource( 4 )
+size = 25
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 14 )
+
+[sub_resource type="StyleBoxEmpty" id=34]
+
+[sub_resource type="StyleBoxEmpty" id=35]
+
+[sub_resource type="StyleBoxEmpty" id=36]
+
+[sub_resource type="StyleBoxTexture" id=40]
+texture = ExtResource( 12 )
+region_rect = Rect2( 0, 0, 136, 64 )
+modulate_color = Color( 0.266667, 0.266667, 0.266667, 0.666667 )
+
+[sub_resource type="StyleBoxEmpty" id=19]
+
+[sub_resource type="DynamicFont" id=20]
+size = 34
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 14 )
+
+[sub_resource type="StyleBoxEmpty" id=21]
+
+[sub_resource type="StyleBoxEmpty" id=22]
+
+[sub_resource type="StyleBoxEmpty" id=23]
+
+[sub_resource type="StyleBoxEmpty" id=24]
+
+[sub_resource type="StyleBoxEmpty" id=25]
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://Assets/Fonts/TextFont.ttf"
 
 [sub_resource type="DynamicFont" id=6]
 size = 30
 font_data = SubResource( 4 )
 
+[sub_resource type="StyleBoxEmpty" id=26]
+
+[sub_resource type="StyleBoxEmpty" id=27]
+
+[sub_resource type="StyleBoxEmpty" id=28]
+
+[sub_resource type="StyleBoxTexture" id=39]
+texture = ExtResource( 11 )
+region_rect = Rect2( 0, 0, 197, 74 )
+modulate_color = Color( 0.266667, 0.266667, 0.266667, 0.666667 )
+
+[sub_resource type="StyleBoxEmpty" id=30]
+
+[sub_resource type="DynamicFont" id=31]
+size = 31
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 14 )
+
+[sub_resource type="Animation" id=32]
+resource_name = "PopUp"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "ToggleUIContainer"
+} ]
+}
+
 [node name="PopupMenu" type="PopupMenu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -196.0
-margin_right = 196.0
-margin_bottom = 210.0
-
-[node name="NameLabel" type="Label" parent="."]
-anchor_left = 0.145408
-anchor_top = 0.0323741
-anchor_right = 0.581633
-anchor_bottom = 0.219424
-margin_left = 1.52588e-05
-margin_right = 3.05176e-05
-margin_bottom = 1.90735e-05
-custom_fonts/font = SubResource( 5 )
-text = "Name"
+anchor_left = 0.492969
+anchor_top = 0.155556
+anchor_right = 0.799219
+anchor_bottom = 0.447222
+custom_styles/labeled_separator_left = SubResource( 7 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/labeled_separator_right = SubResource( 9 )
+custom_styles/panel_disabled = SubResource( 10 )
+custom_styles/panel = SubResource( 11 )
+custom_styles/separator = SubResource( 12 )
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="CostLabel" type="Label" parent="."]
-anchor_left = 0.00510204
-anchor_top = 0.11689
-anchor_right = 0.318878
-anchor_bottom = 0.283556
-custom_fonts/font = SubResource( 5 )
-text = "Price"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="LevelUpButton" type="Button" parent="."]
-anchor_left = 0.0408163
-anchor_top = 0.348921
-anchor_right = 0.364232
-anchor_bottom = 0.607817
-margin_right = 3.22101
-margin_bottom = 3.02682
-rect_scale = Vector2( 0.975223, 0.949553 )
-custom_fonts/font = SubResource( 5 )
-text = "LevelUp"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="MinigameButton" type="Button" parent="."]
-anchor_left = 0.433673
-anchor_top = 0.348921
-anchor_right = 0.757089
-anchor_bottom = 0.605095
-margin_right = 3.22101
-margin_bottom = 3.78351
-rect_scale = Vector2( 0.975223, 0.949553 )
-custom_fonts/font = SubResource( 5 )
-text = "Minigame"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CancelButton" type="Button" parent="."]
-anchor_left = 0.829082
-anchor_top = 0.348921
-anchor_right = 0.971939
-anchor_bottom = 0.539568
-margin_right = 56.0
-margin_bottom = 53.0
-rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/font = SubResource( 5 )
-icon = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="UpgradeButton" type="Button" parent="."]
-anchor_left = 0.0114796
-anchor_top = 0.744604
-anchor_right = 0.98852
-anchor_bottom = 0.982014
-custom_fonts/font = SubResource( 6 )
-text = "Upgrade"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="LevelLabel" type="Label" parent="."]
-anchor_left = 0.757653
-anchor_top = 0.119253
-anchor_right = 0.984694
-anchor_bottom = 0.306303
-margin_left = 1.52588e-05
-margin_right = 3.05176e-05
-margin_bottom = 1.90735e-05
-custom_fonts/font = SubResource( 5 )
-text = "Level"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": true
-}
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 195, 139 )
+scale = Vector2( 1.1, 1.1 )
+frames = SubResource( 13 )
+frame = 8
 
 [node name="AnimationTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -121,3 +152,136 @@ one_shot = true
 
 [node name="LevelUpTimer" type="Timer" parent="."]
 wait_time = 0.2
+
+[node name="UIContainer" type="Control" parent="."]
+visible = false
+margin_right = 392.0
+margin_bottom = 210.0
+mouse_filter = 2
+
+[node name="LevelUpButton" type="Button" parent="UIContainer"]
+anchor_left = 0.0663265
+anchor_top = 0.209524
+anchor_right = 0.444664
+anchor_bottom = 0.539847
+margin_right = 3.69177
+margin_bottom = 3.63219
+rect_scale = Vector2( 0.975223, 0.949553 )
+custom_fonts/font = SubResource( 5 )
+custom_styles/hover = SubResource( 34 )
+custom_styles/pressed = SubResource( 35 )
+custom_styles/focus = SubResource( 36 )
+custom_styles/disabled = SubResource( 40 )
+custom_styles/normal = SubResource( 19 )
+disabled = true
+icon = ExtResource( 12 )
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="LevelUpLabel" type="Label" parent="UIContainer"]
+anchor_left = 0.0867347
+anchor_top = 0.185714
+anchor_right = 0.431122
+anchor_bottom = 0.352381
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Level Up"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CostLabel" type="Label" parent="UIContainer"]
+anchor_left = 0.178571
+anchor_top = 0.366667
+anchor_right = 0.423469
+anchor_bottom = 0.504762
+margin_bottom = 5.99999
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Price"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MinigameButton" type="Button" parent="UIContainer"]
+anchor_left = 0.576531
+anchor_top = 0.219048
+anchor_right = 0.939751
+anchor_bottom = 0.535565
+margin_left = -1.52588e-05
+margin_right = 3.61743
+margin_bottom = 3.53129
+rect_scale = Vector2( 0.975223, 0.949553 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 20 )
+custom_styles/hover = SubResource( 21 )
+custom_styles/pressed = SubResource( 22 )
+custom_styles/focus = SubResource( 23 )
+custom_styles/disabled = SubResource( 24 )
+custom_styles/normal = SubResource( 25 )
+text = "Minigame"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="UpgradeButton" type="Button" parent="UIContainer"]
+anchor_left = 0.216837
+anchor_top = 0.628571
+anchor_right = 0.767857
+anchor_bottom = 1.01905
+custom_fonts/font = SubResource( 6 )
+custom_styles/hover = SubResource( 26 )
+custom_styles/pressed = SubResource( 27 )
+custom_styles/focus = SubResource( 28 )
+custom_styles/disabled = SubResource( 39 )
+custom_styles/normal = SubResource( 30 )
+disabled = true
+icon = ExtResource( 11 )
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="LevelLabel" type="Label" parent="UIContainer"]
+anchor_left = 0.691326
+anchor_top = 0.00476195
+anchor_right = 0.918368
+anchor_bottom = 0.191812
+margin_left = 3.05176e-05
+margin_right = 3.05176e-05
+margin_bottom = 1.14441e-05
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Level"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="UpgradeLabel" type="Label" parent="UIContainer"]
+anchor_left = 0.321429
+anchor_top = 0.809524
+anchor_right = 0.683673
+anchor_bottom = 1.01429
+margin_left = 2.28882e-05
+margin_top = -1.52588e-05
+margin_right = 3.05176e-05
+margin_bottom = 1.52588e-05
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 31 )
+text = "Upgrade"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 1.5
+anims/PopUp = SubResource( 32 )
+
+[connection signal="about_to_show" from="." to="." method="_on_PopupMenu_about_to_show"]
+[connection signal="popup_hide" from="." to="." method="_on_PopupMenu_popup_hide"]
