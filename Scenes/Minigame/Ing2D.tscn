@@ -8,6 +8,9 @@ extents = Vector2( 53.5, 52.5 )
 [node name="Ing2D" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="IngredientSFX" type="AudioStreamPlayer" parent="." groups=["Sound"]]
+volume_db = 4.37
+
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

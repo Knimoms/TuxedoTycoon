@@ -44,6 +44,7 @@ public class FoodSpwn2D : Node2D
     private void _on_Timer_timeout()
     {
         {
+            foodStall.CookingSound.Stop();
             TimeBar.Visible = false;
             minigame2D.CompareLists();
             minigame2D.ingredientList.Clear();
@@ -56,6 +57,8 @@ public class FoodSpwn2D : Node2D
             return;
 		if(@event is InputEventMouseButton && @event.IsPressed())
         {
+            foodStall.CookingSound.Play();
+            minigame2D.TrashButtn.Visible = false;
             TimeBar.Visible = true;
             closeButton.Visible = false;
             minigame2D.Cooking = true;

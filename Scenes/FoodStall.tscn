@@ -41,9 +41,6 @@ transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, -0.527, -0.588 )
 shape = SubResource( 3 )
 
 [node name="PopupMenu" parent="." instance=ExtResource( 4 )]
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="input_event" from="StaticBody" to="." method="_on_StaticBody_input_event"]

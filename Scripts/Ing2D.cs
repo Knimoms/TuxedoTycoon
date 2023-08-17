@@ -11,9 +11,14 @@ public class Ing2D : Node2D
 
     private Minigame2D _minigame2D;
     public bool Clickable;
+    public AudioStreamPlayer IngSound;
+	[Export]
+	public AudioStreamMP3 IngSFX;
 
     public override void _Ready()
     {
+        IngSound = (AudioStreamPlayer)GetNode("IngredientSFX");
+		IngSound.Stream = IngSFX;
         _minigame2D = GetParent<Minigame2D>();
         _mySprite = GetNode("Area2D").GetNode<Sprite>("Sprite");
         _mySprite.Texture = Dish.GetIngredientSprite(ing);
@@ -29,6 +34,7 @@ public class Ing2D : Node2D
             return;
 		if(@event is InputEventMouseButton && @event.IsPressed())
 		{
+            IngSound.Play();
             this.Visible = false;
             Sprite positionSprite = _minigame2D.AddIng(ing);
 

@@ -49,7 +49,12 @@ public partial class FoodStall : Spatial
 	public Dish OrderedDish
 	{
 		get => _orderedDish;
-		set{_orderedDish = value; NewDishIndicator.Visible = _orderedDish != null && !_orderedDish.Unlocked;}
+		set{
+			_orderedDish = value; 
+			NewDishIndicator.Visible = _orderedDish != null && !_orderedDish.Unlocked;
+			if(NewDishIndicator.Visible)
+				NewDishSound.Play();
+		}
 	}
 
 	[Export]
@@ -105,11 +110,28 @@ public partial class FoodStall : Spatial
 	private PathFollow _path_follow;
 
 	private AnimationPlayer _animation_player;
+
+	public AudioStreamPlayer NewDishSound;
+	public AudioStreamPlayer RecipeFailSound;
+	public AudioStreamPlayer RecipeCorrectSound;
+	public AudioStreamPlayer TrashSound;
+	public AudioStreamPlayer CookingSound;
+	[Export]
+	public AudioStreamMP3 CookingSFX;
+	
+
 	
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+		NewDishSound = (AudioStreamPlayer)GetNode("Indicators/NewDishSFX");
+		RecipeFailSound = (AudioStreamPlayer)GetNode("Indicators/RecipeFailSFX");
+		RecipeCorrectSound = (AudioStreamPlayer)GetNode("Indicators/RecipeCorrectSFX");
+		TrashSound = (AudioStreamPlayer)GetNode("Indicators/TrashSFX");
+		CookingSound = (AudioStreamPlayer)GetNode("Indicators/CookingSFX");
+		CookingSound.Stream = CookingSFX;
+
 		string[] splittedFilename = Filename.Split('/');
 		splittedFilename[splittedFilename.Length-1] = null;
 		FolderPath = string.Join("/", splittedFilename);

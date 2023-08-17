@@ -15,10 +15,11 @@ public class Minigame2D : Node2D
     public Sprite Order;
     public FoodSpwn2D foodSpwn2D;
     public Node2D CustomerSprite;
-
+    public Button TrashButtn;
 
     public override void _Ready()
     {
+        TrashButtn = (Button)GetNode("TrashButton");
         MyFoodStall = (FoodStall)GetParent();
         Order = GetNode<Sprite>("Order");
         foodSpwn2D = GetNode<FoodSpwn2D>("FoodSpawner");
@@ -64,6 +65,7 @@ public class Minigame2D : Node2D
     }
     private void _on_DoneTimer_timeout()
     {
+        TrashButtn.Visible = true;
         CustomerSprite.Visible = false;
         _wrongFood.Visible = false;
         _finishedFood.Texture = null;
@@ -83,6 +85,7 @@ public class Minigame2D : Node2D
             _finishedFood.Texture = MyFoodStall.OrderedDish.DishIcon;
             _doneTimer.Start();
             RecipeCorrect();
+            MyFoodStall.RecipeCorrectSound.Play();
             
         } else {
             _wrongFood.Visible = true;
@@ -90,6 +93,7 @@ public class Minigame2D : Node2D
             ingredientList.Clear();
             foreach(Sprite fanta in IngSpots)
                 fanta.Texture = null;
+            MyFoodStall.RecipeFailSound.Play();
         }
     }
 
@@ -130,6 +134,7 @@ public class Minigame2D : Node2D
 
     private void _on_TrashButton_pressed()
     {
+        MyFoodStall.TrashSound.Play();
         if(Cooking == true)
             return;
 		ingredientList.Clear();
