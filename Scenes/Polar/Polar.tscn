@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/FoodStall.cs" type="Script" id=1]
-[ext_resource path="res://Scenes/Minigame/Minigame2D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Polar/PolGame.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Polar/Dishes/IceCream.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Polar/Dishes/SnowCone.tscn" type="PackedScene" id=5]
@@ -35,9 +35,6 @@ one_shot = true
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
 
 [node name="PopupMenu" parent="." instance=ExtResource( 4 )]
-__meta__ = {
-"_edit_use_anchors_": true
-}
 
 [node name="Indicators" parent="." instance=ExtResource( 8 )]
 

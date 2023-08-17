@@ -10,7 +10,7 @@ public partial class BaseScript : Spatial
 	public float StartMoneyValue;
 	[Export]
 	public string StartMoneyMagnitude;
-
+	
 	public bool BuildMode = false;
 
 	public int CustomerSatisfactionTotal {get; private set;}
@@ -83,8 +83,6 @@ public partial class BaseScript : Spatial
 	public Camera BaseCam;
 	public List<FoodStall> Restaurants = new List<FoodStall>();
 	public CustomerSpawner Spawner;
-	public Label AverageSatisfactionLabel;
-	public Label CPMLabel;
 	public RecipeBook RecipeBook;
 	public Random rnd = new Random();
 	private Panel _offlinePanel;
@@ -112,10 +110,12 @@ public partial class BaseScript : Spatial
 	public static BaseScript DefaultBaseScript;
 	public static AudioStreamPlayer ButtonSound;
 	public static AudioStreamPlayer PageTurnSFX;
+
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
 		DefaultBaseScript = this;
 		OfflineReward = Tuxdollar.ZeroTux;
 		IState = InputState.StartScreen;
@@ -152,15 +152,10 @@ public partial class BaseScript : Spatial
 		MaxInputDelay = (Timer)GetNode("MaxInputDelay");
 		MoneyLabel = (Label)GetNode("MoneyLabel");
 		UI.Add(MoneyLabel);
-		CPMLabel = (Label)GetNode("CPMLabel");
-		UI.Add(CPMLabel);
-		AverageSatisfactionLabel = (Label)GetNode("AverageSatisfaction");
-		UI.Add(AverageSatisfactionLabel);
+		
 		IsoCam = (IsoCam)GetNode("pivot");
 		TitleScreen = (TitleScreen)GetNode("TitleScreen");
 
-		if(CustomerSatisfactionTotal != 0)
-			AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
 		RecipeBook = (RecipeBook)GetNode("RecipeBook");
 		RecipeBook.FoodStalls = Restaurants;
 		RecipeBook.AddDishesToBook();
@@ -224,8 +219,6 @@ public partial class BaseScript : Spatial
 			CustomerSatisfactionTotal -= _customer_satisfactions.Dequeue();
 		
 		SatisfactionRating = 0;
-		AverageSatisfactionLabel.Text = $"Rating: {SatisfactionRating}";
-
 		Spawner.ChangeWaitTime();
 	}
 
@@ -234,9 +227,6 @@ public partial class BaseScript : Spatial
 		float offlineCPM = 0;
 		foreach(FoodStall foodStall in Restaurants)
 			offlineCPM += Math.Min(foodStall.CustomersPerMinute, Spawner.CustomersPerMinute/Restaurants.Count);
-		
-		if(CPMLabel != null)
-			CPMLabel.Text = $"{Spawner.CustomersPerMinute.ToString("F2")} Cus/min";
 			
 		return offlineCPM;
 	}
@@ -504,6 +494,7 @@ public partial class BaseScript : Spatial
 
 	public override void _Notification(int what)
 	{
+		GD.Print("muh");
 		if(what == MainLoop.NotificationWmGoBackRequest || what == MainLoop.NotificationWmQuitRequest)
 		{
 			SaveGame();

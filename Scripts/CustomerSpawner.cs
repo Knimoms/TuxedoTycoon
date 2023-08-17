@@ -81,16 +81,23 @@ public partial class CustomerSpawner : Spatial
     {
         FoodStall targetFoodStall = null;
         int smallestCustomerCount = int.MaxValue;
+        int biggesetCustomerCount = 0;
 
         foreach (FoodStall foodStall in Parent.Restaurants)
         {
             int customerCount = foodStall.IncomingCustomers.Count;
+            if(customerCount > biggesetCustomerCount)
+                biggesetCustomerCount = customerCount;
+
             if (customerCount < smallestCustomerCount)
             {
                 targetFoodStall = foodStall;
                 smallestCustomerCount = customerCount;
             }
         }
+
+        if(smallestCustomerCount == biggesetCustomerCount)
+            targetFoodStall = Parent.Restaurants[_rnd.Next(0, Parent.Restaurants.Count)];
 
         return targetFoodStall;
     }
