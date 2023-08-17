@@ -246,7 +246,6 @@ public partial class FoodStall : Spatial
 
 
 		_minigame_started = true;
-		ToggleMiniGameMode();
 		Parent.IState = InputState.MiniGameOpened;
 		AddChild(minigame2D);
 
@@ -257,7 +256,6 @@ public partial class FoodStall : Spatial
 
 	public void CloseMiniGame()
 	{
-		ToggleMiniGameMode();
 		_minigame_started = false;
 
 		if(IncomingCustomers.Count != 0 && IncomingCustomers[0].State == CustomerState.WaitingInQueue)
@@ -296,11 +294,6 @@ public partial class FoodStall : Spatial
 		dish.MealPrice = MealPrice;
 		AddChild(dish);
 		return dish;
-	}
-
-	public void ToggleMiniGameMode()
-	{
-		Parent.AverageSatisfactionLabel.Visible = !Parent.AverageSatisfactionLabel.Visible;
 	}
 
 	public void ToggleVisibility ()

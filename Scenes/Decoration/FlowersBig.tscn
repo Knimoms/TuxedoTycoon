@@ -7,6 +7,9 @@
 
 [node name="decoration big" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
+CostValue = 250.0
+CostMagnitude = "a"
+SatisfactionBonus = 5
 Preview = ExtResource( 4 )
 
 [node name="DecorationComponents" parent="." index="3" instance=ExtResource( 2 )]

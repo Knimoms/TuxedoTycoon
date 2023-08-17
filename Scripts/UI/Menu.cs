@@ -111,6 +111,17 @@ public class Menu : AnimatedSprite
     {
         EmitSignal(nameof(MuteButton_pressed));
         BaseScript.DefaultBaseScript.SoundMuted = !BaseScript.DefaultBaseScript.SoundMuted;
+        _set_mute_status(BaseScript.DefaultBaseScript.SoundMuted);
+    }
+
+    public void _set_mute_status(bool muted)
+    {
+        Godot.Collections.Array audioStreams = GetTree().GetNodesInGroup("Sound");
+        foreach(object obj in audioStreams)
+        {
+            if(obj is AudioStreamPlayer adp)
+                adp.StreamPaused = muted;
+        }
     }
 
     private void ToggleScrollable()

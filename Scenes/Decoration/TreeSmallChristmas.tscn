@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/DecorationComponents.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Decoration/TreeSmallChristmas.glb" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Decoration/Decoration.cs" type="Script" id=3]
-[ext_resource path="res://Assets/Decoration/Icons/Trees all deco.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Decoration/Icons/Tree small ddeco.png" type="Texture" id=4]
 
 [node name="TreeSmallChristmas" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
