@@ -88,6 +88,7 @@ public class Minigame2D : Node2D
             MyFoodStall.RecipeCorrectSound.Play();
             
         } else {
+            MyFoodStall.IncomingCustomers[0].FailedMiniGameAttempts++;
             _wrongFood.Visible = true;
             _doneTimer.Start();
             ingredientList.Clear();

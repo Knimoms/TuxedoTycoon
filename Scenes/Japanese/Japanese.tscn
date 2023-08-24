@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Japanese/JapGame.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/Sounds/cooking process sushi.mp3" type="AudioStream" id=2]
 [ext_resource path="res://Scenes/Japanese/Dishes/Sashimi.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Japanese/Dishes/Maki.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/FoodStall/FoodStallUI.tscn" type="PackedScene" id=5]
@@ -29,7 +28,6 @@ Stage2CostMagnitude = "b"
 Dish3 = ExtResource( 6 )
 Stage3CostValue = 8.0
 Stage3CostMagnitude = "c"
-CookingSFX = ExtResource( 2 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
@@ -55,7 +53,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 curve = SubResource( 2 )
 
 [node name="PathFollow" type="PathFollow" parent="Path"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00644684, 0.000351377, 3.77844 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0065468, 0.00244223, -0.0013541 )
 
 [node name="Stopover" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.1, 4 )

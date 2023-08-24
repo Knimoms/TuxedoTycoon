@@ -104,6 +104,7 @@ public class Menu : AnimatedSprite
 
     private void _on_RecipeButton_pressed()
     {
+        BaseScript.ButtonSound.Play();
         EmitSignal(nameof(RecipeButton_pressed));
     }
 

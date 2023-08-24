@@ -494,13 +494,14 @@ public partial class BaseScript : Spatial
 
 	public override void _Notification(int what)
 	{
-		GD.Print("muh");
-		if(what == MainLoop.NotificationWmGoBackRequest || what == MainLoop.NotificationWmQuitRequest)
-		{
-			SaveGame();
-			GD.Print("saving");
-		}
+		if(what == MainLoop.NotificationWmGoBackRequest || what == MainLoop.NotificationWmQuitRequest || what == MainLoop.NotificationAppPaused || (what == MainLoop.NotificationWmFocusOut))
+			SaveGame();		
 	}    
+
+	private void _on_Button_tree_exiting()
+	{
+		
+	}
 
 	public void ShowUIElements()
 	{

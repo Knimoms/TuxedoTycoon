@@ -29,6 +29,8 @@ public partial class TableSpot : Spatial
 	private ShaderMaterial _my_blueprint_shader;
 	private ShaderMaterial _circle_shader;
 
+	private int _sizeMultiplicator = 1;
+
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -51,6 +53,7 @@ public partial class TableSpot : Spatial
 		_circle_shader = (ShaderMaterial)_mesh.GetSurfaceMaterial(0);
 
 		Table tempTable = ExportScene.Instance<Table>();
+		_sizeMultiplicator = (int)tempTable.TableSize + 1;
 		_blue_print_container = (Spatial)tempTable.GetNode("Spatial").Duplicate();
 		AddChild(_blue_print_container);
 		Godot.Collections.Array temp = _blue_print_container.GetChildren();
@@ -74,7 +77,7 @@ public partial class TableSpot : Spatial
 		_base_script.Spots.Add(this);
 		Visible = false;
 
-		_costLabel.Text = $"Cost: {Cost}";		
+		_costLabel.Text = $"Cost: {Cost*_sizeMultiplicator}";		
 		
 		Vector3 meshScale = _mesh.Scale;
 		if(Scale.x < Scale.z)
@@ -94,7 +97,7 @@ public partial class TableSpot : Spatial
 		{
 			_base_script.IsoCam.ZoomTo(GlobalTransform.origin + Vector3.Back, 6f, 0.5f);
 			_popupMenu.Popup_();
-			_costLabel.Text = Cost.ToString();
+			_costLabel.Text = (Cost*_sizeMultiplicator).ToString();
 		}
 
 	}
@@ -111,8 +114,8 @@ public partial class TableSpot : Spatial
 
 	private void _on_ConfirmationButton_pressed()
 	{
-		if(_base_script.Money < Cost) return;
-		Tuxdollar cost = Cost;
+		if(_base_script.Money < Cost*_sizeMultiplicator) return;
+		Tuxdollar cost = Cost*_sizeMultiplicator;
 		Cost *= 8;
 		_base_script.TransferMoney(-cost);
 		Table table = ExportScene.Instance<Table>();
@@ -133,7 +136,7 @@ public partial class TableSpot : Spatial
 	public void CheckButtonMode()
 	{
 		_confirmationButton.Disabled = _base_script.Money < Cost;
-		Color temp = (_base_script.Money < Cost)? DeactivedColor : defaultColor;
+		Color temp = (_base_script.Money < Cost*_sizeMultiplicator)? DeactivedColor : defaultColor;
         _my_blueprint_shader.SetShaderParam ("color", temp);
 		_circle_shader.SetShaderParam("deactivated", _confirmationButton.Disabled);
 	}
@@ -158,6 +161,8 @@ public partial class TableSpot : Spatial
 			{"PositionY", Transform.origin.y},
 			{"PositionZ", Transform.origin.z},
 			{"RotationY", Rotation.y},
+			 {"CostValue",Cost.Value},
+			 {"CostMagnitude", Cost.Magnitude}
 		};
 	}
 }

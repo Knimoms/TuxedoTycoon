@@ -8,10 +8,11 @@ public partial class Table : Spatial
     public Size TableSize;
 
     private int chairsCount;
+    public float CostValue = 0;
+    public string CostMagnitude = "";
     public Tuxdollar Cost;
 
     public BaseScript _base_script;
-    public string CostMagnitude;
     private PopupMenu _popupMenu;
     private Label _costLabel;
     private Button _confirmationButton;
@@ -24,6 +25,9 @@ public partial class Table : Spatial
 
         if (_base_script == null)
             _base_script = (BaseScript)this.GetParent().GetParent();
+
+        if(CostValue != 0)
+            Cost = new Tuxdollar(CostValue, CostMagnitude);
         
         _popupMenu = GetNode<PopupMenu>("PopupMenu");
         _costLabel = _popupMenu.GetNode<Label>("CostLabel");

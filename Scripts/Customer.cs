@@ -50,6 +50,7 @@ public partial class Customer : KinematicBody
 	private Sprite3D _my_sprite;
 	private static BaseScript _base_script;
 	private AnimationPlayer _animation_player;
+	public int FailedMiniGameAttempts = 0;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -178,7 +179,7 @@ public partial class Customer : KinematicBody
 
 	public void TakeAwayFood()
 	{
-		Satisfaction = 70 + (int)(_base_script.SatisfactionBonus/3.0f);
+		Satisfaction = 70 + (int)(_base_script.SatisfactionBonus/3.0f) - FailedMiniGameAttempts*15;
 		OrderFinished = true;
 		LineNumber = 0;
 		_my_sprite.Texture = (Texture)GD.Load("res://Assets/HappyEnd.png");
